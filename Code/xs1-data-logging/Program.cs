@@ -42,38 +42,45 @@ namespace xs1_data_logging
 
             while (true)
             {
-                //Thread.Sleep(100);
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(HacsURL);
-
-                // execute the request
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-                if (response.StatusCode == HttpStatusCode.OK)
+                try
                 {
-                    ConsoleOutputLogger.WriteLineToScreenOnly("XS1 successfully connected!");
-                }
-                // we will read data via the response stream
-                Stream resStream = response.GetResponseStream();
+                    //Thread.Sleep(100);
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(HacsURL);
 
-                string tempString = null;
-                int count = 0;
+                    // execute the request
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-                do
-                {
-                    // fill the buffer with data
-                    count = resStream.Read(buf, 0, buf.Length);
-
-                    // make sure we read some data
-                    if (count != 0)
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        // translate from bytes to ASCII text
-                        tempString = Encoding.ASCII.GetString(buf, 0, count);
-
-                        // continue building the string
-                        ConsoleOutputLogger.WriteLine(tempString);
+                        ConsoleOutputLogger.WriteLineToScreenOnly("XS1 successfully connected!");
                     }
+                    // we will read data via the response stream
+                    Stream resStream = response.GetResponseStream();
+
+                    string tempString = null;
+                    int count = 0;
+
+                    do
+                    {
+                        // fill the buffer with data
+                        count = resStream.Read(buf, 0, buf.Length);
+
+                        // make sure we read some data
+                        if (count != 0)
+                        {
+                            // translate from bytes to ASCII text
+                            tempString = Encoding.ASCII.GetString(buf, 0, count);
+
+                            // continue building the string
+                            ConsoleOutputLogger.WriteLine(tempString);
+                        }
+                    }
+                    while (count > 0); // any more data to read?
                 }
-                while (count > 0); // any more data to read?
+                catch (Exception e)
+                {
+                    ConsoleOutputLogger.WriteLineToScreenOnly("Reconnecting...");
+                }
             }
         }
     }
