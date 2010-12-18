@@ -1,3 +1,15 @@
 
 /Code/xs1-data-logging/obj
 /Code/xs1-data-logging/bin
+/Code/DataObjectOnDisk/obj
+/Code/DataObjectOnDisk/bin
+/Code/sonesFastSerializer/obj
+/Code/sonesFastSerializer/bin
+/Code/TestResults
+/Code/XS1_DataObject/obj
+/Code/XS1_DataObject/bin
+/Code/xs1-data-logging-tests/obj
+/Code/xs1-data-logging-tests/bin
+/Code/Local.testsettings
+/Code/TraceAndTestImpact.testsettings
+/Code/hacs.vsmdi

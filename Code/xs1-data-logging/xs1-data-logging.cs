@@ -73,6 +73,7 @@ namespace xs1_data_logging
 
                             // continue building the string
                             ConsoleOutputLogger.WriteLine(tempString);
+
                         }
                     }
                     while (count > 0); // any more data to read?
