@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleOutputLogger.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="xs1-data-logging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
