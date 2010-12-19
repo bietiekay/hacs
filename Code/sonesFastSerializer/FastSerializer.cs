@@ -39,7 +39,7 @@ using System.Collections.Generic;
 
 //[assembly: CLSCompliant(true)]
 
-namespace PandoraDatabase.Storage.Serializer
+namespace sones.Storage.Serializer
 {
 	/// <summary>
 	/// A SerializationWriter instance is used to store values and objects in a byte array.

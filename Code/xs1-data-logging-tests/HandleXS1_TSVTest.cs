@@ -1,5 +1,4 @@
-﻿using xs1_data_logging.Handle_XS1_TSV;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using hacs.xs1;
 
@@ -72,7 +71,7 @@ namespace xs1_data_logging_tests
         public void HandleValueTest()
         {
             string DataLine = "1292690251	2010	12	18	Sat	17	37	31	+0100	S	1	Keller	temperature	14.8";
-            XS1_DataObject expected = new XS1_DataObject("Keller", ObjectTypes.Sensor, "temperature", new DateTime(2010,12,18,17,37,31,0, System.Globalization.Calendar.CurrentEra), 1, 14.8);
+            XS1_DataObject expected = new XS1_DataObject("server","Keller", ObjectTypes.Sensor, "temperature", new DateTime(2010,12,18,17,37,31,0, System.Globalization.Calendar.CurrentEra), 1, 14.8);
             XS1_DataObject actual;
 
             actual = HandleXS1_TSV.HandleValue(DataLine);

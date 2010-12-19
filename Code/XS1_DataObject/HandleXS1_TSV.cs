@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using hacs.xs1;
 
-namespace xs1_data_logging.Handle_XS1_TSV
+namespace hacs.xs1
 {
     /*
      * Sample Data:

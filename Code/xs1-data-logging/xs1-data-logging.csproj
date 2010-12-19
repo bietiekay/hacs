@@ -48,17 +48,34 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleOutputLogger.cs" />
-    <Compile Include="Handle_XS1_TSV\HandleXS1_TSV.cs" />
+    <Compile Include="LoggingThread.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="xs1-data-logging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="license.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataObjectOnDisk\DataObjectOnDisk.csproj">
+      <Project>{16D19293-2334-44DC-9BEA-39651DA8F58B}</Project>
+      <Name>DataObjectOnDisk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\sonesFastSerializer\sonesFastSerializer.csproj">
+      <Project>{8A2C05AA-6E56-414B-A43C-7173FC34DB24}</Project>
+      <Name>sonesFastSerializer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XS1_DataObject\XS1_DataObject.csproj">
       <Project>{EBE5CC2A-7430-4165-95C5-B595D5F91692}</Project>
       <Name>XS1_DataObject</Name>

@@ -38,7 +38,7 @@ using System.Text;
 
 #endregion
 
-namespace PandoraDatabase.Storage.Serializer
+namespace sones.Storage.Serializer
 {
 
     /// <summary>

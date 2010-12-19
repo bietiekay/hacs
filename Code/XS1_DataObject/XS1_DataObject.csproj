@@ -40,8 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="HandleXS1_TSV.cs" />
+    <Compile Include="XS1_DataObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\sonesFastSerializer\sonesFastSerializer.csproj">
+      <Project>{8A2C05AA-6E56-414B-A43C-7173FC34DB24}</Project>
+      <Name>sonesFastSerializer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

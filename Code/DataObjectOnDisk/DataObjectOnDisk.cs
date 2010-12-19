@@ -23,52 +23,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using PandoraDatabase.Storage.Serializer;
+using sones.Storage.Serializer;
+using sones.Storage;
 
-namespace DataObjectOnDisk
+namespace sones.storage
 {
-    public class OnDiscAdress : IFastSerialize
-    {
-        public Int64 CreationTime;
-        public Int64 ID;
-        public Int64 Start;
-        public Int64 End;
-
-        public OnDiscAdress()
-        {
-            CreationTime = DateTime.Now.Ticks;
-        }
-
-        #region IFastSerialize Members
-        public byte[] Serialize()
-        {
-            SerializationWriter writer = new SerializationWriter();
-
-            writer.WriteObject(CreationTime);
-            writer.WriteObject(ID);
-            writer.WriteObject(Start);
-            writer.WriteObject(End);
-
-            // align it...
-            byte[] Output = new byte[33];
-            writer.ToArray().CopyTo(Output, 0);
-
-            return Output;
-        }
-
-        public void Deserialize(byte[] Data)
-        {
-            SerializationReader reader = new SerializationReader(Data);
-
-            CreationTime = (Int64)reader.ReadObject();
-            ID = (Int64)reader.ReadObject();
-            Start = (Int64)reader.ReadObject();
-            End = (Int64)reader.ReadObject();
-        }
-
-        #endregion
-    }
-
     public class TinyOnDiskStorage
     {
         private FileStream DatabaseFile;
@@ -113,13 +72,29 @@ namespace DataObjectOnDisk
             InMemoryIndex = null;
         }
 
-        public void Write(byte[] Data, Int64 ID)
+        public void Write(byte[] Data)
         {
-            OnDiscAdress adress = WriteToDatabase(Data);
+            lock (DatabaseFile)
+            {
+                OnDiscAdress adress = WriteToDatabase(Data);
 
-            adress.ID = ID;
+                WriteToIndex(adress);
+            }
+        }
 
-            WriteToIndex(adress);
+        public byte[] Read(OnDiscAdress Adress)
+        {
+            byte[] Readin;
+
+            lock (DatabaseFile)
+            {
+                // seek to the position
+                DatabaseFile.Seek(Adress.Start, SeekOrigin.Begin);
+                Readin = new byte[Adress.End - Adress.Start];
+                // read it in
+                DatabaseFile.Read(Readin, 0, Readin.Length);
+            }
+            return Readin;
         }
 
         private void WriteToIndex(OnDiscAdress Adresspattern)
@@ -199,18 +174,6 @@ namespace DataObjectOnDisk
             return OutputAdress;
         }
 
-        public byte[] ReadFromDatabase(OnDiscAdress Adress)
-        {
-            lock (DatabaseFile)
-            {
-                // seek to the position
-                DatabaseFile.Seek(Adress.Start, SeekOrigin.Begin);
-                byte[] Readin = new byte[Adress.End - Adress.Start];
-                // read it in
-                DatabaseFile.Read(Readin, 0, Readin.Length);
 
-                return Readin;
-            }
-        }
     }
 }

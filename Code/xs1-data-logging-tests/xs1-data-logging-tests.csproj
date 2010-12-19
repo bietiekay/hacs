@@ -52,8 +52,13 @@
   <ItemGroup>
     <Compile Include="HandleXS1_TSVTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XS1_DataObjectTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\sonesFastSerializer\sonesFastSerializer.csproj">
+      <Project>{8A2C05AA-6E56-414B-A43C-7173FC34DB24}</Project>
+      <Name>sonesFastSerializer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\xs1-data-logging\xs1-data-logging.csproj">
       <Project>{05D63544-7968-4C2D-BB25-2383AEFE6F3C}</Project>
       <Name>xs1-data-logging</Name>
