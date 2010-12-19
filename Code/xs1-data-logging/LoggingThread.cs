@@ -6,6 +6,7 @@ using System.Net;
 using System.IO;
 using hacs.xs1;
 using sones.storage;
+using System.Threading;
 
 namespace xs1_data_logging
 {
@@ -84,8 +85,9 @@ namespace xs1_data_logging
                     while (count > 0); // any more data to read?
                 }
                 catch (Exception e)
-                {
-                    ConsoleOutputLogger.WriteLineToScreenOnly("Reconnecting...");
+                {                   
+                    //ConsoleOutputLogger.WriteLineToScreenOnly("Reconnecting...");
+                    Thread.Sleep(1);
                 }
             }
 
