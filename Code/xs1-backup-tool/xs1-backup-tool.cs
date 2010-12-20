@@ -73,15 +73,27 @@ namespace xs1_backup_tool
                         }
                         break;
                     case "-r":
-                        // restore
-                        if (BackupAndRestore.restore(args[0], args[1], args[2], args[4]))
+                        // ask before restore
+                        Console.WriteLine("Restoring a configuration will overwrite the current settings of");
+                        Console.WriteLine("the EzControl XS1 device!");
+                        Console.WriteLine();
+                        Console.WriteLine("Do you really want to restore the configuration from a backup?");
+                        Console.Write("Type YES and press Enter: ");
+                        String userinput = Console.ReadLine();
+                        if (userinput == "YES")
                         {
-                            Console.WriteLine("Restore successful!");
+                            // restore
+                            if (BackupAndRestore.restore(args[0], args[1], args[2], args[4]))
+                            {
+                                Console.WriteLine("Restore successful!");
+                            }
+                            else 
+                            {
+                                Console.WriteLine("Restore unsuccessful!");
+                            }
                         }
-                        else 
-                        {
-                            Console.WriteLine("Restore unsuccessful!");
-                        }
+                        else
+                            Console.Write("Restore abortet!");
                         break;
                     default:
                         HelpMessage();
