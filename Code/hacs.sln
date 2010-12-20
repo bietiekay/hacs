@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XS1_DataObject", "XS1_DataO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XS1_ConfigurationData", "XS1_ConfigurationData\XS1_ConfigurationData.csproj", "{86356451-3580-4142-9DDF-B3D47A4EEB80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xs1-backup-tool", "xs1-backup-tool\xs1-backup-tool.csproj", "{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = hacs.vsmdi
@@ -97,6 +99,16 @@ Global
 		{86356451-3580-4142-9DDF-B3D47A4EEB80}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{86356451-3580-4142-9DDF-B3D47A4EEB80}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{86356451-3580-4142-9DDF-B3D47A4EEB80}.Release|x86.ActiveCfg = Release|Any CPU
+		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Debug|x86.ActiveCfg = Debug|x86
+		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Debug|x86.Build.0 = Debug|x86
+		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Release|Any CPU.ActiveCfg = Release|x86
+		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Release|x86.ActiveCfg = Release|x86
+		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
