@@ -192,11 +192,276 @@ namespace xs1_backup_tool
         /// <param name="filename">the filename of the xs1 backup file</param>
         public static bool restore(String XS1ServerURL, String Username, String Password, String filename)
         {
-            // create and open the backup file
-            StreamReader backupfile = new StreamReader(filename);
+            try
+            {
+                bool Option_A = false;  // sending
+                bool Option_B = false;  // receiving
+                bool Option_C = false;  // scripting
+                bool Option_D = false;  // memory card
 
-            throw new NotImplementedException("Implement restore");
+                bool found = false;
+                // open the backup file
+                StreamReader backupfile = new StreamReader(filename);
+
+                #region get the XS1 device configuration
+                WebRequest wrGetURL;
+                Console.WriteLine("Retrieving XS1 device configuration...");
+                wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?callback=xs1_config&cmd=get_config_info");
+                String xs1_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
+
+                JavaScriptSerializer ser = new JavaScriptSerializer();
+                ser.MaxJsonLength = 20000000;
+
+                // remove the javascript callback/definitions
+                xs1_config_json = xs1_config_json.Replace("xs1_config(", "");
+                xs1_config_json = xs1_config_json.Remove(xs1_config_json.Length - 4, 4);
+
+                // deserialize the XS1 configuration json stream
+                xs1_config XS1Config = ser.Deserialize<xs1_config>(xs1_config_json);
+
+                #region check which options are available for restore on this XS1 device
+                foreach (String _feature in XS1Config.info.features)
+                {
+                    switch(_feature)
+                    {
+                        case "A":
+                            Option_A = true;
+                            break;
+                        case "B":
+                            Option_B = true;
+                            break;
+                        case "C":
+                            Option_C = true;
+                            break;
+                        case "D":
+                            Option_D = true;
+                            break;
+                        default:
+                            Console.WriteLine("Unknown featureset detected! Please update the backup tool!");
+                            return false;
+                    }
+
+                }
+                #endregion 
+                #endregion
+
+                string line;
+                // Read and display lines from the file until the end of 
+                // the file is reached.
+                while ((line = backupfile.ReadLine()) != null)
+                {
+                    #region Restore Sensor, Actor, Timer and Script configurations
+                    switch (line)
+                    {
+                        case "### get_config_sensor ###":
+                            if (Option_B)
+                            {
+                                #region Get the configuration content
+                                found = false;
+                                StringBuilder SensorData = new StringBuilder();
+
+                                while ((line == backupfile.ReadLine()) != null)
+                                {
+                                    if (line == "--- get_config_sensor ---")
+                                    {
+                                        found = true;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        SensorData.AppendLine(line);
+                                    }
+                                }
+
+                                if (!found)
+                                {
+                                    Console.WriteLine("Invalid backup file! Aborting!");
+                                    return false;
+                                }
+                                #endregion
+
+                                // write sensor configuration
+                                if (!WriteSensorConfiguration(XS1ServerURL, Username, Password, SensorData.ToString()))
+                                {
+                                    return false;
+                                }
+                            }
+                            break;
+                        case "### get_config_actor ###":
+                            if (Option_A)
+                            {
+                                #region Get the configuration content
+                                found = false;
+                                StringBuilder ActorData = new StringBuilder();
+
+                                while ((line == backupfile.ReadLine()) != null)
+                                {
+                                    if (line == "--- get_config_actor ---")
+                                    {
+                                        found = true;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        ActorData.AppendLine(line);
+                                    }
+                                }
+
+                                if (!found)
+                                {
+                                    Console.WriteLine("Invalid backup file! Aborting!");
+                                    return false;
+                                }
+                                #endregion
+
+                                // write actor configuration
+                                if (!WriteActorConfiguration(XS1ServerURL, Username, Password, ActorData.ToString()))
+                                {
+                                    return false;
+                                }
+                            }
+                            break;
+                        case "### get_config_script ###":
+                            if (Option_C)
+                            {
+                                #region Get the configuration content
+                                found = false;
+                                StringBuilder ScriptData = new StringBuilder();
+
+                                while ((line == backupfile.ReadLine()) != null)
+                                {
+                                    if (line == "--- get_config_script ---")
+                                    {
+                                        found = true;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        ScriptData.AppendLine(line);
+                                    }
+                                }
+
+                                if (!found)
+                                {
+                                    Console.WriteLine("Invalid backup file! Aborting!");
+                                    return false;
+                                }
+                                #endregion
+
+                                // write script configuration
+                                if (!WriteScriptConfiguration(XS1ServerURL, Username, Password, ScriptData.ToString()))
+                                {
+                                    return false;
+                                }
+                            }
+                            break;
+                        case "### get_config_timer ###":
+                            if (Option_A)
+                            {
+                                #region Get the configuration content
+                                found = false;
+                                StringBuilder TimerData = new StringBuilder();
+
+                                while ((line == backupfile.ReadLine()) != null)
+                                {
+                                    if (line == "--- get_config_timer ---")
+                                    {
+                                        found = true;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        TimerData.AppendLine(line);
+                                    }
+                                }
+
+                                if (!found)
+                                {
+                                    Console.WriteLine("Invalid backup file! Aborting!");
+                                    return false;
+                                }
+                                #endregion
+
+                                // write timer configuration
+                                if (!WriteScriptConfiguration(XS1ServerURL, Username, Password, TimerData.ToString()))
+                                {
+                                    return false;
+                                }
+                            }
+                            break;
+                        case "### get_config_room ###":
+                            #region Get the configuration content
+                            found = false;
+                            StringBuilder RoomData = new StringBuilder();
+
+                            while ((line == backupfile.ReadLine()) != null)
+                            {
+                                if (line == "--- get_config_room ---")
+                                {
+                                    found = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    RoomData.AppendLine(line);
+                                }
+                            }
+
+                            if (!found)
+                            {
+                                Console.WriteLine("Invalid backup file! Aborting!");
+                                return false;
+                            }
+                            #endregion
+
+                            // write timer configuration
+                            if (!WriteRoomConfiguration(XS1ServerURL, Username, Password, RoomData.ToString()))
+                            {
+                                return false;
+                            }
+                            break;
+
+                        default:
+                            Console.WriteLine("Invalid backup file! Aborting!");
+                            return false;
+                    }
+                    #endregion
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("An error occurred: " + e.Message);
+                return false;
+            }
+            
+            return true;
         }
+
+        private static bool WriteSensorConfiguration(String XS1ServerURL, String Username, String Password, String SensorData)
+        {           
+            return false;
+        }
+
+        private static bool WriteActorConfiguration(String XS1ServerURL, String Username, String Password, String ActorData)
+        {
+            return false;
+        }
+
+        private static bool WriteTimerConfiguration(String XS1ServerURL, String Username, String Password, String TimerData)
+        {
+            return false;
+        }
+
+        private static bool WriteRoomConfiguration(String XS1ServerURL, String Username, String Password, String RoomData)
+        {
+            return false;
+        }
+
+        private static bool WriteScriptConfiguration(String XS1ServerURL, String Username, String Password, String ScriptData)
+        {
+            return false;
+        }
+
 
     }
 
