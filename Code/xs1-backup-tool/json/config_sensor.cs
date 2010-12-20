@@ -24,16 +24,16 @@ namespace xs1_backup_tool
 {
     public class sensor_config
     {
-        public Int32 number;
+         public Int32 number;
         public Int32 id;
-        public String Name;
-        public String system;
-        public String type;
-        public Int32 hc1;
-        public Int32 hc2;
-        public Int32 address;
-        public float factor;
-        public float offset;
+         public String name;
+         public String system;
+         public String type;
+         public Int32 hc1;
+         public Int32 hc2;
+         public Int32 address;
+         public float factor;
+         public float offset;
         public Int32 room;
         public Int32 x;
         public Int32 y;

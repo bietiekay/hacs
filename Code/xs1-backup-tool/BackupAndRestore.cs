@@ -281,7 +281,7 @@ namespace xs1_backup_tool
                                 #endregion
 
                                 // write sensor configuration
-                                if (!WriteSensorConfiguration(XS1ServerURL, Username, Password, SensorData.ToString()))
+                                if (!WriteSensorConfiguration(XS1ServerURL, Username, Password, SensorData.ToString(),XS1Config.version))
                                 {
                                     return false;
                                 }
@@ -315,7 +315,7 @@ namespace xs1_backup_tool
                                 #endregion
 
                                 // write actor configuration
-                                if (!WriteActorConfiguration(XS1ServerURL, Username, Password, ActorData.ToString()))
+                                if (!WriteActorConfiguration(XS1ServerURL, Username, Password, ActorData.ToString(),XS1Config.version))
                                 {
                                     return false;
                                 }
@@ -438,15 +438,114 @@ namespace xs1_backup_tool
         }
 
         #region Restore helper methods
-        private static bool WriteSensorConfiguration(String XS1ServerURL, String Username, String Password, String SensorData)
+        private static bool WriteSensorConfiguration(String XS1ServerURL, String Username, String Password, String SensorData, String ProtocolVersion)
         {
-            
-            return false;
+            try
+            {
+                JavaScriptSerializer ser = new JavaScriptSerializer();
+                ser.MaxJsonLength = 20000000;
+
+                // deserialize the json data stream
+                config_sensor sensorconfiguration = ser.Deserialize<config_sensor>(SensorData);
+
+                if (ProtocolVersion != sensorconfiguration.version)
+                {
+                    Console.WriteLine("Wrong protocol version! Aborting!");
+                    return false;
+                }
+
+                Console.Write("Writing sensor configuration for sensor " + sensorconfiguration.sensor.name+"...");
+
+                WebRequest wrGetURL;
+
+                #region build query url
+                StringBuilder RequestURL = new StringBuilder();
+                RequestURL.Append("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password);
+                RequestURL.Append("&number=" + sensorconfiguration.sensor.number);
+                RequestURL.Append("&system=" + sensorconfiguration.sensor.system);
+                RequestURL.Append("&type=" + sensorconfiguration.sensor.type);
+                RequestURL.Append("&name=" + sensorconfiguration.sensor.name);
+                RequestURL.Append("&address=" + sensorconfiguration.sensor.address);
+                RequestURL.Append("&initvalue=");
+                RequestURL.Append("&factor=" + sensorconfiguration.sensor.factor);
+                RequestURL.Append("&offset=" + sensorconfiguration.sensor.offset);
+                RequestURL.Append("&log=" + sensorconfiguration.sensor.log);
+                RequestURL.Append("&hc1=" + sensorconfiguration.sensor.hc1);
+                RequestURL.Append("&hc2=" + sensorconfiguration.sensor.hc2);
+                RequestURL.Append("&address=" + sensorconfiguration.sensor.address);
+                RequestURL.Append("&offset=" + sensorconfiguration.sensor.offset);
+                RequestURL.Append("&factor=" + sensorconfiguration.sensor.factor);
+                RequestURL.Append("&room=" + sensorconfiguration.sensor.room);
+                RequestURL.Append("&x=" + sensorconfiguration.sensor.x);
+                RequestURL.Append("&y=" + sensorconfiguration.sensor.y);
+                RequestURL.Append("&z=" + sensorconfiguration.sensor.z);
+                RequestURL.Append("&log=" + sensorconfiguration.sensor.log);
+                RequestURL.Append("&callback=cname");
+                #endregion
+
+                wrGetURL = WebRequest.Create(RequestURL.ToString());
+                String xs1_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
+                // Todo: add check if correct set
+
+                Console.WriteLine("OK");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("An error occurred: " + e.Message);
+                return false;
+            }
+            return true;
         }
 
-        private static bool WriteActorConfiguration(String XS1ServerURL, String Username, String Password, String ActorData)
+        private static bool WriteActorConfiguration(String XS1ServerURL, String Username, String Password, String ActorData, String ProtocolVersion)
         {
-            return false;
+            try
+            {
+                JavaScriptSerializer ser = new JavaScriptSerializer();
+                ser.MaxJsonLength = 20000000;
+
+                // deserialize the json data stream
+                config_actuator actuatorconfiguration = ser.Deserialize<config_actuator>(ActorData);
+
+                if (ProtocolVersion != actuatorconfiguration.version)
+                {
+                    Console.WriteLine("Wrong protocol version! Aborting!");
+                    return false;
+                }
+
+                Console.Write("Writing actuator configuration for acturator " + actuatorconfiguration.actuator.name + "...");
+
+                WebRequest wrGetURL;
+
+                #region build query url
+                StringBuilder RequestURL = new StringBuilder();
+                RequestURL.Append("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password);
+                RequestURL.Append("&number=" + actuatorconfiguration.actuator.number);
+                RequestURL.Append("&id=" + actuatorconfiguration.actuator.id);
+                RequestURL.Append("&name=" + actuatorconfiguration.actuator.name);
+                RequestURL.Append("&system=" + actuatorconfiguration.actuator.system);
+                RequestURL.Append("&type=" + actuatorconfiguration.actuator.type);
+                RequestURL.Append("&hc1=" + actuatorconfiguration.actuator.hc1);
+                RequestURL.Append("&hc2=" + actuatorconfiguration.actuator.hc2);
+                RequestURL.Append("&address=" + actuatorconfiguration.actuator.address);
+
+                // Todo: Add Actuator functions
+
+                RequestURL.Append("&callback=cname");
+                #endregion
+
+                wrGetURL = WebRequest.Create(RequestURL.ToString());
+                String xs1_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
+                // Todo: add check if correct set
+
+                Console.WriteLine("OK");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("An error occurred: " + e.Message);
+                return false;
+            }
+            return true;
         }
 
         private static bool WriteTimerConfiguration(String XS1ServerURL, String Username, String Password, String TimerData)

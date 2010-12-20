@@ -77,6 +77,8 @@ namespace xs1_backup_tool
                         Console.WriteLine("Restoring a configuration will overwrite the current settings of");
                         Console.WriteLine("the EzControl XS1 device!");
                         Console.WriteLine();
+                        Console.WriteLine("This is an untested functionality - it's not supposed to work right now!");
+                        Console.WriteLine();
                         Console.WriteLine("Do you really want to restore the configuration from a backup?");
                         Console.Write("Type YES and press Enter: ");
                         String userinput = Console.ReadLine();
