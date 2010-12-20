@@ -437,8 +437,10 @@ namespace xs1_backup_tool
             return true;
         }
 
+        #region Restore helper methods
         private static bool WriteSensorConfiguration(String XS1ServerURL, String Username, String Password, String SensorData)
-        {           
+        {
+            
             return false;
         }
 
@@ -461,8 +463,7 @@ namespace xs1_backup_tool
         {
             return false;
         }
-
-
+        #endregion
     }
 
 }

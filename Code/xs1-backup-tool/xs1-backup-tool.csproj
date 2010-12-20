@@ -46,10 +46,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackupAndRestore.cs" />
+    <Compile Include="json\config_sensor.cs" />
+    <Compile Include="json\config_actuator.cs" />
+    <Compile Include="json\config_timer.cs" />
+    <Compile Include="json\config_script.cs" />
     <Compile Include="restore.cs" />
     <Compile Include="xs1-backup-tool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="xs1_config.cs" />
+    <Compile Include="json\xs1_config.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="license.txt" />
