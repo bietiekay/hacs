@@ -43,7 +43,7 @@ namespace xs1_backup_tool
 
     public class config_sensor
     {
-        public string version;
+        public Int32 version;
         public string type;
         public sensor_config sensor = new sensor_config();
     }

@@ -43,7 +43,7 @@ namespace xs1_backup_tool
 
     public class config_actuator
     {
-        public string version;
+        public Int32 version;
         public string type;
         public actuator_config actuator = new actuator_config();
     }

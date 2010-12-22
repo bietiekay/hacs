@@ -53,7 +53,7 @@ namespace xs1_backup_tool
                 #region get the XS1 device configuration
                 WebRequest wrGetURL;
                 Console.WriteLine("Retrieving XS1 device configuration...");
-                wrGetURL = WebRequest.Create("http://"+XS1ServerURL+"/control?callback=xs1_config&cmd=get_config_info");
+                wrGetURL = WebRequest.Create("http://"+XS1ServerURL+"/control?user="+Username+"&pwd="+Password+"&callback=xs1_config&cmd=get_config_info");
                 String xs1_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
 
                 JavaScriptSerializer ser = new JavaScriptSerializer();
@@ -73,13 +73,23 @@ namespace xs1_backup_tool
                 backupfile.Flush();
                 #endregion
 
+                #region Check if configuration is correct
+                if (XS1Config.version != 15)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("The version of the XS1 API differs from the version this tool was written for! Please note");
+                    Console.WriteLine("that you are using this tool at your own risk!");
+                    Console.WriteLine();
+                }
+                #endregion
+
                 #region get all sensor configurations
                 Console.Write("Backing up sensor configuration...");
                 for(Int32 i=1;i<=XS1Config.info.maxsensors;i++)
                 {
                     Console.Write(".");
 
-                    wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?callback=sensor_config&cmd=get_config_sensor&number="+i);
+                    wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=sensor_config&cmd=get_config_sensor&number=" + i);
                     String sensor_config_json  = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions
@@ -99,7 +109,7 @@ namespace xs1_backup_tool
                 {
                     Console.Write(".");
 
-                    wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?callback=actor_config&cmd=get_config_actuator&number=" + i);
+                    wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=actor_config&cmd=get_config_actuator&number=" + i);
                     String actuator_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions
@@ -119,7 +129,7 @@ namespace xs1_backup_tool
                 {
                     Console.Write(".");
 
-                    wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?callback=timer_config&cmd=get_config_timer&number=" + i);
+                    wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=timer_config&cmd=get_config_timer&number=" + i);
                     String timer_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions
@@ -139,7 +149,7 @@ namespace xs1_backup_tool
                 {
                     Console.Write(".");
 
-                    wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?callback=script_config&cmd=get_config_script&number=" + i);
+                    wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=script_config&cmd=get_config_script&number=" + i);
                     String script_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions
@@ -159,7 +169,7 @@ namespace xs1_backup_tool
                 {
                     Console.Write(".");
 
-                    wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?callback=room_config&cmd=get_config_room&number=" + i);
+                    wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=room_config&cmd=get_config_room&number=" + i);
                     String room_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions
@@ -206,7 +216,7 @@ namespace xs1_backup_tool
                 #region get the XS1 device configuration
                 WebRequest wrGetURL;
                 Console.WriteLine("Retrieving XS1 device configuration...");
-                wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?callback=xs1_config&cmd=get_config_info");
+                wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=xs1_config&cmd=get_config_info");
                 String xs1_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
 
                 JavaScriptSerializer ser = new JavaScriptSerializer();
@@ -438,7 +448,7 @@ namespace xs1_backup_tool
         }
 
         #region Restore helper methods
-        private static bool WriteSensorConfiguration(String XS1ServerURL, String Username, String Password, String SensorData, String ProtocolVersion)
+        private static bool WriteSensorConfiguration(String XS1ServerURL, String Username, String Password, String SensorData, Int32 ProtocolVersion)
         {
             try
             {
@@ -497,7 +507,7 @@ namespace xs1_backup_tool
             return true;
         }
 
-        private static bool WriteActorConfiguration(String XS1ServerURL, String Username, String Password, String ActorData, String ProtocolVersion)
+        private static bool WriteActorConfiguration(String XS1ServerURL, String Username, String Password, String ActorData, Int32 ProtocolVersion)
         {
             try
             {

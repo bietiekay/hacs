@@ -52,7 +52,7 @@ namespace xs1_backup_tool
 
     public class xs1_config
     {
-        public string version;
+        public Int32 version;
         public string type;
         public xs1_config_infotype info = new xs1_config_infotype();
     }

@@ -50,7 +50,7 @@ namespace xs1_backup_tool
 
     public class timer_sensor
     {
-        public string version;
+        public Int32 version;
         public string type;
         public timer_config timer = new timer_config();
     }

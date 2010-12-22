@@ -32,7 +32,7 @@ namespace xs1_backup_tool
 
     public class config_script
     {
-        public string version;
+        public Int32 version;
         public string type;
         public script_config actuator = new script_config();
     }
