@@ -50,10 +50,17 @@ namespace xs1_backup_tool
             // get the number of sensors, actors, timers from the XS1 configuration
             try
             {
+                String _UsernameAndPassword = Username + ":" + Password;
+                String _AuthorizationHeader = "Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(_UsernameAndPassword));
+
                 #region get the XS1 device configuration
                 WebRequest wrGetURL;
                 Console.WriteLine("Retrieving XS1 device configuration...");
                 wrGetURL = WebRequest.Create("http://"+XS1ServerURL+"/control?user="+Username+"&pwd="+Password+"&callback=xs1_config&cmd=get_config_info");
+
+                wrGetURL.Credentials = new NetworkCredential(Username, Password);
+                wrGetURL.Headers.Add("Authorization", _AuthorizationHeader);
+                
                 String xs1_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
 
                 JavaScriptSerializer ser = new JavaScriptSerializer();
@@ -90,6 +97,9 @@ namespace xs1_backup_tool
                     Console.Write(".");
 
                     wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=sensor_config&cmd=get_config_sensor&number=" + i);
+                    wrGetURL.Credentials = new NetworkCredential(Username, Password);
+                    wrGetURL.Headers.Add("Authorization", _AuthorizationHeader);
+                    
                     String sensor_config_json  = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions
@@ -110,6 +120,9 @@ namespace xs1_backup_tool
                     Console.Write(".");
 
                     wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=actor_config&cmd=get_config_actuator&number=" + i);
+                    wrGetURL.Credentials = new NetworkCredential(Username, Password);
+                    wrGetURL.Headers.Add("Authorization", _AuthorizationHeader);
+
                     String actuator_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions
@@ -130,6 +143,9 @@ namespace xs1_backup_tool
                     Console.Write(".");
 
                     wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=timer_config&cmd=get_config_timer&number=" + i);
+                    wrGetURL.Credentials = new NetworkCredential(Username, Password);
+                    wrGetURL.Headers.Add("Authorization", _AuthorizationHeader);
+
                     String timer_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions
@@ -150,6 +166,9 @@ namespace xs1_backup_tool
                     Console.Write(".");
 
                     wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=script_config&cmd=get_config_script&number=" + i);
+                    wrGetURL.Credentials = new NetworkCredential(Username, Password);
+                    wrGetURL.Headers.Add("Authorization", _AuthorizationHeader);
+
                     String script_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions
@@ -170,6 +189,9 @@ namespace xs1_backup_tool
                     Console.Write(".");
 
                     wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=room_config&cmd=get_config_room&number=" + i);
+                    wrGetURL.Credentials = new NetworkCredential(Username, Password);
+                    wrGetURL.Headers.Add("Authorization", _AuthorizationHeader);
+
                     String room_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions

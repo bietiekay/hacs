@@ -13,18 +13,22 @@ namespace xs1_data_logging
     public class LoggingThread
     {
         public String ServerName;
+        public String UserName;
+        public String Password;
         TinyOnDiskStorage actor_data_store = null;
         TinyOnDiskStorage sensor_data_store = null;
         TinyOnDiskStorage unknown_data_store = null;
 
         bool Shutdown = false;
 
-        public LoggingThread(String _ServerName, TinyOnDiskStorage _actor_store, TinyOnDiskStorage _sensor_store, TinyOnDiskStorage _unknown_store)
+        public LoggingThread(String _ServerName, TinyOnDiskStorage _actor_store, TinyOnDiskStorage _sensor_store, TinyOnDiskStorage _unknown_store, String _Username, String _Password)
         {
             actor_data_store = _actor_store;
             sensor_data_store = _sensor_store;
             unknown_data_store = _unknown_store;
             ServerName = _ServerName;
+            UserName = _Username;
+            Password = _Password;
         }
 
         public void Run()
@@ -38,6 +42,20 @@ namespace xs1_data_logging
                     String HacsURL = "http://" + ServerName + "/control?callback=cname&cmd=subscribe&format=tsv";
 
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(HacsURL);
+                    request.Credentials = new NetworkCredential(UserName,Password);
+
+                    String _UsernameAndPassword = UserName+ ":" + Password;
+                    Uri _URI = new Uri(HacsURL);
+                    
+                    CredentialCache _CredentialCache = new CredentialCache();
+                    _CredentialCache.Remove(_URI, "Basic");
+                    _CredentialCache.Add(_URI, "Basic", new NetworkCredential(UserName, Password));
+                    String _AuthorizationHeader = "Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(_UsernameAndPassword));
+
+                    request.Headers.Add("Authorization", _AuthorizationHeader);
+
+
+
                     // execute the request
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                     if (response.StatusCode == HttpStatusCode.OK)

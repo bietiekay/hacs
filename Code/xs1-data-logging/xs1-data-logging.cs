@@ -52,17 +52,17 @@ namespace xs1_data_logging
 
             List<Thread> LoggingThreads = new List<Thread>();
 
-            foreach (String _Server in Properties.Settings.Default.XS1Servers)
-            {
-                ConsoleOutputLogger.WriteLineToScreenOnly("Starting Logging for Server: " + _Server);
-                LoggingThread _Thread = new LoggingThread(_Server, actor_data_store, sensor_data_store, unknown_data_store);
+            //foreach (String _Server in Properties.Settings.Default)
+            //{
+                ConsoleOutputLogger.WriteLineToScreenOnly("Starting Logging for Server: " + Properties.Settings.Default.XS1);
+                LoggingThread _Thread = new LoggingThread(Properties.Settings.Default.XS1, actor_data_store, sensor_data_store, unknown_data_store,Properties.Settings.Default.Username,Properties.Settings.Default.Password);
                 Thread LoggingThread = new Thread(new ThreadStart(_Thread.Run));
 
                 LoggingThreads.Add(LoggingThread);
 
                 LoggingThread.Start();
 
-            }
+            //}
 
 
         }

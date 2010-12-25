@@ -76,6 +76,10 @@
       <Project>{8A2C05AA-6E56-414B-A43C-7173FC34DB24}</Project>
       <Name>sonesFastSerializer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\XS1Authentication\XS1Authentication.csproj">
+      <Project>{B4173BD4-3523-412B-B1BB-EEACE2628C55}</Project>
+      <Name>XS1Authentication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XS1_DataObject\XS1_DataObject.csproj">
       <Project>{EBE5CC2A-7430-4165-95C5-B595D5F91692}</Project>
       <Name>XS1_DataObject</Name>
