@@ -69,6 +69,28 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="HTTP\Resources\Hygro_Abstellkammer.html" />
+    <None Include="HTTP\Resources\Hygro_Arbeitszimmer.html" />
+    <None Include="HTTP\Resources\Hygro_Bad.html" />
+    <None Include="HTTP\Resources\Hygro_Keller.html" />
+    <None Include="HTTP\Resources\Hygro_Kueche.html" />
+    <None Include="HTTP\Resources\Hygro_Schlafzimmer.html" />
+    <None Include="HTTP\Resources\index.html" />
+    <None Include="HTTP\Resources\layout.css" />
+    <None Include="HTTP\Resources\Temp_Abstellkammer.html" />
+    <None Include="HTTP\Resources\Temp_Arbeitszimmer.html" />
+    <None Include="HTTP\Resources\Temp_Bad.html" />
+    <None Include="HTTP\Resources\Temp_Keller.html" />
+    <None Include="HTTP\Resources\Temp_Kueche.html" />
+    <None Include="HTTP\Resources\Temp_Schlafzimmer.html" />
+    <None Include="HTTP\Resources\libs\excanvas.js" />
+    <None Include="HTTP\Resources\libs\excanvas.min.js" />
+    <None Include="HTTP\Resources\libs\jquery.colorhelpers.js" />
+    <None Include="HTTP\Resources\libs\jquery.colorhelpers.min.js" />
+    <None Include="HTTP\Resources\libs\jquery.flot.crosshair.js" />
+    <None Include="HTTP\Resources\libs\jquery.flot.crosshair.min.js" />
+    <None Include="HTTP\Resources\libs\jquery.flot.js" />
+    <None Include="HTTP\Resources\libs\jquery.js" />
     <Content Include="license.txt" />
   </ItemGroup>
   <ItemGroup>

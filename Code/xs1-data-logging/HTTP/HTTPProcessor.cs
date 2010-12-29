@@ -485,14 +485,14 @@ namespace HTTP
 							}
 							catch (Exception e)
 							{
-								ConsoleOutputLogger.WriteLine("[FEHLER@HTTP] " + e.Message);
+								ConsoleOutputLogger.WriteLineToScreenOnly("[FEHLER@HTTP] " + e.Message);
 								try
 								{
 									writeFailure();
 								}
 								catch (Exception)
 								{
-									ConsoleOutputLogger.WriteLine("[FEHLER@HTTP] connection lost to client");
+									ConsoleOutputLogger.WriteLineToScreenOnly("[FEHLER@HTTP] connection lost to client");
 								}
 								if (bs != null) bs.Close();
 								if (bs != null) fs.Close();
@@ -502,7 +502,7 @@ namespace HTTP
 					}
 					catch (Exception e)
 					{
-						ConsoleOutputLogger.WriteLine("[FEHLER@HTTP] " + e.Message);
+						ConsoleOutputLogger.WriteLineToScreenOnly("[FEHLER@HTTP] " + e.Message);
 						writeFailure();
 					}
 					#endregion
@@ -510,7 +510,7 @@ namespace HTTP
 			}
 			catch (Exception e)
 			{
-				ConsoleOutputLogger.WriteLine("[FEHLER@HTTP] " + e.Message);
+				ConsoleOutputLogger.WriteLineToScreenOnly("[FEHLER@HTTP] " + e.Message);
 				writeFailure();
 			}
 		}
