@@ -50,18 +50,26 @@ namespace xs1_backup_tool
             // get the number of sensors, actors, timers from the XS1 configuration
             try
             {
-                String _UsernameAndPassword = Username + ":" + Password;
-                String _AuthorizationHeader = "Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(_UsernameAndPassword));
 
                 #region get the XS1 device configuration
                 WebRequest wrGetURL;
                 Console.WriteLine("Retrieving XS1 device configuration...");
                 wrGetURL = WebRequest.Create("http://"+XS1ServerURL+"/control?user="+Username+"&pwd="+Password+"&callback=xs1_config&cmd=get_config_info");
 
+                String _UsernameAndPassword = Username + ":" + Password;
+                String _AuthorizationHeader = "Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(_UsernameAndPassword));
+
                 wrGetURL.Credentials = new NetworkCredential(Username, Password);
                 wrGetURL.Headers.Add("Authorization", _AuthorizationHeader);
-                
-                String xs1_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
+                HttpWebResponse response = (HttpWebResponse)wrGetURL.GetResponse();
+                // check for eventual errors
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    Console.WriteLine("An http error occurred: " + response.StatusDescription);
+                    return false;
+                }
+                // we will read data via the response stream
+                String xs1_config_json = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                 JavaScriptSerializer ser = new JavaScriptSerializer();
                 ser.MaxJsonLength = 20000000;
@@ -96,11 +104,18 @@ namespace xs1_backup_tool
                 {
                     Console.Write(".");
 
-                    wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=sensor_config&cmd=get_config_sensor&number=" + i);
+                    wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=sensor_config&cmd=get_config_sensor&number=" + i);                    
                     wrGetURL.Credentials = new NetworkCredential(Username, Password);
                     wrGetURL.Headers.Add("Authorization", _AuthorizationHeader);
-                    
-                    String sensor_config_json  = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
+                    response = (HttpWebResponse)wrGetURL.GetResponse();
+                    // check for eventual errors
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        Console.WriteLine("An http error occurred: " + response.StatusDescription);
+                        return false;
+                    }
+                    // we will read data via the response stream
+                    String sensor_config_json = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions
                     sensor_config_json = sensor_config_json.Replace("sensor_config(", "");
@@ -122,8 +137,15 @@ namespace xs1_backup_tool
                     wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=actor_config&cmd=get_config_actuator&number=" + i);
                     wrGetURL.Credentials = new NetworkCredential(Username, Password);
                     wrGetURL.Headers.Add("Authorization", _AuthorizationHeader);
-
-                    String actuator_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
+                    response = (HttpWebResponse)wrGetURL.GetResponse();
+                    // check for eventual errors
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        Console.WriteLine("An http error occurred: " + response.StatusDescription);
+                        return false;
+                    }
+                    // we will read data via the response stream
+                    String actuator_config_json = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions
                     actuator_config_json = actuator_config_json.Replace("actor_config(", "");
@@ -145,8 +167,15 @@ namespace xs1_backup_tool
                     wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=timer_config&cmd=get_config_timer&number=" + i);
                     wrGetURL.Credentials = new NetworkCredential(Username, Password);
                     wrGetURL.Headers.Add("Authorization", _AuthorizationHeader);
-
-                    String timer_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
+                    response = (HttpWebResponse)wrGetURL.GetResponse();
+                    // check for eventual errors
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        Console.WriteLine("An http error occurred: " + response.StatusDescription);
+                        return false;
+                    }
+                    // we will read data via the response stream
+                    String timer_config_json = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions
                     timer_config_json = timer_config_json.Replace("timer_config(", "");
@@ -168,8 +197,15 @@ namespace xs1_backup_tool
                     wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=script_config&cmd=get_config_script&number=" + i);
                     wrGetURL.Credentials = new NetworkCredential(Username, Password);
                     wrGetURL.Headers.Add("Authorization", _AuthorizationHeader);
-
-                    String script_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
+                    response = (HttpWebResponse)wrGetURL.GetResponse();
+                    // check for eventual errors
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        Console.WriteLine("An http error occurred: " + response.StatusDescription);
+                        return false;
+                    }
+                    // we will read data via the response stream
+                    String script_config_json = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions
                     script_config_json = script_config_json.Replace("script_config(", "");
@@ -191,8 +227,15 @@ namespace xs1_backup_tool
                     wrGetURL = WebRequest.Create("http://" + XS1ServerURL + "/control?user=" + Username + "&pwd=" + Password + "&callback=room_config&cmd=get_config_room&number=" + i);
                     wrGetURL.Credentials = new NetworkCredential(Username, Password);
                     wrGetURL.Headers.Add("Authorization", _AuthorizationHeader);
-
-                    String room_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
+                    response = (HttpWebResponse)wrGetURL.GetResponse();
+                    // check for eventual errors
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        Console.WriteLine("An http error occurred: " + response.StatusDescription);
+                        return false;
+                    }
+                    // we will read data via the response stream
+                    String room_config_json = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                     // remove the javascript callback/definitions
                     room_config_json = room_config_json.Replace("room_config(", "");
@@ -211,8 +254,7 @@ namespace xs1_backup_tool
             {
                 Console.WriteLine("An error occurred: " + e.Message);
                 return false;
-            }
-            
+            }            
         }
 
         /// <summary>
@@ -226,6 +268,8 @@ namespace xs1_backup_tool
         {
             try
             {
+                Console.WriteLine("Currently this tool is only restoring sensor and actor configurations.");
+
                 bool Option_A = false;  // sending
                 bool Option_B = false;  // receiving
                 bool Option_C = false;  // scripting
@@ -470,6 +514,8 @@ namespace xs1_backup_tool
         }
 
         #region Restore helper methods
+
+        #region Write Sensor
         private static bool WriteSensorConfiguration(String XS1ServerURL, String Username, String Password, String SensorData, Int32 ProtocolVersion)
         {
             try
@@ -528,13 +574,18 @@ namespace xs1_backup_tool
             }
             return true;
         }
+        #endregion
 
+        #region Write Actor
         private static bool WriteActorConfiguration(String XS1ServerURL, String Username, String Password, String ActorData, Int32 ProtocolVersion)
         {
             try
             {
                 JavaScriptSerializer ser = new JavaScriptSerializer();
                 ser.MaxJsonLength = 20000000;
+                String _UsernameAndPassword = Username + ":" + Password;
+                String _AuthorizationHeader = "Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(_UsernameAndPassword));
+
 
                 // deserialize the json data stream
                 config_actuator actuatorconfiguration = ser.Deserialize<config_actuator>(ActorData);
@@ -567,8 +618,12 @@ namespace xs1_backup_tool
                 #endregion
 
                 wrGetURL = WebRequest.Create(RequestURL.ToString());
+                wrGetURL.Credentials = new NetworkCredential(Username, Password);
+                wrGetURL.Headers.Add("Authorization", _AuthorizationHeader);
+
                 String xs1_config_json = new StreamReader(wrGetURL.GetResponse().GetResponseStream()).ReadToEnd();
-                // Todo: add check if correct set
+                
+                // Todo: add validation if settings were correctly restored...
 
                 Console.WriteLine("OK");
             }
@@ -579,21 +634,30 @@ namespace xs1_backup_tool
             }
             return true;
         }
+        #endregion
 
+        #region Write Timer
         private static bool WriteTimerConfiguration(String XS1ServerURL, String Username, String Password, String TimerData)
         {
+
             return false;
         }
+        #endregion
 
+        #region Write Room
         private static bool WriteRoomConfiguration(String XS1ServerURL, String Username, String Password, String RoomData)
         {
             return false;
         }
+        #endregion
 
+        #region Write Script
         private static bool WriteScriptConfiguration(String XS1ServerURL, String Username, String Password, String ScriptData)
         {
             return false;
         }
+        #endregion
+
         #endregion
     }
 
