@@ -68,9 +68,17 @@
     <Content Include="license.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ConsoleOutputLogger\ConsoleOutputLogger.csproj">
+      <Project>{55D802EB-88E0-4996-9802-05DACDE70552}</Project>
+      <Name>ConsoleOutputLogger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataObjectOnDisk\DataObjectOnDisk.csproj">
       <Project>{16D19293-2334-44DC-9BEA-39651DA8F58B}</Project>
       <Name>DataObjectOnDisk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HTTP\HTTP.csproj">
+      <Project>{CC48CB15-34FB-4D1B-A02F-75E1024B0FDC}</Project>
+      <Name>HTTP %28HTTP\HTTP%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\sonesFastSerializer\sonesFastSerializer.csproj">
       <Project>{8A2C05AA-6E56-414B-A43C-7173FC34DB24}</Project>
