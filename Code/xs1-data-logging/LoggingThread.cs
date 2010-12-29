@@ -34,7 +34,7 @@ namespace xs1_data_logging
 
         public void Run()
         {
-            HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort,Properties.Settings.Default.HTTPIP,Properties.Settings.Default.HTTPDocumentRoot);
+            HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort,Properties.Settings.Default.HTTPIP,Properties.Settings.Default.HTTPDocumentRoot,sensor_data_store);
             Thread http_server_thread = new Thread(new ThreadStart(httpServer.listen));
             http_server_thread.Start();
 

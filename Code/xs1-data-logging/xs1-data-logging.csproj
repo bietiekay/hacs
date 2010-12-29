@@ -40,6 +40,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleOutputLogger.cs" />
+    <Compile Include="HTTP\HTTPProcessor.cs" />
+    <Compile Include="HTTP\HTTPServer.cs" />
+    <Compile Include="JSONHandlers\JSONData.cs" />
     <Compile Include="LoggingThread.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -75,10 +79,6 @@
     <ProjectReference Include="..\DataObjectOnDisk\DataObjectOnDisk.csproj">
       <Project>{16D19293-2334-44DC-9BEA-39651DA8F58B}</Project>
       <Name>DataObjectOnDisk</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HTTP\HTTP.csproj">
-      <Project>{CC48CB15-34FB-4D1B-A02F-75E1024B0FDC}</Project>
-      <Name>HTTP %28HTTP\HTTP%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\sonesFastSerializer\sonesFastSerializer.csproj">
       <Project>{8A2C05AA-6E56-414B-A43C-7173FC34DB24}</Project>
