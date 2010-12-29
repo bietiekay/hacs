@@ -1,6 +1,6 @@
 ﻿/*
 * h.a.c.s (home automation control server) - http://github.com/bietiekay/hacs
-* Copyright (C) 2010 Daniel Kirstenpfad
+*  Copyright (C) 2010 Daniel Kirstenpfad
 *
 * hacs is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Affero General Public License as published by
