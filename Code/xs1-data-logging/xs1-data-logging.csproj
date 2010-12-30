@@ -102,6 +102,10 @@
       <Project>{16D19293-2334-44DC-9BEA-39651DA8F58B}</Project>
       <Name>DataObjectOnDisk</Name>
     </ProjectReference>
+    <ProjectReference Include="..\JavascriptTimestamps\JavascriptTimestamps.csproj">
+      <Project>{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}</Project>
+      <Name>JavascriptTimestamps</Name>
+    </ProjectReference>
     <ProjectReference Include="..\sonesFastSerializer\sonesFastSerializer.csproj">
       <Project>{8A2C05AA-6E56-414B-A43C-7173FC34DB24}</Project>
       <Name>sonesFastSerializer</Name>

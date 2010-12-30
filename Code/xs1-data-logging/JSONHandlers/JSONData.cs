@@ -5,6 +5,7 @@ using System.Text;
 using sones.storage;
 using sones.Storage;
 using hacs.xs1;
+using JavaScriptTimeStampExtension;
 
 namespace xs1_data_logging.JSONHandlers
 {
@@ -19,6 +20,8 @@ namespace xs1_data_logging.JSONHandlers
         {
             sensor_data = sensor_data_storage;
         }
+
+
 
         /// <summary>
         /// generates JSON dataset from sensor data
@@ -56,10 +59,10 @@ namespace xs1_data_logging.JSONHandlers
                             else
                                 firstdataset = false;
 
-                            Output.Append("[");
-                            Output.Append(dataobject.Timecode.Ticks);
+                            Output.Append("[");                           
+                            Output.Append(dataobject.Timecode.JavaScriptTimestamp());
                             Output.Append(",");
-                            Output.Append(dataobject.Value);
+                            Output.Append(dataobject.Value.ToString().Replace(',', '.'));
                             Output.Append("]");
                         }
                     }

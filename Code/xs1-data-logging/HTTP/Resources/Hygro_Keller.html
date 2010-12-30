@@ -1,29 +1,29 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Flot Examples</title>
-    <link href="layout.css" rel="stylesheet" type="text/css"></link>
-    <!--[if IE]><script language="javascript" type="text/javascript" src="libs/excanvas.min.js"></script><![endif]-->
-    <script language="javascript" type="text/javascript" src="libs/jquery.js"></script>
-    <script language="javascript" type="text/javascript" src="libs/jquery.flot.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Flot Examples</title>
+	<link href="layout.css" rel="stylesheet" type="text/css"></link>
+	<!--[if IE]><script language="javascript" type="text/javascript" src="libs/excanvas.min.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript" src="libs/jquery.js"></script>
+	<script language="javascript" type="text/javascript" src="libs/jquery.flot.js"></script>
  </head>
-    <div id="placeholder" align="center" style="width:1024px;height:500px;"></div>	
+	<div id="placeholder" align="center" style="width:1024px;height:500px;"></div>	
 
 <script id="source" language="javascript" type="text/javascript">
 $(function () {
-    var options = 
+	var options = 
 	{
-        lines: { show: true },
-        points: { show: false },
-        xaxis: { tickDecimals: 0 },
+		lines: { show: true },
+		points: { show: false },
+		xaxis: { tickDecimals: 0 },
 		yaxis: { min: 0 },
-	    legend: { position: 'sw' },
-    };
-    var data = [];
-    var placeholder = $("#placeholder");
-    // fetch one series, adding to what we got
-    var alreadyFetched = {};
+		legend: { position: 'sw' },
+	};
+	var data = [];
+	var placeholder = $("#placeholder");
+	// fetch one series, adding to what we got
+	var alreadyFetched = {};
 	// find the URL in the link right next to us 
 	var dataurl = "/data/sensor?name=Keller_&type=hygrometer";
 	
@@ -43,7 +43,7 @@ $(function () {
 		// and plot all we got
 		$.plot(placeholder, data, options);
 	 }
-	
+
 	$.ajax(
 	{
 		url: dataurl,
