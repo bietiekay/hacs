@@ -109,6 +109,10 @@ namespace sones.storage
                 DatabaseIndexFile.Write(ToWrite, 0, ToWrite.Length);
 
                 DatabaseIndexFile.Flush();
+
+                // append to the inmemory index
+                InMemoryIndex.Add(Adresspattern);
+
             }
         }
 
