@@ -1,0 +1,297 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>h.a.c.s. XS1 Chart-Tool</title>
+    <link href="layout.css" rel="stylesheet" type="text/css"></link>
+    <!--[if IE]><script language="javascript" type="text/javascript" src="libs/excanvas.min.js"></script><![endif]-->
+    <script language="javascript" type="text/javascript" src="libs/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="libs/jquery.flot.js"></script>
+    <script language="javascript" type="text/javascript" src="libs/jquery.flot.selection.js"></script>
+ </head>
+	<button id="allTemp">All Temperatures</button>
+    Temperatur:
+    <select id="tempsensorchanger" name="tempsensorchanger" size="1">
+      <option>keine Auswahl</option>
+      <option value="Abstellkammer">Abstellkammer</option>
+      <option value="Schlafzimmer">Schlafzimmer</option>
+      <option value="Kueche">K&uuml;che</option>
+      <option value="Arbeitszimmer">Arbeitszimmer</option>
+      <option value="Bad">Bad</option>
+      <option value="Keller">Keller</option>
+    </select>
+	<button id="allHygro">All Hygrometers</button>
+    Luftfeuchtigkeit:
+    <select id="hygrosensorchanger" name="hygrosensorchanger" size="1">
+      <option>keine Auswahl</option>
+      <option value="Abstellkammer_">Abstellkammer</option>
+      <option value="Schlafzimmer_">Schlafzimmer</option>
+      <option value="Kueche_">K&uuml;che</option>
+      <option value="Arbeitszimmer_">Arbeitszimmer</option>
+      <option value="Bad_">Bad</option>
+      <option value="Keller_">Keller</option>
+    </select>
+ 
+    <div id="placeholder" align="center" style="width:1000px;height:600px;"></div>
+	<p id="hoverdata"></p>
+	<button id="alldata">all data</button>
+	<button id="today">today</button>
+	<button id="yesterday">yesterday</button>
+	<button id="currentweek">current week</button>
+	<button id="currentmonth">current month</button>
+<script id="source" language="javascript" type="text/javascript">
+$(function () {
+    var options = {
+		        lines: { show: true },
+		        points: { show: false },
+		        xaxis:  {
+                			mode: "time",
+                			//minTickSize: [1, "hour"],
+                			//min: (new Date("2010/12/28")).getTime(),
+                			//max: (new Date("2010/12/29")).getTime()
+				},
+		        legend: { position: 'sw' },			
+            		grid: { markings: weekendAreas},
+		        selection: { mode: "x" },
+		};
+
+    var data = [];
+    var sortof = 1;
+    var lastsortof = 1;
+    var placeholder = $("#placeholder");
+
+    // helper for returning the weekends in a period
+    function weekendAreas(axes) {
+        var markings = [];
+        var d = new Date(axes.xaxis.min);
+        // go to the first Saturday
+        d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 1) % 7));
+        d.setUTCSeconds(0);
+        d.setUTCMinutes(0);
+        d.setUTCHours(0);
+        var i = d.getTime();
+        do {
+            // when we don't set yaxis, the rectangle automatically
+            // extends to infinity upwards and downwards
+            markings.push({ xaxis: { from: i, to: i + 2 * 24 * 60 * 60 * 1000 } });
+            i += 7 * 24 * 60 * 60 * 1000;
+        } while (i < axes.xaxis.max);
+
+        return markings;
+    }
+
+    // fetch one series, adding to what we got
+	// find the URL in the link right next to us 
+	var dataurl = "/data/sensor?name=Arbeitszimmer&type=temperature";
+	
+	// then fetch the data with jQuery
+	function onDataReceived(series) 
+	{
+		if (lastsortof != sortof)
+		{
+			data = [];
+		}
+		var firstcoordinate = '(' + series.data[0][0] + ', ' + series.data[0][1] + ')';
+		data.push(series);
+		
+		// and plot all we got
+		plot = $.plot(placeholder, data, options);
+		lastsortof = sortof;
+	 }
+		
+	$.ajax(
+	{
+		url: dataurl,
+		method: 'GET',
+		dataType: 'json',
+		success: onDataReceived
+	});
+	
+	$("#placeholder").bind("plotselected", function (event, ranges) {
+	// do the zooming
+	plot = $.plot($("#placeholder"), data,
+		      $.extend(true, {}, options, {
+		          xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }
+		      }));
+	});
+
+	$("#today").click(function () 
+	{
+		var yesterday= new Date();
+		yesterday.setDate(yesterday.getDate()-1);
+
+		options = {		   
+			lines: { show: true },
+			points: { show: false },
+			legend: { position: 'sw' },
+		        selection: { mode: "x" },
+            		grid: { markings: weekendAreas},
+			xaxis: 
+			{
+				mode: "time",
+				//minTickSize: [1, "hour"],
+				min: (yesterday).getTime(),
+				max: (new Date()).getTime()
+			}
+		}
+		
+		$.plot($("#placeholder"), data, options);
+	});		
+
+	$("#yesterday").click(function () 
+	{
+		var yesterday= new Date();
+		yesterday.setDate(yesterday.getDate()-1);
+		var yesteryesterday= new Date();
+		yesteryesterday.setDate(yesteryesterday.getDate()-2);
+
+		options = {		    
+			lines: { show: true },
+			points: { show: false },
+			legend: { position: 'sw' },
+	                selection: { mode: "x" },
+            		grid: { markings: weekendAreas},
+			xaxis: 
+			{
+				mode: "time",
+				//minTickSize: [1, "hour"],
+				min: (yesteryesterday).getTime(),
+				max: (yesterday).getTime()
+			}
+		}
+		
+		$.plot($("#placeholder"), data, options);
+	});		
+	
+	$("#currentweek").click(function () 
+	{
+		var startofweek= new Date();
+		startofweek.setDate(startofweek.getDate()-7);
+
+		options = {		    
+			lines: { show: true },
+			points: { show: false },
+			legend: { position: 'sw' },
+	                selection: { mode: "x" },
+            		grid: { markings: weekendAreas},
+			xaxis: 
+			{
+				mode: "time",
+				//minTickSize: [1, "day"],
+				min: (startofweek).getTime(),
+				max: (new Date()).getTime()
+			}
+		}
+		
+		$.plot($("#placeholder"), data, options);
+	});
+
+	$("#currentmonth").click(function () 
+	{
+		var startofweek= new Date();
+		startofweek.setDate(startofweek.getDate()-31);
+
+		options = {		    
+			lines: { show: true },
+			points: { show: false },
+			legend: { position: 'sw' },
+	                selection: { mode: "x" },
+            		grid: { markings: weekendAreas},
+			xaxis: 
+			{
+				mode: "time",
+				//minTickSize: [1, "day"],
+				min: (startofweek).getTime(),
+				max: (new Date()).getTime()
+			}
+		}
+
+		
+		$.plot($("#placeholder"), data, options);
+	});
+
+	$("#alldata").click(function () 
+	{
+			options = {		    
+			lines: { show: true },
+			points: { show: false },
+			legend: { position: 'sw' },
+	                selection: { mode: "x" },
+            		grid: { markings: weekendAreas},
+			xaxis: 
+			{
+				mode: "time",
+				minTickSize: [1, "day"],
+			}
+		}
+
+		
+		$.plot($("#placeholder"), data, options);
+	});
+
+	$("#tempsensorchanger").change(
+		function()
+		{
+			sortof = 2;
+			$.ajax(
+			{
+				url: "/data/sensor?name="+$(this).val()+"&type=temperature",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
+		});
+	
+	$("#hygrosensorchanger").change(
+		function()
+		{
+			sortof = 3;
+			$.ajax(
+			{
+				url: "/data/sensor?name="+$(this).val()+"&type=hygrometer",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
+		});
+
+	$("#allHygro").click(
+	function()
+	{
+		var selectobject=document.getElementById("hygrosensorchanger");
+		for (var i=0; i<selectobject.length; i++)
+		{
+			sortof = 5;
+			$.ajax(
+			{
+				url: "/data/sensor?name="+selectobject.options[i].value+"&type=hygrometer",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
+		}
+	}
+	);
+
+	$("#allTemp").click(
+	function()
+	{
+		var selectobject=document.getElementById("tempsensorchanger");
+		for (var i=0; i<selectobject.length; i++)
+		{
+			sortof = 4;
+			$.ajax(
+			{
+				url: "/data/sensor?name="+selectobject.options[i].value+"&type=temperature",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
+		}
+	}
+	);
+});
+</script>
+
+ </body>
+</html>
