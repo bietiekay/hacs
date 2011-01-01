@@ -12,6 +12,7 @@
 	<button id="allTemp">All Temperatures</button>
     Temperatur:
     <select id="tempsensorchanger" name="tempsensorchanger" size="1">
+      <option>keine Auswahl</option>
       <option value="Abstellkammer">Abstellkammer</option>
       <option value="Schlafzimmer">Schlafzimmer</option>
       <option value="Kueche">K&uuml;che</option>
@@ -22,6 +23,7 @@
 	<button id="allHygro">All Hygrometers</button>
     Luftfeuchtigkeit:
     <select id="hygrosensorchanger" name="hygrosensorchanger" size="1">
+      <option>keine Auswahl</option>
       <option value="Abstellkammer_">Abstellkammer</option>
       <option value="Schlafzimmer_">Schlafzimmer</option>
       <option value="Kueche_">K&uuml;che</option>
@@ -30,16 +32,13 @@
       <option value="Keller_">Keller</option>
     </select>
  
-    <div id="placeholder" align="center" style="width:900px;height:500px;"></div>
+    <div id="placeholder" align="center" style="width:1000px;height:600px;"></div>
 	<p id="hoverdata"></p>
 	<button id="alldata">all data</button>
 	<button id="today">today</button>
 	<button id="yesterday">yesterday</button>
 	<button id="currentweek">current week</button>
 	<button id="currentmonth">current month</button>
-
-    <p id="choices">Show:</p>
-
 <script id="source" language="javascript" type="text/javascript">
 $(function () {
     var options = {
@@ -98,24 +97,6 @@ $(function () {
 		// and plot all we got
 		plot = $.plot(placeholder, data, options);
 		lastsortof = sortof;
-
-		// hard-code color indices to prevent them from shifting as
-		// countries are turned on/off
-		var i = 0;
-		$.each(data, function(key, val) {
-		val.color = i;
-		++i;
-		});
-
-		// insert checkboxes 
-		var choiceContainer = $("#choices");
-		$.each(data, function(key, val) 
-		{
-			choiceContainer.append('<br><input type="checkbox" name="' + key +
-			'" checked="checked" id="id' + key + '">' +
-			'<label for="id' + key + '">'
-			+ val.label + '</label>');
-		});
 	 }
 		
 	$.ajax(
@@ -144,6 +125,7 @@ $(function () {
 			points: { show: false },
 			legend: { position: 'sw' },
 		        selection: { mode: "x" },
+            		grid: { markings: weekendAreas},
 			xaxis: 
 			{
 				mode: "time",
@@ -168,6 +150,7 @@ $(function () {
 			points: { show: false },
 			legend: { position: 'sw' },
 	                selection: { mode: "x" },
+            		grid: { markings: weekendAreas},
 			xaxis: 
 			{
 				mode: "time",
@@ -189,6 +172,8 @@ $(function () {
 			lines: { show: true },
 			points: { show: false },
 			legend: { position: 'sw' },
+	                selection: { mode: "x" },
+            		grid: { markings: weekendAreas},
 			xaxis: 
 			{
 				mode: "time",
@@ -206,10 +191,12 @@ $(function () {
 		var startofweek= new Date();
 		startofweek.setDate(startofweek.getDate()-31);
 
-				options = {		    
+		options = {		    
 			lines: { show: true },
 			points: { show: false },
 			legend: { position: 'sw' },
+	                selection: { mode: "x" },
+            		grid: { markings: weekendAreas},
 			xaxis: 
 			{
 				mode: "time",
@@ -229,6 +216,8 @@ $(function () {
 			lines: { show: true },
 			points: { show: false },
 			legend: { position: 'sw' },
+	                selection: { mode: "x" },
+            		grid: { markings: weekendAreas},
 			xaxis: 
 			{
 				mode: "time",
@@ -301,7 +290,6 @@ $(function () {
 		}
 	}
 	);
-
 });
 </script>
 
