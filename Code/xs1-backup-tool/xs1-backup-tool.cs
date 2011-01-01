@@ -51,7 +51,7 @@ namespace xs1_backup_tool
         static void Main(string[] args)
         {
             Console.WriteLine("EzControl XS1 Backup Tool 0.1 - part of the h.a.c.s toolkit");
-            Console.WriteLine("(C) 2010 Daniel Kirstenpfad - http://technology-ninja.com");
+            Console.WriteLine("(C) 2010-2011 Daniel Kirstenpfad - http://technology-ninja.com");
             Console.WriteLine();
 
             #region Syntax Handling

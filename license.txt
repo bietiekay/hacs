@@ -1,4 +1,4 @@
-Copyright (c) 2010, Daniel Kirstenpfad, http://www.technology-ninja.com
+Copyright (c) 2010-2011, Daniel Kirstenpfad, http://www.technology-ninja.com
 All rights reserved.
 
 Some portions (C) 2008-2010 sones GmbH, http://www.sones.com

@@ -41,7 +41,7 @@ namespace xs1_data_logging
 
             #region Logo
             ConsoleOutputLogger.WriteLine("EzControl XS1 Data Logger " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
-            ConsoleOutputLogger.WriteLine("(C) 2010 Daniel Kirstenpfad - http://github.com/bietiekay/hacs");
+            ConsoleOutputLogger.WriteLine("(C) 2010-2011 Daniel Kirstenpfad - http://github.com/bietiekay/hacs");
             #endregion
 
             ConsoleOutputLogger.writeLogfile = true;
