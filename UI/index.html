@@ -38,6 +38,8 @@
 	<button id="currentweek">current week</button>
 	<button id="currentmonth">current month</button>
 
+    <p id="choices">Show:</p>
+
 <script id="source" language="javascript" type="text/javascript">
 $(function () {
     var options = {
@@ -50,7 +52,7 @@ $(function () {
                 			//max: (new Date("2010/12/29")).getTime()
 				},
 		        legend: { position: 'sw' },			
-            		grid: { markings: weekendAreas, hoverable: true, autoHighlight: false },
+            		grid: { markings: weekendAreas},
 		        selection: { mode: "x" },
 		};
 
@@ -64,7 +66,7 @@ $(function () {
         var markings = [];
         var d = new Date(axes.xaxis.min);
         // go to the first Saturday
-        d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 1) % 7))
+        d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 1) % 7));
         d.setUTCSeconds(0);
         d.setUTCMinutes(0);
         d.setUTCHours(0);
@@ -81,7 +83,7 @@ $(function () {
 
     // fetch one series, adding to what we got
 	// find the URL in the link right next to us 
-	var dataurl = "/data/sensor?name=Schlafzimmer_&type=hygrometer";
+	var dataurl = "/data/sensor?name=Arbeitszimmer&type=temperature";
 	
 	// then fetch the data with jQuery
 	function onDataReceived(series) 
@@ -96,6 +98,24 @@ $(function () {
 		// and plot all we got
 		plot = $.plot(placeholder, data, options);
 		lastsortof = sortof;
+
+		// hard-code color indices to prevent them from shifting as
+		// countries are turned on/off
+		var i = 0;
+		$.each(data, function(key, val) {
+		val.color = i;
+		++i;
+		});
+
+		// insert checkboxes 
+		var choiceContainer = $("#choices");
+		$.each(data, function(key, val) 
+		{
+			choiceContainer.append('<br><input type="checkbox" name="' + key +
+			'" checked="checked" id="id' + key + '">' +
+			'<label for="id' + key + '">'
+			+ val.label + '</label>');
+		});
 	 }
 		
 	$.ajax(
@@ -116,8 +136,8 @@ $(function () {
 
 	$("#today").click(function () 
 	{
-		var yesterday= new Date()
-		yesterday.setDate(yesterday.getDate()-1)
+		var yesterday= new Date();
+		yesterday.setDate(yesterday.getDate()-1);
 
 		options = {		   
 			lines: { show: true },
@@ -138,10 +158,10 @@ $(function () {
 
 	$("#yesterday").click(function () 
 	{
-		var yesterday= new Date()
-		yesterday.setDate(yesterday.getDate()-1)
-		var yesteryesterday= new Date()
-		yesteryesterday.setDate(yesterday.getDate()-1)
+		var yesterday= new Date();
+		yesterday.setDate(yesterday.getDate()-1);
+		var yesteryesterday= new Date();
+		yesteryesterday.setDate(yesteryesterday.getDate()-2);
 
 		options = {		    
 			lines: { show: true },
@@ -162,8 +182,8 @@ $(function () {
 	
 	$("#currentweek").click(function () 
 	{
-		var startofweek= new Date()
-		startofweek.setDate(startofweek.getDate()-7)
+		var startofweek= new Date();
+		startofweek.setDate(startofweek.getDate()-7);
 
 		options = {		    
 			lines: { show: true },
@@ -183,8 +203,8 @@ $(function () {
 
 	$("#currentmonth").click(function () 
 	{
-		var startofweek= new Date()
-		startofweek.setDate(startofweek.getDate()-31)
+		var startofweek= new Date();
+		startofweek.setDate(startofweek.getDate()-31);
 
 				options = {		    
 			lines: { show: true },
@@ -249,7 +269,7 @@ $(function () {
 	$("#allHygro").click(
 	function()
 	{
-		var selectobject=document.getElementById("hygrosensorchanger")
+		var selectobject=document.getElementById("hygrosensorchanger");
 		for (var i=0; i<selectobject.length; i++)
 		{
 			sortof = 5;
@@ -267,7 +287,7 @@ $(function () {
 	$("#allTemp").click(
 	function()
 	{
-		var selectobject=document.getElementById("tempsensorchanger")
+		var selectobject=document.getElementById("tempsensorchanger");
 		for (var i=0; i<selectobject.length; i++)
 		{
 			sortof = 4;
