@@ -58,5 +58,41 @@ namespace xs1_data_logging.Properties {
                 this["Password"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("90")]
+        public int HTTPPort {
+            get {
+                return ((int)(this["HTTPPort"]));
+            }
+            set {
+                this["HTTPPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.0.0.0")]
+        public string HTTPIP {
+            get {
+                return ((string)(this["HTTPIP"]));
+            }
+            set {
+                this["HTTPIP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http")]
+        public string HTTPDocumentRoot {
+            get {
+                return ((string)(this["HTTPDocumentRoot"]));
+            }
+            set {
+                this["HTTPDocumentRoot"] = value;
+            }
+        }
     }
 }

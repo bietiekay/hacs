@@ -11,5 +11,14 @@
     <Setting Name="Password" Type="System.String" Scope="User">
       <Value Profile="(Default)">password</Value>
     </Setting>
+    <Setting Name="HTTPPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">90</Value>
+    </Setting>
+    <Setting Name="HTTPIP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0.0.0.0</Value>
+    </Setting>
+    <Setting Name="HTTPDocumentRoot" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

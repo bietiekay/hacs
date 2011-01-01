@@ -7,6 +7,7 @@ using System.IO;
 using hacs.xs1;
 using sones.storage;
 using System.Threading;
+using HTTP;
 
 namespace xs1_data_logging
 {
@@ -33,6 +34,11 @@ namespace xs1_data_logging
 
         public void Run()
         {
+            HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort,Properties.Settings.Default.HTTPIP,Properties.Settings.Default.HTTPDocumentRoot,sensor_data_store);
+            Thread http_server_thread = new Thread(new ThreadStart(httpServer.listen));
+            http_server_thread.Start();
+
+
             while (!Shutdown)
             {
                 try
@@ -53,8 +59,6 @@ namespace xs1_data_logging
                     String _AuthorizationHeader = "Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(_UsernameAndPassword));
 
                     request.Headers.Add("Authorization", _AuthorizationHeader);
-
-
 
                     // execute the request
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();

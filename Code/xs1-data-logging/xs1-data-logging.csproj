@@ -40,6 +40,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleOutputLogger.cs" />
+    <Compile Include="HTTP\HTTPProcessor.cs" />
+    <Compile Include="HTTP\HTTPServer.cs" />
+    <Compile Include="JSONHandlers\JSONData.cs" />
     <Compile Include="LoggingThread.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -65,12 +69,42 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="HTTP\Resources\Hygro_Abstellkammer.html" />
+    <None Include="HTTP\Resources\Hygro_Arbeitszimmer.html" />
+    <None Include="HTTP\Resources\Hygro_Bad.html" />
+    <None Include="HTTP\Resources\Hygro_Keller.html" />
+    <None Include="HTTP\Resources\Hygro_Kueche.html" />
+    <None Include="HTTP\Resources\Hygro_Schlafzimmer.html" />
+    <None Include="HTTP\Resources\index.html" />
+    <None Include="HTTP\Resources\layout.css" />
+    <None Include="HTTP\Resources\Temp_Abstellkammer.html" />
+    <None Include="HTTP\Resources\Temp_Arbeitszimmer.html" />
+    <None Include="HTTP\Resources\Temp_Bad.html" />
+    <None Include="HTTP\Resources\Temp_Keller.html" />
+    <None Include="HTTP\Resources\Temp_Kueche.html" />
+    <None Include="HTTP\Resources\Temp_Schlafzimmer.html" />
+    <None Include="HTTP\Resources\libs\excanvas.js" />
+    <None Include="HTTP\Resources\libs\excanvas.min.js" />
+    <None Include="HTTP\Resources\libs\jquery.colorhelpers.js" />
+    <None Include="HTTP\Resources\libs\jquery.colorhelpers.min.js" />
+    <None Include="HTTP\Resources\libs\jquery.flot.crosshair.js" />
+    <None Include="HTTP\Resources\libs\jquery.flot.crosshair.min.js" />
+    <None Include="HTTP\Resources\libs\jquery.flot.js" />
+    <None Include="HTTP\Resources\libs\jquery.js" />
     <Content Include="license.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ConsoleOutputLogger\ConsoleOutputLogger.csproj">
+      <Project>{55D802EB-88E0-4996-9802-05DACDE70552}</Project>
+      <Name>ConsoleOutputLogger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataObjectOnDisk\DataObjectOnDisk.csproj">
       <Project>{16D19293-2334-44DC-9BEA-39651DA8F58B}</Project>
       <Name>DataObjectOnDisk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JavascriptTimestamps\JavascriptTimestamps.csproj">
+      <Project>{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}</Project>
+      <Name>JavascriptTimestamps</Name>
     </ProjectReference>
     <ProjectReference Include="..\sonesFastSerializer\sonesFastSerializer.csproj">
       <Project>{8A2C05AA-6E56-414B-A43C-7173FC34DB24}</Project>
