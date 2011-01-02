@@ -41,6 +41,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,6 +59,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="set_state_actuator\set_state_actuator.cs" />
     <Compile Include="xs1-data-logging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -69,28 +71,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="HTTP\Resources\Hygro_Abstellkammer.html" />
-    <None Include="HTTP\Resources\Hygro_Arbeitszimmer.html" />
-    <None Include="HTTP\Resources\Hygro_Bad.html" />
-    <None Include="HTTP\Resources\Hygro_Keller.html" />
-    <None Include="HTTP\Resources\Hygro_Kueche.html" />
-    <None Include="HTTP\Resources\Hygro_Schlafzimmer.html" />
-    <None Include="HTTP\Resources\index.html" />
-    <None Include="HTTP\Resources\layout.css" />
-    <None Include="HTTP\Resources\Temp_Abstellkammer.html" />
-    <None Include="HTTP\Resources\Temp_Arbeitszimmer.html" />
-    <None Include="HTTP\Resources\Temp_Bad.html" />
-    <None Include="HTTP\Resources\Temp_Keller.html" />
-    <None Include="HTTP\Resources\Temp_Kueche.html" />
-    <None Include="HTTP\Resources\Temp_Schlafzimmer.html" />
-    <None Include="HTTP\Resources\libs\excanvas.js" />
-    <None Include="HTTP\Resources\libs\excanvas.min.js" />
-    <None Include="HTTP\Resources\libs\jquery.colorhelpers.js" />
-    <None Include="HTTP\Resources\libs\jquery.colorhelpers.min.js" />
-    <None Include="HTTP\Resources\libs\jquery.flot.crosshair.js" />
-    <None Include="HTTP\Resources\libs\jquery.flot.crosshair.min.js" />
-    <None Include="HTTP\Resources\libs\jquery.flot.js" />
-    <None Include="HTTP\Resources\libs\jquery.js" />
     <Content Include="license.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +93,10 @@
     <ProjectReference Include="..\XS1Authentication\XS1Authentication.csproj">
       <Project>{B4173BD4-3523-412B-B1BB-EEACE2628C55}</Project>
       <Name>XS1Authentication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XS1_ConfigurationData\XS1_ConfigurationData.csproj">
+      <Project>{86356451-3580-4142-9DDF-B3D47A4EEB80}</Project>
+      <Name>XS1_ConfigurationData</Name>
     </ProjectReference>
     <ProjectReference Include="..\XS1_DataObject\XS1_DataObject.csproj">
       <Project>{EBE5CC2A-7430-4165-95C5-B595D5F91692}</Project>

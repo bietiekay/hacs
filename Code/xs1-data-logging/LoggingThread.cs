@@ -8,6 +8,7 @@ using hacs.xs1;
 using sones.storage;
 using System.Threading;
 using HTTP;
+using hacs.xs1.configuration;
 
 namespace xs1_data_logging
 {
@@ -19,10 +20,12 @@ namespace xs1_data_logging
         TinyOnDiskStorage actor_data_store = null;
         TinyOnDiskStorage sensor_data_store = null;
         TinyOnDiskStorage unknown_data_store = null;
+        XS1Configuration XS1_Configuration = null;
+        Int32 ConfigurationCacheMinutes;
 
         bool Shutdown = false;
 
-        public LoggingThread(String _ServerName, TinyOnDiskStorage _actor_store, TinyOnDiskStorage _sensor_store, TinyOnDiskStorage _unknown_store, String _Username, String _Password)
+        public LoggingThread(String _ServerName, TinyOnDiskStorage _actor_store, TinyOnDiskStorage _sensor_store, TinyOnDiskStorage _unknown_store, String _Username, String _Password, Int32 _ConfigurationCacheMinutes)
         {
             actor_data_store = _actor_store;
             sensor_data_store = _sensor_store;
@@ -30,14 +33,17 @@ namespace xs1_data_logging
             ServerName = _ServerName;
             UserName = _Username;
             Password = _Password;
+            ConfigurationCacheMinutes = _ConfigurationCacheMinutes;
         }
 
         public void Run()
         {
-            HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort,Properties.Settings.Default.HTTPIP,Properties.Settings.Default.HTTPDocumentRoot,sensor_data_store);
+            // initialize XS1 Configuration
+            XS1_Configuration = new XS1Configuration(ConfigurationCacheMinutes);
+
+            HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort,Properties.Settings.Default.HTTPIP,Properties.Settings.Default.HTTPDocumentRoot,sensor_data_store,XS1_Configuration);
             Thread http_server_thread = new Thread(new ThreadStart(httpServer.listen));
             http_server_thread.Start();
-
 
             while (!Shutdown)
             {

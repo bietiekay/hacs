@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading;
 using xs1_data_logging;
 using sones.storage;
+using hacs.xs1.configuration;
 
 namespace HTTP
 {
@@ -21,15 +22,17 @@ namespace HTTP
         private String HTTPServer_ListeningIP;
         private String HTTPServer_DocumentRoot;
         private TinyOnDiskStorage Storage;
+        private XS1Configuration XS1_Configuration;
         #endregion
 
         #region Construction
-        public HttpServer(Int32 HTTP_Port, String HTTP_ListeningIP, String HTTP_DocumentRoot, TinyOnDiskStorage _Storage)
+        public HttpServer(Int32 HTTP_Port, String HTTP_ListeningIP, String HTTP_DocumentRoot, TinyOnDiskStorage _Storage, XS1Configuration _XS1_Configuration)
         {
             HTTPServer_Port = HTTP_Port;
             HTTPServer_ListeningIP = HTTP_ListeningIP;
             HTTPServer_DocumentRoot = HTTP_DocumentRoot;
             Storage = _Storage;
+            XS1_Configuration = _XS1_Configuration;
         }
         #endregion
 
@@ -64,7 +67,7 @@ namespace HTTP
                         Socket s = listener.Accept();
 
                         // Create a new processor for this request
-                        HttpProcessor processor = new HttpProcessor(s, HTTPServer_DocumentRoot,Storage);
+                        HttpProcessor processor = new HttpProcessor(s, HTTPServer_DocumentRoot,Storage,XS1_Configuration);
 
 
                         // Dispatch that processor in its own thread

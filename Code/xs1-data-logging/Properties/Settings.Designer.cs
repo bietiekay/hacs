@@ -94,5 +94,17 @@ namespace xs1_data_logging.Properties {
                 this["HTTPDocumentRoot"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int ConfigurationCacheMinutes {
+            get {
+                return ((int)(this["ConfigurationCacheMinutes"]));
+            }
+            set {
+                this["ConfigurationCacheMinutes"] = value;
+            }
+        }
     }
 }

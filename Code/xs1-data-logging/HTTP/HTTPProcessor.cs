@@ -12,6 +12,8 @@ using xs1_data_logging.JSONHandlers;
 using sones.storage;
 using hacs.xs1;
 using System.Collections.Specialized;
+using hacs.xs1.configuration;
+using xs1_data_logging.set_state_actuator;
 
 namespace HTTP
 {
@@ -39,6 +41,7 @@ namespace HTTP
 		private byte[] bytes = new byte[20480];
 		private FileInfo docRootFile;
 		private String HTTPServer_DocumentRoot;
+        private XS1Configuration XS1_Configuration;
 		private JSONData JSON_Data;
 		#endregion
 
@@ -54,13 +57,14 @@ namespace HTTP
 		/// <param name="docRoot">Root-Directory of the HTTP Server</param>
 		/// <param name="s">the Socket to work with</param>
 		/// <param name="webserver">the "master" HttpServer Object of this Client</param>
-		public HttpProcessor(Socket s, String HTTP_DocumentRoot, TinyOnDiskStorage Storage)
+		public HttpProcessor(Socket s, String HTTP_DocumentRoot, TinyOnDiskStorage Storage, XS1Configuration _XS1_Configuration)
 		{
 			this.s = s;
 			HTTPServer_DocumentRoot = HTTP_DocumentRoot;
 			JSON_Data = new JSONData(Storage);
 			docRootFile = new FileInfo(HTTPServer_DocumentRoot);
 			headers = new Hashtable();
+            XS1_Configuration = _XS1_Configuration;
 		}
 		#endregion
 
@@ -288,8 +292,10 @@ namespace HTTP
 		{
 			try
 			{
-				// first check if the request is actually authenticated
+                // set this to true when implementing and reaching a new method
+                bool method_found = false;
 
+				// first check if the request is actually authenticated
 				IPEndPoint AC_endpoint = (IPEndPoint)s.RemoteEndPoint;
 
 				//if (!HTTPAuthProcessor.AllowedToAccessThisServer(AC_endpoint.Address))
@@ -303,59 +309,56 @@ namespace HTTP
 				querystring = "";
 				url = original_url;
 
-				if (url.StartsWith("/data/"))
+				if (url.ToUpper().StartsWith("/DATA/"))
 				{
 					#region data request
 					// remove the /data/ stuff
 					url = url.Remove(0, 6);
 
-					// set this to true when implementing and reaching a new method
-					bool method_found = false;
-
 					#region Sensor Data
-					if (url.StartsWith("sensor"))
+					if (url.ToUpper().StartsWith("SENSOR"))
 					{
 						method_found = true;
 						url = url.Remove(0,6);
 						
-    					NameValueCollection nvcollection = HttpUtility.ParseQueryString(url);
-                            
-                        String ObjectTypeName = "";
-                        String ObjectName = "";
+						NameValueCollection nvcollection = HttpUtility.ParseQueryString(url);
+							
+						String ObjectTypeName = "";
+						String ObjectName = "";
 
-                        foreach (String Key in nvcollection.AllKeys)
-                        {
-                            if (Key.ToUpper() == "NAME")
-                                ObjectName = nvcollection[Key];
-                            if (Key.ToUpper() == "TYPE")
-                                ObjectTypeName = nvcollection[Key];
-                        }
+						foreach (String Key in nvcollection.AllKeys)
+						{
+							if (Key.ToUpper() == "NAME")
+								ObjectName = nvcollection[Key];
+							if (Key.ToUpper() == "TYPE")
+								ObjectTypeName = nvcollection[Key];
+						}
 
-                        if (ObjectTypeName == "")
-                        {
-                            writeError(404, "No Method found");
-                            return;
-                        }
-                        if (ObjectName == "")
-                        {
-                            writeError(404, "No Method found");
-                            return;
-                        }
+						if (ObjectTypeName == "")
+						{
+							writeError(404, "No Method found");
+							return;
+						}
+						if (ObjectName == "")
+						{
+							writeError(404, "No Method found");
+							return;
+						}
 
-                        String Output = JSON_Data.GenerateDataJSONOutput(ObjectTypes.Sensor, ObjectTypeName, ObjectName);
+						String Output = JSON_Data.GenerateDataJSONOutput(ObjectTypes.Sensor, ObjectTypeName, ObjectName);
 
-                        int left = new UTF8Encoding().GetByteCount(Output);
-                        //writeSuccess(left, "application/json");
-                        writeSuccess(left, "text/html");
-                        byte[] buffer = new UTF8Encoding().GetBytes(Output);
-                        ns.Write(buffer, 0, left);
-                        ns.Flush();
-                        return;
+						int left = new UTF8Encoding().GetByteCount(Output);
+						//writeSuccess(left, "application/json");
+						writeSuccess(left, "text/html");
+						byte[] buffer = new UTF8Encoding().GetBytes(Output);
+						ns.Write(buffer, 0, left);
+						ns.Flush();
+						return;
 					}
 					#endregion
 
 					#region Actor Data
-					if (url.StartsWith("actor"))
+					if (url.ToUpper().StartsWith("ACTOR"))
 					{
 						method_found = true;
 						url = url.Remove(0,5);
@@ -367,6 +370,110 @@ namespace HTTP
 						// nothing to do...
 						writeError(404, "No Method found");
 					}
+					#endregion
+				}
+				if (url.ToUpper().StartsWith("/ACTOR/"))
+				{
+					#region actor switching request
+                    // /actor/preset?name=[actor_name]&preset=[preset_function_name]
+                    // /actor/direct?name=[actor_name]&value=[new_actor_value]
+
+                    // remove the /actor/ stuff
+                    url = url.Remove(0, 7);
+
+                    #region Preset Mode
+                    if (url.ToUpper().StartsWith("PRESET"))
+                    {
+                        method_found = true;
+                        url = url.Remove(0, 6);
+
+                        NameValueCollection nvcollection = HttpUtility.ParseQueryString(url);
+
+                        String actorname = "";
+                        String preset = "";
+
+                        foreach (String Key in nvcollection.AllKeys)
+                        {
+                            if (Key.ToUpper() == "NAME")
+                                actorname = nvcollection[Key];
+                            if (Key.ToUpper() == "PRESET")
+                                preset = nvcollection[Key];
+                        }
+
+                        Int32 foundActorID = 0;
+                        Int32 foundPresetID = 0;
+
+                        #region error handling
+                        if (actorname == "")
+                        {
+                            writeError(404, "No Method found");
+                            return;
+                        }
+                        if (preset == "")
+                        {
+                            writeError(404, "No Method found");
+                            return;
+                        }
+                        #endregion
+
+                        // get the XS1 Actuator List to find the ID and the Preset ID
+                        XS1ActuatorList actuatorlist = XS1_Configuration.getXS1ActuatorList(xs1_data_logging.Properties.Settings.Default.XS1,xs1_data_logging.Properties.Settings.Default.Username,xs1_data_logging.Properties.Settings.Default.Password);
+
+                        bool foundatleastoneactuator = false;
+                        //
+                        foreach (XS1Actuator _actuator in actuatorlist.actuator)
+                        {
+                            if (_actuator.name.ToUpper() == actorname.ToUpper())
+                            {
+                                foundActorID = _actuator.id;
+
+                                bool foundpreset = false;
+
+                                foreach (actuator_function actorfunction in _actuator.function)
+                                {
+                                    foundPresetID++;
+
+                                    if (actorfunction.type.ToUpper() == preset.ToUpper())
+                                    {
+                                        foundpreset = true;
+                                        break;
+                                    }
+                                }
+
+                                #region error handling
+                                if (foundpreset)
+                                {
+                                    if (foundActorID != 0)
+                                    {
+                                        // so we obviously got the actor and the preset id... now lets do the call
+                                        set_state_actuator ssa = new set_state_actuator();
+                                        ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, foundActorID, foundPresetID);
+                                        foundatleastoneactuator = true;
+                                        break;
+                                    }
+                                }
+                                #endregion
+                            }
+                        }
+                        if (!foundatleastoneactuator)
+                        {
+                            writeError(404, "actor or function not found");
+                            return;
+                        }
+                    }
+                    else
+                        if (url.ToUpper().StartsWith("DIRECT"))
+                        {
+
+                        }
+                    #endregion
+
+                    if (!method_found)
+                    {
+                        // nothing to do...
+                        writeError(404, "No Method found");
+                        return;
+                    }
 					#endregion
 				}
 				else
