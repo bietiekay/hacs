@@ -344,8 +344,10 @@ namespace HTTP
 							writeError(404, "No Method found");
 							return;
 						}
-
-						String Output = JSON_Data.GenerateDataJSONOutput(ObjectTypes.Sensor, ObjectTypeName, ObjectName);
+						DateTime start = DateTime.Now-(new TimeSpan(14,0,0,0));
+							
+							
+						String Output = JSON_Data.GenerateDataJSONOutput(ObjectTypes.Sensor, ObjectTypeName, ObjectName,start,DateTime.Now);
 
 						int left = new UTF8Encoding().GetByteCount(Output);
 						//writeSuccess(left, "application/json");

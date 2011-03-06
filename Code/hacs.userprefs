@@ -1,0 +1,13 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/JSONHandlers/JSONData.cs">
+    <Files>
+      <File FileName="xs1-data-logging/JSONHandlers/JSONData.cs" Line="165" Column="106" />
+      <File FileName="xs1-data-logging/HTTP/HTTPProcessor.cs" Line="347" Column="53" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
