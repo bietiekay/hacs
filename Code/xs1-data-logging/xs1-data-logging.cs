@@ -24,6 +24,7 @@ using System.IO;
 using sones.storage;
 using hacs.xs1;
 using System.Threading;
+using System.Configuration;
 
 namespace xs1_data_logging
 {
@@ -43,7 +44,9 @@ namespace xs1_data_logging
             ConsoleOutputLogger.WriteLine("EzControl XS1 Data Logger " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
             ConsoleOutputLogger.WriteLine("(C) 2010-2011 Daniel Kirstenpfad - http://github.com/bietiekay/hacs");
             #endregion
-
+			
+			ScriptingConfigurationSection section = (ScriptingConfigurationSection)ConfigurationManager.GetSection("scriptingactorsettings");			
+			
             ConsoleOutputLogger.writeLogfile = true;
 
             TinyOnDiskStorage actor_data_store = new TinyOnDiskStorage("actor-data", false);
