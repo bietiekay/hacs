@@ -9,6 +9,8 @@ using sones.storage;
 using System.Threading;
 using HTTP;
 using hacs.xs1.configuration;
+//using xs1_data_logging.set_state_actuator;
+
 
 namespace xs1_data_logging
 {
@@ -99,6 +101,24 @@ namespace xs1_data_logging
                                 if (dataobject.Type == ObjectTypes.Sensor)
                                 {
                                     sensor_data_store.Write(dataobject.Serialize());
+
+                                    // check if this sensor is something we should act uppon
+                                    foreach (ScriptingActorElement Element in ScriptingActorConfiguration.ScriptingActorActions)
+                                    {
+                                        if (dataobject.Name == Element.SensorToWatchName)
+                                        {
+                                            if (dataobject.Value == Element.SensorValue)
+                                            { 
+                                                // obviously there is a ScriptingActorConfiguration entry
+                                                // so we execute the actor preset
+
+                                                set_state_actuator.set_state_actuator ssa = new set_state_actuator.set_state_actuator();
+                                                ConsoleOutputLogger.WriteLineToScreenOnly("detected actor scripting action on sensor "+Element.SensorToWatchName+" - "+Element.ActorToSwitchName+" to "+Element.ActionToRunName);
+
+                                                ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password,Element.ActorToSwitchName,Element.ActionToRunName,XS1_Configuration);
+                                            }
+                                        }
+                                    }
                                 }
                                 else
                                     if (dataobject.Type == ObjectTypes.Unknown)

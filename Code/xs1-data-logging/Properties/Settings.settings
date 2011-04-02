@@ -8,9 +8,6 @@
     <Setting Name="Username" Type="System.String" Scope="User">
       <Value Profile="(Default)">Admin</Value>
     </Setting>
-    <Setting Name="Password" Type="System.String" Scope="User">
-      <Value Profile="(Default)">password</Value>
-    </Setting>
     <Setting Name="HTTPPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">90</Value>
     </Setting>
@@ -22,6 +19,12 @@
     </Setting>
     <Setting Name="ConfigurationCacheMinutes" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="ScriptingActorConfigurationFilename" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ScriptingActorConfiguration.config</Value>
+    </Setting>
+    <Setting Name="Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)">password</Value>
     </Setting>
   </Settings>
 </SettingsFile>

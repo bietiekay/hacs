@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -63,7 +63,7 @@
     <Compile Include="set_state_actuator\set_state_actuator.cs" />
     <Compile Include="xs1-data-logging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="configuration.cs" />
+    <Compile Include="ScriptingActorConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -71,15 +71,14 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="ScriptingActorConfiguration.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConsoleOutputLogger\ConsoleOutputLogger.csproj">
-      <Project>{55D802EB-88E0-4996-9802-05DACDE70552}</Project>
-      <Name>ConsoleOutputLogger</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataObjectOnDisk\DataObjectOnDisk.csproj">
       <Project>{16D19293-2334-44DC-9BEA-39651DA8F58B}</Project>
       <Name>DataObjectOnDisk</Name>

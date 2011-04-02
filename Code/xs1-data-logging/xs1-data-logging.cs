@@ -44,9 +44,7 @@ namespace xs1_data_logging
             ConsoleOutputLogger.WriteLine("EzControl XS1 Data Logger " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
             ConsoleOutputLogger.WriteLine("(C) 2010-2011 Daniel Kirstenpfad - http://github.com/bietiekay/hacs");
             #endregion
-			
-			ScriptingConfigurationSection section = (ScriptingConfigurationSection)ConfigurationManager.GetSection("scriptingactorsettings");			
-			
+						
             ConsoleOutputLogger.writeLogfile = true;
 
             TinyOnDiskStorage actor_data_store = new TinyOnDiskStorage("actor-data", false);
@@ -54,6 +52,8 @@ namespace xs1_data_logging
             TinyOnDiskStorage unknown_data_store = new TinyOnDiskStorage("unknown-data", false);
 
             List<Thread> LoggingThreads = new List<Thread>();
+
+            ScriptingActorConfiguration.ReadConfiguration(Properties.Settings.Default.ScriptingActorConfigurationFilename);
 
             //foreach (String _Server in Properties.Settings.Default)
             //{

@@ -5,6 +5,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using System.Web.Script.Serialization;
+using hacs.xs1.configuration;
 
 namespace xs1_data_logging.set_state_actuator
 {
@@ -15,9 +16,55 @@ namespace xs1_data_logging.set_state_actuator
 
     public class set_state_actuator
     {
-        public set_state_actuator()
-        {
+        public set_state_actuator() {   }
 
+        public String SetStateActuatorPreset(String XS1_URL, String Username, String Password, String actorname, String preset, XS1Configuration XS1_Configuration)
+        {
+            String Output = "";
+            // get the XS1 Actuator List to find the ID and the Preset ID
+            XS1ActuatorList actuatorlist = XS1_Configuration.getXS1ActuatorList(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password);
+
+            bool foundatleastoneactuator = false;
+
+            Int32 foundActorID = 0;
+            Int32 foundPresetID = 0;
+
+            foreach (XS1Actuator _actuator in actuatorlist.actuator)
+            {
+                if (_actuator.name.ToUpper() == actorname.ToUpper())
+                {
+                    foundActorID = _actuator.id;
+
+                    bool foundpreset = false;
+
+                    foreach (actuator_function actorfunction in _actuator.function)
+                    {
+                        foundPresetID++;
+
+                        if (actorfunction.type.ToUpper() == preset.ToUpper())
+                        {
+                            foundpreset = true;
+                            break;
+                        }
+                    }
+
+                    #region error handling
+                    if (foundpreset)
+                    {
+                        if (foundActorID != 0)
+                        {
+                            // so we obviously got the actor and the preset id... now lets do the call
+                            set_state_actuator ssa = new set_state_actuator();
+                            Output = ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, foundActorID, foundPresetID);
+                            foundatleastoneactuator = true;
+                            break;
+                        }
+                    }
+                    #endregion
+                }
+            }
+
+            return Output;
         }
 
         public String SetStateActuatorPreset(String XS1_URL, String Username, String Password, Int32 ActuatorID, Int32 PresetID)
