@@ -75,7 +75,7 @@ fi
 
 if [ $(echo "if (${XS1_OUTPUT} < ${XS1_LOWER_LIMIT}) 1 else 0" | bc) -eq 1 ] ; then
 	echo "value to low: "$XS1_OUTPUT;
-	exit 2;
+	exit 1;
 fi
 
 if [ $(echo "if (${XS1_OUTPUT} > ${XS1_UPPER_LIMIT}) 1 else 0" | bc) -eq 1 ] ; then
@@ -83,6 +83,6 @@ if [ $(echo "if (${XS1_OUTPUT} > ${XS1_UPPER_LIMIT}) 1 else 0" | bc) -eq 1 ] ; t
         exit 2;
 fi
 
-echo $XS1_OUTPUT
-exit 1
+echo $XS1_OUTPUT" OK"
+exit 0
 
