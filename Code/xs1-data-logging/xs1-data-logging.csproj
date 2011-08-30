@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleOutputLogger.cs" />
+    <Compile Include="current_actor_status.cs" />
     <Compile Include="HTTP\HTTPProcessor.cs" />
     <Compile Include="HTTP\HTTPServer.cs" />
     <Compile Include="JSONHandlers\JSONData.cs" />

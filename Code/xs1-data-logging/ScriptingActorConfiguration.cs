@@ -13,7 +13,7 @@ namespace xs1_data_logging
         public String SensorToWatchName;
         public Double SensorValue;
         public String ActorToSwitchName;
-        public String ActionToRunName;
+        public actor_status ActionToRunName;
     }
 
     public static class ScriptingActorConfiguration
@@ -44,7 +44,14 @@ namespace xs1_data_logging
                             NewElement.SensorToWatchName = TokenizedLine[0];
                             NewElement.SensorValue = Convert.ToDouble(TokenizedLine[1]);
                             NewElement.ActorToSwitchName = TokenizedLine[2];
-                            NewElement.ActionToRunName = TokenizedLine[3];
+                            if (TokenizedLine[3].ToUpper() == "ON")
+                                NewElement.ActionToRunName = actor_status.On;
+                            else
+                                if (TokenizedLine[3].ToUpper() == "OFF")
+                                    NewElement.ActionToRunName = actor_status.Off;
+                                else
+                                    if (TokenizedLine[3].ToUpper() == "ONOFF")
+                                        NewElement.ActionToRunName = actor_status.OnOff;
 
                             ScriptingActorActions.Add(NewElement);
                         }
