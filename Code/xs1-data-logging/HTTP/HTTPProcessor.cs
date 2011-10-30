@@ -325,6 +325,10 @@ namespace HTTP
 							
 						String ObjectTypeName = "";
 						String ObjectName = "";
+                        String StartDate = "";
+                        String EndDate = "";
+                        DateTime start = DateTime.Now;
+                        DateTime end = DateTime.Now;
 
 						foreach (String Key in nvcollection.AllKeys)
 						{
@@ -332,6 +336,10 @@ namespace HTTP
 								ObjectName = nvcollection[Key];
 							if (Key.ToUpper() == "TYPE")
 								ObjectTypeName = nvcollection[Key];
+                            if (Key.ToUpper() == "START")
+                                StartDate = nvcollection[Key];
+                            if (Key.ToUpper() == "END")
+                                EndDate = nvcollection[Key];
 						}
 
 						if (ObjectTypeName == "")
@@ -344,10 +352,16 @@ namespace HTTP
 							writeError(404, "No Method found");
 							return;
 						}
-						DateTime start = DateTime.Now-(new TimeSpan(14,0,0,0));
+                        if (StartDate == "") // defaults
+                        {
+                            start = DateTime.Now - (new TimeSpan(14, 0, 0, 0));
+                        }
+                        if (EndDate == "")
+                        {
+                            end = DateTime.Now;
+                        }
 							
-							
-						String Output = JSON_Data.GenerateDataJSONOutput(ObjectTypes.Sensor, ObjectTypeName, ObjectName,start,DateTime.Now);
+						String Output = JSON_Data.GenerateDataJSONOutput(ObjectTypes.Sensor, ObjectTypeName, ObjectName,start,end);
 
 						int left = new UTF8Encoding().GetByteCount(Output);
 						//writeSuccess(left, "application/json");
