@@ -26,5 +26,8 @@
     <Setting Name="Password" Type="System.String" Scope="User">
       <Value Profile="(Default)">password</Value>
     </Setting>
+    <Setting Name="PowerSensorConfigurationFilename" Type="System.String" Scope="User">
+      <Value Profile="(Default)">PowerSensorConfiguration.config</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

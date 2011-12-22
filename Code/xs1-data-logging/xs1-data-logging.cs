@@ -1,6 +1,6 @@
 ﻿/*
 * h.a.c.s (home automation control server) - http://github.com/bietiekay/hacs
-* Copyright (C) 2010 Daniel Kirstenpfad
+* Copyright (C) 2010-2011 Daniel Kirstenpfad
 *
 * hacs is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Affero General Public License as published by
@@ -54,6 +54,7 @@ namespace xs1_data_logging
             List<Thread> LoggingThreads = new List<Thread>();
 
             ScriptingActorConfiguration.ReadConfiguration(Properties.Settings.Default.ScriptingActorConfigurationFilename);
+            PowerSensorConfiguration.ReadConfiguration(Properties.Settings.Default.PowerSensorConfigurationFilename);
 
             //foreach (String _Server in Properties.Settings.Default)
             //{

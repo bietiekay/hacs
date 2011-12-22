@@ -373,6 +373,66 @@ namespace HTTP
 					}
 					#endregion
 
+                    #region Power Sensor Data
+                    if (url.ToUpper().StartsWith("POWERSENSOR"))
+                    {
+                        method_found = true;
+                        url = url.Remove(0, 11);
+
+                        NameValueCollection nvcollection = HttpUtility.ParseQueryString(url);
+
+                        // TODO: ADD handling and calculation here
+                        String ObjectName = "";
+                        String StartDate = "";
+                        String EndDate = "";
+                        String OutputType = "";
+                        DateTime start = DateTime.Now;
+                        DateTime end = DateTime.Now;
+                        PowerSensorOutputs Outputs = PowerSensorOutputs.HourkWh;
+
+                        foreach (String Key in nvcollection.AllKeys)
+                        {
+                            if (Key.ToUpper() == "NAME")
+                                ObjectName = nvcollection[Key];
+                            if (Key.ToUpper() == "TYPE")
+                                OutputType = nvcollection[Key];
+                            if (Key.ToUpper() == "START")
+                                StartDate = nvcollection[Key];
+                            if (Key.ToUpper() == "END")
+                                EndDate = nvcollection[Key];
+                        }
+
+                        if (ObjectName == "")
+                        {
+                            writeError(404, "No Method found");
+                            return;
+                        }
+                        if (StartDate == "") // defaults
+                        {
+                            start = DateTime.Now - (new TimeSpan(14, 0, 0, 0));
+                        }
+                        if (EndDate == "")
+                        {
+                            end = DateTime.Now;
+                        }
+
+                        if (OutputType.ToUpper() == "HOUR")
+                            Outputs = PowerSensorOutputs.HourkWh;
+
+                        if (OutputType.ToUpper() == "HOURPEAK")
+                            Outputs = PowerSensorOutputs.HourPeakkWh;
+
+                        String Output = JSON_Data.GeneratePowerSensorJSONOutput(Outputs,ObjectName, start, end);
+
+                        int left = new UTF8Encoding().GetByteCount(Output);
+                        writeSuccess(left, "text/html");
+                        byte[] buffer = new UTF8Encoding().GetBytes(Output);
+                        ns.Write(buffer, 0, left);
+                        ns.Flush();
+                        return;
+                    }
+                    #endregion
+
 					#region Actor Data
 					if (url.ToUpper().StartsWith("ACTOR"))
 					{

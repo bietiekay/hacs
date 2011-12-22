@@ -51,11 +51,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleOutputLogger.cs" />
+    <Compile Include="PowerSensor\PowerSensorConfiguration.cs" />
     <Compile Include="current_actor_status.cs" />
     <Compile Include="HTTP\HTTPProcessor.cs" />
     <Compile Include="HTTP\HTTPServer.cs" />
     <Compile Include="JSONHandlers\JSONData.cs" />
     <Compile Include="LoggingThread.cs" />
+    <Compile Include="PowerSensor\PowerSensorOutputTypes.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -68,6 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="PowerSensorConfiguration.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
