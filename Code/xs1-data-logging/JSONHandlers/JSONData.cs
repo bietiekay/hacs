@@ -184,6 +184,7 @@ namespace xs1_data_logging.JSONHandlers
 
             if (OutputType == PowerSensorOutputs.HourkWh)
             {
+                #region Hour kWh
                 lock (sensor_data.InMemoryIndex)
                 {
                     foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
@@ -201,20 +202,152 @@ namespace xs1_data_logging.JSONHandlers
                                 {
                                     if (dataobject.TypeName == "pwr_consump")
                                     {
-                                        Output2.Clear();
-                                        Output2.Append("[");
-                                        Output2.Append(dataobject.Timecode.JavaScriptTimestamp());
-                                        Output2.Append(",");
-                                        Output2.Append(dataobject.Value.ToString().Replace(',', '.'));
-                                        Output2.Append("]");
+                                        if (dataobject.Name == ObjectName)
+                                        {
+                                            Output2.Clear();
+                                            Output2.Append("[");
+                                            Output2.Append(dataobject.Timecode.JavaScriptTimestamp());
+                                            Output2.Append(",");
+                                            Output2.Append(dataobject.Value.ToString().Replace(',', '.'));
+                                            Output2.Append("]");
+                                        }
+
                                     }
                                 }
                             }
                         }
                     }
                 }
+                Output.Append(Output2.ToString());
+                #endregion
             }
-            Output.Append(Output2.ToString()+"]}");
+
+            if (OutputType == PowerSensorOutputs.HourPeakkWh)
+            {
+                #region Hour Peak kWh
+                lock (sensor_data.InMemoryIndex)
+                {
+                    foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
+                    {
+                        if (ondisc.CreationTime >= StartDateTime.Ticks)
+                        {
+                            if (ondisc.CreationTime <= EndDateTime.Ticks)
+                            {
+                                XS1_DataObject dataobject = new XS1_DataObject();
+
+                                dataobject.Deserialize(sensor_data.Read(ondisc));
+                                SerializerCounter++;
+
+                                if (dataobject.Type == ObjectTypes.Sensor)
+                                {
+                                    if (dataobject.TypeName == "pwr_peak")
+                                    {
+                                        if (dataobject.Name == ObjectName)
+                                        {
+                                            Output2.Clear();
+                                            Output2.Append("[");
+                                            Output2.Append(dataobject.Timecode.JavaScriptTimestamp());
+                                            Output2.Append(",");
+                                            Output2.Append(dataobject.Value.ToString().Replace(',', '.'));
+                                            Output2.Append("]");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                Output.Append(Output2.ToString());
+                #endregion
+            }
+
+            if (OutputType == PowerSensorOutputs.CalculatedkWhCounter)
+            {
+                #region Calculated kWh Counter (based on last known manual reading)
+
+                DateTime ManualMeasurementDate = DateTime.MinValue;
+                Double ManualMeasurementValue = Double.MinValue;
+
+                // find the right sensor manual reading...
+                foreach (PowerConsumptionSensor _manual_reading in PowerSensorConfiguration.PowerConsumptionSensors)
+                {
+                    if (_manual_reading.PowerSensorName == ObjectName)
+                    {
+                        ManualMeasurementDate = _manual_reading.InitialPowerSensorDate;
+                        ManualMeasurementValue = _manual_reading.InitialPowerSensorValue;
+                        break;
+                    }
+                }
+
+                if (ManualMeasurementValue == Double.MinValue)
+                {
+                    Console.WriteLine("No manual measurement configuration could be found for sensor "+ObjectName);
+                }
+
+                StartDateTime = ManualMeasurementDate;
+                Double PowerSensorCalculatedValue = ManualMeasurementValue;
+
+                DateTime CurrentHourStart = StartDateTime;
+                Double CurrentHourMeanValue = Double.MinValue;
+
+                lock (sensor_data.InMemoryIndex)
+                {
+                    foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
+                    {
+                        if (ondisc.CreationTime >= StartDateTime.Ticks)
+                        {
+                            if (ondisc.CreationTime <= EndDateTime.Ticks)
+                            {
+                                XS1_DataObject dataobject = new XS1_DataObject();
+
+                                dataobject.Deserialize(sensor_data.Read(ondisc));
+                                SerializerCounter++;
+
+                                if (dataobject.Type == ObjectTypes.Sensor)
+                                {
+                                    if (dataobject.TypeName == "pwr_consump")
+                                    {
+                                        if (dataobject.Name == ObjectName)
+                                        {
+                                            // okay, we got the right sensor data element type with the right name... 
+                                            
+                                            // calculate the time difference between hour start and current data object
+                                            TimeSpan ts = new TimeSpan(dataobject.Timecode.Ticks - CurrentHourStart.Ticks);
+
+                                            if (ts.TotalMinutes >= 60)
+                                            {
+                                                // we have a full hour...add to the calculated value and reset hour values
+                                                CurrentHourStart = dataobject.Timecode;
+                                                PowerSensorCalculatedValue += CurrentHourMeanValue / 1000;
+                                                CurrentHourMeanValue = Double.MinValue;
+                                            }
+                                            else
+                                            {
+                                                if (CurrentHourMeanValue == Double.MinValue)
+                                                    CurrentHourMeanValue = dataobject.Value;
+                                                else
+                                                {
+                                                    CurrentHourMeanValue = (CurrentHourMeanValue + dataobject.Value) / 2;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Output.Append("[");
+                Output.Append(DateTime.Now.JavaScriptTimestamp());
+                Output.Append(",");
+                Output.Append(PowerSensorCalculatedValue.ToString().Replace(',', '.'));
+                Output.Append("]");
+
+                #endregion
+            }
+
+            Output.Append("]}");
 
             ConsoleOutputLogger.WriteLineToScreenOnly("Generated JSON Dataset with " + SerializerCounter + " Elements");
 

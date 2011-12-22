@@ -25,7 +25,7 @@ namespace xs1_data_logging.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("hacs.fritz.box")]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.178.36")]
         public string XS1 {
             get {
                 return ((string)(this["XS1"]));
@@ -49,7 +49,7 @@ namespace xs1_data_logging.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("90")]
+        [global::System.Configuration.DefaultSettingValueAttribute("92")]
         public int HTTPPort {
             get {
                 return ((int)(this["HTTPPort"]));

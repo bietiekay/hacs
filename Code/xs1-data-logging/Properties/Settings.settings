@@ -3,13 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="XS1" Type="System.String" Scope="User">
-      <Value Profile="(Default)">hacs.fritz.box</Value>
+      <Value Profile="(Default)">192.168.178.36</Value>
     </Setting>
     <Setting Name="Username" Type="System.String" Scope="User">
       <Value Profile="(Default)">Admin</Value>
     </Setting>
     <Setting Name="HTTPPort" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">90</Value>
+      <Value Profile="(Default)">92</Value>
     </Setting>
     <Setting Name="HTTPIP" Type="System.String" Scope="User">
       <Value Profile="(Default)">0.0.0.0</Value>

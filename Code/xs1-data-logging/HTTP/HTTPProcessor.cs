@@ -422,6 +422,9 @@ namespace HTTP
                         if (OutputType.ToUpper() == "HOURPEAK")
                             Outputs = PowerSensorOutputs.HourPeakkWh;
 
+                        if (OutputType.ToUpper() == "CALCKWH")
+                            Outputs = PowerSensorOutputs.CalculatedkWhCounter;
+
                         String Output = JSON_Data.GeneratePowerSensorJSONOutput(Outputs,ObjectName, start, end);
 
                         int left = new UTF8Encoding().GetByteCount(Output);

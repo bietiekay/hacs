@@ -11,6 +11,7 @@ namespace xs1_data_logging
     public enum PowerSensorOutputs
     {
         HourkWh,
-        HourPeakkWh
+        HourPeakkWh,
+        CalculatedkWhCounter
     }
 }
