@@ -4,34 +4,74 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>h.a.c.s. XS1 Chart-Tool</title>
     <link href="layout.css" rel="stylesheet" type="text/css"></link>
+	<link href="libs/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"></link>
     <!--[if IE]><script language="javascript" type="text/javascript" src="libs/excanvas.min.js"></script><![endif]-->
     <script language="javascript" type="text/javascript" src="libs/jquery.js"></script>
     <script language="javascript" type="text/javascript" src="libs/jquery.flot.js"></script>
     <script language="javascript" type="text/javascript" src="libs/jquery.flot.selection.js"></script>
- </head>
+	<script language="javascript" type="text/javascript" src="libs/jquery-ui-1.8.16.custom.min.js"></script>
+ <script language="javascript">
+	$(function(){
+
+				// Datepicker
+				$('#datepicker_start').datepicker({
+					inline: true
+				});
+				
+				//hover states on the static widgets
+				$('#dialog_link, ul#icons li').hover(
+					function() { $(this).addClass('ui-state-hover'); }, 
+					function() { $(this).removeClass('ui-state-hover'); }
+				);
+				
+			});
+</script>
+ <script language="javascript">
+	$(function(){
+
+				// Datepicker
+				$('#datepicker_end').datepicker({
+					inline: true
+				});
+				
+				//hover states on the static widgets
+				$('#dialog_link, ul#icons li').hover(
+					function() { $(this).addClass('ui-state-hover'); }, 
+					function() { $(this).removeClass('ui-state-hover'); }
+				);
+				
+			});
+</script>
+</head>
 	<button id="allTemp">All Temperatures</button>
     Temperatur:
     <select id="tempsensorchanger" name="tempsensorchanger" size="1">
       <option>keine Auswahl</option>
-      <option value="Abstellkammer">Abstellkammer</option>
-      <option value="Schlafzimmer">Schlafzimmer</option>
+      <option value="Terassenraum">Terassenraum</option>
+      <option value="Wohnzimmer">Wohnzimmer</option>
       <option value="Kueche">K&uuml;che</option>
       <option value="Arbeitszimmer">Arbeitszimmer</option>
-      <option value="Bad">Bad</option>
-      <option value="Keller">Keller</option>
-    </select>
+      <option value="Bad_oben">Bad oben</option>
+      <option value="Schlafzimmer">Schlafzimmer</option>
+	  <option value="Dachboden">Dachboden</option>
+	  <option value="Schuppen">Schuppen</option>
+    </select>	
 	<button id="allHygro">All Hygrometers</button>
     Luftfeuchtigkeit:
     <select id="hygrosensorchanger" name="hygrosensorchanger" size="1">
       <option>keine Auswahl</option>
-      <option value="Abstellkammer_">Abstellkammer</option>
-      <option value="Schlafzimmer_">Schlafzimmer</option>
+      <option value="Terassenraum_">Abstellkammer</option>
+      <option value="Wohnzimmer_">Wohnzimmer</option>
       <option value="Kueche_">K&uuml;che</option>
       <option value="Arbeitszimmer_">Arbeitszimmer</option>
-      <option value="Bad_">Bad</option>
-      <option value="Keller_">Keller</option>
-    </select>
- 
+      <option value="Bad_oben_">Bad oben</option>
+      <option value="Schlafzimmer_">Schlafzimmer</option>
+	  <option value="Dachboden_">Dachboden</option>
+	  <option value="Schuppen_">Schuppen</option>
+	</select>
+	<button id="pwrSensor">Power Consumption</button>
+	<button id="pwrPeak">Power Peak Consumption</button>
+
     <div id="placeholder" align="center" style="width:1000px;height:600px;"></div>
 	<p id="hoverdata"></p>
 	<button id="alldata">all data</button>
@@ -40,6 +80,12 @@
 	<button id="yesterday">yesterday</button>
 	<button id="currentweek">current week</button>
 	<button id="currentmonth">current month</button>
+	<p>
+	
+<!--- Here's a little experiment to add date regions -->
+<!---	Start-Date <input name="startdate" id="datepicker_start" type="text"></input>
+	End-Date <input name="enddate" id="datepicker_end" type="text"></input>
+	<button id="dateselected">Go!</button>-->
 <script id="source" language="javascript" type="text/javascript">
 $(function () {
     var options = {
@@ -281,7 +327,7 @@ $(function () {
 				success: onDataReceived
 			});
 		});
-	
+		
 	$("#hygrosensorchanger").change(
 		function()
 		{
@@ -332,6 +378,37 @@ $(function () {
 		}
 	}
 	);
+	
+	$("#pwrSensor").click(
+	function()
+	{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/sensor?name=Stromzaehler&type=pwr_consump",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});		
+	}
+	);
+
+	$("#pwrPeak").click(
+	function()
+	{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/sensor?name=Stromzaehler_&type=pwr_peak",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
+
+	}
+	);
+
+	
 });
 </script>
 
