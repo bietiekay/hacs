@@ -13,6 +13,7 @@ namespace xs1_data_logging
         public String PowerSensorName;
         public DateTime InitialPowerSensorDate;
         public Double InitialPowerSensorValue;
+        public Double Corrector;
     }
 
     public static class PowerSensorConfiguration
@@ -38,10 +39,11 @@ namespace xs1_data_logging
 
                         PowerConsumptionSensor NewElement = new PowerConsumptionSensor();
 
-                        if (TokenizedLine.Length == 3)
+                        if (TokenizedLine.Length == 4)
                         {
                             NewElement.PowerSensorName = TokenizedLine[0];
                             NewElement.InitialPowerSensorValue = Convert.ToDouble(TokenizedLine[2]);
+                            NewElement.Corrector = Convert.ToDouble(TokenizedLine[3]);
 
                             if (DateTime.TryParse(TokenizedLine[1].Replace('_',' '), out NewElement.InitialPowerSensorDate))
                             {

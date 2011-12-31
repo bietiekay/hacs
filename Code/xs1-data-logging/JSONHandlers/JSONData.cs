@@ -177,14 +177,15 @@ namespace xs1_data_logging.JSONHandlers
             StringBuilder Output = new StringBuilder();
             StringBuilder Output2 = new StringBuilder();
 
-            Output.Append("{ label: '" + ObjectName + "', data: [");
-            UInt64 SerializerCounter = 0;
 
             // TODO: there should be an appropriate caching algorithm in the sensor data... 
 
             if (OutputType == PowerSensorOutputs.HourkWh)
             {
                 #region Hour kWh
+                Output.Append("{ label: '" + ObjectName + "', data: [");
+                UInt64 SerializerCounter = 0;
+
                 lock (sensor_data.InMemoryIndex)
                 {
                     foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
@@ -225,6 +226,9 @@ namespace xs1_data_logging.JSONHandlers
             if (OutputType == PowerSensorOutputs.HourPeakkWh)
             {
                 #region Hour Peak kWh
+                Output.Append("{ label: '" + ObjectName + "', data: [");
+                UInt64 SerializerCounter = 0;
+
                 lock (sensor_data.InMemoryIndex)
                 {
                     foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
@@ -261,73 +265,71 @@ namespace xs1_data_logging.JSONHandlers
                 #endregion
             }
 
-            if (OutputType == PowerSensorOutputs.CalculatedkWhCounter)
+            if (OutputType == PowerSensorOutputs.CalculatedkWhCounterTotal)
             {
                 #region Calculated kWh Counter (based on last known manual reading)
-
                 DateTime ManualMeasurementDate = DateTime.MinValue;
                 Double ManualMeasurementValue = Double.MinValue;
+                UInt64 SerializerCounter = 0;
 
                 // find the right sensor manual reading...
                 foreach (PowerConsumptionSensor _manual_reading in PowerSensorConfiguration.PowerConsumptionSensors)
                 {
+                    Output.Append("{ label: '" + ObjectName + "', data: [");
+
+
                     if (_manual_reading.PowerSensorName == ObjectName)
                     {
                         ManualMeasurementDate = _manual_reading.InitialPowerSensorDate;
                         ManualMeasurementValue = _manual_reading.InitialPowerSensorValue;
-                        break;
-                    }
-                }
 
-                if (ManualMeasurementValue == Double.MinValue)
-                {
-                    Console.WriteLine("No manual measurement configuration could be found for sensor "+ObjectName);
-                }
-
-                StartDateTime = ManualMeasurementDate;
-                Double PowerSensorCalculatedValue = ManualMeasurementValue;
-
-                DateTime CurrentHourStart = StartDateTime;
-                Double CurrentHourMeanValue = Double.MinValue;
-
-                lock (sensor_data.InMemoryIndex)
-                {
-                    foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
-                    {
-                        if (ondisc.CreationTime >= StartDateTime.Ticks)
+                        // here comes the fun
+                        StartDateTime = ManualMeasurementDate;
+                        Double PowerSensorCalculatedValue = ManualMeasurementValue;
+                        DateTime CurrentHourStart = StartDateTime;
+                        Double CurrentHourMeanValue = Double.MinValue;
+                        #region the lock
+                        lock (sensor_data.InMemoryIndex)
                         {
-                            if (ondisc.CreationTime <= EndDateTime.Ticks)
+                            foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
                             {
-                                XS1_DataObject dataobject = new XS1_DataObject();
-
-                                dataobject.Deserialize(sensor_data.Read(ondisc));
-                                SerializerCounter++;
-
-                                if (dataobject.Type == ObjectTypes.Sensor)
+                                if (ondisc.CreationTime >= StartDateTime.Ticks)
                                 {
-                                    if (dataobject.TypeName == "pwr_consump")
+                                    if (ondisc.CreationTime <= EndDateTime.Ticks)
                                     {
-                                        if (dataobject.Name == ObjectName)
-                                        {
-                                            // okay, we got the right sensor data element type with the right name... 
-                                            
-                                            // calculate the time difference between hour start and current data object
-                                            TimeSpan ts = new TimeSpan(dataobject.Timecode.Ticks - CurrentHourStart.Ticks);
+                                        XS1_DataObject dataobject = new XS1_DataObject();
 
-                                            if (ts.TotalMinutes >= 60)
+                                        dataobject.Deserialize(sensor_data.Read(ondisc));
+                                        SerializerCounter++;
+
+                                        if (dataobject.Type == ObjectTypes.Sensor)
+                                        {
+                                            if (dataobject.TypeName == "pwr_consump")
                                             {
-                                                // we have a full hour...add to the calculated value and reset hour values
-                                                CurrentHourStart = dataobject.Timecode;
-                                                PowerSensorCalculatedValue += CurrentHourMeanValue / 1000;
-                                                CurrentHourMeanValue = Double.MinValue;
-                                            }
-                                            else
-                                            {
-                                                if (CurrentHourMeanValue == Double.MinValue)
-                                                    CurrentHourMeanValue = dataobject.Value;
-                                                else
+                                                if (dataobject.Name == ObjectName)
                                                 {
-                                                    CurrentHourMeanValue = (CurrentHourMeanValue + dataobject.Value) / 2;
+                                                    // okay, we got the right sensor data element type with the right name... 
+
+                                                    // calculate the time difference between hour start and current data object
+                                                    TimeSpan ts = new TimeSpan(dataobject.Timecode.Ticks - CurrentHourStart.Ticks);
+
+                                                    if (ts.TotalMinutes >= 60)
+                                                    {
+                                                        // we have a full hour...add to the calculated value and reset hour values
+                                                        CurrentHourStart = dataobject.Timecode;
+                                                        PowerSensorCalculatedValue += CurrentHourMeanValue / 1000;
+                                                        //Console.WriteLine(" -> " + PowerSensorCalculatedValue + " : "+CurrentHourMeanValue + "("+dataobject.Timecode.ToShortDateString()+")");
+                                                        CurrentHourMeanValue = Double.MinValue;
+                                                    }
+                                                    else
+                                                    {
+                                                        if (CurrentHourMeanValue == Double.MinValue)
+                                                            CurrentHourMeanValue = dataobject.Value;
+                                                        else
+                                                        {
+                                                            CurrentHourMeanValue = (CurrentHourMeanValue + dataobject.Value) / 2;
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
@@ -335,21 +337,28 @@ namespace xs1_data_logging.JSONHandlers
                                 }
                             }
                         }
+                        #endregion
+                        // add the corrector value
+                        PowerSensorCalculatedValue = PowerSensorCalculatedValue + _manual_reading.Corrector;
+
+                        Output.Append("[");
+                        Output.Append(DateTime.Now.JavaScriptTimestamp());
+                        Output.Append(",");
+                        Output.Append(PowerSensorCalculatedValue.ToString().Replace(',', '.'));
+                        Output.Append("]");                    
                     }
                 }
 
-                Output.Append("[");
-                Output.Append(DateTime.Now.JavaScriptTimestamp());
-                Output.Append(",");
-                Output.Append(PowerSensorCalculatedValue.ToString().Replace(',', '.'));
-                Output.Append("]");
-
-                #endregion
+                if (ManualMeasurementValue == Double.MinValue)
+                {
+                    Console.WriteLine("No manual measurement configuration could be found for sensor "+ObjectName);
+                }
+               #endregion
             }
 
             Output.Append("]}");
 
-            ConsoleOutputLogger.WriteLineToScreenOnly("Generated JSON Dataset with " + SerializerCounter + " Elements");
+            //ConsoleOutputLogger.WriteLineToScreenOnly("Generated JSON Dataset with " + SerializerCounter + " Elements");
 
             return Output.ToString();
         }

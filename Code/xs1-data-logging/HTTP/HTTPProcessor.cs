@@ -423,7 +423,7 @@ namespace HTTP
                             Outputs = PowerSensorOutputs.HourPeakkWh;
 
                         if (OutputType.ToUpper() == "CALCKWH")
-                            Outputs = PowerSensorOutputs.CalculatedkWhCounter;
+                            Outputs = PowerSensorOutputs.CalculatedkWhCounterTotal;
 
                         String Output = JSON_Data.GeneratePowerSensorJSONOutput(Outputs,ObjectName, start, end);
 
