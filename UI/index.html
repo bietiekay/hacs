@@ -69,12 +69,10 @@
 	  <option value="Dachboden_">Dachboden</option>
 	  <option value="Schuppen_">Schuppen</option>
 	</select>
-	<button id="pwrSensor">Power Consumption (RAW)</button>
 	<button id="pwrHourlySensor">Power Hourly Consumption</button>
-	<button id="pwrPeak">Power Peak Consumption</button>
 	<button id="pwrSensorDaily">Daily Power Consumption</button>
-	<button id="clear">Clear Graphs</button>
-
+	<button id="pwrSensor">Power Consumption (RAW)</button>
+	<button id="pwrPeak">Power Peak Consumption (RAW)</button>
     <div id="placeholder" align="center" style="width:1000px;height:600px;"></div>
 	<p id="hoverdata"></p>
 	<button id="alldata">all data</button>
@@ -83,6 +81,7 @@
 	<button id="yesterday">yesterday</button>
 	<button id="currentweek">current week</button>
 	<button id="currentmonth">current month</button>
+	<button id="clear">Clear Graphs</button>
 	<p>
 	
 <!--- Here's a little experiment to add date regions -->
@@ -310,7 +309,7 @@ $(function () {
 			xaxis: 
 			{
 				mode: "time",
-				minTickSize: [1, "day"],
+				//minTickSize: [1, "day"],
 			}
 		}
 

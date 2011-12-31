@@ -207,6 +207,7 @@ namespace xs1_data_logging.JSONHandlers
                                             Output2.Append("[");
                                             Output2.Append(dataobject.Timecode.JavaScriptTimestamp());
                                             Output2.Append(",");
+                                            //Double Value = dataobject.Value / 1000;
                                             Output2.Append(dataobject.Value.ToString().Replace(',', '.'));
                                             Output2.Append("]");
                                         }
@@ -250,6 +251,8 @@ namespace xs1_data_logging.JSONHandlers
                                             Output2.Append("[");
                                             Output2.Append(dataobject.Timecode.JavaScriptTimestamp());
                                             Output2.Append(",");
+                                            //Double Value = dataobject.Value / 1000;
+
                                             Output2.Append(dataobject.Value.ToString().Replace(',', '.'));
                                             Output2.Append("]");
                                         }
@@ -491,7 +494,6 @@ namespace xs1_data_logging.JSONHandlers
                                                     Output.Append(dataobject.Timecode.JavaScriptTimestamp());
                                                     Output.Append(",");
                                                     //CurrentHourMeanValue = CurrentHourMeanValue / 100;
-
                                                     Output.Append(CurrentHourMeanValue.ToString().Replace(',', '.'));
                                                     Output.Append("]");
                                                 }
