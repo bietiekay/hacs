@@ -12,6 +12,8 @@ namespace xs1_data_logging
     {
         HourkWh,
         HourPeakkWh,
-        CalculatedkWhCounterTotal
+        CalculatedkWhCounterTotal,
+        CalculatedHourlykWh,
+        CalculatedDailykWh
     }
 }

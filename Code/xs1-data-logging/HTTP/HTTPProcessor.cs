@@ -425,6 +425,12 @@ namespace HTTP
                         if (OutputType.ToUpper() == "CALCKWH")
                             Outputs = PowerSensorOutputs.CalculatedkWhCounterTotal;
 
+                        if (OutputType.ToUpper() == "CALCDAILYKWH")
+                            Outputs = PowerSensorOutputs.CalculatedDailykWh;
+
+                        if (OutputType.ToUpper() == "CALCHOURLYKWH")
+                            Outputs = PowerSensorOutputs.CalculatedHourlykWh;
+
                         String Output = JSON_Data.GeneratePowerSensorJSONOutput(Outputs,ObjectName, start, end);
 
                         int left = new UTF8Encoding().GetByteCount(Output);

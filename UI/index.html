@@ -69,8 +69,11 @@
 	  <option value="Dachboden_">Dachboden</option>
 	  <option value="Schuppen_">Schuppen</option>
 	</select>
-	<button id="pwrSensor">Power Consumption</button>
+	<button id="pwrSensor">Power Consumption (RAW)</button>
+	<button id="pwrHourlySensor">Power Hourly Consumption</button>
 	<button id="pwrPeak">Power Peak Consumption</button>
+	<button id="pwrSensorDaily">Daily Power Consumption</button>
+	<button id="clear">Clear Graphs</button>
 
     <div id="placeholder" align="center" style="width:1000px;height:600px;"></div>
 	<p id="hoverdata"></p>
@@ -148,7 +151,7 @@ $(function () {
 		// and plot all we got
 		plot = $.plot(placeholder, data, options);
 		lastsortof = sortof;
-	 }
+	}
 		
 	$.ajax(
 	{
@@ -407,7 +410,46 @@ $(function () {
 
 	}
 	);
+	
+	$("#pwrSensorDaily").click(
+	function()
+	{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/powersensor?name=Stromzaehler&type=CALCDAILYKWH",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
 
+	}
+	);	
+	
+	$("#pwrHourlySensor").click(
+	function()
+	{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/powersensor?name=Stromzaehler&type=CALCHOURLYKWH",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
+
+	}
+	);
+
+	$("#clear").click(
+	function()
+	{
+			sortof = 99;
+			data = [];
+			data.push([]);		
+			plot = $.plot(placeholder, data, options);
+	}
+	);	
 	
 });
 </script>
