@@ -64,6 +64,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ScriptingTimers\ScriptingTimerConfiguration.cs" />
+    <Compile Include="ScriptingTimers\ScriptingTimerOperationModes.cs" />
     <Compile Include="set_state_actuator\set_state_actuator.cs" />
     <Compile Include="xs1-data-logging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
