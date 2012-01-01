@@ -63,6 +63,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ScriptingTimers\ScriptingTimerThread.cs" />
     <Compile Include="ScriptingTimers\ScriptingTimerConfiguration.cs" />
     <Compile Include="ScriptingTimers\ScriptingTimerOperationModes.cs" />
     <Compile Include="set_state_actuator\set_state_actuator.cs" />

@@ -25,6 +25,7 @@ namespace xs1_data_logging
         XS1Configuration XS1_Configuration = null;
         Int32 ConfigurationCacheMinutes;
         Dictionary<String,current_actor_status> KnownActorStatuses;
+        public Boolean AcceptingCommands = false;
 
         bool Shutdown = false;
 
@@ -74,6 +75,7 @@ namespace xs1_data_logging
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
+                        AcceptingCommands = true;
                         ConsoleOutputLogger.WriteLineToScreenOnly("XS1 successfully connected!");
                     }
                     // we will read data via the response stream
@@ -183,6 +185,7 @@ namespace xs1_data_logging
                 catch (Exception e)
                 {                   
                     //ConsoleOutputLogger.WriteLineToScreenOnly("Reconnecting...");
+                    AcceptingCommands = false;
                     Thread.Sleep(1);
                 }
             }

@@ -29,5 +29,8 @@
     <Setting Name="PowerSensorConfigurationFilename" Type="System.String" Scope="User">
       <Value Profile="(Default)">PowerSensorConfiguration.config</Value>
     </Setting>
+    <Setting Name="ScriptingTimerConfigurationFilename" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ScriptingTimerConfiguration.config</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

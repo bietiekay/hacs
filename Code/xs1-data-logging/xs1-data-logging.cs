@@ -1,6 +1,6 @@
 ﻿/*
 * h.a.c.s (home automation control server) - http://github.com/bietiekay/hacs
-* Copyright (C) 2010-2011 Daniel Kirstenpfad
+* Copyright (C) 2010-2012 Daniel Kirstenpfad
 *
 * hacs is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Affero General Public License as published by
@@ -42,7 +42,7 @@ namespace xs1_data_logging
 
             #region Logo
             ConsoleOutputLogger.WriteLine("EzControl XS1 Data Logger " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
-            ConsoleOutputLogger.WriteLine("(C) 2010-2011 Daniel Kirstenpfad - http://github.com/bietiekay/hacs");
+            ConsoleOutputLogger.WriteLine("(C) 2010-2012 Daniel Kirstenpfad - http://github.com/bietiekay/hacs");
             #endregion
 						
             ConsoleOutputLogger.writeLogfile = true;
@@ -51,24 +51,27 @@ namespace xs1_data_logging
             TinyOnDiskStorage sensor_data_store = new TinyOnDiskStorage("sensor-data", false);
             TinyOnDiskStorage unknown_data_store = new TinyOnDiskStorage("unknown-data", false);
 
-            List<Thread> LoggingThreads = new List<Thread>();
+            //List<Thread> LoggingThreads = new List<Thread>();
+            ScriptingTimerThread _ScriptingTimerThread;
 
             ScriptingActorConfiguration.ReadConfiguration(Properties.Settings.Default.ScriptingActorConfigurationFilename);
             PowerSensorConfiguration.ReadConfiguration(Properties.Settings.Default.PowerSensorConfigurationFilename);
+            ScriptingTimerConfiguration.ReadConfiguration(Properties.Settings.Default.ScriptingTimerConfigurationFilename);
 
-            //foreach (String _Server in Properties.Settings.Default)
-            //{
-                ConsoleOutputLogger.WriteLineToScreenOnly("Starting Logging for Server: " + Properties.Settings.Default.XS1);
-                LoggingThread _Thread = new LoggingThread(Properties.Settings.Default.XS1, actor_data_store, sensor_data_store, unknown_data_store,Properties.Settings.Default.Username,Properties.Settings.Default.Password,Properties.Settings.Default.ConfigurationCacheMinutes);
-                Thread LoggingThread = new Thread(new ThreadStart(_Thread.Run));
+            #region Logging and Actor Handling
+            ConsoleOutputLogger.WriteLineToScreenOnly("Starting Logging for Server: " + Properties.Settings.Default.XS1);                        
+            LoggingThread _Thread = new LoggingThread(Properties.Settings.Default.XS1, actor_data_store, sensor_data_store, unknown_data_store,Properties.Settings.Default.Username,Properties.Settings.Default.Password,Properties.Settings.Default.ConfigurationCacheMinutes);
+            Thread LoggingThread = new Thread(new ThreadStart(_Thread.Run));
+            // LoggingThreads.Add(LoggingThread); // handling of multiple servers needs to be re-added later
+            LoggingThread.Start();
+            #endregion
 
-                LoggingThreads.Add(LoggingThread);
-
-                LoggingThread.Start();
-
-            //}
-
-
+            #region Scripting Timer Handling
+            ConsoleOutputLogger.WriteLineToScreenOnly("Starting Scripting Timer Handling.");
+            _ScriptingTimerThread = new ScriptingTimerThread(_Thread);
+            Thread ScriptingTThread = new Thread(new ThreadStart(_ScriptingTimerThread.Run));
+            ScriptingTThread.Start();
+            #endregion
         }
     }
 }

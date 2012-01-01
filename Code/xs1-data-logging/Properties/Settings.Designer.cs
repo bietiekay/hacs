@@ -130,5 +130,17 @@ namespace xs1_data_logging.Properties {
                 this["PowerSensorConfigurationFilename"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ScriptingTimerConfiguration.config")]
+        public string ScriptingTimerConfigurationFilename {
+            get {
+                return ((string)(this["ScriptingTimerConfigurationFilename"]));
+            }
+            set {
+                this["ScriptingTimerConfigurationFilename"] = value;
+            }
+        }
     }
 }
