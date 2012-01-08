@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html lang="en"> 
+    <head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+        <title>h.a.c.s. XS1 Gauges</title> 
+        <script language="javascript" type="text/javascript" src="raphael.js"></script> 
+		<script language="javascript" type="text/javascript" src="/libs/jquery.js"></script>
+        <script language="javascript" type="text/javascript" src="wso2vis.ctrls.js"></script>
+		
+        <script type="text/javascript" charset="utf-8"> 
+			var wohnzimmertemp = null, wohnzimmername = null;
+			var timer;
+			var r;
+			var wohnzimmer,arbeitszimmer,schlafzimmer,kueche,terrassenraum;
+						
+			function onDataReceivedWohnzimmer(series) 
+			{
+				wohnzimmername.update(series.label);
+				wohnzimmertemp.update(series.data[0][1]+" °C");
+				wohnzimmer.setValue(series.data[0][1]);
+			}
+			function onDataReceivedArbeitszimmer(series) 
+			{
+				arbeitszimmername.update(series.label);
+				arbeitszimmertemp.update(series.data[0][1]+" °C");
+				arbeitszimmer.setValue(series.data[0][1]);
+			}			
+			function onDataReceivedSchlafzimmer(series) 
+			{
+				schlafzimmername.update(series.label);
+				schlafzimmertemp.update(series.data[0][1]+" °C");
+				schlafzimmer.setValue(series.data[0][1]);
+			}
+			function onDataReceivedKueche(series) 
+			{
+				kuechename.update(series.label);
+				kuechetemp.update(series.data[0][1]+" °C");
+				kueche.setValue(series.data[0][1]);
+			}
+			function onDataReceivedTerassenraum(series) 
+			{
+				terassename.update(series.label);
+				terassentemp.update(series.data[0][1]+" °C");
+				terassenraum.setValue(series.data[0][1]);
+			}
+			function onDataReceivedBad(series) 
+			{
+				badname.update(series.label);
+				badtemp.update(series.data[0][1]+" °C");
+				bad.setValue(series.data[0][1]);
+			}
+			function onDataReceivedSchuppen(series) 
+			{
+				schuppenname.update(series.label);
+				schuppentemp.update(series.data[0][1]+" °C");
+				schuppen.setValue(series.data[0][1]);
+			}
+			function onDataReceivedDachboden(series) 
+			{
+				dachbodenname.update(series.label);
+				dachbodentemp.update(series.data[0][1]+" °C");
+				dachboden.setValue(series.data[0][1]);
+			}
+			function onDataReceivedCurrentPower(series) 
+			{
+				powername.update(series.label);
+				powervalue.update(series.data[0][1]+" Wh");
+				powerusage.setValue(series.data[0][1]);
+			}
+			
+			function globalTick() 
+			{
+				$.ajax(
+				{
+					url: "/data/sensor?name=Wohnzimmer&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedWohnzimmer
+				});
+				$.ajax(
+				{
+					url: "/data/sensor?name=Arbeitszimmer&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedArbeitszimmer
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Schlafzimmer&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSchlafzimmer
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Kueche&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedKueche
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Terassenraum&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedTerassenraum
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Bad_oben&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedBad
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Schuppen&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSchuppen
+				});
+				$.ajax(
+				{
+					url: "/data/sensor?name=Dachboden&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedDachboden
+				});		
+				$.ajax(
+				{
+					url: "/data/sensor?name=Stromzaehler&type=pwr_consump&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedCurrentPower
+				});					
+			};
+			
+
+			function drawCircularGauges(r, offsetX, offsetY) {
+
+				wohnzimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 225); 
+				wohnzimmertemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 205); 
+				wohnzimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 100, offsetY + 180);
+
+				arbeitszimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 225); 
+				arbeitszimmertemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 205); 
+				arbeitszimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 300, offsetY + 180);
+
+				schlafzimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 225); 
+				schlafzimmertemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 205); 
+				schlafzimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 500, offsetY + 180);
+				
+				kuechename = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 225); 
+				kuechetemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 205); 
+				kueche = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 700, offsetY + 180);
+
+				badname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 385); 
+				badtemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 365); 
+				bad = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 100, offsetY + 335);
+				
+				terassename = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 385); 
+				terassentemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 365); 
+				terassenraum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 300, offsetY + 335);
+
+				schuppenname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 385); 
+				schuppentemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 365); 
+				schuppen = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 500, offsetY + 335);
+				
+				dachbodenname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 385); 
+				dachbodentemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 365); 
+				dachboden = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 700, offsetY + 335);
+				
+				powername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 410, offsetY + 10); 
+				powervalue = new wso2vis.ctrls.Label().text(" Wh") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 410, offsetY + 70); 
+				powerusage = new wso2vis.ctrls.LGauge().dialRadius(100).length(600).largeTick(250).smallTick(25).minVal(0) .maxVal(4000).create(r, offsetX + 110, offsetY + 50);
+				
+				globalTick();
+				
+				timer = setInterval(globalTick, 10000);
+			}
+			
+			
+			function clearAll() {
+				r.clear();
+				clearInterval(timer);
+			}
+						
+			window.onload = function () {
+				r = Raphael("holder", 1024, 800);
+								
+				drawCircularGauges(r, 0, 0);
+			};
+			
+        </script> 
+    </head> 
+    <body> 
+         <div id="holder" style="height:300px;float:left; position:absolute; "></div>
+    </body> 
+</html> 

@@ -22,17 +22,45 @@ namespace xs1_data_logging
             _LoggingThreadInstance = __LoggingThreadInstance;
         }
 
+        #region TimerOverdue
+        private Boolean TimerOverdue(ScriptingTimerElement ScriptingTimer)
+        {
+            return false;
+        }
+        #endregion
+
+        #region PowerOn
+        private void PowerOn(ScriptingTimerElement ScriptingTimer)
+        {
+            ScriptingTimer.LastTimeSwitchedOn = DateTime.Now;
+            ScriptingTimer.LastTimeSwitchedOff = DateTime.MinValue;
+
+            // TODO: Power-On Code
+            ConsoleOutputLogger.WriteLine("Power On "+ScriptingTimer.SwitchName+" by Timer " + ScriptingTimer.TimerName);
+        }
+        #endregion
+
         public void Run()
         {
             while (!Shutdown)
             {
                 try
                 {
-                    
+                    // this is the main loop of all Scripting Timer Handling - so here is decided when something is to be switched on or off
+                    // # TimerName DateTime_Start(YearDoesn'tMatter) DateTime_End(YearDoesn'tMatter) Duration_Minutes_Start Duration_Minutes_End OperationMode SwitchName JitterYesNo MinimumOnTimeMinutes   
+                    foreach (ScriptingTimerElement ScriptingTimer in ScriptingTimerConfiguration.ScriptingTimerActions)
+                    {
+                        // we got one timer, now we decide if this one is overdue
+                        if (TimerOverdue(ScriptingTimer))
+                        {
+                               
+                        }
+
+                    }
                 }
                 catch (Exception e)
                 {                   
-                    Thread.Sleep(1);
+                    Thread.Sleep(100);
                 }
 
                 Thread.Sleep(1);

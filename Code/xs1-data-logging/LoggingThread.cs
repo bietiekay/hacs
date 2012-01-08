@@ -161,11 +161,7 @@ namespace xs1_data_logging
                                                             }
                                                             else
                                                                 ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
-                                                        }
-                                                                                                
-
-
-                                                
+                                                        }                                                                                                
                                             }
                                         }
                                     }

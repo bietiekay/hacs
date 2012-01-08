@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html lang="en"> 
+    <head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+        <title>h.a.c.s. XS1 Gauges</title> 
+        <script language="javascript" type="text/javascript" src="raphael.js"></script> 
+		<script language="javascript" type="text/javascript" src="/libs/jquery.js"></script>
+        <script language="javascript" type="text/javascript" src="wso2vis.ctrls.js"></script>
+		
+        <script type="text/javascript" charset="utf-8"> 
+			var wohnzimmertemp = null, wohnzimmername = null;
+			var timer;
+			var r;
+			var wohnzimmer,arbeitszimmer,schlafzimmer,kueche,terrassenraum;
+						
+			function onDataReceivedWohnzimmer(series) 
+			{
+				wohnzimmername.update(series.label);
+				wohnzimmertemp.update(series.data[0][1]+" %");
+				wohnzimmer.setValue(series.data[0][1]);
+			}
+			function onDataReceivedArbeitszimmer(series) 
+			{
+				arbeitszimmername.update(series.label);
+				arbeitszimmertemp.update(series.data[0][1]+" %");
+				arbeitszimmer.setValue(series.data[0][1]);
+			}			
+			function onDataReceivedSchlafzimmer(series) 
+			{
+				schlafzimmername.update(series.label);
+				schlafzimmertemp.update(series.data[0][1]+" %");
+				schlafzimmer.setValue(series.data[0][1]);
+			}
+			function onDataReceivedKueche(series) 
+			{
+				kuechename.update(series.label);
+				kuechetemp.update(series.data[0][1]+" %");
+				kueche.setValue(series.data[0][1]);
+			}
+			function onDataReceivedTerassenraum(series) 
+			{
+				terassename.update(series.label);
+				terassentemp.update(series.data[0][1]+" %");
+				terassenraum.setValue(series.data[0][1]);
+			}
+			function onDataReceivedBad(series) 
+			{
+				badname.update(series.label);
+				badtemp.update(series.data[0][1]+" %");
+				bad.setValue(series.data[0][1]);
+			}
+			function onDataReceivedSchuppen(series) 
+			{
+				schuppenname.update(series.label);
+				schuppentemp.update(series.data[0][1]+" %");
+				schuppen.setValue(series.data[0][1]);
+			}
+			function onDataReceivedDachboden(series) 
+			{
+				dachbodenname.update(series.label);
+				dachbodentemp.update(series.data[0][1]+" %");
+				dachboden.setValue(series.data[0][1]);
+			}
+			
+			function globalTick() 
+			{
+				$.ajax(
+				{
+					url: "/data/sensor?name=Wohnzimmer_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedWohnzimmer
+				});
+				$.ajax(
+				{
+					url: "/data/sensor?name=Arbeitszimmer_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedArbeitszimmer
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Schlafzimmer_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSchlafzimmer
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Kueche_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedKueche
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Terassenraum_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedTerassenraum
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Bad_oben_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedBad
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Schuppen_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSchuppen
+				});
+				$.ajax(
+				{
+					url: "/data/sensor?name=Dachboden_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedDachboden
+				});					
+			};
+			
+
+			function drawCircularGauges(r, offsetX, offsetY) {
+
+				wohnzimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 140); 
+				wohnzimmertemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 120); 
+				wohnzimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 100, offsetY + 95);
+
+				arbeitszimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 140); 
+				arbeitszimmertemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 120); 
+				arbeitszimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 300, offsetY + 95);
+
+				schlafzimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 140); 
+				schlafzimmertemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 120); 
+				schlafzimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 500, offsetY + 95);
+				
+				kuechename = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 140); 
+				kuechetemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 120); 
+				kueche = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 700, offsetY + 95);
+
+				badname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 300); 
+				badtemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 280); 
+				bad = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 100, offsetY + 250);
+				
+				terassename = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 300); 
+				terassentemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 280); 
+				terassenraum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 300, offsetY + 250);
+
+				schuppenname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 300); 
+				schuppentemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 280); 
+				schuppen = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 500, offsetY + 250);
+				
+				dachbodenname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 300); 
+				dachbodentemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 280); 
+				dachboden = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 700, offsetY + 250);
+				
+				globalTick();
+				
+				timer = setInterval(globalTick, 30000);
+			}
+			
+			
+			function clearAll() {
+				r.clear();
+				clearInterval(timer);
+			}
+						
+			window.onload = function () {
+				r = Raphael("holder", 1024, 800);
+								
+				drawCircularGauges(r, 0, 0);
+			};
+			
+        </script> 
+    </head> 
+    <body> 
+         <div id="holder" style="height:300px;float:left; position:absolute; "></div>
+    </body> 
+</html> 

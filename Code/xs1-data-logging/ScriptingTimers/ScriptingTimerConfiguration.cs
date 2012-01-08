@@ -19,6 +19,10 @@ namespace xs1_data_logging
         public String SwitchName;
         public Boolean Jitter;
         public Int32 MinimumOnTime;
+
+        // here comes some additional information which is needed to hold a status when calculating timings
+        public DateTime LastTimeSwitchedOn;
+        public DateTime LastTimeSwitchedOff;       
     }
 
     public class ScriptingTimerConfiguration

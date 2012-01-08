@@ -43,6 +43,7 @@
 			});
 </script>
 </head>
+<body>
 	<button id="allTemp">All Temperatures</button>
     Temperatur:
     <select id="tempsensorchanger" name="tempsensorchanger" size="1">
@@ -83,7 +84,9 @@
 	<button id="currentmonth">current month</button>
 	<button id="clear">Clear Graphs</button>
 	<p>
-	
+	<a href="/config/index.html">XS1 Configuration</a><p>
+	<a href="temperatures.htm">Temperatures Gauges</a><p>
+	<a href="humidity.htm">Humidity Gauges</a><p>
 <!--- Here's a little experiment to add date regions -->
 <!---	Start-Date <input name="startdate" id="datepicker_start" type="text"></input>
 	End-Date <input name="enddate" id="datepicker_end" type="text"></input>
@@ -131,7 +134,8 @@ $(function () {
 
     // fetch one series, adding to what we got
 	// find the URL in the link right next to us 
-	var dataurl = "/data/sensor?name=Arbeitszimmer&type=temperature";
+	//var dataurl = "/data/sensor?name=Arbeitszimmer&type=temperature";
+	var dataurl = "/data/powersensor?name=Stromzaehler&type=CALCHOURLYKWH";
 	
 	// then fetch the data with jQuery
 	function onDataReceived(series) 

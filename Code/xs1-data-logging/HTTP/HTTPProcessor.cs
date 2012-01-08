@@ -327,8 +327,10 @@ namespace HTTP
 						String ObjectName = "";
                         String StartDate = "";
                         String EndDate = "";
+                        Boolean JustLastEntry = false;
                         DateTime start = DateTime.Now;
                         DateTime end = DateTime.Now;
+                        //ConsoleOutputLogger.WriteLineToScreenOnly("...");
 
 						foreach (String Key in nvcollection.AllKeys)
 						{
@@ -340,7 +342,10 @@ namespace HTTP
                                 StartDate = nvcollection[Key];
                             if (Key.ToUpper() == "END")
                                 EndDate = nvcollection[Key];
+                            if (Key.ToUpper() == "LASTENTRY")
+                                JustLastEntry = true;
 						}
+                        //ConsoleOutputLogger.WriteLineToScreenOnly("...");
 
 						if (ObjectTypeName == "")
 						{
@@ -360,8 +365,12 @@ namespace HTTP
                         {
                             end = DateTime.Now;
                         }
-							
-						String Output = JSON_Data.GenerateDataJSONOutput(ObjectTypes.Sensor, ObjectTypeName, ObjectName,start,end);
+                        //ConsoleOutputLogger.WriteLineToScreenOnly("...");
+                        String Output;
+                        if (!JustLastEntry)
+						    Output = JSON_Data.GenerateDataJSONOutput(ObjectTypes.Sensor, ObjectTypeName, ObjectName,start,end);
+                        else
+                            Output = JSON_Data.GenerateDataJSONOutput_LastEntryOnly(ObjectTypes.Sensor, ObjectTypeName, ObjectName);
 
 						int left = new UTF8Encoding().GetByteCount(Output);
 						//writeSuccess(left, "application/json");

@@ -172,6 +172,61 @@ namespace xs1_data_logging.JSONHandlers
             return Output.ToString();
         }
 
+        #region GenerateJSONData-LastEntryOnly
+        /// <summary>
+        /// generates JSON dataset from sensor data
+        /// </summary>
+        /// <returns></returns>
+        public String GenerateDataJSONOutput_LastEntryOnly(ObjectTypes DataType, String ObjectTypeName, String ObjectName)
+        {
+            StringBuilder Output = new StringBuilder();
+            //ConsoleOutputLogger.WriteLineToScreenOnly("...");
+
+            Output.Append("{ label: '" + ObjectName + "', data: [");
+            UInt64 SerializerCounter = 0;
+            long TimeCode = DateTime.Now.JavaScriptTimestamp();
+            String Value = "0.0";
+
+            // TODO: there should be an appropriate caching algorithm in the sensor data... 
+            lock (sensor_data.InMemoryIndex)
+            {
+                foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex.Reverse<OnDiscAdress>())
+                {
+                    XS1_DataObject dataobject = new XS1_DataObject();
+
+                    dataobject.Deserialize(sensor_data.Read(ondisc));
+                    SerializerCounter++;
+
+                    if (dataobject.Type == DataType)
+                    {
+                        if (dataobject.TypeName == ObjectTypeName)
+                        {
+                            if (dataobject.Name == ObjectName)
+                            {
+                                //ConsoleOutputLogger.WriteLineToScreenOnly(dataobject.Name);
+                                TimeCode = dataobject.Timecode.JavaScriptTimestamp();
+                                Value = dataobject.Value.ToString().Replace(',', '.');
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            Output.Append("[");
+            Output.Append(TimeCode);
+            Output.Append(",");
+            Output.Append(Value);
+            Output.Append("]");
+            Output.Append("]}");
+
+            ConsoleOutputLogger.WriteLineToScreenOnly("Generated JSON Dataset with " + SerializerCounter + " Elements");
+
+            return Output.ToString();
+        }
+
+        #endregion
+
         public String GeneratePowerSensorJSONOutput(PowerSensorOutputs OutputType, String ObjectName, DateTime StartDateTime, DateTime EndDateTime)
         {
             StringBuilder Output = new StringBuilder();
