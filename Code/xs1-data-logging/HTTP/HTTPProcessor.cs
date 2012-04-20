@@ -398,7 +398,7 @@ namespace HTTP
                         DateTime start = DateTime.Now;
                         DateTime end = DateTime.Now;
                         PowerSensorOutputs Outputs = PowerSensorOutputs.HourkWh;
-
+                        
                         foreach (String Key in nvcollection.AllKeys)
                         {
                             if (Key.ToUpper() == "NAME")
@@ -456,6 +456,70 @@ namespace HTTP
 					{
 						method_found = true;
 						url = url.Remove(0,5);
+						
+						NameValueCollection nvcollection = HttpUtility.ParseQueryString(url);
+						String ObjectName = "";
+						String OutputType = "";
+                        ActorsStatusOutputTypes ActorOutputType = ActorsStatusOutputTypes.Binary;
+
+						foreach (String Key in nvcollection.AllKeys)
+						{
+							if (Key.ToUpper() == "NAME")
+								ObjectName = nvcollection[Key];
+							if (Key.ToUpper() == "OUTPUTTYPE")
+								OutputType = nvcollection[Key];
+						}
+
+						if (ObjectName == "")
+						{
+							writeError(404, "No Method found");
+							return;
+						}
+
+                        if (OutputType != "")
+                        {
+                            if (OutputType.ToUpper() == "BINARY")
+                                ActorOutputType = ActorsStatusOutputTypes.Binary;
+
+                            if (OutputType.ToUpper() == "TRUEFALSE")
+                                ActorOutputType = ActorsStatusOutputTypes.TrueFalse;
+
+                            if (OutputType.ToUpper() == "ONOFF")
+                                ActorOutputType = ActorsStatusOutputTypes.OnOff;
+                        }
+						
+						// now we should have a name we need to look up
+						bool foundactor = false;
+						
+						// get the XS1 Actuator List to find the ID and the Preset ID
+                        XS1ActuatorList actuatorlist = XS1_Configuration.getXS1ActuatorList(xs1_data_logging.Properties.Settings.Default.XS1,xs1_data_logging.Properties.Settings.Default.Username,xs1_data_logging.Properties.Settings.Default.Password);
+
+						foreach (XS1Actuator _actuator in actuatorlist.actuator)
+                        {
+                            if (_actuator.name.ToUpper() == ObjectName.ToUpper())
+                            {
+								// we found one!
+								foundactor = true;
+								
+								// TODO: we need to output a JSON dataset here
+                                bool Status = false;
+
+                                if (_actuator.value == 0.0)
+                                    Status = false;
+                                else
+                                    Status = true;
+
+                                String Output = JSON_Data.GenerateJSONDataActorStatus(ActorOutputType, _actuator.name);
+
+                                int left = new UTF8Encoding().GetByteCount(Output);
+                                writeSuccess(left, "text/html");
+                                byte[] buffer = new UTF8Encoding().GetBytes(Output);
+                                ns.Write(buffer, 0, left);
+                                ns.Flush();
+                                return;
+							}
+						}
+						
 					}
 					#endregion
 

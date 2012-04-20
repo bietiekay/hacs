@@ -583,5 +583,64 @@ namespace xs1_data_logging.JSONHandlers
 
             return Output.ToString();
         }
+		
+		#region GenerateJSONData-ActorStatus
+		public String GenerateJSONDataActorStatus(ActorsStatusOutputTypes OutputType, String ObjectName)
+		{
+			StringBuilder Output = new StringBuilder();
+			
+			Output.Append("{ label: '" + ObjectName + "', data: [");
+
+            // this is the default... 
+			bool Status = false;
+
+            if (KnownActorStates.KnownActorStatuses.ContainsKey(ObjectName))
+            {
+                if (KnownActorStates.KnownActorStatuses[ObjectName].Status == actor_status.On)
+                    Status = true;
+            }
+
+			if (OutputType == ActorsStatusOutputTypes.Binary)
+			{
+				// generate binary version 0 / 1
+				if (Status)
+				{
+					Output.Append("[1]");
+				}
+				else
+				{
+					Output.Append("[0]");
+				}
+			}
+			if (OutputType == ActorsStatusOutputTypes.TrueFalse)
+			{
+				// generate binary version 0 / 1
+				if (Status)
+				{
+					Output.Append("[true]");
+				}
+				else
+				{
+					Output.Append("[false]");
+				}
+			}
+			if (OutputType == ActorsStatusOutputTypes.OnOff)
+			{
+				// generate binary version 0 / 1
+				if (Status)
+				{
+					Output.Append("[on]");
+				}
+				else
+				{
+					Output.Append("[off]");
+				}
+			}
+			
+            Output.Append("]}");
+
+            return Output.ToString();
+		}
+		#endregion
     }
 }

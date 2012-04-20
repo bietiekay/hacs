@@ -24,7 +24,6 @@ namespace xs1_data_logging
         TinyOnDiskStorage unknown_data_store = null;
         XS1Configuration XS1_Configuration = null;
         Int32 ConfigurationCacheMinutes;
-        Dictionary<String,current_actor_status> KnownActorStatuses;
         public Boolean AcceptingCommands = false;
 
         bool Shutdown = false;
@@ -38,7 +37,7 @@ namespace xs1_data_logging
             UserName = _Username;
             Password = _Password;
             ConfigurationCacheMinutes = _ConfigurationCacheMinutes;
-            KnownActorStatuses = new Dictionary<String,current_actor_status>();
+            //KnownActorStatuses = new Dictionary<String,current_actor_status>();
         }
 
         public void Run()
@@ -100,22 +99,23 @@ namespace xs1_data_logging
                             if (dataobject.Type == ObjectTypes.Actor)
                             {
                                 actor_data_store.Write(dataobject.Serialize());
-
-                                if (KnownActorStatuses.ContainsKey(dataobject.Name))
+                                lock(KnownActorStates.KnownActorStatuses)
                                 {
-                                    // is contained
-                                    if (dataobject.Value == 100)
-                                        KnownActorStatuses[dataobject.Name] = new current_actor_status(dataobject.Name, actor_status.On);
-                                    else
-                                        KnownActorStatuses[dataobject.Name] = new current_actor_status(dataobject.Name, actor_status.Off);
-                                }
-                                else 
-                                {
-                                    if (dataobject.Value == 100)
-                                        KnownActorStatuses.Add(dataobject.Name,new current_actor_status(dataobject.Name, actor_status.On));
-                                    else
-                                        KnownActorStatuses.Add(dataobject.Name, new current_actor_status(dataobject.Name, actor_status.Off));
-                                
+                                    if (KnownActorStates.KnownActorStatuses.ContainsKey(dataobject.Name))
+                                    {
+                                        // is contained
+                                        if (dataobject.Value == 100)
+                                            KnownActorStates.KnownActorStatuses[dataobject.Name] = new current_actor_status(dataobject.Name, actor_status.On);
+                                        else
+                                            KnownActorStates.KnownActorStatuses[dataobject.Name] = new current_actor_status(dataobject.Name, actor_status.Off);
+                                    }
+                                    else 
+                                    {
+                                        if (dataobject.Value == 100)
+                                            KnownActorStates.KnownActorStatuses.Add(dataobject.Name, new current_actor_status(dataobject.Name, actor_status.On));
+                                        else
+                                            KnownActorStates.KnownActorStatuses.Add(dataobject.Name, new current_actor_status(dataobject.Name, actor_status.Off));                                
+                                    }
                                 }
                             }
                             else
@@ -150,17 +150,20 @@ namespace xs1_data_logging
                                                         if (Element.ActionToRunName == actor_status.OnOff)
                                                         {
                                                             // look for the current status in the known actors table
-                                                            if (KnownActorStatuses.ContainsKey(Element.ActorToSwitchName))
+                                                            lock(KnownActorStates.KnownActorStatuses)
                                                             {
-                                                                current_actor_status Status = KnownActorStatuses[Element.ActorToSwitchName];
-                                                                if (Status.Status == actor_status.On)
-                                                                    ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
+                                                                if (KnownActorStates.KnownActorStatuses.ContainsKey(Element.ActorToSwitchName))
+                                                                {
+                                                                    current_actor_status Status = KnownActorStates.KnownActorStatuses[Element.ActorToSwitchName];
+                                                                    if (Status.Status == actor_status.On)
+                                                                        ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
+                                                                    else
+                                                                        if (Status.Status == actor_status.Off)
+                                                                            ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
+                                                                }
                                                                 else
-                                                                    if (Status.Status == actor_status.Off)
-                                                                        ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
+                                                                    ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
                                                             }
-                                                            else
-                                                                ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
                                                         }                                                                                                
                                             }
                                         }

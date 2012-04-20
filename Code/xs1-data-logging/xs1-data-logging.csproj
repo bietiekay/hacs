@@ -10,9 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>xs1_data_logging</RootNamespace>
     <AssemblyName>xs1-data-logging</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -51,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleOutputLogger.cs" />
+    <Compile Include="CurrentKnownActorStates.cs" />
     <Compile Include="PowerSensor\PowerSensorConfiguration.cs" />
     <Compile Include="current_actor_status.cs" />
     <Compile Include="HTTP\HTTPProcessor.cs" />
@@ -70,6 +68,7 @@
     <Compile Include="xs1-data-logging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptingActorConfiguration.cs" />
+    <Compile Include="ActorStatusOutputTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
