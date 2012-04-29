@@ -361,10 +361,54 @@ namespace HTTP
                         {
                             start = DateTime.Now - (new TimeSpan(14, 0, 0, 0));
                         }
+                        else
+                        {
+                            // parse the date and set it...
+                            // since we are only interested in the day, month and year it's necessary to only parse that
+                            // we expect the following format: day-month-year
+                            // for example: 12-01-2012 will be 12th of January 2012
+                            String[] Splitted = StartDate.Split(new char[1] { '-' });
+
+                            if (Splitted.Length == 3)
+                            {
+                                Int32 year = Convert.ToInt32(Splitted[2]);
+                                Int32 month = Convert.ToInt32(Splitted[1]);
+                                Int32 day = Convert.ToInt32(Splitted[0]);
+
+                                start = new DateTime(year, month, day);
+                            }
+                            else
+                            {
+                                start = DateTime.Now - (new TimeSpan(14, 0, 0, 0));
+                            }
+                        }
+
                         if (EndDate == "")
                         {
                             end = DateTime.Now;
                         }
+                        else
+                        {
+                            // parse the date and set it...
+                            // since we are only interested in the day, month and year it's necessary to only parse that
+                            // we expect the following format: day-month-year
+                            // for example: 12-01-2012 will be 12th of January 2012
+                            String[] Splitted = EndDate.Split(new char[1] { '-' });
+
+                            if (Splitted.Length == 3)
+                            {
+                                Int32 year = Convert.ToInt32(Splitted[2]);
+                                Int32 month = Convert.ToInt32(Splitted[1]);
+                                Int32 day = Convert.ToInt32(Splitted[0]);
+
+                                end = new DateTime(year, month, day);
+                            }
+                            else
+                            {
+                                end = DateTime.Now - (new TimeSpan(14, 0, 0, 0));
+                            }
+                        }
+
                         //ConsoleOutputLogger.WriteLineToScreenOnly("...");
                         String Output;
                         if (!JustLastEntry)
@@ -420,10 +464,54 @@ namespace HTTP
                         {
                             start = DateTime.Now - (new TimeSpan(14, 0, 0, 0));
                         }
+                        else
+                        {
+                            // parse the date and set it...
+                            // since we are only interested in the day, month and year it's necessary to only parse that
+                            // we expect the following format: day-month-year
+                            // for example: 12-01-2012 will be 12th of January 2012
+                            String[] Splitted = StartDate.Split(new char[1] { '-' });
+
+                            if (Splitted.Length == 3)
+                            {
+                                Int32 year = Convert.ToInt32(Splitted[2]);
+                                Int32 month = Convert.ToInt32(Splitted[1]);
+                                Int32 day = Convert.ToInt32(Splitted[0]);
+
+                                start = new DateTime(year, month, day);
+                            }
+                            else
+                            {
+                                start = DateTime.Now - (new TimeSpan(14, 0, 0, 0));
+                            }
+                        }
+
                         if (EndDate == "")
                         {
                             end = DateTime.Now;
                         }
+                        else
+                        {
+                            // parse the date and set it...
+                            // since we are only interested in the day, month and year it's necessary to only parse that
+                            // we expect the following format: day-month-year
+                            // for example: 12-01-2012 will be 12th of January 2012
+                            String[] Splitted = EndDate.Split(new char[1] { '-' });
+
+                            if (Splitted.Length == 3)
+                            {
+                                Int32 year = Convert.ToInt32(Splitted[2]);
+                                Int32 month = Convert.ToInt32(Splitted[1]);
+                                Int32 day = Convert.ToInt32(Splitted[0]);
+
+                                end = new DateTime(year, month, day);
+                            }
+                            else
+                            {
+                                end = DateTime.Now - (new TimeSpan(14, 0, 0, 0));
+                            }
+                        }
+
 
                         if (OutputType.ToUpper() == "HOUR")
                             Outputs = PowerSensorOutputs.HourkWh;
