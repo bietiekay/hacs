@@ -142,5 +142,17 @@ namespace xs1_data_logging.Properties {
                 this["ScriptingTimerConfigurationFilename"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("14")]
+        public int DefaultSensorOutputPeriod {
+            get {
+                return ((int)(this["DefaultSensorOutputPeriod"]));
+            }
+            set {
+                this["DefaultSensorOutputPeriod"] = value;
+            }
+        }
     }
 }

@@ -32,5 +32,8 @@
     <Setting Name="ScriptingTimerConfigurationFilename" Type="System.String" Scope="User">
       <Value Profile="(Default)">ScriptingTimerConfiguration.config</Value>
     </Setting>
+    <Setting Name="DefaultSensorOutputPeriod" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">14</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

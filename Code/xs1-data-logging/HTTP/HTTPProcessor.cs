@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net.Sockets;
 using System.IO;
+using System.Configuration;
 using System.Collections;
 using System.Threading;
 using System.Web;
@@ -359,7 +360,7 @@ namespace HTTP
 						}
                         if (StartDate == "") // defaults
                         {
-                            start = DateTime.Now - (new TimeSpan(14, 0, 0, 0));
+                            start = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
                         }
                         else
                         {
@@ -379,7 +380,7 @@ namespace HTTP
                             }
                             else
                             {
-                                start = DateTime.Now - (new TimeSpan(14, 0, 0, 0));
+                                start = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
                             }
                         }
 
@@ -405,7 +406,7 @@ namespace HTTP
                             }
                             else
                             {
-                                end = DateTime.Now - (new TimeSpan(14, 0, 0, 0));
+                                end = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
                             }
                         }
 
@@ -462,7 +463,7 @@ namespace HTTP
                         }
                         if (StartDate == "") // defaults
                         {
-                            start = DateTime.Now - (new TimeSpan(14, 0, 0, 0));
+                            start = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
                         }
                         else
                         {
@@ -482,7 +483,7 @@ namespace HTTP
                             }
                             else
                             {
-                                start = DateTime.Now - (new TimeSpan(14, 0, 0, 0));
+                                start = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
                             }
                         }
 
@@ -508,7 +509,7 @@ namespace HTTP
                             }
                             else
                             {
-                                end = DateTime.Now - (new TimeSpan(14, 0, 0, 0));
+                                end = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
                             }
                         }
 
