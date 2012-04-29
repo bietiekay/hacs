@@ -37,7 +37,7 @@ namespace xs1_data_logging.JSONHandlers
 
             StringBuilder Output = new StringBuilder();
 
-            Output.Append("{ label: '"+ObjectName+"', data: [");
+            Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
             bool firstdataset = true;
 			UInt64 SerializerCounter = 0;
 			UInt64 OutputCounter = 0;
@@ -124,7 +124,7 @@ namespace xs1_data_logging.JSONHandlers
 
             StringBuilder Output = new StringBuilder();
 
-            Output.Append("{ label: '"+ObjectName+"', data: [");
+            Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
             bool firstdataset = true;
 			UInt64 SerializerCounter = 0;
 			
@@ -182,7 +182,7 @@ namespace xs1_data_logging.JSONHandlers
             StringBuilder Output = new StringBuilder();
             //ConsoleOutputLogger.WriteLineToScreenOnly("...");
 
-            Output.Append("{ label: '" + ObjectName + "', data: [");
+            Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
             UInt64 SerializerCounter = 0;
             long TimeCode = DateTime.Now.JavaScriptTimestamp();
             String Value = "0.0";
@@ -236,7 +236,7 @@ namespace xs1_data_logging.JSONHandlers
             if (OutputType == PowerSensorOutputs.HourkWh)
             {
                 #region Hour kWh
-                Output.Append("{ label: '" + ObjectName + "', data: [");
+                Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
                 UInt64 SerializerCounter = 0;
 
                 lock (sensor_data.InMemoryIndex)
@@ -280,7 +280,7 @@ namespace xs1_data_logging.JSONHandlers
             if (OutputType == PowerSensorOutputs.HourPeakkWh)
             {
                 #region Hour Peak kWh
-                Output.Append("{ label: '" + ObjectName + "', data: [");
+                Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
                 UInt64 SerializerCounter = 0;
 
                 lock (sensor_data.InMemoryIndex)
@@ -332,7 +332,7 @@ namespace xs1_data_logging.JSONHandlers
                     DateTime ManualMeasurementDate = DateTime.MinValue;
                     Double ManualMeasurementValue = Double.MinValue;
 
-                    Output.Append("{ label: '" + ObjectName + "', data: [");
+                    Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
 
 
                     if (_manual_reading.PowerSensorName == ObjectName)
@@ -411,7 +411,7 @@ namespace xs1_data_logging.JSONHandlers
             if (OutputType == PowerSensorOutputs.CalculatedDailykWh)
             {
                 #region Calculated Daily kWh Counter
-                Output.Append("{ label: '" + ObjectName + "', data: [");
+                Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
                 bool firstdataset = true;
                 UInt64 SerializerCounter = 0;
                 DateTime CurrentHourStart = StartDateTime;
@@ -502,7 +502,7 @@ namespace xs1_data_logging.JSONHandlers
             if (OutputType == PowerSensorOutputs.CalculatedHourlykWh)
             {
                 #region Calculated Hourly kWh Counter
-                Output.Append("{ label: '" + ObjectName + "', data: [");
+                Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
                 bool firstdataset = true;
                 UInt64 SerializerCounter = 0;
                 DateTime CurrentHourStart = StartDateTime;
@@ -588,8 +588,8 @@ namespace xs1_data_logging.JSONHandlers
 		public String GenerateJSONDataActorStatus(ActorsStatusOutputTypes OutputType, String ObjectName)
 		{
 			StringBuilder Output = new StringBuilder();
-			
-			Output.Append("{ label: '" + ObjectName + "', data: [");
+
+            Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
 
             // this is the default... 
 			bool Status = false;
