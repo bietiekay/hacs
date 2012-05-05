@@ -9,7 +9,8 @@ namespace xs1_data_logging
     {
         On,
         Off,
-        OnOff
+        OnOff,
+        OnWaitOff
     }
 
     public class current_actor_status

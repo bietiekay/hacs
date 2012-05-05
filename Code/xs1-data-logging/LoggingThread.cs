@@ -141,30 +141,35 @@ namespace xs1_data_logging
                                                 {
                                                     ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
                                                 }
-                                                else
-                                                    if (Element.ActionToRunName == actor_status.Off)
+
+                                                if (Element.ActionToRunName == actor_status.Off)
+                                                {
+                                                    ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
+                                                }
+
+                                                if (Element.ActionToRunName == actor_status.OnOff)
+                                                {
+                                                    // look for the current status in the known actors table
+                                                    lock(KnownActorStates.KnownActorStatuses)
                                                     {
-                                                        ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
-                                                    }
-                                                    else
-                                                        if (Element.ActionToRunName == actor_status.OnOff)
+                                                        if (KnownActorStates.KnownActorStatuses.ContainsKey(Element.ActorToSwitchName))
                                                         {
-                                                            // look for the current status in the known actors table
-                                                            lock(KnownActorStates.KnownActorStatuses)
-                                                            {
-                                                                if (KnownActorStates.KnownActorStatuses.ContainsKey(Element.ActorToSwitchName))
-                                                                {
-                                                                    current_actor_status Status = KnownActorStates.KnownActorStatuses[Element.ActorToSwitchName];
-                                                                    if (Status.Status == actor_status.On)
-                                                                        ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
-                                                                    else
-                                                                        if (Status.Status == actor_status.Off)
-                                                                            ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
-                                                                }
-                                                                else
+                                                            current_actor_status Status = KnownActorStates.KnownActorStatuses[Element.ActorToSwitchName];
+                                                            if (Status.Status == actor_status.On)
+                                                                ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
+                                                            else
+                                                                if (Status.Status == actor_status.Off)
                                                                     ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
-                                                            }
-                                                        }                                                                                                
+                                                        }
+                                                        else
+                                                            ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
+                                                    }
+                                                }
+
+                                                if (Element.ActionToRunName == actor_status.OnWaitOff)
+                                                {
+                                                    ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON_WAIT_OFF", XS1_Configuration);
+                                                }
                                             }
                                         }
                                     }

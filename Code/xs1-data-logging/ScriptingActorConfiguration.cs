@@ -52,7 +52,9 @@ namespace xs1_data_logging
                                 else
                                     if (TokenizedLine[3].ToUpper() == "ONOFF")
                                         NewElement.ActionToRunName = actor_status.OnOff;
-
+                                    else
+                                        if (TokenizedLine[3].ToUpper() == "ONWAITOFF")
+                                            NewElement.ActionToRunName = actor_status.OnWaitOff;
                             ScriptingActorActions.Add(NewElement);
                         }
                         else
