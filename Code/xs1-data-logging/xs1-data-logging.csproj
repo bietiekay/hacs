@@ -69,6 +69,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptingActorConfiguration.cs" />
     <Compile Include="ActorStatusOutputTypes.cs" />
+    <Compile Include="SensorCheck.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
