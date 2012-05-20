@@ -24,14 +24,17 @@ namespace xs1_data_logging
 		/// </param>
 		public void UpdateSensor(string SensorName)
 		{
-			if (SensorCache.ContainsKey(SensorName))
-			{
-				SensorCache[SensorName] = DateTime.Now;
-			}
-			else
-			{
-				SensorCache.Add(SensorName,DateTime.Now);
-			}
+            lock(SensorCache)
+            {
+			    if (SensorCache.ContainsKey(SensorName))
+			    {
+				    SensorCache[SensorName] = DateTime.Now;
+			    }
+			    else
+			    {
+				    SensorCache.Add(SensorName,DateTime.Now);
+			    }
+            }
 		}
 
 		public void Shutdown()

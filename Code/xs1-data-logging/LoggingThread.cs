@@ -49,6 +49,9 @@ namespace xs1_data_logging
             Thread http_server_thread = new Thread(new ThreadStart(httpServer.listen));
             http_server_thread.Start();
 
+            SensorCheck Sensorcheck = new SensorCheck();
+            Thread SensorCheckThread = new Thread(new ThreadStart(Sensorcheck.Run));
+
             while (!Shutdown)
             {
                 try
@@ -122,6 +125,9 @@ namespace xs1_data_logging
                                 if (dataobject.Type == ObjectTypes.Sensor)
                                 {
                                     sensor_data_store.Write(dataobject.Serialize());
+                                    
+                                    // update the sensor in the sensor check
+                                    Sensorcheck.UpdateSensor(dataobject.Name);
 
                                     // check if this sensor is something we should act uppon
                                     foreach (ScriptingActorElement Element in ScriptingActorConfiguration.ScriptingActorActions)
