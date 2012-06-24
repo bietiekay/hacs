@@ -105,7 +105,11 @@ namespace xs1_data_logging
 
                             if (dataobject.Type == ObjectTypes.Actor)
                             {
-                                actor_data_store.Write(dataobject.Serialize());
+                                lock(actor_data_store)
+                                {
+                                    actor_data_store.Write(dataobject.Serialize());
+                                }
+
                                 lock(KnownActorStates.KnownActorStatuses)
                                 {
                                     if (KnownActorStates.KnownActorStatuses.ContainsKey(dataobject.Name))
@@ -128,8 +132,10 @@ namespace xs1_data_logging
                             else
                                 if (dataobject.Type == ObjectTypes.Sensor)
                                 {
-                                    sensor_data_store.Write(dataobject.Serialize());
-                                    
+                                    lock(sensor_data_store)
+                                    {
+                                        sensor_data_store.Write(dataobject.Serialize());
+                                    }
                                     // update the sensor in the sensor check
                                     Sensorcheck.UpdateSensor(dataobject.Name);
 

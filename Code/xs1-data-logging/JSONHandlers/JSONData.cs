@@ -45,7 +45,7 @@ namespace xs1_data_logging.JSONHandlers
 			
 			// TODO: there should be an appropriate caching algorithm in the sensor data... 
 
-            lock (sensor_data.InMemoryIndex)
+            lock (sensor_data)
             {
                 foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
                 {
@@ -129,7 +129,7 @@ namespace xs1_data_logging.JSONHandlers
 			UInt64 SerializerCounter = 0;
 			
 			// TODO: there should be an appropriate caching algorithm in the sensor data... 
-            lock (sensor_data.InMemoryIndex)
+            lock (sensor_data)
             {
                 foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
                 {
@@ -188,7 +188,7 @@ namespace xs1_data_logging.JSONHandlers
             String Value = "0.0";
 
             // TODO: there should be an appropriate caching algorithm in the sensor data... 
-            lock (sensor_data.InMemoryIndex)
+            lock (sensor_data)
             {
                 foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex.Reverse<OnDiscAdress>())
                 {
@@ -239,7 +239,7 @@ namespace xs1_data_logging.JSONHandlers
                 Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
                 UInt64 SerializerCounter = 0;
 
-                lock (sensor_data.InMemoryIndex)
+                lock (sensor_data)
                 {
                     foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
                     {
@@ -283,7 +283,7 @@ namespace xs1_data_logging.JSONHandlers
                 Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
                 UInt64 SerializerCounter = 0;
 
-                lock (sensor_data.InMemoryIndex)
+                lock (sensor_data)
                 {
                     foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
                     {
@@ -418,7 +418,7 @@ namespace xs1_data_logging.JSONHandlers
                 Double CurrentHourMeanValue = Double.MinValue;
 
                 // TODO: there should be an appropriate caching algorithm in the sensor data... 
-                lock (sensor_data.InMemoryIndex)
+                lock (sensor_data)
                 {
                     Double DailyMeanValue = Double.MinValue;
                     Int32 HourNumber = 0;
@@ -509,7 +509,7 @@ namespace xs1_data_logging.JSONHandlers
                 Double CurrentHourMeanValue = Double.MinValue;
 
                 // TODO: there should be an appropriate caching algorithm in the sensor data... 
-                lock (sensor_data.InMemoryIndex)
+                lock (sensor_data)
                 {
                     foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
                     {

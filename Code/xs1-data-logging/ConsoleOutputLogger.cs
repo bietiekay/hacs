@@ -36,8 +36,15 @@ namespace xs1_data_logging
         {
             if (Logfile == null)
             {
-                Logfile = new StreamWriter("data.log", true);
-                Logfile.AutoFlush = true;
+                try
+                {
+                    Logfile = new StreamWriter("data.log", true);
+                    Logfile.AutoFlush = true;
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("Exception in Logger: " + e.Message + " ## " + e.StackTrace);
+                }
             }
             lock (Logfile)
             {

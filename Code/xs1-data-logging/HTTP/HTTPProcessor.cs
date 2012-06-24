@@ -864,7 +864,7 @@ namespace HTTP
 			}
 			catch (Exception e)
 			{
-				ConsoleOutputLogger.WriteLineToScreenOnly("[FEHLER@HTTP] " + e.Message);
+				ConsoleOutputLogger.WriteLineToScreenOnly("[FEHLER@HTTP] " + e.Message+" ## "+e.StackTrace);
 				writeFailure();
 			}
 		}
