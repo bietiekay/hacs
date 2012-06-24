@@ -17,11 +17,13 @@ namespace xs1_data_logging
     {
         public String ActorName;
         public actor_status Status;
+		public DateTime LastUpdate;
 
         public current_actor_status(String Name, actor_status _Status)
         {
             ActorName = Name;
             Status = _Status;
+			LastUpdate = DateTime.Now;
         }
     }
 }

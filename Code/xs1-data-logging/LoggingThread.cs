@@ -51,6 +51,10 @@ namespace xs1_data_logging
 
             SensorCheck Sensorcheck = new SensorCheck();
             Thread SensorCheckThread = new Thread(new ThreadStart(Sensorcheck.Run));
+			SensorCheckThread.Start();
+
+			DateTime LastCheckpoint = DateTime.Now;
+			TimeSpan SinceLastCheckpoint;
 
             while (!Shutdown)
             {
@@ -191,8 +195,46 @@ namespace xs1_data_logging
                         }
                     }
                     while (count > 0); // any more data to read?
+
+					// here we are out of the reading loop, we can do stuff here too
+					// assumed that we reach this point very frequently we start by
+					// checking how much time passed since we were here the last time
+					SinceLastCheckpoint = DateTime.Now-LastCheckpoint;
+
+					// now we can do something every minute or so
+					if (SinceLastCheckpoint.TotalMinutes >= 2)
+					{
+						LastCheckpoint = DateTime.Now;
+						#region Switch Actors again with same state
+						// go through all the known actor status codes and try to send
+						// them again to the actor one after another
+						foreach(current_actor_status status in KnownActorStates.KnownActorStatuses.Values)
+						{
+							// if this actor was switched within the last configured minutes we switch it again to the exact same
+							// state, just to make sure that they were successfully switched (just ON/OFF states)
+							if ( (LastCheckpoint-status.LastUpdate).TotalMinutes <= 10)
+							{
+								// yes, within the last given number of minutes
+								set_state_actuator.set_state_actuator ssa = new set_state_actuator.set_state_actuator();
+								#region ON state
+								if (status.Status == actor_status.On)
+								{
+									ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, status.ActorName, "ON", XS1_Configuration);
+								}
+								#endregion
+
+								#region OFF state
+								if (status.Status == actor_status.Off)
+								{
+									ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, status.ActorName, "OFF", XS1_Configuration);
+								}
+								#endregion 
+							}
+						}
+						#endregion
+					}
                 }
-                catch (Exception e)
+                catch (Exception)
                 {                   
                     //ConsoleOutputLogger.WriteLineToScreenOnly("Reconnecting...");
                     AcceptingCommands = false;
