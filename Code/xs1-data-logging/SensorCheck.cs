@@ -47,6 +47,7 @@ namespace xs1_data_logging
 		/// </summary>
         public void Run()
         {
+            ConsoleOutputLogger.WriteLine("Starting Automated Sensor Check.");
 			TimeSpan temp = new TimeSpan();
             while (!_Shutdown)
             {
@@ -55,8 +56,8 @@ namespace xs1_data_logging
 				{
 					temp = new TimeSpan(DateTime.Now.Ticks-SensorCache[SensorName].Ticks);
 					
-					if (temp.TotalMinutes > 5)
-						ConsoleOutputLogger.WriteLine("#WARNING# A outdated sensor was detected: "+SensorName);
+					if (temp.TotalMinutes > xs1_data_logging.Properties.Settings.Default.AutomatedSensorCheck_ResponseTimeWindow)
+						ConsoleOutputLogger.WriteLine("#WARNING# An outdated sensor was detected: "+SensorName);
 				}				
 				
 				Thread.Sleep(6000); // just check every 60 seconds...

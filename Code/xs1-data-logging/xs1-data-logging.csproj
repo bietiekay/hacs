@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleOutputLogger.cs" />
+    <Compile Include="ActorReSwitching.cs" />
     <Compile Include="CurrentKnownActorStates.cs" />
     <Compile Include="PowerSensor\PowerSensorConfiguration.cs" />
     <Compile Include="current_actor_status.cs" />

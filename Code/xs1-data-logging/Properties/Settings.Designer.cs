@@ -178,5 +178,17 @@ namespace xs1_data_logging.Properties {
                 this["SwitchAgainTimeWindowMinutes"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int AutomatedSensorCheck_ResponseTimeWindow {
+            get {
+                return ((int)(this["AutomatedSensorCheck_ResponseTimeWindow"]));
+            }
+            set {
+                this["AutomatedSensorCheck_ResponseTimeWindow"] = value;
+            }
+        }
     }
 }
