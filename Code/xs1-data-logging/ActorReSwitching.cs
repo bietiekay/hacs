@@ -42,29 +42,37 @@ namespace xs1_data_logging
                     #region Switch Actors again with same state
                     // go through all the known actor status codes and try to send
                     // them again to the actor one after another
-                    foreach (current_actor_status status in KnownActorStates.KnownActorStatuses.Values)
+                    
+                    // TODO: this try is just here to handle enum exceptions just in case, introduce locking!
+                    try
                     {
-                        // if this actor was switched within the last configured minutes we switch it again to the exact same
-                        // state, just to make sure that they were successfully switched (just ON/OFF states)
-                        if ((LastCheckpoint - status.LastUpdate).TotalMinutes <= xs1_data_logging.Properties.Settings.Default.SwitchAgainTimeWindowMinutes)
+                        foreach (current_actor_status status in KnownActorStates.KnownActorStatuses.Values)
                         {
-                            ConsoleOutputLogger.WriteLine("Switching again actor " + status.ActorName);
-                            // yes, within the last given number of minutes
-                            set_state_actuator.set_state_actuator ssa = new set_state_actuator.set_state_actuator();
-                            #region ON state
-                            if (status.Status == actor_status.On)
+                            // if this actor was switched within the last configured minutes we switch it again to the exact same
+                            // state, just to make sure that they were successfully switched (just ON/OFF states)
+                            if ((LastCheckpoint - status.LastUpdate).TotalMinutes <= xs1_data_logging.Properties.Settings.Default.SwitchAgainTimeWindowMinutes)
                             {
-                                ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, status.ActorName, "ON", XS1_Configuration);
-                            }
-                            #endregion
+                                ConsoleOutputLogger.WriteLine("Switching again actor " + status.ActorName);
+                                // yes, within the last given number of minutes
+                                set_state_actuator.set_state_actuator ssa = new set_state_actuator.set_state_actuator();
+                                #region ON state
+                                if (status.Status == actor_status.On)
+                                {
+                                    ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, status.ActorName, "ON", XS1_Configuration);
+                                }
+                                #endregion
 
-                            #region OFF state
-                            if (status.Status == actor_status.Off)
-                            {
-                                ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, status.ActorName, "OFF", XS1_Configuration);
+                                #region OFF state
+                                if (status.Status == actor_status.Off)
+                                {
+                                    ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, status.ActorName, "OFF", XS1_Configuration);
+                                }
+                                #endregion
                             }
-                            #endregion
                         }
+                    }
+                    catch(Exception)
+                    {
                     }
                     #endregion
                 }
