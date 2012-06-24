@@ -202,7 +202,7 @@ namespace xs1_data_logging
 					SinceLastCheckpoint = DateTime.Now-LastCheckpoint;
 
 					// now we can do something every minute or so
-					if (SinceLastCheckpoint.TotalMinutes >= 2)
+					if (SinceLastCheckpoint.TotalMinutes >= xs1_data_logging.Properties.Settings.Default.SwitchAgainCheckpointMinutes)
 					{
 						LastCheckpoint = DateTime.Now;
 						#region Switch Actors again with same state
@@ -212,8 +212,9 @@ namespace xs1_data_logging
 						{
 							// if this actor was switched within the last configured minutes we switch it again to the exact same
 							// state, just to make sure that they were successfully switched (just ON/OFF states)
-							if ( (LastCheckpoint-status.LastUpdate).TotalMinutes <= 10)
+							if ( (LastCheckpoint-status.LastUpdate).TotalMinutes <= xs1_data_logging.Properties.Settings.Default.SwitchAgainTimeWindowMinutes)
 							{
+                                ConsoleOutputLogger.WriteLine("Switching again actor "+status.ActorName);
 								// yes, within the last given number of minutes
 								set_state_actuator.set_state_actuator ssa = new set_state_actuator.set_state_actuator();
 								#region ON state

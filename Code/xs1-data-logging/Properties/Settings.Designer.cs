@@ -154,5 +154,29 @@ namespace xs1_data_logging.Properties {
                 this["DefaultSensorOutputPeriod"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int SwitchAgainCheckpointMinutes {
+            get {
+                return ((int)(this["SwitchAgainCheckpointMinutes"]));
+            }
+            set {
+                this["SwitchAgainCheckpointMinutes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        public int SwitchAgainTimeWindowMinutes {
+            get {
+                return ((int)(this["SwitchAgainTimeWindowMinutes"]));
+            }
+            set {
+                this["SwitchAgainTimeWindowMinutes"] = value;
+            }
+        }
     }
 }
