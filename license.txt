@@ -1,4 +1,4 @@
-Copyright (c) 2010-2011, Daniel Kirstenpfad, http://www.technology-ninja.com
+Copyright (c) 2010-2012, Daniel Kirstenpfad, http://www.technology-ninja.com
 All rights reserved.
 
 Some portions (C) 2008-2010 sones GmbH, http://www.sones.com
@@ -6,7 +6,7 @@ Some portions (C) 2008-2010 sones GmbH, http://www.sones.com
 GNU AFFERO GENERAL PUBLIC LICENSE
 Version 3, 19 November 2007
 
-Copyright © 2007 Free Software Foundation, Inc. <http://fsf.org/> 
+Copyright ï¿½ 2007 Free Software Foundation, Inc. <http://fsf.org/> 
 Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
 
 Preamble
