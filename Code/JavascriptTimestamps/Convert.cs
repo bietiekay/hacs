@@ -13,9 +13,10 @@ namespace JavaScriptTimeStampExtension
             return (Convert.ToInt64((myDateTime - unixstarted).TotalSeconds * 1000 ));
         }
 
-        public static void ParseJavaScriptTimestamp(this DateTime myDateTime, Int64 JavaScriptTimestamp)
+        public static DateTime ParseJavaScriptTimestamp(Int64 JavaScriptTimestamp)
         {
-            throw new NotImplementedException();
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return origin.AddSeconds(JavaScriptTimestamp / 1000);
         }
     }
 }

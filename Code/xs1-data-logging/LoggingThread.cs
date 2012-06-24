@@ -9,6 +9,8 @@ using sones.storage;
 using System.Threading;
 using HTTP;
 using hacs.xs1.configuration;
+//using xs1_data_logging.set_state_actuator;
+
 
 namespace xs1_data_logging
 {
@@ -22,6 +24,7 @@ namespace xs1_data_logging
         TinyOnDiskStorage unknown_data_store = null;
         XS1Configuration XS1_Configuration = null;
         Int32 ConfigurationCacheMinutes;
+        public Boolean AcceptingCommands = false;
 
         bool Shutdown = false;
 
@@ -34,6 +37,7 @@ namespace xs1_data_logging
             UserName = _Username;
             Password = _Password;
             ConfigurationCacheMinutes = _ConfigurationCacheMinutes;
+            //KnownActorStatuses = new Dictionary<String,current_actor_status>();
         }
 
         public void Run()
@@ -44,6 +48,13 @@ namespace xs1_data_logging
             HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort,Properties.Settings.Default.HTTPIP,Properties.Settings.Default.HTTPDocumentRoot,sensor_data_store,XS1_Configuration);
             Thread http_server_thread = new Thread(new ThreadStart(httpServer.listen));
             http_server_thread.Start();
+
+            SensorCheck Sensorcheck = new SensorCheck();
+            Thread SensorCheckThread = new Thread(new ThreadStart(Sensorcheck.Run));
+			SensorCheckThread.Start();
+            ActorReswitching ActorReSwitch_ = new ActorReswitching(XS1_Configuration);
+            Thread ActorReswitchThread = new Thread(new ThreadStart(ActorReSwitch_.Run));
+            ActorReswitchThread.Start();
 
             while (!Shutdown)
             {
@@ -70,6 +81,7 @@ namespace xs1_data_logging
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
+                        AcceptingCommands = true;
                         ConsoleOutputLogger.WriteLineToScreenOnly("XS1 successfully connected!");
                     }
                     // we will read data via the response stream
@@ -93,12 +105,90 @@ namespace xs1_data_logging
 
                             if (dataobject.Type == ObjectTypes.Actor)
                             {
-                                actor_data_store.Write(dataobject.Serialize());
+                                lock(actor_data_store)
+                                {
+                                    actor_data_store.Write(dataobject.Serialize());
+                                }
+
+                                lock(KnownActorStates.KnownActorStatuses)
+                                {
+                                    if (KnownActorStates.KnownActorStatuses.ContainsKey(dataobject.Name))
+                                    {
+                                        // is contained
+                                        if (dataobject.Value == 100)
+                                            KnownActorStates.KnownActorStatuses[dataobject.Name] = new current_actor_status(dataobject.Name, actor_status.On);
+                                        else
+                                            KnownActorStates.KnownActorStatuses[dataobject.Name] = new current_actor_status(dataobject.Name, actor_status.Off);
+                                    }
+                                    else 
+                                    {
+                                        if (dataobject.Value == 100)
+                                            KnownActorStates.KnownActorStatuses.Add(dataobject.Name, new current_actor_status(dataobject.Name, actor_status.On));
+                                        else
+                                            KnownActorStates.KnownActorStatuses.Add(dataobject.Name, new current_actor_status(dataobject.Name, actor_status.Off));                                
+                                    }
+                                }
                             }
                             else
                                 if (dataobject.Type == ObjectTypes.Sensor)
                                 {
-                                    sensor_data_store.Write(dataobject.Serialize());
+                                    lock(sensor_data_store)
+                                    {
+                                        sensor_data_store.Write(dataobject.Serialize());
+                                    }
+                                    // update the sensor in the sensor check
+                                    Sensorcheck.UpdateSensor(dataobject.Name);
+
+                                    // check if this sensor is something we should act uppon
+                                    foreach (ScriptingActorElement Element in ScriptingActorConfiguration.ScriptingActorActions)
+                                    {
+                                        if (dataobject.Name == Element.SensorToWatchName)
+                                        {
+                                            if (dataobject.Value == Element.SensorValue)
+                                            { 
+                                                // obviously there is a ScriptingActorConfiguration entry
+                                                // so we execute the actor preset
+
+                                                set_state_actuator.set_state_actuator ssa = new set_state_actuator.set_state_actuator();
+                                                ConsoleOutputLogger.WriteLineToScreenOnly("detected actor scripting action on sensor "+Element.SensorToWatchName+" - "+Element.ActorToSwitchName+" to "+Element.ActionToRunName);
+                                                
+                                                // check what action is going to happen now...
+                                                if (Element.ActionToRunName == actor_status.On)
+                                                {
+                                                    ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
+                                                }
+
+                                                if (Element.ActionToRunName == actor_status.Off)
+                                                {
+                                                    ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
+                                                }
+
+                                                if (Element.ActionToRunName == actor_status.OnOff)
+                                                {
+                                                    // look for the current status in the known actors table
+                                                    lock(KnownActorStates.KnownActorStatuses)
+                                                    {
+                                                        if (KnownActorStates.KnownActorStatuses.ContainsKey(Element.ActorToSwitchName))
+                                                        {
+                                                            current_actor_status Status = KnownActorStates.KnownActorStatuses[Element.ActorToSwitchName];
+                                                            if (Status.Status == actor_status.On)
+                                                                ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
+                                                            else
+                                                                if (Status.Status == actor_status.Off)
+                                                                    ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
+                                                        }
+                                                        else
+                                                            ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
+                                                    }
+                                                }
+
+                                                if (Element.ActionToRunName == actor_status.OnWaitOff)
+                                                {
+                                                    ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON_WAIT_OFF", XS1_Configuration);
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 else
                                     if (dataobject.Type == ObjectTypes.Unknown)
@@ -112,9 +202,10 @@ namespace xs1_data_logging
                     }
                     while (count > 0); // any more data to read?
                 }
-                catch (Exception e)
+                catch (Exception)
                 {                   
                     //ConsoleOutputLogger.WriteLineToScreenOnly("Reconnecting...");
+                    AcceptingCommands = false;
                     Thread.Sleep(1);
                 }
             }

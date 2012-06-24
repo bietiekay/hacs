@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net.Sockets;
 using System.IO;
+using System.Configuration;
 using System.Collections;
 using System.Threading;
 using System.Web;
@@ -325,6 +326,12 @@ namespace HTTP
 							
 						String ObjectTypeName = "";
 						String ObjectName = "";
+                        String StartDate = "";
+                        String EndDate = "";
+                        Boolean JustLastEntry = false;
+                        DateTime start = DateTime.Now;
+                        DateTime end = DateTime.Now;
+                        //ConsoleOutputLogger.WriteLineToScreenOnly("...");
 
 						foreach (String Key in nvcollection.AllKeys)
 						{
@@ -332,7 +339,14 @@ namespace HTTP
 								ObjectName = nvcollection[Key];
 							if (Key.ToUpper() == "TYPE")
 								ObjectTypeName = nvcollection[Key];
+                            if (Key.ToUpper() == "START")
+                                StartDate = nvcollection[Key];
+                            if (Key.ToUpper() == "END")
+                                EndDate = nvcollection[Key];
+                            if (Key.ToUpper() == "LASTENTRY")
+                                JustLastEntry = true;
 						}
+                        //ConsoleOutputLogger.WriteLineToScreenOnly("...");
 
 						if (ObjectTypeName == "")
 						{
@@ -344,10 +358,64 @@ namespace HTTP
 							writeError(404, "No Method found");
 							return;
 						}
-						DateTime start = DateTime.Now-(new TimeSpan(14,0,0,0));
-							
-							
-						String Output = JSON_Data.GenerateDataJSONOutput(ObjectTypes.Sensor, ObjectTypeName, ObjectName,start,DateTime.Now);
+                        if (StartDate == "") // defaults
+                        {
+                            start = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+                        }
+                        else
+                        {
+                            // parse the date and set it...
+                            // since we are only interested in the day, month and year it's necessary to only parse that
+                            // we expect the following format: day-month-year
+                            // for example: 12-01-2012 will be 12th of January 2012
+                            String[] Splitted = StartDate.Split(new char[1] { '-' });
+
+                            if (Splitted.Length == 3)
+                            {
+                                Int32 year = Convert.ToInt32(Splitted[2]);
+                                Int32 month = Convert.ToInt32(Splitted[1]);
+                                Int32 day = Convert.ToInt32(Splitted[0]);
+
+                                start = new DateTime(year, month, day);
+                            }
+                            else
+                            {
+                                start = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+                            }
+                        }
+
+                        if (EndDate == "")
+                        {
+                            end = DateTime.Now;
+                        }
+                        else
+                        {
+                            // parse the date and set it...
+                            // since we are only interested in the day, month and year it's necessary to only parse that
+                            // we expect the following format: day-month-year
+                            // for example: 12-01-2012 will be 12th of January 2012
+                            String[] Splitted = EndDate.Split(new char[1] { '-' });
+
+                            if (Splitted.Length == 3)
+                            {
+                                Int32 year = Convert.ToInt32(Splitted[2]);
+                                Int32 month = Convert.ToInt32(Splitted[1]);
+                                Int32 day = Convert.ToInt32(Splitted[0]);
+
+                                end = new DateTime(year, month, day);
+                            }
+                            else
+                            {
+                                end = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+                            }
+                        }
+
+                        //ConsoleOutputLogger.WriteLineToScreenOnly("...");
+                        String Output;
+                        if (!JustLastEntry)
+						    Output = JSON_Data.GenerateDataJSONOutput(ObjectTypes.Sensor, ObjectTypeName, ObjectName,start,end);
+                        else
+                            Output = JSON_Data.GenerateDataJSONOutput_LastEntryOnly(ObjectTypes.Sensor, ObjectTypeName, ObjectName);
 
 						int left = new UTF8Encoding().GetByteCount(Output);
 						//writeSuccess(left, "application/json");
@@ -359,11 +427,188 @@ namespace HTTP
 					}
 					#endregion
 
+                    #region Power Sensor Data
+                    if (url.ToUpper().StartsWith("POWERSENSOR"))
+                    {
+                        method_found = true;
+                        url = url.Remove(0, 11);
+
+                        NameValueCollection nvcollection = HttpUtility.ParseQueryString(url);
+
+                        // TODO: ADD handling and calculation here
+                        String ObjectName = "";
+                        String StartDate = "";
+                        String EndDate = "";
+                        String OutputType = "";
+                        DateTime start = DateTime.Now;
+                        DateTime end = DateTime.Now;
+                        PowerSensorOutputs Outputs = PowerSensorOutputs.HourkWh;
+                        
+                        foreach (String Key in nvcollection.AllKeys)
+                        {
+                            if (Key.ToUpper() == "NAME")
+                                ObjectName = nvcollection[Key];
+                            if (Key.ToUpper() == "TYPE")
+                                OutputType = nvcollection[Key];
+                            if (Key.ToUpper() == "START")
+                                StartDate = nvcollection[Key];
+                            if (Key.ToUpper() == "END")
+                                EndDate = nvcollection[Key];
+                        }
+
+                        if (ObjectName == "")
+                        {
+                            writeError(404, "No Method found");
+                            return;
+                        }
+                        if (StartDate == "") // defaults
+                        {
+                            start = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+                        }
+                        else
+                        {
+                            // parse the date and set it...
+                            // since we are only interested in the day, month and year it's necessary to only parse that
+                            // we expect the following format: day-month-year
+                            // for example: 12-01-2012 will be 12th of January 2012
+                            String[] Splitted = StartDate.Split(new char[1] { '-' });
+
+                            if (Splitted.Length == 3)
+                            {
+                                Int32 year = Convert.ToInt32(Splitted[2]);
+                                Int32 month = Convert.ToInt32(Splitted[1]);
+                                Int32 day = Convert.ToInt32(Splitted[0]);
+
+                                start = new DateTime(year, month, day);
+                            }
+                            else
+                            {
+                                start = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+                            }
+                        }
+
+                        if (EndDate == "")
+                        {
+                            end = DateTime.Now;
+                        }
+                        else
+                        {
+                            // parse the date and set it...
+                            // since we are only interested in the day, month and year it's necessary to only parse that
+                            // we expect the following format: day-month-year
+                            // for example: 12-01-2012 will be 12th of January 2012
+                            String[] Splitted = EndDate.Split(new char[1] { '-' });
+
+                            if (Splitted.Length == 3)
+                            {
+                                Int32 year = Convert.ToInt32(Splitted[2]);
+                                Int32 month = Convert.ToInt32(Splitted[1]);
+                                Int32 day = Convert.ToInt32(Splitted[0]);
+
+                                end = new DateTime(year, month, day);
+                            }
+                            else
+                            {
+                                end = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+                            }
+                        }
+
+
+                        if (OutputType.ToUpper() == "HOUR")
+                            Outputs = PowerSensorOutputs.HourkWh;
+
+                        if (OutputType.ToUpper() == "HOURPEAK")
+                            Outputs = PowerSensorOutputs.HourPeakkWh;
+
+                        if (OutputType.ToUpper() == "CALCKWH")
+                            Outputs = PowerSensorOutputs.CalculatedkWhCounterTotal;
+
+                        if (OutputType.ToUpper() == "CALCDAILYKWH")
+                            Outputs = PowerSensorOutputs.CalculatedDailykWh;
+
+                        if (OutputType.ToUpper() == "CALCHOURLYKWH")
+                            Outputs = PowerSensorOutputs.CalculatedHourlykWh;
+
+                        String Output = JSON_Data.GeneratePowerSensorJSONOutput(Outputs,ObjectName, start, end);
+
+                        int left = new UTF8Encoding().GetByteCount(Output);
+                        writeSuccess(left, "text/html");
+                        byte[] buffer = new UTF8Encoding().GetBytes(Output);
+                        ns.Write(buffer, 0, left);
+                        ns.Flush();
+                        return;
+                    }
+                    #endregion
+
 					#region Actor Data
 					if (url.ToUpper().StartsWith("ACTOR"))
 					{
 						method_found = true;
 						url = url.Remove(0,5);
+						
+						NameValueCollection nvcollection = HttpUtility.ParseQueryString(url);
+						String ObjectName = "";
+						String OutputType = "";
+                        ActorsStatusOutputTypes ActorOutputType = ActorsStatusOutputTypes.Binary;
+
+						foreach (String Key in nvcollection.AllKeys)
+						{
+							if (Key.ToUpper() == "NAME")
+								ObjectName = nvcollection[Key];
+							if (Key.ToUpper() == "OUTPUTTYPE")
+								OutputType = nvcollection[Key];
+						}
+
+						if (ObjectName == "")
+						{
+							writeError(404, "No Method found");
+							return;
+						}
+
+                        if (OutputType != "")
+                        {
+                            if (OutputType.ToUpper() == "BINARY")
+                                ActorOutputType = ActorsStatusOutputTypes.Binary;
+
+                            if (OutputType.ToUpper() == "TRUEFALSE")
+                                ActorOutputType = ActorsStatusOutputTypes.TrueFalse;
+
+                            if (OutputType.ToUpper() == "ONOFF")
+                                ActorOutputType = ActorsStatusOutputTypes.OnOff;
+                        }
+						
+						// now we should have a name we need to look up
+						bool foundactor = false;
+						
+						// get the XS1 Actuator List to find the ID and the Preset ID
+                        XS1ActuatorList actuatorlist = XS1_Configuration.getXS1ActuatorList(xs1_data_logging.Properties.Settings.Default.XS1,xs1_data_logging.Properties.Settings.Default.Username,xs1_data_logging.Properties.Settings.Default.Password);
+
+						foreach (XS1Actuator _actuator in actuatorlist.actuator)
+                        {
+                            if (_actuator.name.ToUpper() == ObjectName.ToUpper())
+                            {
+								// we found one!
+								foundactor = true;
+								
+								// TODO: we need to output a JSON dataset here
+                                bool Status = false;
+
+                                if (_actuator.value == 0.0)
+                                    Status = false;
+                                else
+                                    Status = true;
+
+                                String Output = JSON_Data.GenerateJSONDataActorStatus(ActorOutputType, _actuator.name);
+
+                                int left = new UTF8Encoding().GetByteCount(Output);
+                                writeSuccess(left, "text/html");
+                                byte[] buffer = new UTF8Encoding().GetBytes(Output);
+                                ns.Write(buffer, 0, left);
+                                ns.Flush();
+                                return;
+							}
+						}
+						
 					}
 					#endregion
 
@@ -619,7 +864,7 @@ namespace HTTP
 			}
 			catch (Exception e)
 			{
-				ConsoleOutputLogger.WriteLineToScreenOnly("[FEHLER@HTTP] " + e.Message);
+				ConsoleOutputLogger.WriteLineToScreenOnly("[FEHLER@HTTP] " + e.Message+" ## "+e.StackTrace);
 				writeFailure();
 			}
 		}

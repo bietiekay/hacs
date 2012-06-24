@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -10,9 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>xs1_data_logging</RootNamespace>
     <AssemblyName>xs1-data-logging</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -51,35 +48,50 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleOutputLogger.cs" />
+    <Compile Include="ActorReSwitching.cs" />
+    <Compile Include="CurrentKnownActorStates.cs" />
+    <Compile Include="PowerSensor\PowerSensorConfiguration.cs" />
+    <Compile Include="current_actor_status.cs" />
     <Compile Include="HTTP\HTTPProcessor.cs" />
     <Compile Include="HTTP\HTTPServer.cs" />
     <Compile Include="JSONHandlers\JSONData.cs" />
     <Compile Include="LoggingThread.cs" />
+    <Compile Include="PowerSensor\PowerSensorOutputTypes.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ScriptingTimers\ScriptingTimerThread.cs" />
+    <Compile Include="ScriptingTimers\ScriptingTimerConfiguration.cs" />
+    <Compile Include="ScriptingTimers\ScriptingTimerOperationModes.cs" />
     <Compile Include="set_state_actuator\set_state_actuator.cs" />
     <Compile Include="xs1-data-logging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="configuration.cs" />
+    <Compile Include="ScriptingActorConfiguration.cs" />
+    <Compile Include="ActorStatusOutputTypes.cs" />
+    <Compile Include="SensorCheck.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ScriptingTimerConfiguration.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="PowerSensorConfiguration.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="ScriptingActorConfiguration.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConsoleOutputLogger\ConsoleOutputLogger.csproj">
-      <Project>{55D802EB-88E0-4996-9802-05DACDE70552}</Project>
-      <Name>ConsoleOutputLogger</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataObjectOnDisk\DataObjectOnDisk.csproj">
       <Project>{16D19293-2334-44DC-9BEA-39651DA8F58B}</Project>
       <Name>DataObjectOnDisk</Name>
@@ -105,6 +117,7 @@
       <Name>XS1_DataObject</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

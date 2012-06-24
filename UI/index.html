@@ -4,34 +4,76 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>h.a.c.s. XS1 Chart-Tool</title>
     <link href="layout.css" rel="stylesheet" type="text/css"></link>
+	<link href="libs/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"></link>
     <!--[if IE]><script language="javascript" type="text/javascript" src="libs/excanvas.min.js"></script><![endif]-->
     <script language="javascript" type="text/javascript" src="libs/jquery.js"></script>
     <script language="javascript" type="text/javascript" src="libs/jquery.flot.js"></script>
     <script language="javascript" type="text/javascript" src="libs/jquery.flot.selection.js"></script>
- </head>
+	<script language="javascript" type="text/javascript" src="libs/jquery-ui-1.8.16.custom.min.js"></script>
+ <script language="javascript">
+	$(function(){
+
+				// Datepicker
+				$('#datepicker_start').datepicker({
+					inline: true
+				});
+				
+				//hover states on the static widgets
+				$('#dialog_link, ul#icons li').hover(
+					function() { $(this).addClass('ui-state-hover'); }, 
+					function() { $(this).removeClass('ui-state-hover'); }
+				);
+				
+			});
+</script>
+ <script language="javascript">
+	$(function(){
+
+				// Datepicker
+				$('#datepicker_end').datepicker({
+					inline: true
+				});
+				
+				//hover states on the static widgets
+				$('#dialog_link, ul#icons li').hover(
+					function() { $(this).addClass('ui-state-hover'); }, 
+					function() { $(this).removeClass('ui-state-hover'); }
+				);
+				
+			});
+</script>
+</head>
+<body>
 	<button id="allTemp">All Temperatures</button>
     Temperatur:
     <select id="tempsensorchanger" name="tempsensorchanger" size="1">
       <option>keine Auswahl</option>
-      <option value="Abstellkammer">Abstellkammer</option>
-      <option value="Schlafzimmer">Schlafzimmer</option>
+      <option value="Terassenraum">Terassenraum</option>
+      <option value="Wohnzimmer">Wohnzimmer</option>
       <option value="Kueche">K&uuml;che</option>
       <option value="Arbeitszimmer">Arbeitszimmer</option>
-      <option value="Bad">Bad</option>
-      <option value="Keller">Keller</option>
-    </select>
+      <option value="Bad_oben">Bad oben</option>
+      <option value="Schlafzimmer">Schlafzimmer</option>
+	  <option value="Dachboden">Dachboden</option>
+	  <option value="Schuppen">Schuppen</option>
+    </select>	
 	<button id="allHygro">All Hygrometers</button>
     Luftfeuchtigkeit:
     <select id="hygrosensorchanger" name="hygrosensorchanger" size="1">
       <option>keine Auswahl</option>
-      <option value="Abstellkammer_">Abstellkammer</option>
-      <option value="Schlafzimmer_">Schlafzimmer</option>
+      <option value="Terassenraum_">Abstellkammer</option>
+      <option value="Wohnzimmer_">Wohnzimmer</option>
       <option value="Kueche_">K&uuml;che</option>
       <option value="Arbeitszimmer_">Arbeitszimmer</option>
-      <option value="Bad_">Bad</option>
-      <option value="Keller_">Keller</option>
-    </select>
- 
+      <option value="Bad_oben_">Bad oben</option>
+      <option value="Schlafzimmer_">Schlafzimmer</option>
+	  <option value="Dachboden_">Dachboden</option>
+	  <option value="Schuppen_">Schuppen</option>
+	</select>
+	<button id="pwrHourlySensor">Power Hourly Consumption</button>
+	<button id="pwrSensorDaily">Daily Power Consumption</button>
+	<button id="pwrSensor">Power Consumption (RAW)</button>
+	<button id="pwrPeak">Power Peak Consumption (RAW)</button>
     <div id="placeholder" align="center" style="width:1000px;height:600px;"></div>
 	<p id="hoverdata"></p>
 	<button id="alldata">all data</button>
@@ -40,6 +82,15 @@
 	<button id="yesterday">yesterday</button>
 	<button id="currentweek">current week</button>
 	<button id="currentmonth">current month</button>
+	<button id="clear">Clear Graphs</button>
+	<p>
+	<a href="/config/index.html">XS1 Configuration</a><p>
+	<a href="temperatures.htm">Temperatures Gauges</a><p>
+	<a href="humidity.htm">Humidity Gauges</a><p>
+<!--- Here's a little experiment to add date regions -->
+<!---	Start-Date <input name="startdate" id="datepicker_start" type="text"></input>
+	End-Date <input name="enddate" id="datepicker_end" type="text"></input>
+	<button id="dateselected">Go!</button>-->
 <script id="source" language="javascript" type="text/javascript">
 $(function () {
     var options = {
@@ -83,7 +134,8 @@ $(function () {
 
     // fetch one series, adding to what we got
 	// find the URL in the link right next to us 
-	var dataurl = "/data/sensor?name=Arbeitszimmer&type=temperature";
+	//var dataurl = "/data/sensor?name=Arbeitszimmer&type=temperature";
+	var dataurl = "/data/powersensor?name=Stromzaehler&type=CALCHOURLYKWH";
 	
 	// then fetch the data with jQuery
 	function onDataReceived(series) 
@@ -102,7 +154,7 @@ $(function () {
 		// and plot all we got
 		plot = $.plot(placeholder, data, options);
 		lastsortof = sortof;
-	 }
+	}
 		
 	$.ajax(
 	{
@@ -261,7 +313,7 @@ $(function () {
 			xaxis: 
 			{
 				mode: "time",
-				minTickSize: [1, "day"],
+				//minTickSize: [1, "day"],
 			}
 		}
 
@@ -281,7 +333,7 @@ $(function () {
 				success: onDataReceived
 			});
 		});
-	
+		
 	$("#hygrosensorchanger").change(
 		function()
 		{
@@ -332,6 +384,76 @@ $(function () {
 		}
 	}
 	);
+	
+	$("#pwrSensor").click(
+	function()
+	{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/sensor?name=Stromzaehler&type=pwr_consump",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});		
+	}
+	);
+
+	$("#pwrPeak").click(
+	function()
+	{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/sensor?name=Stromzaehler_&type=pwr_peak",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
+
+	}
+	);
+	
+	$("#pwrSensorDaily").click(
+	function()
+	{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/powersensor?name=Stromzaehler&type=CALCDAILYKWH",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
+
+	}
+	);	
+	
+	$("#pwrHourlySensor").click(
+	function()
+	{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/powersensor?name=Stromzaehler&type=CALCHOURLYKWH",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
+
+	}
+	);
+
+	$("#clear").click(
+	function()
+	{
+			sortof = 99;
+			data = [];
+			data.push([]);		
+			plot = $.plot(placeholder, data, options);
+	}
+	);	
+	
 });
 </script>
 

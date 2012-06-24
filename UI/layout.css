@@ -4,3 +4,6 @@ body {
   margin: 50px;
   max-width: 800px;
 }
+
+#resizeable { width: 150px; height: 150px; padding: 0.5em; }
+
