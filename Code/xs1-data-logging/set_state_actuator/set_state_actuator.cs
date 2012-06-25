@@ -48,7 +48,7 @@ namespace xs1_data_logging.set_state_actuator
                         }
                     }
 
-                    #region error handling
+                    #region doing real stuff
                     if (foundpreset)
                     {
                         if (foundActorID != 0)

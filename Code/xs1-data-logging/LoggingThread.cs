@@ -25,6 +25,7 @@ namespace xs1_data_logging
         XS1Configuration XS1_Configuration = null;
         Int32 ConfigurationCacheMinutes;
         public Boolean AcceptingCommands = false;
+        public List<String> TemporaryBlacklist = new List<string>();
 
         bool Shutdown = false;
 
@@ -52,7 +53,7 @@ namespace xs1_data_logging
             SensorCheck Sensorcheck = new SensorCheck();
             Thread SensorCheckThread = new Thread(new ThreadStart(Sensorcheck.Run));
 			SensorCheckThread.Start();
-            ActorReswitching ActorReSwitch_ = new ActorReswitching(XS1_Configuration);
+            ActorReswitching ActorReSwitch_ = new ActorReswitching(XS1_Configuration, TemporaryBlacklist);
             Thread ActorReswitchThread = new Thread(new ThreadStart(ActorReSwitch_.Run));
             ActorReswitchThread.Start();
 
@@ -112,21 +113,35 @@ namespace xs1_data_logging
 
                                 lock(KnownActorStates.KnownActorStatuses)
                                 {
-                                    if (KnownActorStates.KnownActorStatuses.ContainsKey(dataobject.Name))
+                                    bool usethisactor = true;
+                                    // check if this actor is on temporary blacklist (like when it was handled)
+                                    lock (TemporaryBlacklist)
                                     {
-                                        // is contained
-                                        if (dataobject.Value == 100)
-                                            KnownActorStates.KnownActorStatuses[dataobject.Name] = new current_actor_status(dataobject.Name, actor_status.On);
-                                        else
-                                            KnownActorStates.KnownActorStatuses[dataobject.Name] = new current_actor_status(dataobject.Name, actor_status.Off);
+                                        if (TemporaryBlacklist.Contains(dataobject.Name))
+                                            usethisactor = false;
+                                        TemporaryBlacklist.Remove(dataobject.Name);
                                     }
-                                    else 
+
+                                    if (usethisactor)
                                     {
-                                        if (dataobject.Value == 100)
-                                            KnownActorStates.KnownActorStatuses.Add(dataobject.Name, new current_actor_status(dataobject.Name, actor_status.On));
+                                        if (KnownActorStates.KnownActorStatuses.ContainsKey(dataobject.Name))
+                                        {
+                                            // is contained
+                                            if (dataobject.Value == 100)
+                                                KnownActorStates.KnownActorStatuses[dataobject.Name] = new current_actor_status(dataobject.Name, actor_status.On);
+                                            else
+                                                KnownActorStates.KnownActorStatuses[dataobject.Name] = new current_actor_status(dataobject.Name, actor_status.Off);
+                                        }
                                         else
-                                            KnownActorStates.KnownActorStatuses.Add(dataobject.Name, new current_actor_status(dataobject.Name, actor_status.Off));                                
+                                        {
+                                            if (dataobject.Value == 100)
+                                                KnownActorStates.KnownActorStatuses.Add(dataobject.Name, new current_actor_status(dataobject.Name, actor_status.On));
+                                            else
+                                                KnownActorStates.KnownActorStatuses.Add(dataobject.Name, new current_actor_status(dataobject.Name, actor_status.Off));
+                                        }
                                     }
+                                    else
+                                        ConsoleOutputLogger.WriteLine("Actor "+dataobject.Name+" is on the blacklist (ActorReSwitching) and therefore is ignored this time.");
                                 }
                             }
                             else
