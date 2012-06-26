@@ -44,5 +44,8 @@
     <Setting Name="AutomatedSensorCheck_ResponseTimeWindow" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
+    <Setting Name="SensorCheckIgnoreFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SensorCheckIgnoreList.config</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

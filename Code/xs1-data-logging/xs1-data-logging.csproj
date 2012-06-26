@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="ConsoleOutputLogger.cs" />
     <Compile Include="ActorReSwitching.cs" />
+    <Compile Include="SensorCheckIgnoreList.cs" />
     <Compile Include="CurrentKnownActorStates.cs" />
     <Compile Include="PowerSensor\PowerSensorConfiguration.cs" />
     <Compile Include="current_actor_status.cs" />
@@ -74,6 +75,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="SensorCheckIgnoreList.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ScriptingTimerConfiguration.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

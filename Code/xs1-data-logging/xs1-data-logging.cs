@@ -57,6 +57,7 @@ namespace xs1_data_logging
             ScriptingActorConfiguration.ReadConfiguration(Properties.Settings.Default.ScriptingActorConfigurationFilename);
             PowerSensorConfiguration.ReadConfiguration(Properties.Settings.Default.PowerSensorConfigurationFilename);
             ScriptingTimerConfiguration.ReadConfiguration(Properties.Settings.Default.ScriptingTimerConfigurationFilename);
+            SensorCheckIgnoreConfiguration.ReadConfiguration(Properties.Settings.Default.SensorCheckIgnoreFile);
 
             #region Logging and Actor Handling
             ConsoleOutputLogger.WriteLineToScreenOnly("Starting Logging for Server: " + Properties.Settings.Default.XS1);                        

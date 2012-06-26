@@ -190,5 +190,17 @@ namespace xs1_data_logging.Properties {
                 this["AutomatedSensorCheck_ResponseTimeWindow"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("SensorCheckIgnoreList.config")]
+        public string SensorCheckIgnoreFile {
+            get {
+                return ((string)(this["SensorCheckIgnoreFile"]));
+            }
+            set {
+                this["SensorCheckIgnoreFile"] = value;
+            }
+        }
     }
 }
