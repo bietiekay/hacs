@@ -26,6 +26,7 @@ namespace xs1_data_logging
         Int32 ConfigurationCacheMinutes;
         public Boolean AcceptingCommands = false;
         public List<String> TemporaryBlacklist = new List<string>();
+        public List<String> OnWaitOffLIst = new List<string>();
 
         bool Shutdown = false;
 
@@ -53,7 +54,7 @@ namespace xs1_data_logging
             SensorCheck Sensorcheck = new SensorCheck();
             Thread SensorCheckThread = new Thread(new ThreadStart(Sensorcheck.Run));
 			SensorCheckThread.Start();
-            ActorReswitching ActorReSwitch_ = new ActorReswitching(XS1_Configuration, TemporaryBlacklist);
+            ActorReswitching ActorReSwitch_ = new ActorReswitching(XS1_Configuration, TemporaryBlacklist,OnWaitOffLIst);
             Thread ActorReswitchThread = new Thread(new ThreadStart(ActorReSwitch_.Run));
             ActorReswitchThread.Start();
 
@@ -176,6 +177,13 @@ namespace xs1_data_logging
                                                 if (Element.ActionToRunName == actor_status.Off)
                                                 {
                                                     ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
+                                                    
+                                                    // remove from OnWaitOffList
+                                                    lock (OnWaitOffLIst)
+                                                    {
+                                                        if (OnWaitOffLIst.Contains(Element.ActorToSwitchName))
+                                                            OnWaitOffLIst.Remove(Element.ActorToSwitchName);
+                                                    }
                                                 }
 
                                                 if (Element.ActionToRunName == actor_status.OnOff)
@@ -196,9 +204,13 @@ namespace xs1_data_logging
                                                             ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
                                                     }
                                                 }
-
                                                 if (Element.ActionToRunName == actor_status.OnWaitOff)
                                                 {
+                                                    lock (OnWaitOffLIst)
+                                                    {
+                                                        ConsoleOutputLogger.WriteLine("Adding " + Element.ActorToSwitchName + " to ActorReSwitching OnWaitOff List");
+                                                        OnWaitOffLIst.Add(Element.ActorToSwitchName);
+                                                    }
                                                     ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON_WAIT_OFF", XS1_Configuration);
                                                 }
                                             }

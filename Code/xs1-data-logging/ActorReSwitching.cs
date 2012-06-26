@@ -10,11 +10,13 @@ namespace xs1_data_logging
 		private bool _Shutdown = false;
         private XS1Configuration XS1_Configuration = null;
         private List<String> TemporaryBlacklist = null;
+        private List<String> OnWaitOffList = null;
 
-        public ActorReswitching(XS1Configuration configuration,List<String> BlackList)
+        public ActorReswitching(XS1Configuration configuration, List<String> BlackList, List<String> OWOList)
 		{
             XS1_Configuration = configuration;
             TemporaryBlacklist = BlackList;
+            OnWaitOffList = OWOList;
 		}
 
 		public void Shutdown()
@@ -54,41 +56,44 @@ namespace xs1_data_logging
                             // state, just to make sure that they were successfully switched (just ON/OFF states)
                             if ((DateTime.Now - status.LastUpdate).TotalMinutes <= xs1_data_logging.Properties.Settings.Default.SwitchAgainTimeWindowMinutes)
                             {
-                                // we need to check if this actor has on/off states or others, like ON-WAIT-OFF
-                                foreach(ScriptingActorElement element in ScriptingActorConfiguration.ScriptingActorActions)
+                                bool ignorethisone = false;
+                                lock(OnWaitOffList)
                                 {
-                                    if (element.ActorToSwitchName == status.ActorName)
+                                    if (OnWaitOffList.Contains(status.ActorName))
                                     {
-                                        if (element.ActionToRunName != actor_status.OnWaitOff)
-                                        {
-                                            ConsoleOutputLogger.WriteLine("Switching again actor " + status.ActorName + "(" + (DateTime.Now - status.LastUpdate).TotalMinutes + ")");
-                                            // yes, within the last given number of minutes
-                                            set_state_actuator.set_state_actuator ssa = new set_state_actuator.set_state_actuator();
-                                            #region ON state
-                                            if (status.Status == actor_status.On)
-                                            {
-                                                // set on temporary blacklist
-                                                lock (TemporaryBlacklist)
-                                                {
-                                                    TemporaryBlacklist.Add(status.ActorName);
-                                                }
-                                                ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, status.ActorName, "ON", XS1_Configuration);
-                                            }
-                                            #endregion
-
-                                            #region OFF state
-                                            if (status.Status == actor_status.Off)
-                                            {
-                                                // set on temporary blacklist
-                                                lock (TemporaryBlacklist)
-                                                {
-                                                    TemporaryBlacklist.Add(status.ActorName);
-                                                }
-                                                ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, status.ActorName, "OFF", XS1_Configuration);
-                                            }
-                                            #endregion
-                                        }
+                                        Console.WriteLine(status.ActorName+" is on the ignorelist");
+                                        ignorethisone = true;
                                     }
+                                }
+                                
+                                if (!ignorethisone)
+                                {
+                                    ConsoleOutputLogger.WriteLine("Switching again actor " + status.ActorName + "(" + (DateTime.Now - status.LastUpdate).TotalMinutes + ")");
+                                    // yes, within the last given number of minutes
+                                    set_state_actuator.set_state_actuator ssa = new set_state_actuator.set_state_actuator();
+                                    #region ON state
+                                    if (status.Status == actor_status.On)
+                                    {
+                                        // set on temporary blacklist
+                                        lock (TemporaryBlacklist)
+                                        {
+                                            TemporaryBlacklist.Add(status.ActorName);
+                                        }
+                                        ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, status.ActorName, "ON", XS1_Configuration);
+                                    }
+                                    #endregion
+
+                                    #region OFF state
+                                    if (status.Status == actor_status.Off)
+                                    {
+                                        // set on temporary blacklist
+                                        lock (TemporaryBlacklist)
+                                        {
+                                            TemporaryBlacklist.Add(status.ActorName);
+                                        }
+                                        ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, status.ActorName, "OFF", XS1_Configuration);
+                                    }
+                                    #endregion
                                 }
                             }
                             Thread.Sleep(2000);
