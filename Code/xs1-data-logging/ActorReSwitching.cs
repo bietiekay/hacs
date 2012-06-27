@@ -61,7 +61,7 @@ namespace xs1_data_logging
                                 {
                                     if (OnWaitOffList.Contains(status.ActorName))
                                     {
-                                        Console.WriteLine(status.ActorName+" is on the ignorelist");
+                                        //Console.WriteLine(status.ActorName+" is on the ignorelist");
                                         ignorethisone = true;
                                     }
                                 }
