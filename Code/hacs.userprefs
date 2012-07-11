@@ -1,20 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/SensorCheck.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ConsoleOutputLogger/ConsoleOutputLogger.cs">
     <Files>
-      <File FileName="../../fallen-8/Fallen-8-Intro/Dependencies/Fallen-8/Fallen-8/Persistency/EdgeSneakPeak.cs" Line="1" Column="1" />
-      <File FileName="../../fallen-8/Fallen-8-Intro/Fallen-8 Intro/Service/IntroService.cs" Line="1" Column="1" />
-      <File FileName="../../fallen-8/Fallen-8-Intro/Fallen-8 Intro/Server.settings" Line="1" Column="1" />
-      <File FileName="../../fallen-8/Fallen-8-Intro/Fallen-8 Intro/IntroProvider.cs" Line="1" Column="1" />
-      <File FileName="../../fallen-8/Fallen-8-Intro/Fallen-8 Intro/Import.cs" Line="1" Column="1" />
-      <File FileName="../../fallen-8/Fallen-8-Intro/Fallen-8 Intro/Program.cs" Line="1" Column="1" />
-      <File FileName="../../fallen-8/Fallen-8-Intro/Fallen-8 Intro/Program.manifest" Line="1" Column="1" />
-      <File FileName="../../fallen-8/Fallen-8-Intro/Fallen-8 Intro/Benchmark.cs" Line="1" Column="1" />
-      <File FileName="../../fallen-8/Fallen-8-Intro/Dependencies/Fallen-8/Dependencies/FastSerializer/Serialization/IByteCompressor.cs" Line="1" Column="1" />
-      <File FileName="../../fallen-8/Fallen-8-Intro/Dependencies/Fallen-8/Dependencies/FastSerializer/Serialization/DrawingFastSerializationHelper.cs" Line="28" Column="1" />
-      <File FileName="xs1-data-logging/LoggingThread.cs" Line="78" Column="35" />
-      <File FileName="xs1-data-logging/SensorCheck.cs" Line="59" Column="9" />
+      <File FileName="ConsoleOutputLogger/ConsoleOutputLogger.cs" Line="59" Column="60" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="ConsoleOutputLogger" expanded="True">
+            <Node name="ConsoleOutputLogger.cs" selected="True" />
+          </Node>
+          <Node name="xs1-data-logging" expanded="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

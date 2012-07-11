@@ -14,7 +14,7 @@ namespace xs1_data_logging
         private static LinkedList<String> LoggerList = new LinkedList<String>();
         public static bool verbose = false;
         public static bool writeLogfile = false;
-
+		public static DateTime LastWrite = null;
         public static StreamWriter Logfile = null;
 
         public static void SetNumberOfMaxEntries(int Number)
@@ -32,13 +32,35 @@ namespace xs1_data_logging
             return Max_Number_Of_Entries;
         }
 
+		private bool lastEntryYesterday()
+    	{
+            if (DateTime.Now.Day != LastWrite.Day)
+				return true;
+			else
+				return false;
+        }
+
         public static void LogToFile(String text)
         {
             if (Logfile == null)
             {
-                Logfile = new StreamWriter("data.log", true);
+                Logfile = new StreamWriter(DateTime.Now.ToShortDateString+"-xs1.log", true);
                 Logfile.AutoFlush = true;
             }
+			if (LastWrite == null)
+				LastWrite = DateTime.Now;
+
+			// check if the day changed, if it did, we start a new log-file
+			if (lastEntryYesterday())
+			{
+				// when the logfile is open already, we close it
+				if (Logfile != null)
+					Logfile.Close();
+				// now we reopen/create the new logfile for this day...
+				Logfile = new StreamWriter(DateTime.Now.ToShortDateString+"-xs1.log", true);
+				Logfile.AutoFlush = true;
+			}
+
             lock (Logfile)
             {
                 Logfile.WriteLine(text);
@@ -48,6 +70,7 @@ namespace xs1_data_logging
         public static void WriteLine(String text)
         {
             DateTime TimeDate = DateTime.Now;
+			LastWrite = TimeDate;
 
             text = TimeDate.ToShortDateString() + " - " + TimeDate.ToShortTimeString() + " " + text;
 
