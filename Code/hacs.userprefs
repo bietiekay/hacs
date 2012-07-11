@@ -1,16 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ConsoleOutputLogger/ConsoleOutputLogger.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/JSONHandlers/JSONData.cs">
     <Files>
-      <File FileName="ConsoleOutputLogger/ConsoleOutputLogger.cs" Line="59" Column="60" />
+      <File FileName="xs1-data-logging/JSONHandlers/JSONData.cs" Line="510" Column="89" />
+      <File FileName="xs1-data-logging/JSONHandlers/DataCache.cs" Line="62" Column="25" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="ConsoleOutputLogger" expanded="True">
-            <Node name="ConsoleOutputLogger.cs" selected="True" />
+          <Node name="Storage" expanded="True">
+            <Node name="DataObjectOnDisk" expanded="True" />
           </Node>
-          <Node name="xs1-data-logging" expanded="True" />
+          <Node name="xs1-data-logging" expanded="True">
+            <Node name="JSONHandlers" expanded="True">
+              <Node name="JSONData.cs" selected="True" />
+            </Node>
+          </Node>
         </State>
       </Pad>
     </Pads>

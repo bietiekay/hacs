@@ -16,11 +16,13 @@ namespace xs1_data_logging.JSONHandlers
     {
         private TinyOnDiskStorage sensor_data;
         private ConsoleOutputLogger ConsoleOutputLogger;
+		private DataCache Cache;
 
         public JSONData(TinyOnDiskStorage sensor_data_storage, ConsoleOutputLogger Logger)
         {
             sensor_data = sensor_data_storage;
             ConsoleOutputLogger = Logger;
+			Cache = new DataCache(1000000);	// set the maximum number of cached items
         }
 		
         /// <summary>
@@ -47,7 +49,7 @@ namespace xs1_data_logging.JSONHandlers
 			
 			// TODO: there should be an appropriate caching algorithm in the sensor data... 
 
-            lock (sensor_data)
+            lock (sensor_data.InMemoryIndex)
             {
                 foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
                 {
@@ -55,10 +57,8 @@ namespace xs1_data_logging.JSONHandlers
                     {
                         if (ondisc.CreationTime <= EndDateTime.Ticks)
                         {
-                            XS1_DataObject dataobject = new XS1_DataObject();
-
-                            dataobject.Deserialize(sensor_data.Read(ondisc));
-                            SerializerCounter++;
+                            XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
+							SerializerCounter++;
 
                             if (dataobject.Type == DataType)
                             {
@@ -131,7 +131,7 @@ namespace xs1_data_logging.JSONHandlers
 			UInt64 SerializerCounter = 0;
 			
 			// TODO: there should be an appropriate caching algorithm in the sensor data... 
-            lock (sensor_data)
+            lock (sensor_data.InMemoryIndex)
             {
                 foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
                 {
@@ -139,9 +139,7 @@ namespace xs1_data_logging.JSONHandlers
                     {
                         if (ondisc.CreationTime <= EndDateTime.Ticks)
                         {
-                            XS1_DataObject dataobject = new XS1_DataObject();
-
-                            dataobject.Deserialize(sensor_data.Read(ondisc));
+                            XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
                             SerializerCounter++;
 
                             if (dataobject.Type == DataType)
@@ -190,13 +188,11 @@ namespace xs1_data_logging.JSONHandlers
             String Value = "0.0";
 
             // TODO: there should be an appropriate caching algorithm in the sensor data... 
-            lock (sensor_data)
+            lock (sensor_data.InMemoryIndex)
             {
                 foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex.Reverse<OnDiscAdress>())
                 {
-                    XS1_DataObject dataobject = new XS1_DataObject();
-
-                    dataobject.Deserialize(sensor_data.Read(ondisc));
+                    XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
                     SerializerCounter++;
 
                     if (dataobject.Type == DataType)
@@ -241,7 +237,7 @@ namespace xs1_data_logging.JSONHandlers
                 Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
                 UInt64 SerializerCounter = 0;
 
-                lock (sensor_data)
+                lock (sensor_data.InMemoryIndex)
                 {
                     foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
                     {
@@ -249,9 +245,7 @@ namespace xs1_data_logging.JSONHandlers
                         {
                             if (ondisc.CreationTime <= EndDateTime.Ticks)
                             {
-                                XS1_DataObject dataobject = new XS1_DataObject();
-
-                                dataobject.Deserialize(sensor_data.Read(ondisc));
+                                XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
                                 SerializerCounter++;
 
                                 if (dataobject.Type == ObjectTypes.Sensor)
@@ -285,7 +279,7 @@ namespace xs1_data_logging.JSONHandlers
                 Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
                 UInt64 SerializerCounter = 0;
 
-                lock (sensor_data)
+                lock (sensor_data.InMemoryIndex)
                 {
                     foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
                     {
@@ -293,9 +287,7 @@ namespace xs1_data_logging.JSONHandlers
                         {
                             if (ondisc.CreationTime <= EndDateTime.Ticks)
                             {
-                                XS1_DataObject dataobject = new XS1_DataObject();
-
-                                dataobject.Deserialize(sensor_data.Read(ondisc));
+                                XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
                                 SerializerCounter++;
 
                                 if (dataobject.Type == ObjectTypes.Sensor)
@@ -356,9 +348,7 @@ namespace xs1_data_logging.JSONHandlers
                                 {
                                     if (ondisc.CreationTime <= EndDateTime.Ticks)
                                     {
-                                        XS1_DataObject dataobject = new XS1_DataObject();
-
-                                        dataobject.Deserialize(sensor_data.Read(ondisc));
+                                        XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
                                         SerializerCounter++;
 
                                         if (dataobject.Type == ObjectTypes.Sensor)
@@ -420,7 +410,7 @@ namespace xs1_data_logging.JSONHandlers
                 Double CurrentHourMeanValue = Double.MinValue;
 
                 // TODO: there should be an appropriate caching algorithm in the sensor data... 
-                lock (sensor_data)
+                lock (sensor_data.InMemoryIndex)
                 {
                     Double DailyMeanValue = Double.MinValue;
                     Int32 HourNumber = 0;
@@ -431,9 +421,7 @@ namespace xs1_data_logging.JSONHandlers
                         {
                             if (ondisc.CreationTime <= EndDateTime.Ticks)
                             {
-                                XS1_DataObject dataobject = new XS1_DataObject();
-
-                                dataobject.Deserialize(sensor_data.Read(ondisc));
+                                XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
                                 SerializerCounter++;
 
                                 if (dataobject.Type == ObjectTypes.Sensor)
@@ -511,7 +499,7 @@ namespace xs1_data_logging.JSONHandlers
                 Double CurrentHourMeanValue = Double.MinValue;
 
                 // TODO: there should be an appropriate caching algorithm in the sensor data... 
-                lock (sensor_data)
+                lock (sensor_data.InMemoryIndex)
                 {
                     foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
                     {
@@ -519,9 +507,7 @@ namespace xs1_data_logging.JSONHandlers
                         {
                             if (ondisc.CreationTime <= EndDateTime.Ticks)
                             {
-                                XS1_DataObject dataobject = new XS1_DataObject();
-
-                                dataobject.Deserialize(sensor_data.Read(ondisc));
+                                XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
                                 SerializerCounter++;
 
                                 if (dataobject.Type == ObjectTypes.Sensor)

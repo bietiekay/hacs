@@ -107,12 +107,13 @@ namespace sones.storage
                 byte[] ToWrite = Adresspattern.Serialize();
 
                 DatabaseIndexFile.Write(ToWrite, 0, ToWrite.Length);
-
                 DatabaseIndexFile.Flush();
 
-                // append to the inmemory index
-                InMemoryIndex.Add(Adresspattern);
-
+				lock(InMemoryIndex)
+				{
+	                // append to the inmemory index
+	                InMemoryIndex.Add(Adresspattern);
+				}
             }
         }
 
@@ -156,8 +157,11 @@ namespace sones.storage
 
         public void FlushIndexInMemory()
         {
-            InMemoryIndex.Clear();
-            InMemoryIndex = null;
+			lock(InMemoryIndex)
+			{
+	            InMemoryIndex.Clear();
+	            InMemoryIndex = null;
+			}
         }
 
         private OnDiscAdress WriteToDatabase(byte[] ToWrite)

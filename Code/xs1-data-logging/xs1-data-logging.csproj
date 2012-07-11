@@ -72,6 +72,7 @@
     <Compile Include="ScriptingActorConfiguration.cs" />
     <Compile Include="ActorStatusOutputTypes.cs" />
     <Compile Include="SensorCheck.cs" />
+    <Compile Include="JSONHandlers\DataCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
