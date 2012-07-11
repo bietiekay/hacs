@@ -15,10 +15,12 @@ namespace xs1_data_logging.JSONHandlers
     public class JSONData
     {
         private TinyOnDiskStorage sensor_data;
+        private ConsoleOutputLogger ConsoleOutputLogger;
 
-        public JSONData(TinyOnDiskStorage sensor_data_storage)
+        public JSONData(TinyOnDiskStorage sensor_data_storage, ConsoleOutputLogger Logger)
         {
             sensor_data = sensor_data_storage;
+            ConsoleOutputLogger = Logger;
         }
 		
         /// <summary>

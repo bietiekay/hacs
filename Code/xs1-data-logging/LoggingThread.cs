@@ -27,10 +27,10 @@ namespace xs1_data_logging
         public Boolean AcceptingCommands = false;
         public List<String> TemporaryBlacklist = new List<string>();
         public List<String> OnWaitOffLIst = new List<string>();
-
+        public ConsoleOutputLogger ConsoleOutputLogger;
         bool Shutdown = false;
 
-        public LoggingThread(String _ServerName, TinyOnDiskStorage _actor_store, TinyOnDiskStorage _sensor_store, TinyOnDiskStorage _unknown_store, String _Username, String _Password, Int32 _ConfigurationCacheMinutes)
+        public LoggingThread(String _ServerName, ConsoleOutputLogger Logger,TinyOnDiskStorage _actor_store, TinyOnDiskStorage _sensor_store, TinyOnDiskStorage _unknown_store, String _Username, String _Password, Int32 _ConfigurationCacheMinutes)
         {
             actor_data_store = _actor_store;
             sensor_data_store = _sensor_store;
@@ -39,6 +39,7 @@ namespace xs1_data_logging
             UserName = _Username;
             Password = _Password;
             ConfigurationCacheMinutes = _ConfigurationCacheMinutes;
+            ConsoleOutputLogger = Logger;
             //KnownActorStatuses = new Dictionary<String,current_actor_status>();
         }
 
@@ -47,14 +48,14 @@ namespace xs1_data_logging
             // initialize XS1 Configuration
             XS1_Configuration = new XS1Configuration(ConfigurationCacheMinutes);
 
-            HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort,Properties.Settings.Default.HTTPIP,Properties.Settings.Default.HTTPDocumentRoot,sensor_data_store,XS1_Configuration);
+            HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort,Properties.Settings.Default.HTTPIP,Properties.Settings.Default.HTTPDocumentRoot,sensor_data_store,XS1_Configuration, ConsoleOutputLogger);
             Thread http_server_thread = new Thread(new ThreadStart(httpServer.listen));
             http_server_thread.Start();
 
-            SensorCheck Sensorcheck = new SensorCheck();
+            SensorCheck Sensorcheck = new SensorCheck(ConsoleOutputLogger);
             Thread SensorCheckThread = new Thread(new ThreadStart(Sensorcheck.Run));
 			SensorCheckThread.Start();
-            ActorReswitching ActorReSwitch_ = new ActorReswitching(XS1_Configuration, TemporaryBlacklist,OnWaitOffLIst);
+            ActorReswitching ActorReSwitch_ = new ActorReswitching(XS1_Configuration, ConsoleOutputLogger, TemporaryBlacklist,OnWaitOffLIst);
             Thread ActorReswitchThread = new Thread(new ThreadStart(ActorReSwitch_.Run));
             ActorReswitchThread.Start();
 

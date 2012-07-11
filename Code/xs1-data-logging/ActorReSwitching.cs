@@ -11,12 +11,14 @@ namespace xs1_data_logging
         private XS1Configuration XS1_Configuration = null;
         private List<String> TemporaryBlacklist = null;
         private List<String> OnWaitOffList = null;
+        private ConsoleOutputLogger ConsoleOutputLogger;
 
-        public ActorReswitching(XS1Configuration configuration, List<String> BlackList, List<String> OWOList)
+        public ActorReswitching(XS1Configuration configuration, ConsoleOutputLogger Logger, List<String> BlackList, List<String> OWOList)
 		{
             XS1_Configuration = configuration;
             TemporaryBlacklist = BlackList;
             OnWaitOffList = OWOList;
+            ConsoleOutputLogger = Logger;
 		}
 
 		public void Shutdown()

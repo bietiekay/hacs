@@ -44,6 +44,7 @@ namespace HTTP
 		private String HTTPServer_DocumentRoot;
         private XS1Configuration XS1_Configuration;
 		private JSONData JSON_Data;
+        private ConsoleOutputLogger ConsoleOutputLogger;
 		#endregion
 
 		#region Constructor
@@ -58,14 +59,15 @@ namespace HTTP
 		/// <param name="docRoot">Root-Directory of the HTTP Server</param>
 		/// <param name="s">the Socket to work with</param>
 		/// <param name="webserver">the "master" HttpServer Object of this Client</param>
-		public HttpProcessor(Socket s, String HTTP_DocumentRoot, TinyOnDiskStorage Storage, XS1Configuration _XS1_Configuration)
+		public HttpProcessor(Socket s, String HTTP_DocumentRoot, TinyOnDiskStorage Storage, XS1Configuration _XS1_Configuration, ConsoleOutputLogger Logger)
 		{
 			this.s = s;
 			HTTPServer_DocumentRoot = HTTP_DocumentRoot;
-			JSON_Data = new JSONData(Storage);
+			JSON_Data = new JSONData(Storage,ConsoleOutputLogger);
 			docRootFile = new FileInfo(HTTPServer_DocumentRoot);
 			headers = new Hashtable();
             XS1_Configuration = _XS1_Configuration;
+            ConsoleOutputLogger = Logger;
 		}
 		#endregion
 

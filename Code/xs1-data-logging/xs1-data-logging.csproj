@@ -47,8 +47,8 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleOutputLogger.cs" />
     <Compile Include="ActorReSwitching.cs" />
+    <Compile Include="ConsoleOutputLogger.cs" />
     <Compile Include="SensorCheckIgnoreList.cs" />
     <Compile Include="CurrentKnownActorStates.cs" />
     <Compile Include="PowerSensor\PowerSensorConfiguration.cs" />

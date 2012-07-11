@@ -16,10 +16,12 @@ namespace xs1_data_logging
     {
         public bool Shutdown = false;
         private LoggingThread _LoggingThreadInstance;
+        private ConsoleOutputLogger ConsoleOutputLogger;
 
-        public ScriptingTimerThread(LoggingThread __LoggingThreadInstance)
+        public ScriptingTimerThread(LoggingThread __LoggingThreadInstance, ConsoleOutputLogger Logger)
         {
             _LoggingThreadInstance = __LoggingThreadInstance;
+            ConsoleOutputLogger = Logger;
         }
 
         #region TimerOverdue

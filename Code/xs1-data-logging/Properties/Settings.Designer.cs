@@ -202,5 +202,17 @@ namespace xs1_data_logging.Properties {
                 this["SensorCheckIgnoreFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("log")]
+        public string LogfileDirectory {
+            get {
+                return ((string)(this["LogfileDirectory"]));
+            }
+            set {
+                this["LogfileDirectory"] = value;
+            }
+        }
     }
 }

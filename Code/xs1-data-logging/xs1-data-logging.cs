@@ -36,6 +36,7 @@ namespace xs1_data_logging
         static void Main(string[] args)
         {
             #region ConsoleOutputLogger
+            ConsoleOutputLogger ConsoleOutputLogger = new xs1_data_logging.ConsoleOutputLogger();
             ConsoleOutputLogger.verbose = true;
             ConsoleOutputLogger.writeLogfile = false;
             #endregion
@@ -61,7 +62,7 @@ namespace xs1_data_logging
 
             #region Logging and Actor Handling
             ConsoleOutputLogger.WriteLineToScreenOnly("Starting Logging for Server: " + Properties.Settings.Default.XS1);                        
-            LoggingThread _Thread = new LoggingThread(Properties.Settings.Default.XS1, actor_data_store, sensor_data_store, unknown_data_store,Properties.Settings.Default.Username,Properties.Settings.Default.Password,Properties.Settings.Default.ConfigurationCacheMinutes);
+            LoggingThread _Thread = new LoggingThread(Properties.Settings.Default.XS1, ConsoleOutputLogger, actor_data_store, sensor_data_store, unknown_data_store,Properties.Settings.Default.Username,Properties.Settings.Default.Password,Properties.Settings.Default.ConfigurationCacheMinutes);
             Thread LoggingThread = new Thread(new ThreadStart(_Thread.Run));
             // LoggingThreads.Add(LoggingThread); // handling of multiple servers needs to be re-added later
             LoggingThread.Start();
@@ -69,7 +70,7 @@ namespace xs1_data_logging
 
             #region Scripting Timer Handling
             ConsoleOutputLogger.WriteLineToScreenOnly("Starting Scripting Timer Handling.");
-            _ScriptingTimerThread = new ScriptingTimerThread(_Thread);
+            _ScriptingTimerThread = new ScriptingTimerThread(_Thread,ConsoleOutputLogger);
             Thread ScriptingTThread = new Thread(new ThreadStart(_ScriptingTimerThread.Run));
             ScriptingTThread.Start();
             #endregion

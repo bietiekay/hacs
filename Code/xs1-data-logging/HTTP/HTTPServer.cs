@@ -23,16 +23,18 @@ namespace HTTP
         private String HTTPServer_DocumentRoot;
         private TinyOnDiskStorage Storage;
         private XS1Configuration XS1_Configuration;
+        private ConsoleOutputLogger ConsoleOutputLogger;
         #endregion
 
         #region Construction
-        public HttpServer(Int32 HTTP_Port, String HTTP_ListeningIP, String HTTP_DocumentRoot, TinyOnDiskStorage _Storage, XS1Configuration _XS1_Configuration)
+        public HttpServer(Int32 HTTP_Port, String HTTP_ListeningIP, String HTTP_DocumentRoot, TinyOnDiskStorage _Storage, XS1Configuration _XS1_Configuration, ConsoleOutputLogger Logger)
         {
             HTTPServer_Port = HTTP_Port;
             HTTPServer_ListeningIP = HTTP_ListeningIP;
             HTTPServer_DocumentRoot = HTTP_DocumentRoot;
             Storage = _Storage;
             XS1_Configuration = _XS1_Configuration;
+            ConsoleOutputLogger = Logger;
         }
         #endregion
 
@@ -67,7 +69,7 @@ namespace HTTP
                         Socket s = listener.Accept();
 
                         // Create a new processor for this request
-                        HttpProcessor processor = new HttpProcessor(s, HTTPServer_DocumentRoot,Storage,XS1_Configuration);
+                        HttpProcessor processor = new HttpProcessor(s, HTTPServer_DocumentRoot,Storage,XS1_Configuration, ConsoleOutputLogger);
 
 
                         // Dispatch that processor in its own thread

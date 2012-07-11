@@ -8,12 +8,14 @@ namespace xs1_data_logging
 	{
 		private bool _Shutdown = false;
 		private Dictionary<string,DateTime> SensorCache = new Dictionary<string, DateTime>();
+        private ConsoleOutputLogger ConsoleOutputLogger;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="xs1_data_logging.SensorCheck"/> class.
 		/// </summary>
-		public SensorCheck ()
+		public SensorCheck (ConsoleOutputLogger Logger)
 		{
+            ConsoleOutputLogger = Logger;
 		}
 
 		/// <summary>

@@ -47,5 +47,8 @@
     <Setting Name="SensorCheckIgnoreFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">SensorCheckIgnoreList.config</Value>
     </Setting>
+    <Setting Name="LogfileDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">log</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

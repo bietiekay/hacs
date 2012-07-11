@@ -8,16 +8,16 @@ namespace xs1_data_logging
     /// <summary>
     /// This Class stores a number of Console Output Lines into a ring buffer
     /// </summary>
-    public static class ConsoleOutputLogger
+    public class ConsoleOutputLogger
     {
-        private static int Max_Number_Of_Entries = 500;
-        private static LinkedList<String> LoggerList = new LinkedList<String>();
-        public static bool verbose = false;
-        public static bool writeLogfile = false;
+        private int Max_Number_Of_Entries = 500;
+        private LinkedList<String> LoggerList = new LinkedList<String>();
+        public bool verbose = false;
+        public bool writeLogfile = false;
+		private DateTime LastWrite = DateTime.MinValue;
+        private StreamWriter Logfile = null;
 
-        public static StreamWriter Logfile = null;
-
-        public static void SetNumberOfMaxEntries(int Number)
+        public void SetNumberOfMaxEntries(int Number)
         {
             // TODO: It would be nice to keep at least the Number of Lines we're setting
             lock (LoggerList)
@@ -27,34 +27,55 @@ namespace xs1_data_logging
             Max_Number_Of_Entries = Number;
         }
 
-        public static int GetMaxNumberOfEntries()
+        public int GetMaxNumberOfEntries()
         {
             return Max_Number_Of_Entries;
         }
 
-        public static void LogToFile(String text)
+		private bool lastEntryYesterday()
+    	{
+            if (DateTime.Now.Day != LastWrite.Day)
+				return true;
+			else
+				return false;
+        }
+
+        public void LogToFile(String text)
         {
-            if (Logfile == null)
+            lock(LoggerList)
             {
-                try
+                if (Logfile == null)
                 {
-                    Logfile = new StreamWriter("data.log", true);
+                    WriteLineToScreenOnly("Opening Logfile: " + Properties.Settings.Default.LogfileDirectory + Path.DirectorySeparatorChar + DateTime.Now.ToShortDateString() + "-xs1.log");
+                    Logfile = new StreamWriter(Properties.Settings.Default.LogfileDirectory + Path.DirectorySeparatorChar + DateTime.Now.ToShortDateString() + "-xs1.log", true);
                     Logfile.AutoFlush = true;
                 }
-                catch(Exception e)
+
+			    if (LastWrite == DateTime.MinValue)
+				    LastWrite = DateTime.Now;
+
+			    // check if the day changed, if it did, we start a new log-file
+			    if (lastEntryYesterday())
+			    {
+				    // when the logfile is open already, we close it
+				    if (Logfile != null)
+					    Logfile.Close();
+				    // now we reopen/create the new logfile for this day...
+                    Logfile = new StreamWriter(Properties.Settings.Default.LogfileDirectory + Path.DirectorySeparatorChar + DateTime.Now.ToShortDateString() + "-xs1.log", true);
+				    Logfile.AutoFlush = true;
+			    }
+
+                lock (Logfile)
                 {
-                    Console.WriteLine("Exception in Logger: " + e.Message + " ## " + e.StackTrace);
+                    Logfile.WriteLine(text);
                 }
-            }
-            lock (Logfile)
-            {
-                Logfile.WriteLine(text);
             }
         }
 
-        public static void WriteLine(String text)
+        public void WriteLine(String text)
         {
             DateTime TimeDate = DateTime.Now;
+			LastWrite = TimeDate;
 
             text = TimeDate.ToShortDateString() + " - " + TimeDate.ToShortTimeString() + " " + text;
 
@@ -73,7 +94,7 @@ namespace xs1_data_logging
             }
         }
 
-        public static void WriteLineToScreenOnly(String text)
+        public void WriteLineToScreenOnly(String text)
         {
             DateTime TimeDate = DateTime.Now;
 
@@ -82,7 +103,7 @@ namespace xs1_data_logging
             if (verbose) Console.WriteLine(text);
         }
 
-        public static String[] GetLoggedLines()
+        public String[] GetLoggedLines()
         {
             String[] Output = new String[Max_Number_Of_Entries];
             int Current_Position = 0;
