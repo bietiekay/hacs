@@ -24,6 +24,7 @@ namespace HTTP
         private TinyOnDiskStorage Storage;
         private XS1Configuration XS1_Configuration;
         private ConsoleOutputLogger ConsoleOutputLogger;
+        private DataCache Cache;
         #endregion
 
         #region Construction
@@ -35,6 +36,7 @@ namespace HTTP
             Storage = _Storage;
             XS1_Configuration = _XS1_Configuration;
             ConsoleOutputLogger = Logger;
+            Cache = new DataCache(xs1_data_logging.Properties.Settings.Default.DataObjectCacheSize, _Storage);
         }
         #endregion
 
@@ -69,7 +71,7 @@ namespace HTTP
                         Socket s = listener.Accept();
 
                         // Create a new processor for this request
-                        HttpProcessor processor = new HttpProcessor(s, HTTPServer_DocumentRoot,Storage,XS1_Configuration, ConsoleOutputLogger);
+                        HttpProcessor processor = new HttpProcessor(s, HTTPServer_DocumentRoot,Storage,XS1_Configuration, ConsoleOutputLogger, Cache);
 
 
                         // Dispatch that processor in its own thread

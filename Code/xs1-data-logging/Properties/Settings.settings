@@ -50,5 +50,8 @@
     <Setting Name="LogfileDirectory" Type="System.String" Scope="User">
       <Value Profile="(Default)">log</Value>
     </Setting>
+    <Setting Name="DataObjectCacheSize" Type="System.Int64" Scope="User">
+      <Value Profile="(Default)">1000000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

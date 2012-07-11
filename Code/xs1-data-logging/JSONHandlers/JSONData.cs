@@ -15,14 +15,15 @@ namespace xs1_data_logging.JSONHandlers
     public class JSONData
     {
         private TinyOnDiskStorage sensor_data;
-        private ConsoleOutputLogger ConsoleOutputLogger;
+        private ConsoleOutputLogger ConsoleOutputLogger_;
 		private DataCache Cache;
 
-        public JSONData(TinyOnDiskStorage sensor_data_storage, ConsoleOutputLogger Logger)
+        public JSONData(TinyOnDiskStorage sensor_data_storage, ConsoleOutputLogger Logger, DataCache OuterCache)
         {
             sensor_data = sensor_data_storage;
-            ConsoleOutputLogger = Logger;
-			Cache = new DataCache(1000000,sensor_data);	// set the maximum number of cached items
+            ConsoleOutputLogger_ = Logger;
+            Cache = OuterCache;
+			//Cache = new DataCache(1000000,sensor_data);	// set the maximum number of cached items
         }
 		
         /// <summary>
@@ -104,7 +105,7 @@ namespace xs1_data_logging.JSONHandlers
             }
             Output.Append("]}");
 			
-			ConsoleOutputLogger.WriteLineToScreenOnly("Generated JSON Dataset with "+SerializerCounter+" Elements and outputted "+OutputCounter+" Elements.");
+			ConsoleOutputLogger_.WriteLineToScreenOnly("Generated JSON Dataset with "+SerializerCounter+" Elements and outputted "+OutputCounter+" Elements.");
 
             return Output.ToString();
         }
@@ -167,7 +168,7 @@ namespace xs1_data_logging.JSONHandlers
             }
             Output.Append("]}");
 			
-			ConsoleOutputLogger.WriteLineToScreenOnly("Generated JSON Dataset with "+SerializerCounter+" Elements");
+			ConsoleOutputLogger_.WriteLineToScreenOnly("Generated JSON Dataset with "+SerializerCounter+" Elements");
 
             return Output.ToString();
         }
@@ -186,13 +187,13 @@ namespace xs1_data_logging.JSONHandlers
             UInt64 SerializerCounter = 0;
             long TimeCode = DateTime.Now.JavaScriptTimestamp();
             String Value = "0.0";
-
             // TODO: there should be an appropriate caching algorithm in the sensor data... 
             lock (sensor_data.InMemoryIndex)
             {
                 foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex.Reverse<OnDiscAdress>())
                 {
                     XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
+                    //Console.WriteLine(">>> "+dataobject.Name);
                     SerializerCounter++;
 
                     if (dataobject.Type == DataType)
@@ -218,7 +219,8 @@ namespace xs1_data_logging.JSONHandlers
             Output.Append("]");
             Output.Append("]}");
 
-            ConsoleOutputLogger.WriteLineToScreenOnly("Generated JSON Dataset with " + SerializerCounter + " Elements");
+            //ConsoleOutputLogger_.WriteLine("lastentry");
+            ConsoleOutputLogger_.WriteLineToScreenOnly("Generated JSON Dataset with " + SerializerCounter + " Elements");
 
             return Output.ToString();
         }
@@ -481,7 +483,7 @@ namespace xs1_data_logging.JSONHandlers
                             }
                         }
                     }
-                    ConsoleOutputLogger.WriteLineToScreenOnly("Generated JSON Dataset with " + SerializerCounter + " Elements");
+                    ConsoleOutputLogger_.WriteLineToScreenOnly("Generated JSON Dataset with " + SerializerCounter + " Elements");
 			
 
                 }
@@ -557,7 +559,7 @@ namespace xs1_data_logging.JSONHandlers
                             }
                         }
                     }
-                    ConsoleOutputLogger.WriteLineToScreenOnly("Generated JSON Dataset with " + SerializerCounter + " Elements");
+                    ConsoleOutputLogger_.WriteLineToScreenOnly("Generated JSON Dataset with " + SerializerCounter + " Elements");
 
 
                 }

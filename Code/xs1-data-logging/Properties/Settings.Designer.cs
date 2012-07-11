@@ -214,5 +214,17 @@ namespace xs1_data_logging.Properties {
                 this["LogfileDirectory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000000")]
+        public long DataObjectCacheSize {
+            get {
+                return ((long)(this["DataObjectCacheSize"]));
+            }
+            set {
+                this["DataObjectCacheSize"] = value;
+            }
+        }
     }
 }

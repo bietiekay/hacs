@@ -11,33 +11,34 @@ namespace xs1_data_logging
 	/// </summary>
 	public class DataCache
 	{
-		private Dictionary<OnDiscAdress,XS1_DataObject> Cache;
-		private List<OnDiscAdress> HouseKeepingList;
-		private Int32 MaximumNoOfCacheItems;
+		private Dictionary<long,XS1_DataObject> Cache;
+		private List<long> HouseKeepingList;
+		private long MaximumNoOfCacheItems;
 		private TinyOnDiskStorage sensor_data;
 
-		public DataCache (Int32 MaximumNumberOfCacheItems, TinyOnDiskStorage storage)
+		public DataCache (long MaximumNumberOfCacheItems, TinyOnDiskStorage storage)
 		{
-			HouseKeepingList = new List<OnDiscAdress>();
-			Cache = new Dictionary<OnDiscAdress, XS1_DataObject>();
+			HouseKeepingList = new List<long>();
+			Cache = new Dictionary<long, XS1_DataObject>();
 			MaximumNoOfCacheItems = MaximumNumberOfCacheItems;
 			sensor_data = storage;
 		}
 
 		private void AddToCache(OnDiscAdress adress,XS1_DataObject data)
 		{
-			lock(Cache)
+            //Console.WriteLine("Adding to cache "+data.Name+" "+adress.End+" Cache: "+HouseKeepingList.Count);
+
+            lock(Cache)
 			{
 				// it's already in here
-				if (Cache.ContainsKey(adress))
-					return;
-
-				Cache.Add(adress,data);
-
-				HouseKeepingList.Add(adress);
+				//if (Cache.ContainsKey(adress.End))
+				//	return;
+				Cache.Add(adress.End,data);
+				HouseKeepingList.Add(adress.End);
 
 				if (HouseKeepingList.Count > MaximumNoOfCacheItems)
 				{
+                    //Console.WriteLine("Removing from Cache");
 					// remove from cache
 					Cache.Remove(HouseKeepingList[0]);
 					// remove from housekeepinglist
@@ -50,23 +51,21 @@ namespace xs1_data_logging
 		{
 			lock(Cache)
 			{
-				try
+				if (!Cache.ContainsKey(adress.End))
 				{
-					if (!Cache.ContainsKey(adress))
-					{
-                        XS1_DataObject dataobject = new XS1_DataObject();
-						dataobject.Deserialize(sensor_data.Read(adress));
-
-						// add to cache
-						AddToCache(adress,dataobject);
-						return dataobject;
-					}
-					else
-						return Cache[adress];
+                    XS1_DataObject dataobject = new XS1_DataObject();
+					dataobject.Deserialize(sensor_data.Read(adress));
+                    //Console.WriteLine("Read from Disk " + dataobject.Name + " " + adress.End);
+					// add to cache
+					AddToCache(adress,dataobject);
+					return dataobject;
 				}
-				catch(Exception)
-				{
-				}
+				else
+                {
+                    XS1_DataObject dataobject = Cache[adress.End];
+                    //Console.WriteLine("Read from Cache " + dataobject.Name + " " + adress.End);
+					return dataobject;
+                }
 			}
             return null;
 		}
