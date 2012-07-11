@@ -54,8 +54,8 @@ namespace xs1_data_logging
 				{
 					if (!Cache.ContainsKey(adress))
 					{
-						XS1_DataObject dataobject;
-						dataobject.Deserialize(sensor_data.Read(ondisc));
+                        XS1_DataObject dataobject = new XS1_DataObject();
+						dataobject.Deserialize(sensor_data.Read(adress));
 
 						// add to cache
 						AddToCache(adress,dataobject);
@@ -68,6 +68,7 @@ namespace xs1_data_logging
 				{
 				}
 			}
+            return null;
 		}
 	}
 }

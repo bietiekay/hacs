@@ -22,7 +22,7 @@ namespace xs1_data_logging.JSONHandlers
         {
             sensor_data = sensor_data_storage;
             ConsoleOutputLogger = Logger;
-			Cache = new DataCache(1000000);	// set the maximum number of cached items
+			Cache = new DataCache(1000000,sensor_data);	// set the maximum number of cached items
         }
 		
         /// <summary>
