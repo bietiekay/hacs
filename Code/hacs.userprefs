@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
   <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/JSONHandlers/JSONData.cs">
     <Files>
-      <File FileName="xs1-data-logging/JSONHandlers/JSONData.cs" Line="510" Column="89" />
-      <File FileName="xs1-data-logging/JSONHandlers/DataCache.cs" Line="62" Column="25" />
+      <File FileName="xs1-data-logging/JSONHandlers/JSONData.cs" Line="510" Column="74" />
+      <File FileName="xs1-data-logging/JSONHandlers/DataCache.cs" Line="62" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
