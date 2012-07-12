@@ -68,6 +68,7 @@ namespace xs1_data_logging
                     String HacsURL = "http://" + ServerName + "/control?callback=cname&cmd=subscribe&format=tsv";
 
                     HttpWebRequest request = (HttpWebRequest)WebRequest.Create(HacsURL);
+                    request.Timeout = 60000;
                     request.Credentials = new NetworkCredential(UserName,Password);
 
                     String _UsernameAndPassword = UserName+ ":" + Password;

@@ -74,12 +74,8 @@ namespace sones.storage
 
         public void Write(byte[] Data)
         {
-            lock (DatabaseFile)
-            {
                 OnDiscAdress adress = WriteToDatabase(Data);
-
                 WriteToIndex(adress);
-            }
         }
 
         public byte[] Read(OnDiscAdress Adress)
@@ -99,6 +95,7 @@ namespace sones.storage
 
         private void WriteToIndex(OnDiscAdress Adresspattern)
         {
+            
             lock (DatabaseIndexFile)
             {
                 // seek to the end...
