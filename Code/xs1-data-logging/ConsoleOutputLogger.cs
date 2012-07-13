@@ -75,14 +75,13 @@ namespace xs1_data_logging
         public void WriteLine(String text)
         {
             DateTime TimeDate = DateTime.Now;
-			LastWrite = TimeDate;
-
             text = TimeDate.ToShortDateString() + " - " + TimeDate.ToShortTimeString() + " " + text;
 
             // write it to the console
             if (verbose) Console.WriteLine(text);
             if (writeLogfile) LogToFile(text);
-
+            
+            LastWrite = TimeDate;
             lock (LoggerList)
             {
                 if (LoggerList.Count == Max_Number_Of_Entries)
