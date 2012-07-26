@@ -300,6 +300,7 @@ namespace HTTP
 
 				// first check if the request is actually authenticated
 				IPEndPoint AC_endpoint = (IPEndPoint)s.RemoteEndPoint;
+                ConsoleOutputLogger.WriteLine(AC_endpoint.Address.ToString() + " GET " + original_url);
 
 				//if (!HTTPAuthProcessor.AllowedToAccessThisServer(AC_endpoint.Address))
 				//{
