@@ -109,7 +109,7 @@ namespace xs1_data_logging.JSONHandlers
 
             return Output.ToString();
         }
-		
+
 		
 		/// <summary>
         /// generates JSON dataset from sensor data
@@ -632,5 +632,92 @@ namespace xs1_data_logging.JSONHandlers
             return Output.ToString();
 		}
 		#endregion
+
+		#region GenerateJSONData-ActorStatistics
+		        /// <summary>
+        /// generates JSON dataset from sensor data
+        /// </summary>
+        /// <returns></returns>
+        public String GenerateJSONDataActorStatistics(ObjectTypes DataType, String ObjectTypeName, String ObjectName, DateTime StartDateTime, DateTime EndDateTime)
+        {
+            /* Example:
+             * 
+             * {    label: 'Europe (EU27)',
+             *       data: [[1999, 3.0], [2000, 3.9], [2001, 2.0], [2002, 1.2], [2003, 1.3], [2004, 2.5], [2005, 2.0], [2006, 3.1], [2007, 2.9], [2008, 0.9]]
+             * }
+             * 
+             * */
+
+            StringBuilder Output = new StringBuilder();
+
+            Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
+            bool firstdataset = true;
+			UInt64 SerializerCounter = 0;
+			UInt64 OutputCounter = 0;
+			double LastValue = double.NaN;
+			
+			// TODO: there should be an appropriate caching algorithm in the sensor data... 
+
+            lock (sensor_data.InMemoryIndex)
+            {
+                foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
+                {
+                    if (ondisc.CreationTime >= StartDateTime.Ticks)
+                    {
+                        if (ondisc.CreationTime <= EndDateTime.Ticks)
+                        {
+                            XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
+							SerializerCounter++;
+
+                            if (dataobject.Type == DataType)
+                            {
+                                if (dataobject.TypeName == ObjectTypeName)
+                                {
+                                    if (dataobject.Name == ObjectName)
+                                    {
+                                        if (!firstdataset)
+                                            Output.Append(",");
+                                        else
+                                            firstdataset = false;
+
+                                        if (LastValue == double.NaN)
+                                        {
+                                            LastValue = dataobject.Value;
+                                            Output.Append("[");
+                                            Output.Append(dataobject.Timecode.JavaScriptTimestamp());
+                                            Output.Append(",");
+                                            Output.Append(dataobject.Value.ToString().Replace(',', '.'));
+                                            Output.Append("]");
+                                            OutputCounter++;
+                                        }
+                                        else
+                                        {
+                                            if (LastValue != dataobject.Value)
+                                            {
+                                                Output.Append("[");
+                                                Output.Append(dataobject.Timecode.JavaScriptTimestamp());
+                                                Output.Append(",");
+                                                Output.Append(dataobject.Value.ToString().Replace(',', '.'));
+                                                Output.Append("]");
+                                                OutputCounter++;
+                                            }
+                                            LastValue = dataobject.Value;
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Output.Append("]}");
+			
+			ConsoleOutputLogger_.WriteLineToScreenOnly("Generated JSON Dataset with "+SerializerCounter+" Elements and outputted "+OutputCounter+" Elements.");
+
+            return Output.ToString();
+        }
+		#endregion
+
     }
 }

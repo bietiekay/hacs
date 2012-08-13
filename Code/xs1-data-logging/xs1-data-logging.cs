@@ -67,7 +67,7 @@ namespace xs1_data_logging
             ConsoleOutputLogger.WriteLineToScreenOnly("Starting Logging for Server: " + Properties.Settings.Default.XS1);                        
             LoggingThread _Thread = new LoggingThread(Properties.Settings.Default.XS1, ConsoleOutputLogger, actor_data_store, sensor_data_store, unknown_data_store,Properties.Settings.Default.Username,Properties.Settings.Default.Password,Properties.Settings.Default.ConfigurationCacheMinutes);
             Thread LoggingThread = new Thread(new ThreadStart(_Thread.Run));
-            // LoggingThreads.Add(LoggingThread); // handling of multiple servers needs to be re-added later
+            // LoggingThreads.Add(LoggingThread); // TODO: handling of multiple servers needs to be re-added later
             LoggingThread.Start();
             #endregion
 

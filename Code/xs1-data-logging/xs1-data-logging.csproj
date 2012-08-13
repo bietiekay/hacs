@@ -73,6 +73,7 @@
     <Compile Include="ActorStatusOutputTypes.cs" />
     <Compile Include="SensorCheck.cs" />
     <Compile Include="JSONHandlers\DataCache.cs" />
+    <Compile Include="Max\MaxThread.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -131,4 +132,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Max\" />
+  </ItemGroup>
 </Project>
