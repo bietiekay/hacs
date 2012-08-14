@@ -330,6 +330,7 @@ namespace HTTP
 					byte[] buffer = new UTF8Encoding().GetBytes(proxy_response.Content);
 					ns.Write(buffer, 0, left);
 					ns.Flush();
+                    return;
 				}
 
 				if (url.ToUpper().StartsWith("/DATA/"))

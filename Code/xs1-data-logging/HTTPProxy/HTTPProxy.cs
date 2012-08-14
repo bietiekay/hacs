@@ -58,6 +58,8 @@ namespace xs1_data_logging
 				}
 			}
 
+            ConsoleOutputLogger.WriteLine("Proxy: " + URL+" - "+URL.Replace(p_element.ActivationURL,p_element.OutgoingMappingURL));
+
 			if (p_element != null)
 			{
 				WebRequest wrGetURL = WebRequest.Create(URL.Replace(p_element.ActivationURL,p_element.OutgoingMappingURL));
