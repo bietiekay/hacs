@@ -74,6 +74,8 @@
     <Compile Include="SensorCheck.cs" />
     <Compile Include="JSONHandlers\DataCache.cs" />
     <Compile Include="Max\MaxThread.cs" />
+    <Compile Include="HTTPProxy\HTTPProxy.cs" />
+    <Compile Include="HTTPProxy\HTTPProxyConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -91,6 +93,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="ScriptingActorConfiguration.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="HTTPProxy.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -134,5 +139,6 @@
   -->
   <ItemGroup>
     <Folder Include="Max\" />
+    <Folder Include="HTTPProxy\" />
   </ItemGroup>
 </Project>
