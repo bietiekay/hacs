@@ -45,6 +45,7 @@ namespace HTTP
         private XS1Configuration XS1_Configuration;
 		private JSONData JSON_Data;
         private ConsoleOutputLogger ConsoleOutputLogger;
+		private HTTPProxy internal_proxy;
 		#endregion
 
 		#region Constructor
@@ -68,6 +69,7 @@ namespace HTTP
 			headers = new Hashtable();
             XS1_Configuration = _XS1_Configuration;
             ConsoleOutputLogger = Logger;
+			internal_proxy = new HTTPProxy(ConsoleOutputLogger);
 		}
 		#endregion
 
@@ -312,6 +314,23 @@ namespace HTTP
 
 				querystring = "";
 				url = original_url;
+
+				if (internal_proxy.isThisAProxyURL(url))
+				{
+					ProxyResponse proxy_response = internal_proxy.Proxy(url);
+
+					if (proxy_response == null)
+					{
+						writeError(500, "Proxy Activation URL not found");
+						return;
+					}
+
+					int left = new UTF8Encoding().GetByteCount(proxy_response.Content);
+					writeSuccess(left, "text/html");
+					byte[] buffer = new UTF8Encoding().GetBytes(proxy_response.Content);
+					ns.Write(buffer, 0, left);
+					ns.Flush();
+				}
 
 				if (url.ToUpper().StartsWith("/DATA/"))
 				{
