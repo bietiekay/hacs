@@ -53,5 +53,8 @@
     <Setting Name="DataObjectCacheSize" Type="System.Int64" Scope="User">
       <Value Profile="(Default)">1000000</Value>
     </Setting>
+    <Setting Name="HTTPProxyConfigurationFilename" Type="System.String" Scope="User">
+      <Value Profile="(Default)">HTTPProxy.config</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
