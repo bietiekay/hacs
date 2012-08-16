@@ -28,9 +28,9 @@ namespace MAXDebug
 			}
 
 			// we obviously have enough paramteres, go on and try to connect
-			TcpClient client = new TcpClient(args[0], Convert.ToInt32 (args[1]));
+			TcpClient client = new TcpClient();
+			client.Connect(args[0], Convert.ToInt32 (args[1]));
 			NetworkStream stream = client.GetStream();
-
 			// the read buffer (chosen quite big)
 			byte[] myReadBuffer = new byte[4096*8];
 
@@ -41,15 +41,27 @@ namespace MAXDebug
 			// Incoming message may be larger than the buffer size.
 			do
 			{
+				myCompleteMessage = new StringBuilder();
+				stream.ReadTimeout = 1000;
+				try
+				{
 				numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);
 				myCompleteMessage.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
 
-				if (myCompleteMessage.ToString().Contains("\n\n"))
+				Console.Write("RAW: "+myCompleteMessage);
+				}
+				catch(Exception)
+				{
 					keepRunning = false;
+				}
+				// sleep 100 msecs
+				Thread.Sleep (100);
 			}
 			while(keepRunning);
 
-			Console.WriteLine(myCompleteMessage);
+			byte[] output = MAXEncodeDecode.Decode("VgIBAQpIb2JieWthbWVyADUIAQEANQhJRVEwMTA5MTI1DFRoZXJtb3N0YXQgMQEB");
+
+			Console.WriteLine(output);
 
 			stream.Close();
 			client.Close();
