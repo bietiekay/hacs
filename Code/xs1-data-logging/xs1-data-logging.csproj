@@ -76,6 +76,7 @@
     <Compile Include="Max\MaxThread.cs" />
     <Compile Include="HTTPProxy\HTTPProxy.cs" />
     <Compile Include="HTTPProxy\HTTPProxyConfiguration.cs" />
+    <Compile Include="Max\MAXEncodeDecode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
