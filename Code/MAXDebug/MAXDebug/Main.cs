@@ -1,9 +1,15 @@
 using System;
+using System.Net.Sockets;   // TCP-streaming
+using System.Threading;     // the sleeping part...
+using System.Text;
+
 
 namespace MAXDebug
 {
 	class MainClass
 	{
+		private static bool keepRunning = true;
+
 		public static void Main (string[] args)
 		{
 			ConsoleOutputLogger.verbose = true;
@@ -22,8 +28,31 @@ namespace MAXDebug
 			}
 
 			// we obviously have enough paramteres, go on and try to connect
+			TcpClient client = new TcpClient(args[0], Convert.ToInt32 (args[1]));
+			NetworkStream stream = client.GetStream();
 
+			// the read buffer (chosen quite big)
+			byte[] myReadBuffer = new byte[4096*8];
 
+			// to build the complete message
+			StringBuilder myCompleteMessage = new StringBuilder();
+			int numberOfBytesRead = 0;
+
+			// Incoming message may be larger than the buffer size.
+			do
+			{
+				numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);
+				myCompleteMessage.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
+
+				if (myCompleteMessage.ToString().Contains("\n\n"))
+					keepRunning = false;
+			}
+			while(keepRunning);
+
+			Console.WriteLine(myCompleteMessage);
+
+			stream.Close();
+			client.Close();
 		}
 	}
 }
