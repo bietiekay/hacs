@@ -2,17 +2,13 @@ using System;
 
 namespace MAXDebug
 {
-	public class ELVMAX_Metadata
+	public enum ELVMessageType
 	{
-		public String CubeSerial;
-		public String RFAdress;
-		public Int32 FirmwareVersion;
-	}
-
-	public class ELVMAXData
-	{
-		public ELVMAX_Metadata Metadata;
-
+		undefined,
+		H,
+		M,
+		C,
+		L
 	}
 
 	/// <summary>
@@ -28,6 +24,24 @@ namespace MAXDebug
 	    static public byte[] Decode(string encodedData)
 		{
 			return System.Convert.FromBase64String(encodedData);
+		}
+
+		static public ELVMessageType WhichMessageType(String Message)
+		{
+			if (Message.StartsWith("H:"))
+				return ELVMessageType.H;
+
+			if (Message.StartsWith("M:"))
+				return ELVMessageType.M;
+
+			if (Message.StartsWith("C:"))
+				return ELVMessageType.C;
+
+			if (Message.StartsWith("L:"))
+				return ELVMessageType.L;
+
+
+			return ELVMessageType.undefined;
 		}
 
 		/// <summary>

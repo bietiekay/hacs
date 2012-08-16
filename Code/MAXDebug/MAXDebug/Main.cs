@@ -58,13 +58,9 @@ namespace MAXDebug
 				Thread.Sleep (100);
 			}
 			while(keepRunning);
-
-			byte[] output = MAXEncodeDecode.Decode("VgIBAQpIb2JieWthbWVyADUIAQEANQhJRVEwMTA5MTI1DFRoZXJtb3N0YXQgMQEB");
-
-			Console.WriteLine(output);
-
 			stream.Close();
 			client.Close();
+
 		}
 	}
 }
