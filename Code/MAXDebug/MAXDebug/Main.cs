@@ -70,6 +70,49 @@ namespace MAXDebug
 				Thread.Sleep (100);
 			}
 			while(keepRunning);
+
+			// some writing
+			if (args.Length > 1)
+			{
+				System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+				byte[] args_data_buffer = enc.GetBytes(args[2]+"\r\n");
+
+				ConsoleOutputLogger.WriteLine("Sending Command: "+args[2]);
+
+				stream.Write(args_data_buffer,0,args_data_buffer.Length);
+				keepRunning = true;
+
+				do
+				{
+					myCompleteMessage = new StringBuilder();
+					stream.ReadTimeout = 1000;
+					try
+					{
+						numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);
+						myCompleteMessage.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
+
+					//					Console.WriteLine("------RAW--------");
+					//					Console.Write(myCompleteMessage);
+						IMaxData Message = DecoderEncoder.ProcessMessage(myCompleteMessage.ToString());
+						if (Message != null)
+						{
+							//Console.WriteLine("------DEC--------");
+							ConsoleOutputLogger.WriteLine(Message.ToString());
+							ConsoleOutputLogger.WriteLine("");
+						}
+					}
+					catch(Exception e)
+					{
+						//Console.WriteLine("Exception: "+e.Message);
+						keepRunning = false;
+					}
+					// sleep 100 msecs
+					Thread.Sleep (100);
+				}
+				while(keepRunning);
+				
+			}
+
 			stream.Close();
 			client.Close();
 
