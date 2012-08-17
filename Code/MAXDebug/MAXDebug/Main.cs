@@ -72,7 +72,7 @@ namespace MAXDebug
 			while(keepRunning);
 
 			// some writing
-			if (args.Length > 1)
+			if (args.Length > 2)
 			{
 				System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 				byte[] args_data_buffer = enc.GetBytes(args[2]+"\r\n");
