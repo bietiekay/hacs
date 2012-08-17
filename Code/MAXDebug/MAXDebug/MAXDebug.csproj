@@ -40,11 +40,18 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="MAXEncodeDecode.cs" />
     <Compile Include="ConsoleOutputLogger.cs" />
-    <Compile Include="ELVMAX_Data\Metadata.cs" />
-    <Compile Include="ELVMAX_Data\ELVMAX_Data.cs" />
+    <Compile Include="ELVMAX_Data\IMaxData.cs" />
+    <Compile Include="ELVMAX_Data\MAXMessageTypes.cs" />
+    <Compile Include="ELVMAX_Data\MAX_Exception.cs" />
+    <Compile Include="ELVMAX_Data\Base64.cs" />
+    <Compile Include="ELVMAX_Data\Messages\H_Message.cs" />
+    <Compile Include="ELVMAX_Data\Messages\M_Message.cs" />
+    <Compile Include="ELVMAX_Data\Messages\C_Message.cs" />
+    <Compile Include="ELVMAX_Data\Messages\L_Message.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ELVMAX_Data\" />
+    <Folder Include="ELVMAX_Data\Messages\" />
   </ItemGroup>
 </Project>

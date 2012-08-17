@@ -16,6 +16,7 @@ namespace MAXDebug
 			ConsoleOutputLogger.writeLogfile = true;
 
 			Console.WriteLine ("ELV MAX! Debug Tool version 1 (C) Daniel Kirstenpfad 2012");
+			Console.WriteLine();
 
 			// not enough paramteres given, display help
 			if (args.Length < 2)
@@ -38,6 +39,8 @@ namespace MAXDebug
 			StringBuilder myCompleteMessage = new StringBuilder();
 			int numberOfBytesRead = 0;
 
+			MAXEncodeDecode DecoderEncoder = new MAXEncodeDecode();
+
 			// Incoming message may be larger than the buffer size.
 			do
 			{
@@ -45,13 +48,22 @@ namespace MAXDebug
 				stream.ReadTimeout = 1000;
 				try
 				{
-				numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);
-				myCompleteMessage.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
+					numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);
+					myCompleteMessage.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
 
-				Console.Write("RAW: "+myCompleteMessage);
+//					Console.WriteLine("------RAW--------");
+//					Console.Write(myCompleteMessage);
+					IMaxData Message = DecoderEncoder.ProcessMessage(myCompleteMessage.ToString());
+					if (Message != null)
+					{
+						//Console.WriteLine("------DEC--------");
+						Console.WriteLine(Message.ToString());
+						Console.WriteLine();
+					}
 				}
-				catch(Exception)
+				catch(Exception e)
 				{
+					//Console.WriteLine("Exception: "+e.Message);
 					keepRunning = false;
 				}
 				// sleep 100 msecs
