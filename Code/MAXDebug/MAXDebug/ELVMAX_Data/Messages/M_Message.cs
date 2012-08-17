@@ -22,6 +22,10 @@ namespace MAXDebug
 
 			sb.AppendLine("Index: "+Index);
 			sb.AppendLine("Count: "+Count);
+				
+			System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+			sb.AppendLine("ASCII: "+enc.GetString(RawMessageDecoded));
+			sb.Append("RAW: ");
 
 			foreach(byte _b in RawMessageDecoded)
 			{

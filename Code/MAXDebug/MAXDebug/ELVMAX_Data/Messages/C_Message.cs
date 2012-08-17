@@ -20,11 +20,17 @@ namespace MAXDebug
 
 			sb.AppendLine("RF Adress: "+RFAdress);
 
+			System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+			sb.AppendLine("ASCII: "+enc.GetString(RawMessageDecoded));
+			sb.Append("RAW: ");
+
 			foreach(byte _b in RawMessageDecoded)
 			{
 				sb.Append(_b);
 				sb.Append(" ");
 			}
+
+
 
 			return sb.ToString();
 		}

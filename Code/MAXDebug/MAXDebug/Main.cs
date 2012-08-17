@@ -27,7 +27,7 @@ namespace MAXDebug
 				Console.WriteLine();
 				return;
 			}
-
+			ConsoleOutputLogger.LogToFile("--------------------------------------");
 			// we obviously have enough paramteres, go on and try to connect
 			TcpClient client = new TcpClient();
 			client.Connect(args[0], Convert.ToInt32 (args[1]));
@@ -57,8 +57,8 @@ namespace MAXDebug
 					if (Message != null)
 					{
 						//Console.WriteLine("------DEC--------");
-						Console.WriteLine(Message.ToString());
-						Console.WriteLine();
+						ConsoleOutputLogger.WriteLine(Message.ToString());
+						ConsoleOutputLogger.WriteLine("");
 					}
 				}
 				catch(Exception e)

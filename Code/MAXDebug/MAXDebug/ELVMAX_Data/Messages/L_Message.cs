@@ -16,6 +16,10 @@ namespace MAXDebug
 			StringBuilder sb = new StringBuilder();
 
 			sb.AppendLine("L-Message:");
+						
+			System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+			sb.AppendLine("ASCII: "+enc.GetString(RawMessageDecoded));
+			sb.Append("RAW: ");
 
 			foreach(byte _b in RawMessageDecoded)
 			{

@@ -72,7 +72,7 @@ namespace MAXDebug
             DateTime TimeDate = DateTime.Now;
 			LastWrite = TimeDate;
 
-            text = TimeDate.ToShortDateString() + " - " + TimeDate.ToShortTimeString() + " " + text;
+            //text = TimeDate.ToShortDateString() + " - " + TimeDate.ToShortTimeString() + " " + text;
 
             // write it to the console
             if (verbose) Console.WriteLine(text);
