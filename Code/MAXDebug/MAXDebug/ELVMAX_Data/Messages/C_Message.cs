@@ -18,7 +18,7 @@ namespace MAXDebug
 
 			sb.AppendLine("C-Message:");
 
-			sb.AppendLine("RF Adress: "+RFAdress);
+			sb.AppendLine("RF Address: "+RFAdress);
 
 			System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 			sb.AppendLine("ASCII: "+enc.GetString(RawMessageDecoded));

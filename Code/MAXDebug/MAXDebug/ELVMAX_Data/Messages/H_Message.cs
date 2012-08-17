@@ -18,7 +18,7 @@ namespace MAXDebug
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine("H-Message:");
 			sb.AppendLine("Serial Number: "+MAXserialNumber);
-			sb.AppendLine("RF Adress: "+RFAdress);
+			sb.AppendLine("RF Address: "+RFAdress);
 			sb.Append("Firmware Version: "+FirmwareVersion);
 
 			return sb.ToString();
