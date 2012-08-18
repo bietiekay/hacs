@@ -23,7 +23,7 @@ namespace MAXDebug
 			sb.AppendLine("RF Address: "+RFAdress);
 			sb.AppendLine("Firmware Version: "+FirmwareVersion);
 			sb.AppendLine("HTTPConnId: "+HTTPConnId);
-			sb.AppendLine("DateTime: "+CubeDateTime.ToLongDateString());
+			sb.AppendLine("DateTime: "+CubeDateTime.ToLongDateString()+" "+CubeDateTime.ToLongTimeString());
 			return sb.ToString();
 		}
 		#endregion
@@ -40,9 +40,18 @@ namespace MAXDebug
 
 		public DateTime DecodeDateTime(String CubeDate, String CubeTime)
 		{
-			DateTime time = new DateTime();
+			/// Example:
+			/// CubeDate: 0c0812
+			/// CubeTime: 1505
 
+			Int32 Day = Int32.Parse(CubeDate.Substring (4,2),System.Globalization.NumberStyles.HexNumber);
+			Int32 Month = Int32.Parse(CubeDate.Substring(2,2),System.Globalization.NumberStyles.HexNumber);
+			Int32 Year = Int32.Parse(CubeDate.Substring(0,2),System.Globalization.NumberStyles.HexNumber)+2000;
 
+			Int32 Hour = Int32.Parse(CubeTime.Substring(0,2),System.Globalization.NumberStyles.HexNumber);
+			Int32 Minute = Int32.Parse(CubeTime.Substring(2,2),System.Globalization.NumberStyles.HexNumber);
+
+			DateTime time = new DateTime(Year,Month,Day,Hour,Minute,0);
 
 			return time;
 		}
