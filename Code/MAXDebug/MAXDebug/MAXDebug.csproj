@@ -21,7 +21,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <Externalconsole>true</Externalconsole>
-    <Commandlineparameters>192.168.178.82 62910</Commandlineparameters>
+    <Commandlineparameters>192.168.178.82 62910 "l:"</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
@@ -48,6 +48,7 @@
     <Compile Include="ELVMAX_Data\Messages\M_Message.cs" />
     <Compile Include="ELVMAX_Data\Messages\C_Message.cs" />
     <Compile Include="ELVMAX_Data\Messages\L_Message.cs" />
+    <Compile Include="ELVMAX_Data\TokenizeMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

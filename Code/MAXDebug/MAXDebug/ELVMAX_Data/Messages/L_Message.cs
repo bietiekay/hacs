@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Collections.Generic;
 
 namespace MAXDebug
 {
@@ -26,7 +27,6 @@ namespace MAXDebug
 				sb.Append(_b);
 				sb.Append(" ");
 			}
-
 			return sb.ToString();
 		}
 		#endregion
@@ -51,6 +51,15 @@ namespace MAXDebug
 				throw new MAXException("Unable to process the RAW Message. Not a L Message.");
 
 			RawMessageDecoded = Base64.Decode(RAW_Message.Remove(0,2));
+
+			// Tokenize RAW Message
+			List<byte[]> Tokenized = TokenizeMessage.Tokenize(RawMessageDecoded);
+			foreach(byte[] array in Tokenized)
+			{
+				//sb.AppendLine("Token: "+array.Length);
+			}
+
+
 		}
 	}
 }

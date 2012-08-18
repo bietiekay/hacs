@@ -1,23 +1,22 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MAXDebug/Main.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MAXDebug/ELVMAX_Data/Messages/L_Message.cs">
     <Files>
       <File FileName="MAXDebug/Main.cs" Line="75" Column="23" />
       <File FileName="MAXDebug/MAXEncodeDecode.cs" Line="27" Column="34" />
       <File FileName="MAXDebug/ELVMAX_Data/Messages/C_Message.cs" Line="21" Column="25" />
-      <File FileName="MAXDebug/ELVMAX_Data/Messages/H_Message.cs" Line="21" Column="25" />
-      <File FileName="MAXDebug/ELVMAX_Data/Messages/L_Message.cs" Line="20" Column="4" />
+      <File FileName="MAXDebug/ELVMAX_Data/Messages/H_Message.cs" Line="52" Column="16" />
+      <File FileName="MAXDebug/ELVMAX_Data/Messages/L_Message.cs" Line="74" Column="1" />
       <File FileName="MAXDebug/ELVMAX_Data/Messages/M_Message.cs" Line="25" Column="1" />
       <File FileName="MAXDebug/ConsoleOutputLogger.cs" Line="76" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="MAXDebug" expanded="True">
+          <Node name="MAXDebug" expanded="True" selected="True">
             <Node name="ELVMAX_Data" expanded="True">
               <Node name="Messages" expanded="True" />
             </Node>
-            <Node name="Main.cs" selected="True" />
           </Node>
         </State>
       </Pad>
@@ -26,6 +25,7 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/bietiekay/code/hacs/Code/MAXDebug/MAXDebug/ELVMAX_Data/M_Message.cs" line="59" />
+      <Breakpoint file="/Users/bietiekay/code/hacs/Code/MAXDebug/MAXDebug/ELVMAX_Data/Messages/L_Message.cs" line="31" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
