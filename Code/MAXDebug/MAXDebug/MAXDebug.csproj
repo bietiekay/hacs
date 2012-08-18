@@ -45,14 +45,18 @@
     <Compile Include="ELVMAX_Data\MAX_Exception.cs" />
     <Compile Include="ELVMAX_Data\Base64.cs" />
     <Compile Include="ELVMAX_Data\Messages\H_Message.cs" />
-    <Compile Include="ELVMAX_Data\Messages\M_Message.cs" />
     <Compile Include="ELVMAX_Data\Messages\C_Message.cs" />
     <Compile Include="ELVMAX_Data\Messages\L_Message.cs" />
     <Compile Include="ELVMAX_Data\TokenizeMessage.cs" />
+    <Compile Include="ELVMAX_Data\Messages\Metadata\Room.cs" />
+    <Compile Include="ELVMAX_Data\Messages\Metadata\Device.cs" />
+    <Compile Include="ELVMAX_Data\Messages\M_Message.cs" />
+    <Compile Include="ELVMAX_Data\Messages\Metadata\DeviceTypes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ELVMAX_Data\" />
     <Folder Include="ELVMAX_Data\Messages\" />
+    <Folder Include="ELVMAX_Data\Messages\Metadata\" />
   </ItemGroup>
 </Project>

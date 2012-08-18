@@ -38,6 +38,7 @@ namespace MAXDebug
 		}
 		#endregion
 
+		#region Decode Date and Time
 		public DateTime DecodeDateTime(String CubeDate, String CubeTime)
 		{
 			/// Example:
@@ -55,6 +56,7 @@ namespace MAXDebug
 
 			return time;
 		}
+		#endregion
 
 		// initializes this class and processes the given Input Message and fills the Message Fields
 		public H_Message (String RAW_Message)

@@ -103,7 +103,7 @@ namespace MAXDebug
 					}
 					catch(Exception e)
 					{
-						//Console.WriteLine("Exception: "+e.Message);
+						Console.WriteLine("Exception: "+e.Message);
 						keepRunning = false;
 					}
 					// sleep 100 msecs

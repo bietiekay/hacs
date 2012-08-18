@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Collections.Generic;
 
 namespace MAXDebug
 {
@@ -10,6 +11,7 @@ namespace MAXDebug
 		#region Message specific data
 		public Int32 Index;
 		public Int32 Count;
+		public List<Room> Rooms;
 		public byte[] RawMessageDecoded;
 		#endregion
 
@@ -63,6 +65,60 @@ namespace MAXDebug
 				Index = Int32.Parse(SplittedRAWMessage[0],System.Globalization.NumberStyles.HexNumber);
 				Count = Int32.Parse(SplittedRAWMessage[1],System.Globalization.NumberStyles.HexNumber);
 				RawMessageDecoded = Base64.Decode(SplittedRAWMessage[2]);
+
+				Int32 Cursor = 2;
+
+				// now go deeper
+				Byte RoomCount = RawMessageDecoded[Cursor];
+				Rooms = new List<Room>();
+				Cursor++;
+
+				// go through every room
+				for(byte roomnumber=1;roomnumber<=RoomCount;roomnumber++)
+				{
+					Room newRoom = new Room();
+
+					newRoom.RoomID = RawMessageDecoded[Cursor];
+					Cursor++;
+
+					Byte RoomNameLength = RawMessageDecoded[Cursor];
+					Cursor++;
+
+					StringBuilder RoomName = new StringBuilder();
+
+					for(Byte j=0;j<=RoomNameLength-1;j++)
+					{
+						RoomName.Append((char)RawMessageDecoded[Cursor]);
+						Cursor++;
+					}
+					newRoom.RoomName = RoomName.ToString();
+
+					StringBuilder RFAddress = new StringBuilder();
+
+					for(Byte j=0;j<=3-1;j++)
+					{
+						RFAddress.Append((char)RawMessageDecoded[Cursor]);
+						Cursor++;
+					}
+
+					//newRoom.RFAddress = Int32.Parse(RFAddress.ToString(),System.Globalization.NumberStyles.HexNumber);
+
+					Byte DeviceCount = RawMessageDecoded[Cursor];
+					// go through all the devices in here
+					for(byte devicenumber=1;devicenumber<=DeviceCount;devicenumber++)
+					{
+						// read in the device
+						Device newDevice = new Device();
+
+
+
+						// add the device to the room
+						newRoom.Devices.Add(newDevice);
+					}
+
+					// add this Room to the M_Message-Structure
+					Rooms.Add(newRoom);
+				}
 			}
 			else
 				throw new MAXException("Unable to process M Message. Not enough content.");
