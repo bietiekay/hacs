@@ -98,7 +98,7 @@ namespace MAXDebug
 						{
 							//Console.WriteLine("------DEC--------");
 							ConsoleOutputLogger.WriteLine(Message.ToString());
-							ConsoleOutputLogger.WriteLine("");
+							ConsoleOutputLogger.LogToFile("");
 						}
 					}
 					catch(Exception e)

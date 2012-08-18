@@ -8,7 +8,7 @@ namespace MAXDebug
 	{
 		#region Message specific data
 		public String MAXserialNumber;
-		public Int32 RFAdress;
+		public Int32 RFAddress;
 		public Int32 FirmwareVersion;
 		public String HTTPConnId;
 		public DateTime CubeDateTime;
@@ -20,7 +20,7 @@ namespace MAXDebug
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine("H-Message:");
 			sb.AppendLine("Serial Number: "+MAXserialNumber);
-			sb.AppendLine("RF Address: "+RFAdress);
+			sb.AppendLine("RF Address: "+RFAddress);
 			sb.AppendLine("Firmware Version: "+FirmwareVersion);
 			sb.AppendLine("HTTPConnId: "+HTTPConnId);
 			sb.AppendLine("DateTime: "+CubeDateTime.ToLongDateString()+" "+CubeDateTime.ToLongTimeString());
@@ -58,7 +58,7 @@ namespace MAXDebug
 		}
 		#endregion
 
-		// initializes this class and processes the given Input Message and fills the Message Fields
+		// initializes this class and processdes the given Input Message and fills the Message Fields
 		public H_Message (String RAW_Message)
 		{
 			if (RAW_Message.Length < 2)
@@ -72,7 +72,7 @@ namespace MAXDebug
 			if (SplittedRAWMessage.Length >= 3)
 			{
 				MAXserialNumber = SplittedRAWMessage[0];
-				RFAdress = Int32.Parse(SplittedRAWMessage[1],System.Globalization.NumberStyles.HexNumber);
+				RFAddress = Int32.Parse(SplittedRAWMessage[1],System.Globalization.NumberStyles.HexNumber);
 				FirmwareVersion = Int32.Parse(SplittedRAWMessage[2],System.Globalization.NumberStyles.HexNumber);
 				HTTPConnId = SplittedRAWMessage[4];
 				CubeDateTime = DecodeDateTime(SplittedRAWMessage[7],SplittedRAWMessage[8]);

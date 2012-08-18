@@ -22,17 +22,22 @@ namespace MAXDebug
 
 			sb.AppendLine("M-Message:");
 
-			sb.AppendLine("Index: "+Index);
-			sb.AppendLine("Count: "+Count);
+			//sb.AppendLine("Index: "+Index);
+			//sb.AppendLine("Count: "+Count);
 				
-			System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-			sb.AppendLine("ASCII: "+enc.GetString(RawMessageDecoded));
-			sb.Append("RAW: ");
+			//System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+			//sb.AppendLine("ASCII: "+enc.GetString(RawMessageDecoded));
+			//sb.Append("RAW: ");
 
-			foreach(byte _b in RawMessageDecoded)
+//			foreach(byte _b in RawMessageDecoded)
+//			{
+//				sb.Append(_b);
+//				sb.Append(" ");
+//			}
+
+			foreach(Room _room in Rooms)
 			{
-				sb.Append(_b);
-				sb.Append(" ");
+				sb.Append(_room.ToString());
 			}
 
 			return sb.ToString();
@@ -104,13 +109,68 @@ namespace MAXDebug
 					//newRoom.RFAddress = Int32.Parse(RFAddress.ToString(),System.Globalization.NumberStyles.HexNumber);
 
 					Byte DeviceCount = RawMessageDecoded[Cursor];
+					Cursor++;
 					// go through all the devices in here
 					for(byte devicenumber=1;devicenumber<=DeviceCount;devicenumber++)
 					{
 						// read in the device
 						Device newDevice = new Device();
 
+						#region Determine DeviceType
+						Byte DevType = RawMessageDecoded[Cursor];
+						Cursor++;
+						
+						switch(DevType)
+						{
+							case 1: 
+								newDevice.Type = DeviceTypes.HeatingThermostat;
+						        break;
+						    case 2:
+						        newDevice.Type = DeviceTypes.HeatingThermostatPlus;
+						        break;
+						    case 3:
+						        newDevice.Type = DeviceTypes.WallMountedThermostat;
+						        break;
+						    case 4:
+						        newDevice.Type = DeviceTypes.ShutterContact;
+						        break;
+						    case 5:
+						        newDevice.Type = DeviceTypes.PushButton;
+						        break;
+						    default:
+								newDevice.Type = DeviceTypes.Invalid;
+						        break;
+						}
+						#endregion
 
+						StringBuilder DeviceRFAddress = new StringBuilder();
+						for(Byte j=0;j<=3-1;j++)
+						{
+							RFAddress.Append((char)RawMessageDecoded[Cursor]);
+							Cursor++;
+						}
+
+						StringBuilder DeviceSerialNumber = new StringBuilder();
+						for(Byte j=0;j<=10-1;j++)
+						{
+							DeviceSerialNumber.Append((char)RawMessageDecoded[Cursor]);
+							Cursor++;
+						}
+						newDevice.SerialNumber = DeviceSerialNumber.ToString();
+
+						Byte DeviceNameLength = RawMessageDecoded[Cursor];
+						Cursor++;
+
+						StringBuilder DeviceName = new StringBuilder();
+						for(Byte j=0;j<=DeviceNameLength-1;j++)
+						{
+							DeviceName.Append((char)RawMessageDecoded[Cursor]);
+							Cursor++;
+						}
+						newDevice.Name = DeviceName.ToString();
+
+						// skip over RoomID... we may not need it...
+						Cursor++;
 
 						// add the device to the room
 						newRoom.Devices.Add(newDevice);
