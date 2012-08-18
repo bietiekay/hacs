@@ -48,7 +48,7 @@ namespace MAXDebug
 			do
 			{
 				myCompleteMessage = new StringBuilder();
-				stream.ReadTimeout = 10000;
+				stream.ReadTimeout = 1000;
 				try
 				{
 					numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);
@@ -66,8 +66,24 @@ namespace MAXDebug
 			}
 			while(keepRunning);
 
-			// Analyze and Output Messages
+			List<String> PreProcessedMessages = new List<string>();
+			// preprocess
 			foreach(String _Message in Messages)
+			{
+				if (_Message.Remove(_Message.Length-2).Contains("\r\n"))
+				{
+					String[] PMessages = _Message.Remove(_Message.Length-2).Split(new char[1] { '\n' },StringSplitOptions.RemoveEmptyEntries);
+					foreach(String pmessage in PMessages)
+					{
+						PreProcessedMessages.Add(pmessage.Replace("\r","")+"\r\n");
+					}
+				}
+				else
+					PreProcessedMessages.Add(_Message);
+			}			
+
+			// Analyze and Output Messages
+			foreach(String _Message in PreProcessedMessages)
 			{
 				IMaxData Message = DecoderEncoder.ProcessMessage(_Message.ToString());
 				if (Message != null)
@@ -90,7 +106,7 @@ namespace MAXDebug
 				do
 				{
 					myCompleteMessage = new StringBuilder();
-					//stream.ReadTimeout = 10000;
+					stream.ReadTimeout = 1000;
 					try
 					{
 						numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);

@@ -36,7 +36,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="MAXEncodeDecode.cs" />
     <Compile Include="ConsoleOutputLogger.cs" />
@@ -52,11 +51,15 @@
     <Compile Include="ELVMAX_Data\Messages\Metadata\Device.cs" />
     <Compile Include="ELVMAX_Data\Messages\M_Message.cs" />
     <Compile Include="ELVMAX_Data\Messages\Metadata\DeviceTypes.cs" />
+    <Compile Include="Main.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ELVMAX_Data\" />
     <Folder Include="ELVMAX_Data\Messages\" />
     <Folder Include="ELVMAX_Data\Messages\Metadata\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Main_async.cs" />
   </ItemGroup>
 </Project>
