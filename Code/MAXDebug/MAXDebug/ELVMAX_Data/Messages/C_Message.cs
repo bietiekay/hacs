@@ -30,8 +30,6 @@ namespace MAXDebug
 				sb.Append(" ");
 			}
 
-
-
 			return sb.ToString();
 		}
 		#endregion

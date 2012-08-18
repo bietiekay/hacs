@@ -20,15 +20,12 @@ namespace MAXDebug
 		{
 			StringBuilder sb = new StringBuilder();
 
-			sb.AppendLine("M-Message:");
-
-			//sb.AppendLine("Index: "+Index);
-			//sb.AppendLine("Count: "+Count);
-				
-			//System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-			//sb.AppendLine("ASCII: "+enc.GetString(RawMessageDecoded));
-			//sb.Append("RAW: ");
-
+//			sb.AppendLine("M-Message:");
+//			sb.AppendLine("Index: "+Index);
+//			sb.AppendLine("Count: "+Count);		
+//			System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+//			sb.AppendLine("ASCII: "+enc.GetString(RawMessageDecoded));
+//			sb.Append("RAW: ");
 //			foreach(byte _b in RawMessageDecoded)
 //			{
 //				sb.Append(_b);
@@ -78,6 +75,7 @@ namespace MAXDebug
 				Rooms = new List<Room>();
 				Cursor++;
 
+				#region Rooms
 				// go through every room
 				for(byte roomnumber=1;roomnumber<=RoomCount;roomnumber++)
 				{
@@ -98,16 +96,16 @@ namespace MAXDebug
 					}
 					newRoom.RoomName = RoomName.ToString();
 
-					StringBuilder RFAddress = new StringBuilder();
-
+					StringBuilder RFAddress_Buffer = new StringBuilder();
 					for(Byte j=0;j<=3-1;j++)
 					{
-						RFAddress.Append((char)RawMessageDecoded[Cursor]);
+						RFAddress_Buffer.Append(RawMessageDecoded[Cursor]);
 						Cursor++;
 					}
+					newRoom.RFAddress = Int32.Parse(RFAddress_Buffer.ToString(),System.Globalization.NumberStyles.HexNumber);
 
 					//newRoom.RFAddress = Int32.Parse(RFAddress.ToString(),System.Globalization.NumberStyles.HexNumber);
-
+					#region Devices
 					Byte DeviceCount = RawMessageDecoded[Cursor];
 					Cursor++;
 					// go through all the devices in here
@@ -146,9 +144,10 @@ namespace MAXDebug
 						StringBuilder DeviceRFAddress = new StringBuilder();
 						for(Byte j=0;j<=3-1;j++)
 						{
-							RFAddress.Append((char)RawMessageDecoded[Cursor]);
+							DeviceRFAddress.Append(RawMessageDecoded[Cursor]);
 							Cursor++;
 						}
+						newDevice.RFAddress = Int32.Parse(DeviceRFAddress.ToString(),System.Globalization.NumberStyles.HexNumber);
 
 						StringBuilder DeviceSerialNumber = new StringBuilder();
 						for(Byte j=0;j<=10-1;j++)
@@ -175,10 +174,11 @@ namespace MAXDebug
 						// add the device to the room
 						newRoom.Devices.Add(newDevice);
 					}
-
+					#endregion
 					// add this Room to the M_Message-Structure
 					Rooms.Add(newRoom);
 				}
+				#endregion
 			}
 			else
 				throw new MAXException("Unable to process M Message. Not enough content.");

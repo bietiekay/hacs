@@ -2,6 +2,7 @@ using System;
 using System.Net.Sockets;   // TCP-streaming
 using System.Threading;     // the sleeping part...
 using System.Text;
+using System.Collections.Generic;
 
 
 namespace MAXDebug
@@ -32,8 +33,10 @@ namespace MAXDebug
 			TcpClient client = new TcpClient();
 			client.Connect(args[0], Convert.ToInt32 (args[1]));
 			NetworkStream stream = client.GetStream();
+
 			// the read buffer (chosen quite big)
 			byte[] myReadBuffer = new byte[4096*8];
+			List<String> Messages = new List<string>();
 
 			// to build the complete message
 			StringBuilder myCompleteMessage = new StringBuilder();
@@ -45,21 +48,13 @@ namespace MAXDebug
 			do
 			{
 				myCompleteMessage = new StringBuilder();
-				stream.ReadTimeout = 1000;
+				stream.ReadTimeout = 10000;
 				try
 				{
 					numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);
 					myCompleteMessage.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
 
-//					Console.WriteLine("------RAW--------");
-//					Console.Write(myCompleteMessage);
-					IMaxData Message = DecoderEncoder.ProcessMessage(myCompleteMessage.ToString());
-					if (Message != null)
-					{
-						//Console.WriteLine("------DEC--------");
-						ConsoleOutputLogger.WriteLine(Message.ToString());
-						ConsoleOutputLogger.WriteLine("");
-					}
+					Messages.Add(myCompleteMessage.ToString());
 				}
 				catch(Exception e)
 				{
@@ -67,10 +62,20 @@ namespace MAXDebug
 					keepRunning = false;
 				}
 				// sleep 100 msecs
-				Thread.Sleep (100);
+				//Thread.Sleep (1000);
 			}
 			while(keepRunning);
 
+			// Analyze and Output Messages
+			foreach(String _Message in Messages)
+			{
+				IMaxData Message = DecoderEncoder.ProcessMessage(_Message.ToString());
+				if (Message != null)
+				{
+					ConsoleOutputLogger.WriteLine(Message.ToString());
+					ConsoleOutputLogger.WriteLine("");
+				}
+			}
 			// some writing
 			if (args.Length > 2)
 			{
@@ -85,7 +90,7 @@ namespace MAXDebug
 				do
 				{
 					myCompleteMessage = new StringBuilder();
-					stream.ReadTimeout = 1000;
+					//stream.ReadTimeout = 10000;
 					try
 					{
 						numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);
@@ -107,7 +112,7 @@ namespace MAXDebug
 						keepRunning = false;
 					}
 					// sleep 100 msecs
-					Thread.Sleep (100);
+					//Thread.Sleep (100);
 				}
 				while(keepRunning);
 				
