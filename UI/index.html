@@ -48,7 +48,7 @@
     Temperatur:
     <select id="tempsensorchanger" name="tempsensorchanger" size="1">
       <option>keine Auswahl</option>
-      <option value="Terassenraum">Terassenraum</option>
+      <option value="Serverraum">Serverraum</option>
       <option value="Wohnzimmer">Wohnzimmer</option>
       <option value="Kueche">K&uuml;che</option>
       <option value="Arbeitszimmer">Arbeitszimmer</option>
@@ -56,12 +56,16 @@
       <option value="Schlafzimmer">Schlafzimmer</option>
 	  <option value="Dachboden">Dachboden</option>
 	  <option value="Schuppen">Schuppen</option>
+	  <option value="Pool">Pool</option>
+	  <option value="Mozilla">Mozilla</option>
+	  <option value="Wilma">Wilma</option>
+	  <option value="Terassenraum">Terassenraum</option>
     </select>	
 	<button id="allHygro">All Hygrometers</button>
     Luftfeuchtigkeit:
     <select id="hygrosensorchanger" name="hygrosensorchanger" size="1">
       <option>keine Auswahl</option>
-      <option value="Terassenraum_">Abstellkammer</option>
+      <option value="Serverraum_">Abstellkammer</option>
       <option value="Wohnzimmer_">Wohnzimmer</option>
       <option value="Kueche_">K&uuml;che</option>
       <option value="Arbeitszimmer_">Arbeitszimmer</option>
@@ -69,11 +73,16 @@
       <option value="Schlafzimmer_">Schlafzimmer</option>
 	  <option value="Dachboden_">Dachboden</option>
 	  <option value="Schuppen_">Schuppen</option>
+	  <option value="Pool_">Pool</option>
+	  <option value="Mozilla_">Mozilla</option>
 	</select>
 	<button id="pwrHourlySensor">Power Hourly Consumption</button>
 	<button id="pwrSensorDaily">Daily Power Consumption</button>
 	<button id="pwrSensor">Power Consumption (RAW)</button>
 	<button id="pwrPeak">Power Peak Consumption (RAW)</button>
+	<button id="kellerdoor">Keller Tuer</button>
+	<button id="haupteingang">Haupteingang</button>
+	<button id="terassentuer">Terassentuer</button>
     <div id="placeholder" align="center" style="width:1000px;height:600px;"></div>
 	<p id="hoverdata"></p>
 	<button id="alldata">all data</button>
@@ -82,11 +91,39 @@
 	<button id="yesterday">yesterday</button>
 	<button id="currentweek">current week</button>
 	<button id="currentmonth">current month</button>
+
+	<script>
+	$(function() {
+		$( "#datepicker-start" ).datepicker({
+			defaultDate: "-2w",
+			changeMonth: true,
+			numberOfMonths: 2,
+			dateFormat: "dd-mm-yy", 
+			firstDay: 1, 
+			onSelect: function( selectedDate ) {
+				$( "#datepicker-end" ).datepicker( "option", "minDate", selectedDate );
+			}
+		});
+		$( "#datepicker-end").datepicker({
+			defaultDate: "-2w",
+			changeMonth: true,
+			numberOfMonths: 2,
+			dateFormat: "dd-mm-yy", 
+			firstDay: 1, 
+			onSelect: function( selectedDate ) {
+				$( "#datepicker-start" ).datepicker( "option", "maxDate", selectedDate );
+			}
+		});
+	});
+	</script>
+	<p>Start: <input id="datepicker-start" type="text"> End: <input id="datepicker-end" type="text"></p>
+
 	<button id="clear">Clear Graphs</button>
 	<p>
 	<a href="/config/index.html">XS1 Configuration</a><p>
 	<a href="temperatures.htm">Temperatures Gauges</a><p>
 	<a href="humidity.htm">Humidity Gauges</a><p>
+	<a href="/ezcontrol/">EzControl Schalter schalten</a>
 <!--- Here's a little experiment to add date regions -->
 <!---	Start-Date <input name="startdate" id="datepicker_start" type="text"></input>
 	End-Date <input name="enddate" id="datepicker_end" type="text"></input>
@@ -208,8 +245,8 @@ $(function () {
 			lines: { show: true },
 			points: { show: false },
 			legend: { position: 'sw' },
-		        selection: { mode: "x" },
-            		grid: { markings: weekendAreas},
+		    selection: { mode: "x" },
+            grid: { markings: weekendAreas},
 			xaxis: 
 			{
 				mode: "time",
@@ -324,27 +361,55 @@ $(function () {
 	$("#tempsensorchanger").change(
 		function()
 		{
-			sortof = 2;
-			$.ajax(
+			if ("#datepicker-start".length == 0)
 			{
-				url: "/data/sensor?name="+$(this).val()+"&type=temperature",
-				method: 'GET',
-				dataType: 'json',
-				success: onDataReceived
-			});
+				sortof = 2;
+				$.ajax(
+				{
+					url: "/data/sensor?name="+$(this).val()+"&type=temperature",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceived
+				});	
+			}
+			else
+			{
+				sortof = 2;
+				$.ajax(
+				{
+					url: "/data/sensor?name="+$(this).val()+"&type=temperature&start="+document.getElementById('datepicker-start').value+"&end="+document.getElementById('datepicker-end').value,
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceived
+				});	
+			}
 		});
 		
 	$("#hygrosensorchanger").change(
 		function()
 		{
-			sortof = 3;
-			$.ajax(
+			if ("#datepicker-start".length == 0)
 			{
-				url: "/data/sensor?name="+$(this).val()+"&type=hygrometer",
-				method: 'GET',
-				dataType: 'json',
-				success: onDataReceived
-			});
+				sortof = 3;
+				$.ajax(
+				{
+					url: "/data/sensor?name="+$(this).val()+"&type=hygrometer",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceived
+				});
+			}
+			else
+			{
+				sortof = 3;
+				$.ajax(
+				{
+					url: "/data/sensor?name="+$(this).val()+"&type=hygrometer&start="+document.getElementById('datepicker-start').value+"&end="+document.getElementById('datepicker-end').value,
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceived
+				});
+			}
 		});
 
 	$("#allHygro").click(
@@ -388,6 +453,8 @@ $(function () {
 	$("#pwrSensor").click(
 	function()
 	{
+		if ("#datepicker-start".length == 0)
+		{
 			sortof = 6;
 			$.ajax(
 			{
@@ -396,12 +463,26 @@ $(function () {
 				dataType: 'json',
 				success: onDataReceived
 			});		
+		}
+		else
+		{			
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/sensor?name=Stromzaehler&type=pwr_consump&start="+document.getElementById('datepicker-start').value+"&end="+document.getElementById('datepicker-end').value,
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});	
+		}
 	}
 	);
 
 	$("#pwrPeak").click(
 	function()
 	{
+		if ("#datepicker-start".length == 0)
+		{
 			sortof = 6;
 			$.ajax(
 			{
@@ -410,13 +491,26 @@ $(function () {
 				dataType: 'json',
 				success: onDataReceived
 			});
-
+		}
+		else
+		{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/sensor?name=Stromzaehler_&type=pwr_peak&start="+document.getElementById('datepicker-start').value+"&end="+document.getElementById('datepicker-end').value,
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});			
+		}
 	}
 	);
 	
 	$("#pwrSensorDaily").click(
 	function()
 	{
+		if ("#datepicker-start".length == 0)
+		{
 			sortof = 6;
 			$.ajax(
 			{
@@ -425,13 +519,26 @@ $(function () {
 				dataType: 'json',
 				success: onDataReceived
 			});
-
+		}
+		else
+		{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/powersensor?name=Stromzaehler&type=CALCDAILYKWH&start="+document.getElementById('datepicker-start').value+"&end="+document.getElementById('datepicker-end').value,
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});			
+		}
 	}
 	);	
 	
 	$("#pwrHourlySensor").click(
 	function()
 	{
+		if ("#datepicker-start".length == 0)
+		{
 			sortof = 6;
 			$.ajax(
 			{
@@ -440,10 +547,105 @@ $(function () {
 				dataType: 'json',
 				success: onDataReceived
 			});
-
+		}
+		else
+		{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/powersensor?name=Stromzaehler&type=CALCHOURLYKWH&start="+document.getElementById('datepicker-start').value+"&end="+document.getElementById('datepicker-end').value,
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});			
+		}
 	}
 	);
 
+	$("#kellerdoor").click(
+	function()
+	{
+		if ("#datepicker-start".length == 0)
+		{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/sensor?name=Kellertuer&type=dooropen",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
+		}
+		else
+		{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/sensor?name=Kellertuer&type=dooropen&start="+document.getElementById('datepicker-start').value+"&end="+document.getElementById('datepicker-end').value,
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});			
+		}
+	}
+	);
+	
+	$("#haupteingang").click(
+	function()
+	{
+		if ("#datepicker-start".length == 0)
+		{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/sensor?name=Haupteingang&type=dooropen",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
+		}
+		else
+		{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/sensor?name=Haupteingang&type=dooropen&start="+document.getElementById('datepicker-start').value+"&end="+document.getElementById('datepicker-end').value,
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});			
+		}
+	}
+	);
+
+	$("#terassentuer").click(
+	function()
+	{
+		if ("#datepicker-start".length == 0)
+		{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/sensor?name=Terassentuer&type=dooropen",
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
+		}
+		else
+		{
+			sortof = 6;
+			$.ajax(
+			{
+				url: "/data/sensor?name=Terassentuer&type=dooropen&start="+document.getElementById('datepicker-start').value+"&end="+document.getElementById('datepicker-end').value,
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
+		}
+	}
+	);
+	
 	$("#clear").click(
 	function()
 	{

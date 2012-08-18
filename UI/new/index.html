@@ -1,0 +1,1191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html lang="en"> 
+    <head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+		<title>home automation control server</title>
+		<link type="text/css" href="css/index.css" rel="stylesheet" />
+		<link type="text/css" href="css/smoothness/jquery-ui-1.8.19.custom.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/switchcontrol.css" type="text/css" media="screen" />
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.8.19.custom.min.js"></script>
+		<script language="javascript" type="text/javascript" src="js/flot/jquery.flot.js"></script>
+    	<script language="javascript" type="text/javascript" src="js/flot/jquery.flot.selection.js"></script>
+		
+		<!-- Temperature/Humidity Gauges -->
+		<script language="javascript" type="text/javascript" src="js/raphael.js"></script>
+        <script language="javascript" type="text/javascript" src="js/wso2vis.ctrls.js"></script>
+        <!-- Temperatures -->
+		<script type="text/javascript" charset="utf-8"> 
+			var temperature_timer, humidity_timer;
+			var temperatures, humidity;
+						
+			function onDataReceivedWohnzimmer(series) 
+			{
+				wohnzimmername.update(series.label);
+				wohnzimmertemp.update(series.data[0][1]+" °C");
+				wohnzimmer.setValue(series.data[0][1]);
+			}
+			function onDataReceivedArbeitszimmer(series) 
+			{
+				arbeitszimmername.update(series.label);
+				arbeitszimmertemp.update(series.data[0][1]+" °C");
+				arbeitszimmer.setValue(series.data[0][1]);
+			}			
+			function onDataReceivedSchlafzimmer(series) 
+			{
+				schlafzimmername.update(series.label);
+				schlafzimmertemp.update(series.data[0][1]+" °C");
+				schlafzimmer.setValue(series.data[0][1]);
+			}
+			function onDataReceivedKueche(series) 
+			{
+				kuechename.update(series.label);
+				kuechetemp.update(series.data[0][1]+" °C");
+				kueche.setValue(series.data[0][1]);
+			}
+			function onDataReceivedTerassenraum(series) 
+			{
+				terassename.update(series.label);
+				terassentemp.update(series.data[0][1]+" °C");
+				terassenraum.setValue(series.data[0][1]);
+			}
+			function onDataReceivedBad(series) 
+			{
+				badname.update(series.label);
+				badtemp.update(series.data[0][1]+" °C");
+				bad.setValue(series.data[0][1]);
+			}
+			function onDataReceivedSchuppen(series) 
+			{
+				schuppenname.update(series.label);
+				schuppentemp.update(series.data[0][1]+" °C");
+				schuppen.setValue(series.data[0][1]);
+			}
+			function onDataReceivedDachboden(series) 
+			{
+				dachbodenname.update(series.label);
+				dachbodentemp.update(series.data[0][1]+" °C");
+				dachboden.setValue(series.data[0][1]);
+			}
+			function onDataReceivedCurrentPower(series) 
+			{
+				powername.update(series.label);
+				powervalue.update(series.data[0][1]+" Wh");
+				powerusage.setValue(series.data[0][1]);
+			}
+			
+			function TemperatureGaugesTick() 
+			{
+				$.ajax(
+				{
+					url: "/data/sensor?name=Wohnzimmer&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedWohnzimmer,
+				});
+				$.ajax(
+				{
+					url: "/data/sensor?name=Arbeitszimmer&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedArbeitszimmer
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Schlafzimmer&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSchlafzimmer
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Kueche&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedKueche
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Terassenraum&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedTerassenraum
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Bad_oben&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedBad
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Schuppen&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSchuppen
+				});
+				$.ajax(
+				{
+					url: "/data/sensor?name=Dachboden&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedDachboden
+				});		
+				$.ajax(
+				{
+					url: "/data/sensor?name=Stromzaehler&type=pwr_consump&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedCurrentPower
+				});					
+			};
+			
+			function drawTemperatureGauges(r, offsetX, offsetY) {
+
+				wohnzimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 225); 
+				wohnzimmertemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 205); 
+				wohnzimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 100, offsetY + 180);
+
+				arbeitszimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 225); 
+				arbeitszimmertemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 205); 
+				arbeitszimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 300, offsetY + 180);
+
+				schlafzimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 225); 
+				schlafzimmertemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 205); 
+				schlafzimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 500, offsetY + 180);
+				
+				kuechename = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 225); 
+				kuechetemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 205); 
+				kueche = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 700, offsetY + 180);
+
+				badname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 385); 
+				badtemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 365); 
+				bad = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 100, offsetY + 335);
+				
+				terassename = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 385); 
+				terassentemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 365); 
+				terassenraum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 300, offsetY + 335);
+
+				schuppenname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 385); 
+				schuppentemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 365); 
+				schuppen = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 500, offsetY + 335);
+				
+				dachbodenname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 385); 
+				dachbodentemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 365); 
+				dachboden = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 700, offsetY + 335);
+				
+				powername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 410, offsetY + 10); 
+				powervalue = new wso2vis.ctrls.Label().text(" Wh") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 410, offsetY + 70); 
+				powerusage = new wso2vis.ctrls.LGauge().dialRadius(100).length(600).largeTick(250).smallTick(25).minVal(0) .maxVal(4000).create(r, offsetX + 110, offsetY + 50);
+				
+				TemperatureGaugesTick();				
+			}	
+			
+			function clearAllTemperatures() {
+				temperatures.clear();
+				clearInterval(temperature_timer);
+			}
+					
+			
+        </script>
+        <!-- Humidity -->
+        <script type="text/javascript" charset="utf-8"> 
+			function onDataReceivedWohnzimmerHum(series) 
+			{
+				wohnzimmernamehum.update(series.label);
+				wohnzimmerhumidity.update(series.data[0][1]+" %");
+				wohnzimmerhum.setValue(series.data[0][1]);
+			}
+			function onDataReceivedArbeitszimmerHum(series) 
+			{
+				arbeitszimmernamehum.update(series.label);
+				arbeitszimmerhumidity.update(series.data[0][1]+" %");
+				arbeitszimmerhum.setValue(series.data[0][1]);
+			}			
+			function onDataReceivedSchlafzimmerHum(series) 
+			{
+				schlafzimmernamehum.update(series.label);
+				schlafzimmerhumidity.update(series.data[0][1]+" %");
+				schlafzimmerhum.setValue(series.data[0][1]);
+			}
+			function onDataReceivedKuecheHum(series) 
+			{
+				kuechenamehum.update(series.label);
+				kuechehumidity.update(series.data[0][1]+" %");
+				kuechehum.setValue(series.data[0][1]);
+			}
+			function onDataReceivedTerassenraumHum(series) 
+			{
+				terassenamehum.update(series.label);
+				terassenhumidity.update(series.data[0][1]+" %");
+				terassenraumhum.setValue(series.data[0][1]);
+			}
+			function onDataReceivedBadHum(series) 
+			{
+				badnamehum.update(series.label);
+				badhumidity.update(series.data[0][1]+" %");
+				badhum.setValue(series.data[0][1]);
+			}
+			function onDataReceivedSchuppenHum(series) 
+			{
+				schuppennamehum.update(series.label);
+				schuppenhumidity.update(series.data[0][1]+" %");
+				schuppenhum.setValue(series.data[0][1]);
+			}
+			function onDataReceivedDachbodenHum(series) 
+			{
+				dachbodennamehum.update(series.label);
+				dachbodenhumidity.update(series.data[0][1]+" %");
+				dachbodenhum.setValue(series.data[0][1]);
+			}
+			
+			function HumidityGaugesTick() 
+			{
+				$.ajax(
+				{
+					url: "/data/sensor?name=Wohnzimmer_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedWohnzimmerHum
+				});
+				$.ajax(
+				{
+					url: "/data/sensor?name=Arbeitszimmer_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedArbeitszimmerHum
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Schlafzimmer_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSchlafzimmerHum
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Kueche_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedKuecheHum
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Terassenraum_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedTerassenraumHum
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Bad_oben_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedBadHum
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Schuppen_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSchuppenHum
+				});
+				$.ajax(
+				{
+					url: "/data/sensor?name=Dachboden_&type=hygrometer&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedDachbodenHum
+				});					
+			};
+			
+			<!-- Humidity Gauges -->
+			function drawHumidityGauges(r, offsetX, offsetY) {
+
+				wohnzimmernamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 140); 
+				wohnzimmerhumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 120); 
+				wohnzimmerhum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 100, offsetY + 95);
+
+				arbeitszimmernamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 140); 
+				arbeitszimmerhumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 120); 
+				arbeitszimmerhum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 300, offsetY + 95);
+
+				schlafzimmernamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 140); 
+				schlafzimmerhumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 120); 
+				schlafzimmerhum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 500, offsetY + 95);
+				
+				kuechenamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 140); 
+				kuechehumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 120); 
+				kuechehum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 700, offsetY + 95);
+
+				badnamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 300); 
+				badhumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 280); 
+				badhum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 100, offsetY + 250);
+				
+				terassenamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 300); 
+				terassenhumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 280); 
+				terassenraumhum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 300, offsetY + 250);
+
+				schuppennamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 300); 
+				schuppenhumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 280); 
+				schuppenhum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 500, offsetY + 250);
+				
+				dachbodennamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 300); 
+				dachbodenhumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 280); 
+				dachbodenhum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 700, offsetY + 250);
+				
+				HumidityGaugesTick();
+			}			
+			<!-- Humidity Gauges -->
+			
+			function clearAllHumidity() {
+				humidity.clear();
+				clearInterval(humidity_timer);
+			}
+			
+        </script> 
+		<!-- Temperature/Humidity Gauges -->
+		
+		<!-- Switches -->
+		<script type="text/javascript" charset="utf-8"> 
+		var switches_timer;
+		var switches;
+			
+			function onDataReceivedFernsehlampe(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-1").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-1").className = "switch off"
+  				}
+  			}
+			function onDataReceivedSofalampe(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-2").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-2").className = "switch off"
+  				}
+  			}	
+  			function onDataReceivedSchlafzimmerTV(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-3").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-3").className = "switch off"
+  				}
+  			}	
+   			function onDataReceivedSchlafzimmerLicht(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-4").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-4").className = "switch off"
+  				}
+  			}	 			
+  			function onDataReceivedArbeitszimmerLicht(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-5").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-5").className = "switch off"
+  				}
+  			}	  			
+  			function onDataReceivedKuecheLicht(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-6").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-6").className = "switch off"
+  				}
+  			}  							
+  			function onDataReceivedAirportKueche(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-7").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-7").className = "switch off"
+  				}
+  			}
+  			function onDataReceivedTVSchrank(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-8").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-8").className = "switch off"
+  				}
+  			}
+  			function onDataReceivedMozillaLicht(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-9").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-9").className = "switch off"
+  				}
+  			}
+  			function onDataReceivedWilmaLicht(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-10").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-10").className = "switch off"
+  				}
+  			}
+  			function onDataReceivedWilmaLuft(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-11").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-11").className = "switch off"
+  				}
+  			}
+  			function onDataReceivedKuechenoberschrank(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-12").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-12").className = "switch off"
+  				}
+  			}
+  			function onDataReceivedKuecheLinks(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-13").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-13").className = "switch off"
+  				}
+  			}
+  			function onDataReceivedKuecheRechts(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-14").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-14").className = "switch off"
+  				}
+  			}
+			
+			function SwitchesTick() 
+			{				
+				$.ajax(
+				{
+					url: "/data/actor?name=Fernsehlampe",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedFernsehlampe,
+					error: onDataReceivedFernsehlampe
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=Sofalampe",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSofalampe
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=SchlafzimmerTV",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSchlafzimmerTV
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=SchlafzimmerLicht",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSchlafzimmerLicht
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=ArbeitszimmerLicht",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedArbeitszimmerLicht
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=KuecheLicht",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedKuecheLicht
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=AirportKueche",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedAirportKueche
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=TVSchrank",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedTVSchrank
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=MozillaLicht",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedMozillaLicht
+				});		
+				$.ajax(
+				{
+					url: "/data/actor?name=WilmaLicht",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedWilmaLicht
+				});						
+				$.ajax(
+				{
+					url: "/data/actor?name=WilmaLuft",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedWilmaLuft
+				});				
+				$.ajax(
+				{
+					url: "/data/actor?name=Kuechenoberschrank",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedKuechenoberschrank
+				});				
+				$.ajax(
+				{
+					url: "/data/actor?name=KuecheLinks",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedKuecheLinks
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=KuecheRechts",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedKuecheRechts
+				});				
+			};
+									
+        </script>
+        <script>
+		(function() {
+			var $$ = function(selector) {
+				return Array.prototype.slice.call(document.querySelectorAll(selector));
+			}
+			document.addEventListener("DOMContentLoaded", function() {
+				var checkbox;
+				var result = document.querySelector("#result");
+				$$(".switch").forEach(function(switchControl) {
+					if (switchControl.className === ("switch on")) {
+						switchControl.lastElementChild.checked = true;
+					}
+					switchControl.addEventListener("click", function toggleSwitch() 
+					{
+						if (switchControl.className === "switch on") {
+							switchControl.className = 'switch off';
+						} else {
+							switchControl.className = ("switch on");
+						}
+						checkbox = switchControl.lastElementChild;
+						checkbox.checked = !checkbox.checked;
+					}, false);
+				});
+			}, false);
+		})()
+		</script>
+		<!-- Switches -->
+		
+		<!-- Sensor-Graphs -->
+		<script id="source" language="javascript" type="text/javascript">
+		
+		function PlotSensorGraph()
+		{
+			var dataurl = "/data/powersensor?name=Stromzaehler&type=CALCHOURLYKWH";
+			$.ajax(
+			{
+				url: dataurl,
+				method: 'GET',
+				dataType: 'json',
+				success: onDataReceived
+			});
+		}
+		
+		var options = 	{
+							lines: { show: true },
+							points: { show: false },
+							xaxis:  {
+										mode: "time",
+							},
+							legend: { position: 'sw' },			
+							grid: { markings: weekendAreas},
+							selection: { mode: "x" },
+						};	
+		var data = [];
+		var sortof = 1;
+		var lastsortof = 1;
+					
+		// helper for returning the weekends in a period
+		function weekendAreas(axes) 
+		{
+			var markings = [];
+			var d = new Date(axes.xaxis.min);
+			// go to the first Saturday
+			d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 1) % 7));
+			d.setUTCSeconds(0);
+			d.setUTCMinutes(0);
+			d.setUTCHours(0);
+			var i = d.getTime();
+			do {
+				// when we don't set yaxis, the rectangle automatically
+				// extends to infinity upwards and downwards
+				markings.push({ xaxis: { from: i, to: i + 2 * 24 * 60 * 60 * 1000 } });
+				i += 7 * 24 * 60 * 60 * 1000;
+			} while (i < axes.xaxis.max);
+	
+			return markings;
+		}
+		// default
+		var dataurl = "/data/powersensor?name=Stromzaehler&type=CALCHOURLYKWH";
+			
+		// then fetch the data with jQuery
+		function onDataReceived(series) 
+		{
+			if (lastsortof != sortof)
+			{
+				data = [];
+			}
+			var firstcoordinate = '(' + series.data[0][0] + ', ' + series.data[0][1] + ')';
+			
+			for (var i = 0; i < data.length; ++i)
+				data[i][0] += 60 * 60;
+			
+			data.push(series);
+			
+			// and plot all we got
+			plot = $.plot($("#sensorgraph"), data, options);
+			lastsortof = sortof;
+		}			
+			
+		$("#sensorgraph").bind("plotselected", function (event, ranges) {
+		// do the zooming
+		plot = $.plot($("#sensorgraph"), data,
+				  $.extend(true, {}, options, {
+					  xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }
+				  }));
+		});
+		
+		$("#today").click(function () 
+		{
+			var yesterday= new Date();
+			yesterday.setDate(yesterday.getDate()-1);
+			var now = new Date();
+			now.setTime(now.getTime()+(60*60*1000));
+			
+			options = {		   
+				lines: { show: true },
+				points: { show: false },
+				legend: { position: 'sw' },
+					selection: { mode: "x" },
+						grid: { markings: weekendAreas},
+				xaxis: 
+				{
+					mode: "time",
+					//minTickSize: [1, "hour"],
+					min: (yesterday).getTime(),
+					max: (now).getTime()
+				}
+			}
+			
+			$.plot($("#sensorgraph"), data, options);
+		});		
+	
+		$("#thishour").click(function () 
+		{
+			var before= new Date();
+			before.setHours(before.getHours()-3);
+			var now = new Date();
+			now.setTime(now.getTime()+(60*60*1000));
+	
+			options = {		   
+				lines: { show: true },
+				points: { show: false },
+				legend: { position: 'sw' },
+					selection: { mode: "x" },
+						grid: { markings: weekendAreas},
+				xaxis: 
+				{
+					mode: "time",
+					//minTickSize: [1, "hour"],
+					min: (before).getTime(),
+					max: (now).getTime()
+				}
+			}
+			
+			$.plot($("#sensorgraph"), data, options);
+		});		
+		
+		$("#yesterday").click(function () 
+		{
+			var yesterday= new Date();
+			yesterday.setDate(yesterday.getDate()-1);
+			yesterday.setTime(yesterday.getTime()+(60*60*1000));
+	
+			var yesteryesterday= new Date();
+			yesteryesterday.setDate(yesteryesterday.getDate()-2);
+	
+	
+			options = {		    
+				lines: { show: true },
+				points: { show: false },
+				legend: { position: 'sw' },
+						selection: { mode: "x" },
+						grid: { markings: weekendAreas},
+				xaxis: 
+				{
+					mode: "time",
+					//minTickSize: [1, "hour"],
+					min: (yesteryesterday).getTime(),
+					max: (yesterday).getTime()
+				}
+			}
+			
+			$.plot($("#sensorgraph"), data, options);
+		});		
+		
+		$("#currentweek").click(function () 
+		{
+			var startofweek= new Date();
+			startofweek.setDate(startofweek.getDate()-7);
+			var now = new Date();
+			now.setTime(now.getTime()+(60*60*1000));
+	
+			options = {		    
+				lines: { show: true },
+				points: { show: false },
+				legend: { position: 'sw' },
+						selection: { mode: "x" },
+						grid: { markings: weekendAreas},
+				xaxis: 
+				{
+					mode: "time",
+					//minTickSize: [1, "day"],
+					min: (startofweek).getTime(),
+					max: (now).getTime()
+				}
+			}
+			
+			$.plot($("#sensorgraph"), data, options);
+		});
+	
+		$("#currentmonth").click(function () 
+		{
+			var startofweek= new Date();
+			startofweek.setDate(startofweek.getDate()-31);
+			var now = new Date();
+			now.setTime(now.getTime()+(60*60*1000));
+	
+	
+			options = {		    
+				lines: { show: true },
+				points: { show: false },
+				legend: { position: 'sw' },
+						selection: { mode: "x" },
+						grid: { markings: weekendAreas},
+				xaxis: 
+				{
+					mode: "time",
+					//minTickSize: [1, "day"],
+					min: (startofweek).getTime(),
+					max: (now).getTime()
+				}
+			}
+	
+			
+			$.plot($("#sensorgraph"), data, options);
+		});
+	
+		$("#alldata").click(function () 
+		{
+				options = {		    
+				lines: { show: true },
+				points: { show: false },
+				legend: { position: 'sw' },
+						selection: { mode: "x" },
+						grid: { markings: weekendAreas},
+				xaxis: 
+				{
+					mode: "time",
+					//minTickSize: [1, "day"],
+				}
+			}
+	
+			
+			$.plot($("#sensorgraph"), data, options);
+		});
+	
+		$("#tempsensorchanger").change(
+			function()
+			{
+				sortof = 2;
+				$.ajax(
+				{
+					url: "/data/sensor?name="+$(this).val()+"&type=temperature",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceived
+				});
+			});
+			
+		$("#hygrosensorchanger").change(
+			function()
+			{
+				sortof = 3;
+				$.ajax(
+				{
+					url: "/data/sensor?name="+$(this).val()+"&type=hygrometer",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceived
+				});
+			});
+	
+		$("#allHygro").click(
+		function()
+		{
+			data = [];
+			var selectobject=document.getElementById("hygrosensorchanger");
+			for (var i=0; i<selectobject.length; i++)
+			{
+				sortof = 5;
+				$.ajax(
+				{
+					url: "/data/sensor?name="+selectobject.options[i].value+"&type=hygrometer",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceived
+				});
+			}
+		}
+		);
+	
+		$("#allTemp").click(
+		function()
+		{
+			data = [];
+			var selectobject=document.getElementById("tempsensorchanger");
+			for (var i=0; i<selectobject.length; i++)
+			{
+				sortof = 4;
+				$.ajax(
+				{
+					url: "/data/sensor?name="+selectobject.options[i].value+"&type=temperature",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceived
+				});
+			}
+		}
+		);
+		
+		$("#pwrSensor").click(
+		function()
+		{
+				sortof = 6;
+				$.ajax(
+				{
+					url: "/data/sensor?name=Stromzaehler&type=pwr_consump",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceived
+				});		
+		}
+		);
+	
+		$("#pwrPeak").click(
+		function()
+		{
+				sortof = 6;
+				$.ajax(
+				{
+					url: "/data/sensor?name=Stromzaehler_&type=pwr_peak",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceived
+				});
+	
+		}
+		);
+		
+		$("#pwrSensorDaily").click(
+		function()
+		{
+				sortof = 6;
+				$.ajax(
+				{
+					url: "/data/powersensor?name=Stromzaehler&type=CALCDAILYKWH",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceived
+				});
+	
+		}
+		);	
+		
+		$("#pwrHourlySensor").click(
+		function()
+		{
+				sortof = 6;
+				$.ajax(
+				{
+					url: "/data/powersensor?name=Stromzaehler&type=CALCHOURLYKWH",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceived
+				});
+	
+		}
+		);
+	
+		$("#kellerdoor").click(
+		function()
+		{
+				sortof = 6;
+				$.ajax(
+				{
+					url: "/data/sensor?name=Kellertuer&type=dooropen",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceived
+				});
+	
+		}
+		);
+		
+		$("#haupteingang").click(
+		function()
+		{
+				sortof = 6;
+				$.ajax(
+				{
+					url: "/data/sensor?name=Haupteingang&type=dooropen",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceived
+				});
+	
+		}
+		);
+		
+		$("#clear").click(
+		function()
+		{
+				sortof = 99;
+				data = [];
+				data.push([]);		
+				plot = $.plot($("#sensorgraph"), data, options);
+		}
+		);	
+		</script>
+		<!-- Sensor-Graphs -->
+		
+		<!-- OnPageLoad -->
+		<script type="text/javascript">
+		window.onload = function () 
+		{
+			<!-- Todo: nur laden wenn Tab ausgewählt -->
+			temperatures = Raphael("temperature-gauges", 800, 600);	
+			drawTemperatureGauges(temperatures, 0, 0);
+			humidity = Raphael("humidity-gauges", 800, 600);		
+			drawHumidityGauges(humidity, 0, 0);
+		};
+		</script>
+		
+		<!-- Tab Click Handling -->
+		<script type="text/javascript">
+			function stopAllTimers() 
+			{
+				clearInterval(temperature_timer);
+				clearInterval(humidity_timer);
+				clearInterval(switches_timer);
+			}
+			
+			$(function(){
+				// Tabs
+				$('#tabs').tabs();
+				
+				$("#tabs").bind("tabsselect", function (event,ui) 
+				{
+				    if (ui.index == 0) 
+				    { /* handle tab click */ 
+				    	stopAllTimers();
+				    	TemperatureGaugesTick();
+				    	temperature_timer = setInterval(TemperatureGaugesTick, 10000);
+				    }
+					if (ui.index == 1) 
+					{ /* a different tab click */ 
+						stopAllTimers();
+						HumidityGaugesTick();
+						humidity_timer = setInterval(HumidityGaugesTick, 10000);
+					}
+					if (ui.index == 2) 
+					{ /* a different tab click */ 
+						stopAllTimers();
+						SwitchesTick();
+						switches_timer = setInterval(SwitchesTick, 10000);
+					}
+					if (ui.index == 3) 
+					{ /* a different tab click */ 
+						stopAllTimers();
+						PlotSensorGraph()
+					}
+				});
+
+			});
+		</script>
+		<!-- Tab Click Handling -->
+				
+	</head>
+	<body>
+		<!-- Tabs -->
+		<div id="tabs">
+			<ul>
+				<li><a href="#tabs-1">Temperaturen</a></li>
+				<li><a href="#tabs-2">Luftfeuchtigkeit</a></li>
+				<li><a href="#tabs-3">schalten</a></li>
+				<li><a href="#tabs-4">Sensor-Graphen</a></li>
+				<li><a href="#tabs-5">Aktor-Graphen</a></li>
+			</ul>
+			<div id="tabs-1">
+			<!-- Tab 1 -->
+					<div id="temperature-gauges"></div>
+			<!-- Tab 1 -->			
+			</div>
+			<div id="tabs-2">
+			<!-- Tab 2 -->
+				<div id="humidity-gauges"></div>
+			<!-- Tab 2 -->			
+			</div>
+			<div id="tabs-3">
+			<!-- Tab 3 -->
+				<div id="switchescanvas">
+					<div id="switch-1"  class="switch off" style="position:absolute; ">Test<span class="thumb"></span></div>
+					<div id="switch-2"  class="switch off" style="position:absolute; top:50px;"><span class="thumb"></span></div>
+					<div id="switch-3"  class="switch off" style="position:absolute; top:100px;"><span class="thumb"></span></div>
+					<div id="switch-4"  class="switch off" style="position:absolute; top:150px;"><span class="thumb"></span></div>
+					<div id="switch-5"  class="switch off" style="position:absolute; top:200px;"><span class="thumb"></span></div>
+					<div id="switch-6"  class="switch off" style="position:absolute; top:250px;"><span class="thumb"></span></div>
+					<div id="switch-7"  class="switch off" style="position:absolute; top:300px;"><span class="thumb"></span></div>
+					<div id="switch-8"  class="switch off" style="position:absolute; top:350px;"><span class="thumb"></span></div>
+					<div id="switch-9"  class="switch off" style="position:absolute; top:400px;"><span class="thumb"></span></div>
+					<div id="switch-10" class="switch off" style="position:absolute; top:450px;"><span class="thumb"></span></div>
+					<div id="switch-11" class="switch off" style="position:absolute; top:500px;"><span class="thumb"></span></div>
+					<div id="switch-12" class="switch off" style="position:absolute; top:550px;"><span class="thumb"></span></div>
+					<div id="switch-13" class="switch off" style="position:absolute; top:600px;"><span class="thumb"></span></div>
+					<div id="switch-14" class="switch off" style="position:absolute; top:650px;"><span class="thumb"></span></div>
+				</div>
+			<!-- Tab 3 -->			
+			</div>
+			<div id="tabs-4">
+			<!-- Tab 4 -->
+					<button id="allTemp">All Temperatures</button>
+					Temperatur:
+					<select id="tempsensorchanger" name="tempsensorchanger" size="1">
+					<option>keine Auswahl</option>
+					<option value="Terassenraum">Terassenraum</option>
+					<option value="Wohnzimmer">Wohnzimmer</option>
+					<option value="Kueche">K&uuml;che</option>
+					<option value="Arbeitszimmer">Arbeitszimmer</option>
+					<option value="Bad_oben">Bad oben</option>
+					<option value="Schlafzimmer">Schlafzimmer</option>
+					<option value="Dachboden">Dachboden</option>
+					<option value="Schuppen">Schuppen</option>
+					<option value="Wilma">Wilma</option>
+					<option value="Mozilla">Mozilla</option>
+					</select>	
+					<button id="allHygro">All Hygrometers</button>
+					Luftfeuchtigkeit:
+					<select id="hygrosensorchanger" name="hygrosensorchanger" size="1">
+					<option>keine Auswahl</option>
+					<option value="Terassenraum_">Abstellkammer</option>
+					<option value="Wohnzimmer_">Wohnzimmer</option>
+					<option value="Kueche_">K&uuml;che</option>
+					<option value="Arbeitszimmer_">Arbeitszimmer</option>
+					<option value="Bad_oben_">Bad oben</option>
+					<option value="Schlafzimmer_">Schlafzimmer</option>
+					<option value="Dachboden_">Dachboden</option>
+					<option value="Schuppen_">Schuppen</option>
+					<option value="Wilma_">Wilma</option>
+					<option value="Mozilla_">Mozilla</option>
+					</select>
+					<button id="pwrHourlySensor">Power Hourly Consumption</button>
+					<button id="pwrSensorDaily">Daily Power Consumption</button>
+					<button id="pwrSensor">Power Consumption (RAW)</button>
+					<button id="pwrPeak">Power Peak Consumption (RAW)</button>
+					<button id="kellerdoor">Keller Tuer</button>
+					<button id="haupteingang">Haupteingang</button>
+					<div id="sensorgraph" align="center" style="width:1000px;height:600px;"></div>
+					<p id="hoverdata"></p>
+					<button id="alldata">all data</button>
+					<button id="thishour">last 3 hours</button>
+					<button id="today">today</button>
+					<button id="yesterday">yesterday</button>
+					<button id="currentweek">current week</button>
+					<button id="currentmonth">current month</button>
+					<button id="clear">Clear Graphs</button>
+			<!-- Tab 4 -->			
+			</div>
+			<div id="tabs-5">
+			<!-- Tab 5 -->
+				<h1>Tab5</h1>
+			<!-- Tab 5 -->			
+			</div>
+
+		</div>
+	</body>
+</html>
+
+

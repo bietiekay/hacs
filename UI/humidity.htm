@@ -8,158 +8,154 @@
         <script language="javascript" type="text/javascript" src="wso2vis.ctrls.js"></script>
 		
         <script type="text/javascript" charset="utf-8"> 
-			var wohnzimmertemp = null, wohnzimmername = null;
-			var timer;
-			var r;
-			var wohnzimmer,arbeitszimmer,schlafzimmer,kueche,terrassenraum;
 						
-			function onDataReceivedWohnzimmer(series) 
+			function onDataReceivedWohnzimmerHum(series) 
 			{
-				wohnzimmername.update(series.label);
-				wohnzimmertemp.update(series.data[0][1]+" %");
-				wohnzimmer.setValue(series.data[0][1]);
+				wohnzimmernamehum.update(series.label);
+				wohnzimmerhumidity.update(series.data[0][1]+" %");
+				wohnzimmerhum.setValue(series.data[0][1]);
 			}
-			function onDataReceivedArbeitszimmer(series) 
+			function onDataReceivedArbeitszimmerHum(series) 
 			{
-				arbeitszimmername.update(series.label);
-				arbeitszimmertemp.update(series.data[0][1]+" %");
-				arbeitszimmer.setValue(series.data[0][1]);
+				arbeitszimmernamehum.update(series.label);
+				arbeitszimmerhumidity.update(series.data[0][1]+" %");
+				arbeitszimmerhum.setValue(series.data[0][1]);
 			}			
-			function onDataReceivedSchlafzimmer(series) 
+			function onDataReceivedSchlafzimmerHum(series) 
 			{
-				schlafzimmername.update(series.label);
-				schlafzimmertemp.update(series.data[0][1]+" %");
-				schlafzimmer.setValue(series.data[0][1]);
+				schlafzimmernamehum.update(series.label);
+				schlafzimmerhumidity.update(series.data[0][1]+" %");
+				schlafzimmerhum.setValue(series.data[0][1]);
 			}
-			function onDataReceivedKueche(series) 
+			function onDataReceivedKuecheHum(series) 
 			{
-				kuechename.update(series.label);
-				kuechetemp.update(series.data[0][1]+" %");
-				kueche.setValue(series.data[0][1]);
+				kuechenamehum.update(series.label);
+				kuechehumidity.update(series.data[0][1]+" %");
+				kuechehum.setValue(series.data[0][1]);
 			}
-			function onDataReceivedTerassenraum(series) 
+			function onDataReceivedServerraumHum(series) 
 			{
-				terassename.update(series.label);
-				terassentemp.update(series.data[0][1]+" %");
-				terassenraum.setValue(series.data[0][1]);
+				terassenamehum.update(series.label);
+				terassenhumidity.update(series.data[0][1]+" %");
+				Serverraumhum.setValue(series.data[0][1]);
 			}
-			function onDataReceivedBad(series) 
+			function onDataReceivedBadHum(series) 
 			{
-				badname.update(series.label);
-				badtemp.update(series.data[0][1]+" %");
-				bad.setValue(series.data[0][1]);
+				badnamehum.update(series.label);
+				badhumidity.update(series.data[0][1]+" %");
+				badhum.setValue(series.data[0][1]);
 			}
-			function onDataReceivedSchuppen(series) 
+			function onDataReceivedSchuppenHum(series) 
 			{
-				schuppenname.update(series.label);
-				schuppentemp.update(series.data[0][1]+" %");
-				schuppen.setValue(series.data[0][1]);
+				schuppennamehum.update(series.label);
+				schuppenhumidity.update(series.data[0][1]+" %");
+				schuppenhum.setValue(series.data[0][1]);
 			}
-			function onDataReceivedDachboden(series) 
+			function onDataReceivedDachbodenHum(series) 
 			{
-				dachbodenname.update(series.label);
-				dachbodentemp.update(series.data[0][1]+" %");
-				dachboden.setValue(series.data[0][1]);
+				dachbodennamehum.update(series.label);
+				dachbodenhumidity.update(series.data[0][1]+" %");
+				dachbodenhum.setValue(series.data[0][1]);
 			}
 			
-			function globalTick() 
+			function HumidityGaugesTick() 
 			{
 				$.ajax(
 				{
 					url: "/data/sensor?name=Wohnzimmer_&type=hygrometer&lastentry=true",
 					method: 'GET',
 					dataType: 'json',
-					success: onDataReceivedWohnzimmer
+					success: onDataReceivedWohnzimmerHum
 				});
 				$.ajax(
 				{
 					url: "/data/sensor?name=Arbeitszimmer_&type=hygrometer&lastentry=true",
 					method: 'GET',
 					dataType: 'json',
-					success: onDataReceivedArbeitszimmer
+					success: onDataReceivedArbeitszimmerHum
 				});				
 				$.ajax(
 				{
 					url: "/data/sensor?name=Schlafzimmer_&type=hygrometer&lastentry=true",
 					method: 'GET',
 					dataType: 'json',
-					success: onDataReceivedSchlafzimmer
+					success: onDataReceivedSchlafzimmerHum
 				});				
 				$.ajax(
 				{
 					url: "/data/sensor?name=Kueche_&type=hygrometer&lastentry=true",
 					method: 'GET',
 					dataType: 'json',
-					success: onDataReceivedKueche
+					success: onDataReceivedKuecheHum
 				});				
 				$.ajax(
 				{
-					url: "/data/sensor?name=Terassenraum_&type=hygrometer&lastentry=true",
+					url: "/data/sensor?name=Serverraum_&type=hygrometer&lastentry=true",
 					method: 'GET',
 					dataType: 'json',
-					success: onDataReceivedTerassenraum
+					success: onDataReceivedServerraumHum
 				});				
 				$.ajax(
 				{
 					url: "/data/sensor?name=Bad_oben_&type=hygrometer&lastentry=true",
 					method: 'GET',
 					dataType: 'json',
-					success: onDataReceivedBad
+					success: onDataReceivedBadHum
 				});				
 				$.ajax(
 				{
 					url: "/data/sensor?name=Schuppen_&type=hygrometer&lastentry=true",
 					method: 'GET',
 					dataType: 'json',
-					success: onDataReceivedSchuppen
+					success: onDataReceivedSchuppenHum
 				});
 				$.ajax(
 				{
 					url: "/data/sensor?name=Dachboden_&type=hygrometer&lastentry=true",
 					method: 'GET',
 					dataType: 'json',
-					success: onDataReceivedDachboden
+					success: onDataReceivedDachbodenHum
 				});					
 			};
 			
 
-			function drawCircularGauges(r, offsetX, offsetY) {
+			function drawHumidityGauges(r, offsetX, offsetY) {
 
-				wohnzimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 140); 
-				wohnzimmertemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 120); 
-				wohnzimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 100, offsetY + 95);
+				wohnzimmernamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 140); 
+				wohnzimmerhumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 120); 
+				wohnzimmerhum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 100, offsetY + 95);
 
-				arbeitszimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 140); 
-				arbeitszimmertemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 120); 
-				arbeitszimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 300, offsetY + 95);
+				arbeitszimmernamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 140); 
+				arbeitszimmerhumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 120); 
+				arbeitszimmerhum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 300, offsetY + 95);
 
-				schlafzimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 140); 
-				schlafzimmertemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 120); 
-				schlafzimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 500, offsetY + 95);
+				schlafzimmernamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 140); 
+				schlafzimmerhumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 120); 
+				schlafzimmerhum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 500, offsetY + 95);
 				
-				kuechename = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 140); 
-				kuechetemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 120); 
-				kueche = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 700, offsetY + 95);
+				kuechenamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 140); 
+				kuechehumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 120); 
+				kuechehum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 700, offsetY + 95);
 
-				badname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 300); 
-				badtemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 280); 
-				bad = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 100, offsetY + 250);
+				badnamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 300); 
+				badhumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 280); 
+				badhum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 100, offsetY + 250);
 				
-				terassename = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 300); 
-				terassentemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 280); 
-				terassenraum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 300, offsetY + 250);
+				terassenamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 300); 
+				terassenhumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 280); 
+				Serverraumhum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 300, offsetY + 250);
 
-				schuppenname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 300); 
-				schuppentemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 280); 
-				schuppen = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 500, offsetY + 250);
+				schuppennamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 300); 
+				schuppenhumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 280); 
+				schuppenhum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 500, offsetY + 250);
 				
-				dachbodenname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 300); 
-				dachbodentemp = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 280); 
-				dachboden = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 700, offsetY + 250);
+				dachbodennamehum = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 300); 
+				dachbodenhumidity = new wso2vis.ctrls.Label().text(" %") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 280); 
+				dachbodenhum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(5).largeTick(10).minVal(0).maxVal(100).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#555").create(r, offsetX + 700, offsetY + 250);
 				
-				globalTick();
+				HumidityGaugesTick();
 				
-				timer = setInterval(globalTick, 30000);
+				//timer = setInterval(HumidityGaugesTick, 30000);
 			}
 			
 			
@@ -169,9 +165,9 @@
 			}
 						
 			window.onload = function () {
-				r = Raphael("holder", 1024, 800);
+				r = Raphael("holder", 800, 800);
 								
-				drawCircularGauges(r, 0, 0);
+				drawHumidityGauges(r, 0, 0);
 			};
 			
         </script> 

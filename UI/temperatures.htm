@@ -11,7 +11,7 @@
 			var wohnzimmertemp = null, wohnzimmername = null;
 			var timer;
 			var r;
-			var wohnzimmer,arbeitszimmer,schlafzimmer,kueche,terrassenraum;
+			var wohnzimmer,arbeitszimmer,schlafzimmer,kueche,terrassenraum,pool;
 						
 			function onDataReceivedWohnzimmer(series) 
 			{
@@ -37,11 +37,11 @@
 				kuechetemp.update(series.data[0][1]+" °C");
 				kueche.setValue(series.data[0][1]);
 			}
-			function onDataReceivedTerassenraum(series) 
+			function onDataReceivedServerraum(series) 
 			{
 				terassename.update(series.label);
 				terassentemp.update(series.data[0][1]+" °C");
-				terassenraum.setValue(series.data[0][1]);
+				Serverraum.setValue(series.data[0][1]);
 			}
 			function onDataReceivedBad(series) 
 			{
@@ -60,6 +60,12 @@
 				dachbodenname.update(series.label);
 				dachbodentemp.update(series.data[0][1]+" °C");
 				dachboden.setValue(series.data[0][1]);
+			}
+			function onDataReceivedPool(series) 
+			{
+				poolname.update(series.label);
+				pooltemp.update(series.data[0][1]+" °C");
+				pool.setValue(series.data[0][1]);
 			}
 			function onDataReceivedCurrentPower(series) 
 			{
@@ -100,10 +106,10 @@
 				});				
 				$.ajax(
 				{
-					url: "/data/sensor?name=Terassenraum&type=temperature&lastentry=true",
+					url: "/data/sensor?name=Serverraum&type=temperature&lastentry=true",
 					method: 'GET',
 					dataType: 'json',
-					success: onDataReceivedTerassenraum
+					success: onDataReceivedServerraum
 				});				
 				$.ajax(
 				{
@@ -125,6 +131,13 @@
 					method: 'GET',
 					dataType: 'json',
 					success: onDataReceivedDachboden
+				});
+				$.ajax(
+				{
+					url: "/data/sensor?name=Pool&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedPool
 				});		
 				$.ajax(
 				{
@@ -140,36 +153,40 @@
 
 				wohnzimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 225); 
 				wohnzimmertemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 205); 
-				wohnzimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 100, offsetY + 180);
+				wohnzimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 100, offsetY + 180);
 
 				arbeitszimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 225); 
 				arbeitszimmertemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 205); 
-				arbeitszimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 300, offsetY + 180);
+				arbeitszimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 300, offsetY + 180);
 
 				schlafzimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 225); 
 				schlafzimmertemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 205); 
-				schlafzimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 500, offsetY + 180);
+				schlafzimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 500, offsetY + 180);
 				
 				kuechename = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 225); 
 				kuechetemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 205); 
-				kueche = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 700, offsetY + 180);
+				kueche = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 700, offsetY + 180);
 
 				badname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 385); 
 				badtemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 365); 
-				bad = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 100, offsetY + 335);
+				bad = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 100, offsetY + 335);
 				
 				terassename = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 385); 
 				terassentemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 365); 
-				terassenraum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 300, offsetY + 335);
+				Serverraum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 300, offsetY + 335);
 
 				schuppenname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 385); 
 				schuppentemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 365); 
-				schuppen = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 500, offsetY + 335);
+				schuppen = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 500, offsetY + 335);
 				
 				dachbodenname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 385); 
 				dachbodentemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 365); 
-				dachboden = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 700, offsetY + 335);
-				
+				dachboden = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 700, offsetY + 335);
+
+				poolname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 545); 
+				pooltemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 525); 
+				pool = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-20).maxVal(40).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 100, offsetY + 495);
+
 				powername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 410, offsetY + 10); 
 				powervalue = new wso2vis.ctrls.Label().text(" Wh") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 410, offsetY + 70); 
 				powerusage = new wso2vis.ctrls.LGauge().dialRadius(100).length(600).largeTick(250).smallTick(25).minVal(0) .maxVal(4000).create(r, offsetX + 110, offsetY + 50);

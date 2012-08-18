@@ -700,16 +700,16 @@ wc.LGauge.prototype.drawDial = function (tick, tickLength, isLargeTick) {
 		startC = (-minVal % tick) * (length) / (maxVal - minVal);
 	for (var i = 0; i <= n; i++) {
 		var locX = (x + startC + i * tickC);
-		r.path("M" + locX + " " + y + "L" + locX + " " + (y - tickLength)).attr({"stroke-width": isLargeTick? 2 : 1, stroke: "#aaa"});		
+		r.path("M" + locX + " " + y + "L" + locX + " " + (y - tickLength)).attr({"stroke-width": isLargeTick? 2 : 1, stroke: "#000"});		
 		if (isLargeTick) 
 		{
 			if (minValAlt + i * tick == 0)
 				r.text(locX, y - tickLength - 5, "0").attr({"stroke-width": 1, stroke: "#aaa"});
 			else
-				r.text (locX, y - tickLength - 5, minValAlt + i * tick).attr({"stroke-width": 1, stroke: "#aaa"});
+				r.text (locX, y - tickLength - 5, minValAlt + i * tick).attr({"stroke-width": 1, stroke: "#000"});
 		}
 	}
-	r.path("M" + x + " " + y + "L" + (x + length) + " " + y).attr({stroke: "#fff"});
+	r.path("M" + x + " " + y + "L" + (x + length) + " " + y).attr({stroke: "#000"});
 }
 
 wc.LGauge.prototype.initNeedle = function() {
@@ -746,7 +746,7 @@ wc.CGauge = function() {
 		.needleCenterRadius(5)
 		.labelOffset(10)
 		.tickcolor("#fff")
-		.needlecolor("#aaa");
+		.needlecolor("#f00");
 	/* @private */    
 	this.s = null;
 	this.currentX = 0;
@@ -827,7 +827,7 @@ wc.CGauge.prototype.initNeedle = function() {
 	if (this.needleLength() == undefined)
 		this.needleLength(radius - 5);	
 	this.s.push(r.path("M" + cx + " " + (cy - this.needleBottom()) + " L" + cx + " " + (cy + this.needleLength())).attr({fill: "none", "stroke-width": 4, stroke: needlecolor}));
-	this.s.push(r.circle(cx, cy, this.needleCenterRadius()).attr({fill: "#aaa", "stroke-width": 10, stroke: "#aaa"}));
+	this.s.push(r.circle(cx, cy, this.needleCenterRadius()).attr({fill: needlecolor, "stroke-width": 10, stroke: needlecolor}));
 	this.s.animate({rotation:minAngle + " " + cx + " " + cy}, 0, "<>");
 }						
 

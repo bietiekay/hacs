@@ -1,0 +1,508 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html lang="en"> 
+    <head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+        <title>h.a.c.s. XS1 Gauges</title> 
+        <script language="javascript" type="text/javascript" src="raphael.js"></script> 
+		<script language="javascript" type="text/javascript" src="/libs/jquery.js"></script>
+        <script language="javascript" type="text/javascript" src="wso2vis.ctrls.js"></script>
+        <link rel="stylesheet" href="/libs/switchcontrol/switchcontrol.css" type="text/css" media="screen" />
+		
+        <script type="text/javascript" charset="utf-8"> 
+			var wohnzimmertemp = null, wohnzimmername = null;
+			var timer;
+			var r;
+			var wohnzimmer,arbeitszimmer,schlafzimmer,kueche,terrassenraum;
+			
+			function onDataReceivedFernsehlampe(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-1").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-1").className = "switch off"
+  				}
+  			}
+			function onDataReceivedSofalampe(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-2").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-2").className = "switch off"
+  				}
+  			}	
+  			function onDataReceivedSchlafzimmerTV(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-3").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-3").className = "switch off"
+  				}
+  			}	
+   			function onDataReceivedSchlafzimmerLicht(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-4").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-4").className = "switch off"
+  				}
+  			}	 			
+  			function onDataReceivedArbeitszimmerLicht(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-5").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-5").className = "switch off"
+  				}
+  			}	  			
+  			function onDataReceivedKuecheLicht(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-6").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-6").className = "switch off"
+  				}
+  			}  							
+  			function onDataReceivedAirportKueche(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-7").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-7").className = "switch off"
+  				}
+  			}
+  			function onDataReceivedTVSchrank(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-8").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-8").className = "switch off"
+  				}
+  			}
+  			function onDataReceivedMozillaLicht(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-9").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-9").className = "switch off"
+  				}
+  			}
+  			function onDataReceivedWilmaLicht(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-10").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-10").className = "switch off"
+  				}
+  			}
+  			function onDataReceivedWilmaLuft(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-11").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-11").className = "switch off"
+  				}
+  			}
+  			function onDataReceivedKuechenoberschrank(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-12").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-12").className = "switch off"
+  				}
+  			}
+  			function onDataReceivedKuecheLinks(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-13").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-13").className = "switch off"
+  				}
+  			}
+  			function onDataReceivedKuecheRechts(series) 
+			{
+				if (series.data[0] != 0) 
+				{
+					document.getElementById("switch-14").className = "switch on"
+  				} 
+  				else 
+  				{
+    				document.getElementById("switch-14").className = "switch off"
+  				}
+  			}
+			function onDataReceivedWohnzimmer(series) 
+			{
+				wohnzimmername.update(series.label);
+				wohnzimmertemp.update(series.data[0][1]+" °C");
+				wohnzimmer.setValue(series.data[0][1]);
+			}
+			function onDataReceivedArbeitszimmer(series) 
+			{
+				arbeitszimmername.update(series.label);
+				arbeitszimmertemp.update(series.data[0][1]+" °C");
+				arbeitszimmer.setValue(series.data[0][1]);
+			}			
+			function onDataReceivedSchlafzimmer(series) 
+			{
+				schlafzimmername.update(series.label);
+				schlafzimmertemp.update(series.data[0][1]+" °C");
+				schlafzimmer.setValue(series.data[0][1]);
+			}
+			function onDataReceivedKueche(series) 
+			{
+				kuechename.update(series.label);
+				kuechetemp.update(series.data[0][1]+" °C");
+				kueche.setValue(series.data[0][1]);
+			}
+			function onDataReceivedTerassenraum(series) 
+			{
+				terassename.update(series.label);
+				terassentemp.update(series.data[0][1]+" °C");
+				terassenraum.setValue(series.data[0][1]);
+			}
+			function onDataReceivedBad(series) 
+			{
+				badname.update(series.label);
+				badtemp.update(series.data[0][1]+" °C");
+				bad.setValue(series.data[0][1]);
+			}
+			function onDataReceivedSchuppen(series) 
+			{
+				schuppenname.update(series.label);
+				schuppentemp.update(series.data[0][1]+" °C");
+				schuppen.setValue(series.data[0][1]);
+			}
+			function onDataReceivedDachboden(series) 
+			{
+				dachbodenname.update(series.label);
+				dachbodentemp.update(series.data[0][1]+" °C");
+				dachboden.setValue(series.data[0][1]);
+			}
+			function onDataReceivedCurrentPower(series) 
+			{
+				powername.update(series.label);
+				powervalue.update(series.data[0][1]+" Wh");
+				powerusage.setValue(series.data[0][1]);
+			}
+			
+			function globalTick() 
+			{
+				$.ajax(
+				{
+					url: "/data/sensor?name=Wohnzimmer&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedWohnzimmer
+				});
+				$.ajax(
+				{
+					url: "/data/sensor?name=Arbeitszimmer&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedArbeitszimmer
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Schlafzimmer&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSchlafzimmer
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Kueche&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedKueche
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Terassenraum&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedTerassenraum
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Bad_oben&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedBad
+				});				
+				$.ajax(
+				{
+					url: "/data/sensor?name=Schuppen&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSchuppen
+				});
+				$.ajax(
+				{
+					url: "/data/sensor?name=Dachboden&type=temperature&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedDachboden
+				});		
+				$.ajax(
+				{
+					url: "/data/sensor?name=Stromzaehler&type=pwr_consump&lastentry=true",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedCurrentPower
+				});		
+				
+				$.ajax(
+				{
+					url: "/data/actor?name=Fernsehlampe",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedFernsehlampe
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=Sofalampe",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSofalampe
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=SchlafzimmerTV",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSchlafzimmerTV
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=SchlafzimmerLicht",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedSchlafzimmerLicht
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=ArbeitszimmerLicht",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedArbeitszimmerLicht
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=KuecheLicht",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedKuecheLicht
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=AirportKueche",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedAirportKueche
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=TVSchrank",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedTVSchrank
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=MozillaLicht",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedMozillaLicht
+				});		
+				$.ajax(
+				{
+					url: "/data/actor?name=WilmaLicht",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedWilmaLicht
+				});						
+				$.ajax(
+				{
+					url: "/data/actor?name=WilmaLuft",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedWilmaLuft
+				});				
+				$.ajax(
+				{
+					url: "/data/actor?name=Kuechenoberschrank",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedKuechenoberschrank
+				});				
+				$.ajax(
+				{
+					url: "/data/actor?name=KuecheLinks",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedKuecheLinks
+				});
+				$.ajax(
+				{
+					url: "/data/actor?name=KuecheRechts",
+					method: 'GET',
+					dataType: 'json',
+					success: onDataReceivedKuecheRechts
+				});				
+			};
+			
+
+			function drawCircularGauges(r, offsetX, offsetY) {
+
+				wohnzimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 225); 
+				wohnzimmertemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 205); 
+				wohnzimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 100, offsetY + 180);
+
+				arbeitszimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 225); 
+				arbeitszimmertemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 205); 
+				arbeitszimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 300, offsetY + 180);
+
+				schlafzimmername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 225); 
+				schlafzimmertemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 205); 
+				schlafzimmer = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 500, offsetY + 180);
+				
+				kuechename = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 225); 
+				kuechetemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 205); 
+				kueche = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 700, offsetY + 180);
+
+				badname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 385); 
+				badtemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 100, offsetY + 365); 
+				bad = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 100, offsetY + 335);
+				
+				terassename = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 385); 
+				terassentemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 300, offsetY + 365); 
+				terassenraum = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 300, offsetY + 335);
+
+				schuppenname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 385); 
+				schuppentemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 500, offsetY + 365); 
+				schuppen = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 500, offsetY + 335);
+				
+				dachbodenname = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 385); 
+				dachbodentemp = new wso2vis.ctrls.Label().text(" °C") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 700, offsetY + 365); 
+				dachboden = new wso2vis.ctrls.CGauge().dialRadius(75).smallTick(1).largeTick(10).minVal(-30).maxVal(30).minAngle(90).maxAngle(270).tickcolor("#000").needlecolor("#f00").create(r, offsetX + 700, offsetY + 335);
+				
+				powername = new wso2vis.ctrls.Label().text("").fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 510, offsetY + 10); 
+				powervalue = new wso2vis.ctrls.Label().text(" Wh") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 510, offsetY + 70); 
+				powerusage = new wso2vis.ctrls.LGauge().dialRadius(100).length(800).largeTick(250).smallTick(25).minVal(0) .maxVal(4000).create(r, offsetX + 110, offsetY + 50);
+				
+				switch1 = new wso2vis.ctrls.Label().text("Fernsehlampe") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 950, offsetY + 100); 
+				switch2 = new wso2vis.ctrls.Label().text("Sofalampe") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 950, offsetY + 150); 
+				switch3 = new wso2vis.ctrls.Label().text("SchlafTV") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 950, offsetY + 200);
+				switch4 = new wso2vis.ctrls.Label().text("SchlafLicht") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 950, offsetY + 250);
+				switch5 = new wso2vis.ctrls.Label().text("ArbeitLicht") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 950, offsetY + 300);
+				switch6 = new wso2vis.ctrls.Label().text("KuecheLicht") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 950, offsetY + 350);
+				switch7 = new wso2vis.ctrls.Label().text("AirportKueche") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 950, offsetY + 400);
+				switch8 = new wso2vis.ctrls.Label().text("TVSchrank") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 950, offsetY + 450);
+				switch9 = new wso2vis.ctrls.Label().text("MozillaLicht") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 950, offsetY + 500);
+				switch10 = new wso2vis.ctrls.Label().text("WilmaLicht") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 950, offsetY + 550);
+				switch11 = new wso2vis.ctrls.Label().text("WilmaLuft") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 950, offsetY + 600);
+				switch12 = new wso2vis.ctrls.Label().text("KuecheOben") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 950, offsetY + 650);
+				switch13 = new wso2vis.ctrls.Label().text("KuecheLinks") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 950, offsetY + 700);
+				switch14 = new wso2vis.ctrls.Label().text("KuecheRechts") .fontsize(20).fill("#000").stroke("#000").create(r, offsetX + 950, offsetY + 750);
+				globalTick();
+				
+				timer = setInterval(globalTick, 10000);
+			}
+			
+			
+			function clearAll() {
+				r.clear();
+				clearInterval(timer);
+			}
+						
+			window.onload = function () {
+				r = Raphael("holder", 1024, 800);
+								
+				drawCircularGauges(r, 0, 0);
+			};
+			
+        </script> 
+         <script>
+		(function() {
+			var $$ = function(selector) {
+				return Array.prototype.slice.call(document.querySelectorAll(selector));
+			}
+			document.addEventListener("DOMContentLoaded", function() {
+				var checkbox;
+				var result = document.querySelector("#result");
+				$$(".switch").forEach(function(switchControl) {
+					if (switchControl.className === ("switch on")) {
+						switchControl.lastElementChild.checked = true;
+					}
+					switchControl.addEventListener("click", function toggleSwitch() 
+					{
+						if (switchControl.className === "switch on") {
+							switchControl.className = 'switch off';
+						} else {
+							switchControl.className = ("switch on");
+						}
+						checkbox = switchControl.lastElementChild;
+						checkbox.checked = !checkbox.checked;
+					}, false);
+				});
+			}, false);
+		})()
+	</script>
+    </head> 
+    <body> 
+         <div id="holder" style="height:300px;float:left; position:absolute; "></div>
+         
+         <div id="switch-1" class="switch off" style="position:absolute; top:100px; left:800px;"><span class="thumb"></span></div>
+         <div id="switch-2" class="switch off" style="position:absolute; top:150px; left:800px;"><span class="thumb"></span></div>
+         <div id="switch-3" class="switch off" style="position:absolute; top:200px; left:800px;"><span class="thumb"></span></div>
+         <div id="switch-4" class="switch off" style="position:absolute; top:250px; left:800px;"><span class="thumb"></span></div>
+         <div id="switch-5" class="switch off" style="position:absolute; top:300px; left:800px;"><span class="thumb"></span></div>
+         <div id="switch-6" class="switch off" style="position:absolute; top:350px; left:800px;"><span class="thumb"></span></div>
+         <div id="switch-7" class="switch off" style="position:absolute; top:400px; left:800px;"><span class="thumb"></span></div>
+         <div id="switch-8" class="switch off" style="position:absolute; top:450px; left:800px;"><span class="thumb"></span></div>
+         <div id="switch-9" class="switch off" style="position:absolute; top:500px; left:800px;"><span class="thumb"></span></div>
+         <div id="switch-10" class="switch off" style="position:absolute; top:550px; left:800px;"><span class="thumb"></span></div>
+         <div id="switch-11" class="switch off" style="position:absolute; top:600px; left:800px;"><span class="thumb"></span></div>
+    	 <div id="switch-12" class="switch off" style="position:absolute; top:650px; left:800px;"><span class="thumb"></span></div>
+    	 <div id="switch-13" class="switch off" style="position:absolute; top:700px; left:800px;"><span class="thumb"></span></div>
+    	 <div id="switch-14" class="switch off" style="position:absolute; top:750px; left:800px;"><span class="thumb"></span></div>
+    </body> 
+</html> 
