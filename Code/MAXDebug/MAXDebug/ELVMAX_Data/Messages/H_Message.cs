@@ -4,11 +4,11 @@ using System.Text;
 namespace MAXDebug
 {
 	// The H response contains information about the Cube.
-	public class H_Message : IMaxData
+	public class H_Message : IMAXMessage
 	{
 		#region Message specific data
 		public String MAXserialNumber;
-		public Int32 RFAddress;
+		public String RFAddress;
 		public Int32 FirmwareVersion;
 		public String HTTPConnId;
 		public DateTime CubeDateTime;
@@ -59,7 +59,7 @@ namespace MAXDebug
 		#endregion
 
 		// initializes this class and processdes the given Input Message and fills the Message Fields
-		public H_Message (String RAW_Message)
+		public H_Message (String RAW_Message, House _House)
 		{
 			if (RAW_Message.Length < 2)
 				throw new MAXException("Unable to process the RAW Message.");
@@ -72,10 +72,12 @@ namespace MAXDebug
 			if (SplittedRAWMessage.Length >= 3)
 			{
 				MAXserialNumber = SplittedRAWMessage[0];
-				RFAddress = Int32.Parse(SplittedRAWMessage[1],System.Globalization.NumberStyles.HexNumber);
+				RFAddress = SplittedRAWMessage[1];//Int32.Parse(SplittedRAWMessage[1],System.Globalization.NumberStyles.HexNumber);
 				FirmwareVersion = Int32.Parse(SplittedRAWMessage[2],System.Globalization.NumberStyles.HexNumber);
 				HTTPConnId = SplittedRAWMessage[4];
 				CubeDateTime = DecodeDateTime(SplittedRAWMessage[7],SplittedRAWMessage[8]);
+
+				_House.CubeInformation = this;
 			}
 			else
 				throw new MAXException("Unable to process H Message. Not enough content.");

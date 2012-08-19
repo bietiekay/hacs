@@ -39,7 +39,6 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="MAXEncodeDecode.cs" />
     <Compile Include="ConsoleOutputLogger.cs" />
-    <Compile Include="ELVMAX_Data\IMaxData.cs" />
     <Compile Include="ELVMAX_Data\MAXMessageTypes.cs" />
     <Compile Include="ELVMAX_Data\MAX_Exception.cs" />
     <Compile Include="ELVMAX_Data\Base64.cs" />
@@ -48,16 +47,25 @@
     <Compile Include="ELVMAX_Data\Messages\L_Message.cs" />
     <Compile Include="ELVMAX_Data\TokenizeMessage.cs" />
     <Compile Include="ELVMAX_Data\Messages\Metadata\Room.cs" />
-    <Compile Include="ELVMAX_Data\Messages\Metadata\Device.cs" />
     <Compile Include="ELVMAX_Data\Messages\M_Message.cs" />
     <Compile Include="ELVMAX_Data\Messages\Metadata\DeviceTypes.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="ELVMAX_Data\Messages\Metadata\House.cs" />
+    <Compile Include="ELVMAX_Data\Messages\Devices\Device.cs" />
+    <Compile Include="ELVMAX_Data\Messages\Devices\HeatingThermostat.cs" />
+    <Compile Include="ELVMAX_Data\Messages\Devices\IMAXDevice.cs" />
+    <Compile Include="ELVMAX_Data\Messages\IMAXMessage.cs" />
+    <Compile Include="ELVMAX_Data\Messages\Devices\HeatingThermostatPlus.cs" />
+    <Compile Include="ELVMAX_Data\Messages\Devices\WallMountedThermostat.cs" />
+    <Compile Include="ELVMAX_Data\Messages\Devices\ShutterContact.cs" />
+    <Compile Include="ELVMAX_Data\Messages\Devices\PushButton.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="ELVMAX_Data\" />
     <Folder Include="ELVMAX_Data\Messages\" />
     <Folder Include="ELVMAX_Data\Messages\Metadata\" />
+    <Folder Include="ELVMAX_Data\Messages\Devices\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Main_async.cs" />

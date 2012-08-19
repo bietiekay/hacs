@@ -4,10 +4,10 @@ using System.Text;
 namespace MAXDebug
 {
 	// The C response contains information about the configuration of a device.
-	public class C_Message : IMaxData
+	public class C_Message : IMAXMessage
 	{
 		#region Message specific data
-		public Int32 RFAdress;
+		public String RFAdress;
 		public byte[] RawMessageDecoded;
 		#endregion
 
@@ -45,7 +45,7 @@ namespace MAXDebug
 		#endregion
 
 		// initializes this class and processes the given Input Message and fills the Message Fields
-		public C_Message (String RAW_Message)
+		public C_Message (String RAW_Message, House _House)
 		{
 			if (RAW_Message.Length < 2)
 				throw new MAXException("Unable to process the RAW Message.");
@@ -57,7 +57,7 @@ namespace MAXDebug
 
 			if (SplittedRAWMessage.Length >= 2)
 			{
-				RFAdress = Int32.Parse(SplittedRAWMessage[0],System.Globalization.NumberStyles.HexNumber);
+				RFAdress = SplittedRAWMessage[0];//Int32.Parse(SplittedRAWMessage[0],System.Globalization.NumberStyles.HexNumber);
 				RawMessageDecoded = Base64.Decode(SplittedRAWMessage[1]);
 			}
 			else

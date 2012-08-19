@@ -5,9 +5,10 @@ using System.Collections.Generic;
 namespace MAXDebug
 {
 	// This reponse contains real-time information about the devices.
-	public class L_Message : IMaxData
+	public class L_Message : IMAXMessage
 	{
 		#region Message specific data
+		public String RFAdress;
 		public byte[] RawMessageDecoded;
 		#endregion
 
@@ -17,9 +18,11 @@ namespace MAXDebug
 			StringBuilder sb = new StringBuilder();
 
 			sb.AppendLine("L-Message:");
+
+			sb.AppendLine("RFAdress: "+RFAdress);
 						
-			System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-			sb.AppendLine("ASCII: "+enc.GetString(RawMessageDecoded));
+//			System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+//			sb.AppendLine("ASCII: "+enc.GetString(RawMessageDecoded));
 			sb.Append("RAW: ");
 
 			foreach(byte _b in RawMessageDecoded)
@@ -42,7 +45,7 @@ namespace MAXDebug
 		#endregion
 
 		// initializes this class and processes the given Input Message and fills the Message Fields
-		public L_Message (String RAW_Message)
+		public L_Message (String RAW_Message, House _House)
 		{
 			if (RAW_Message.Length < 2)
 				throw new MAXException("Unable to process the RAW Message.");
@@ -54,9 +57,19 @@ namespace MAXDebug
 
 			// Tokenize RAW Message
 			List<byte[]> Tokenized = TokenizeMessage.Tokenize(RawMessageDecoded);
+
 			foreach(byte[] array in Tokenized)
 			{
-				//sb.AppendLine("Token: "+array.Length);
+				byte Length = array[0];
+
+				StringBuilder sb = new StringBuilder();
+
+				for(int i=1;i<=4;i++)
+				{
+					sb.Append(array[i]);
+				}
+
+				RFAdress = sb.ToString();
 			}
 
 

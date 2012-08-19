@@ -2,7 +2,7 @@ using System;
 
 namespace MAXDebug
 {
-	public interface IMaxData
+	public interface IMAXMessage
 	{
 		MAXMessageType MessageType { get; }
 	}

@@ -13,6 +13,8 @@ namespace MAXDebug
 
 		public static void Main (string[] args)
 		{
+			House thisHouse = new House();
+
 			ConsoleOutputLogger.verbose = true;
 			ConsoleOutputLogger.writeLogfile = true;
 
@@ -61,8 +63,6 @@ namespace MAXDebug
 					//Console.WriteLine("Exception: "+e.Message);
 					keepRunning = false;
 				}
-				// sleep 100 msecs
-				//Thread.Sleep (1000);
 			}
 			while(keepRunning);
 
@@ -85,9 +85,10 @@ namespace MAXDebug
 			// Analyze and Output Messages
 			foreach(String _Message in PreProcessedMessages)
 			{
-				IMaxData Message = DecoderEncoder.ProcessMessage(_Message.ToString());
+				IMAXMessage Message = DecoderEncoder.ProcessMessage(_Message.ToString(), thisHouse);
 				if (Message != null)
 				{
+					ConsoleOutputLogger.WriteLine(_Message.ToString());
 					ConsoleOutputLogger.WriteLine(Message.ToString());
 					ConsoleOutputLogger.WriteLine("");
 				}
@@ -102,6 +103,7 @@ namespace MAXDebug
 
 				stream.Write(args_data_buffer,0,args_data_buffer.Length);
 				keepRunning = true;
+				Messages = new List<string>();
 
 				do
 				{
@@ -111,27 +113,41 @@ namespace MAXDebug
 					{
 						numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);
 						myCompleteMessage.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
-
-					//					Console.WriteLine("------RAW--------");
-					//					Console.Write(myCompleteMessage);
-						IMaxData Message = DecoderEncoder.ProcessMessage(myCompleteMessage.ToString());
-						if (Message != null)
-						{
-							//Console.WriteLine("------DEC--------");
-							ConsoleOutputLogger.WriteLine(Message.ToString());
-							ConsoleOutputLogger.LogToFile("");
-						}
+						Messages.Add(myCompleteMessage.ToString());
 					}
 					catch(Exception e)
 					{
-						Console.WriteLine("Exception: "+e.Message);
+						//jConsole.WriteLine("Exception: "+e.Message);
 						keepRunning = false;
 					}
-					// sleep 100 msecs
-					//Thread.Sleep (100);
 				}
 				while(keepRunning);
-				
+
+				PreProcessedMessages = new List<string>();
+				// preprocess
+				foreach(String _Message in Messages)
+				{
+					if (_Message.Remove(_Message.Length-2).Contains("\r\n"))
+					{
+						String[] PMessages = _Message.Remove(_Message.Length-2).Split(new char[1] { '\n' },StringSplitOptions.RemoveEmptyEntries);
+						foreach(String pmessage in PMessages)
+						{
+							PreProcessedMessages.Add(pmessage.Replace("\r","")+"\r\n");
+						}
+					}
+					else
+						PreProcessedMessages.Add(_Message);
+				}			
+
+				foreach(String _Message in PreProcessedMessages)
+				{
+					IMAXMessage Message = DecoderEncoder.ProcessMessage(_Message,thisHouse);
+					if (Message != null)
+					{
+						ConsoleOutputLogger.WriteLine(Message.ToString());
+						ConsoleOutputLogger.LogToFile("");
+					}
+				}
 			}
 
 			stream.Close();

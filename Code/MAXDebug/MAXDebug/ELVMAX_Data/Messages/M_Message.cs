@@ -6,13 +6,13 @@ namespace MAXDebug
 {
 	// The M response contains information about additional data, like the Rooms that are defined, 
 	// the Devices and the names they were given, and how the rooms and Devices are linked to each other.
-	public class M_Message : IMaxData
+	public class M_Message : IMAXMessage
 	{
 		#region Message specific data
 		public Int32 Index;
 		public Int32 Count;
-		public List<Room> Rooms;
 		public byte[] RawMessageDecoded;
+		private House thisHouse;
 		#endregion
 
 		#region ToString override
@@ -20,19 +20,7 @@ namespace MAXDebug
 		{
 			StringBuilder sb = new StringBuilder();
 
-//			sb.AppendLine("M-Message:");
-//			sb.AppendLine("Index: "+Index);
-//			sb.AppendLine("Count: "+Count);		
-//			System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-//			sb.AppendLine("ASCII: "+enc.GetString(RawMessageDecoded));
-//			sb.Append("RAW: ");
-//			foreach(byte _b in RawMessageDecoded)
-//			{
-//				sb.Append(_b);
-//				sb.Append(" ");
-//			}
-
-			foreach(Room _room in Rooms)
+			foreach(Room _room in thisHouse.Rooms)
 			{
 				sb.Append(_room.ToString());
 			}
@@ -52,8 +40,9 @@ namespace MAXDebug
 		#endregion
 
 		// initializes this class and processes the given Input Message and fills the Message Fields
-		public M_Message (String RAW_Message)
+		public M_Message (String RAW_Message, House _House)
 		{
+			thisHouse = _House;
 			if (RAW_Message.Length < 2)
 				throw new MAXException("Unable to process the RAW Message.");
 
@@ -72,7 +61,6 @@ namespace MAXDebug
 
 				// now go deeper
 				Byte RoomCount = RawMessageDecoded[Cursor];
-				Rooms = new List<Room>();
 				Cursor++;
 
 				#region Rooms
@@ -102,7 +90,7 @@ namespace MAXDebug
 						RFAddress_Buffer.Append(RawMessageDecoded[Cursor]);
 						Cursor++;
 					}
-					newRoom.RFAddress = Int32.Parse(RFAddress_Buffer.ToString(),System.Globalization.NumberStyles.HexNumber);
+					newRoom.RFAddress = RFAddress_Buffer.ToString();//Int32.Parse(RFAddress_Buffer.ToString(),System.Globalization.NumberStyles.HexNumber);
 
 					//newRoom.RFAddress = Int32.Parse(RFAddress.ToString(),System.Globalization.NumberStyles.HexNumber);
 					#region Devices
@@ -112,7 +100,7 @@ namespace MAXDebug
 					for(byte devicenumber=1;devicenumber<=DeviceCount;devicenumber++)
 					{
 						// read in the device
-						Device newDevice = new Device();
+						IMAXDevice newDevice = new Device(newRoom);
 
 						#region Determine DeviceType
 						Byte DevType = RawMessageDecoded[Cursor];
@@ -121,22 +109,21 @@ namespace MAXDebug
 						switch(DevType)
 						{
 							case 1: 
-								newDevice.Type = DeviceTypes.HeatingThermostat;
+								newDevice = new HeatingThermostat(newRoom);
 						        break;
 						    case 2:
-						        newDevice.Type = DeviceTypes.HeatingThermostatPlus;
+						        newDevice = new HeatingThermostatPlus(newRoom);
 						        break;
 						    case 3:
-						        newDevice.Type = DeviceTypes.WallMountedThermostat;
+						        newDevice = new WallMountedThermostat(newRoom);
 						        break;
 						    case 4:
-						        newDevice.Type = DeviceTypes.ShutterContact;
+						        newDevice = new ShutterContact(newRoom);
 						        break;
 						    case 5:
-						        newDevice.Type = DeviceTypes.PushButton;
+						        newDevice = new PushButton(newRoom);
 						        break;
 						    default:
-								newDevice.Type = DeviceTypes.Invalid;
 						        break;
 						}
 						#endregion
@@ -147,7 +134,7 @@ namespace MAXDebug
 							DeviceRFAddress.Append(RawMessageDecoded[Cursor]);
 							Cursor++;
 						}
-						newDevice.RFAddress = Int32.Parse(DeviceRFAddress.ToString(),System.Globalization.NumberStyles.HexNumber);
+						newDevice.RFAddress = DeviceRFAddress.ToString();//Int32.Parse(DeviceRFAddress.ToString(),System.Globalization.NumberStyles.HexNumber);
 
 						StringBuilder DeviceSerialNumber = new StringBuilder();
 						for(Byte j=0;j<=10-1;j++)
@@ -176,7 +163,7 @@ namespace MAXDebug
 					}
 					#endregion
 					// add this Room to the M_Message-Structure
-					Rooms.Add(newRoom);
+					_House.Rooms.Add(newRoom);
 				}
 				#endregion
 			}

@@ -8,8 +8,8 @@ namespace MAXDebug
 	{
 		public String RoomName;
 		public Byte RoomID;
-		public Int32 RFAddress;
-		public List<Device> Devices;
+		public String RFAddress;
+		public List<IMAXDevice> Devices;
 
 		public override string ToString ()
 		{
@@ -20,7 +20,7 @@ namespace MAXDebug
 			sb.AppendLine("RFAddress: "+RFAddress);
 			sb.AppendLine("Devices:");
 
-			foreach(Device _device in Devices)
+			foreach(IMAXDevice _device in Devices)
 			{
 				sb.Append(_device.ToString());
 				sb.AppendLine();
@@ -31,7 +31,7 @@ namespace MAXDebug
 
 		public Room ()
 		{
-			Devices = new List<Device>();
+			Devices = new List<IMAXDevice>();
 		}
 	}
 }

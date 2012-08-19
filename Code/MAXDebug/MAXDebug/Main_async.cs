@@ -101,7 +101,7 @@ namespace MAXDebug
 				// Analyze and Output Messages
 				foreach(String _Message in SplittedResponse)
 				{
-					IMaxData Message = DecoderEncoder.ProcessMessage(_Message.ToString());
+					IMAXMessage Message = DecoderEncoder.ProcessMessage(_Message.ToString());
 					if (Message != null)
 					{
 						ConsoleOutputLogger.WriteLine(Message.ToString());
