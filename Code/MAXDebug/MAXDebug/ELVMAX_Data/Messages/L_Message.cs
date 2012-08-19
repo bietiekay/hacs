@@ -95,9 +95,9 @@ namespace MAXDebug
 				byte Data1 = array[4];
 				byte Data2 = array[5];
 
-				String binValueData1 = Convert.ToString(Int32.Parse(Data1.ToString(),System.Globalization.NumberStyles.HexNumber),2);
+				String binValueData1 = Convert.ToString(Data1,2);
 				binValueData1 = binValueData1.PadLeft(8, '0');
-				String binValueData2 = Convert.ToString(Int32.Parse(Data2.ToString(),System.Globalization.NumberStyles.HexNumber),2);
+				String binValueData2 = Convert.ToString(Data2,2);
 				binValueData2 = binValueData2.PadLeft(8, '0');
 
 				Int32 Cursor = 7;	// the current position, skipping ?1,
@@ -121,13 +121,168 @@ namespace MAXDebug
 				{
 					DevicesInThisMessage.Add(foundDevice);
 
+					#region HeatingThermostat
 					if (foundDevice.Type == DeviceTypes.HeatingThermostat)
 					{
 						HeatingThermostat KnownDevice = (HeatingThermostat)foundDevice;
+		
+						#region get all those flags out of Data1 and Data2
+
+						#region Valid
+						if (binValueData1[3] == '1')
+							KnownDevice.Valid = true;
+						else
+							KnownDevice.Valid = false;
+						#endregion
+
+						#region Error
+						if (binValueData1[4] == '1')
+							KnownDevice.Error = true;
+						else
+							KnownDevice.Error = false;
+						#endregion
+
+						#region IsAnswer
+						if (binValueData1[5] == '1')
+							KnownDevice.IsAnswer = true;
+						else
+							KnownDevice.IsAnswer = false;
+						#endregion
+
+						#region LowBattery
+						if (binValueData2[0] == '1')
+							KnownDevice.LowBattery = true;
+						else
+							KnownDevice.LowBattery = false;
+						#endregion
+
+						#region LinkError
+						if (binValueData2[1] == '1')
+							KnownDevice.LinkError = true;
+						else
+							KnownDevice.LinkError = false;
+						#endregion
+
+						#region PanelLock
+						if (binValueData2[2] == '1')
+							KnownDevice.PanelLock = true;
+						else
+							KnownDevice.PanelLock = false;
+						#endregion
+
+						#region GatewayOK
+						if (binValueData2[3] == '1')
+							KnownDevice.GatewayOK = true;
+						else
+							KnownDevice.GatewayOK = false;
+						#endregion
+
+						#region Mode
+						String ModeValue = binValueData2[6]+""+binValueData2[7];
+
+						switch(ModeValue)
+						{
+							case "00":
+								KnownDevice.Mode = ThermostatModes.automatic;
+							break;
+							case "01":
+								KnownDevice.Mode = ThermostatModes.manual;
+							break;
+							case "10":
+								KnownDevice.Mode = ThermostatModes.vacation;
+							break;
+							case "11":
+								KnownDevice.Mode = ThermostatModes.boost;
+							break;	
+							default:
+							break;
+						}
+						#endregion
+
+						#endregion
+
 						// hurray, we've got a device we know how to handle B-)
 						((HeatingThermostat)foundDevice).Temperature = array[Cursor]/2;
 						Cursor++;
 					}
+					#endregion
+
+					#region ShutterContact
+					if (foundDevice.Type == DeviceTypes.ShutterContact)
+					{
+						ShutterContact KnownDevice = (ShutterContact)foundDevice;
+		
+						#region get all those flags out of Data1 and Data2
+
+						#region Valid
+						if (binValueData1[3] == '1')
+							KnownDevice.Valid = true;
+						else
+							KnownDevice.Valid = false;
+						#endregion
+
+						#region Error
+						if (binValueData1[4] == '1')
+							KnownDevice.Error = true;
+						else
+							KnownDevice.Error = false;
+						#endregion
+
+						#region IsAnswer
+						if (binValueData1[5] == '1')
+							KnownDevice.IsAnswer = true;
+						else
+							KnownDevice.IsAnswer = false;
+						#endregion
+
+						#region LowBattery
+						if (binValueData2[0] == '1')
+							KnownDevice.LowBattery = true;
+						else
+							KnownDevice.LowBattery = false;
+						#endregion
+
+						#region LinkError
+						if (binValueData2[1] == '1')
+							KnownDevice.LinkError = true;
+						else
+							KnownDevice.LinkError = false;
+						#endregion
+
+						#region PanelLock
+						if (binValueData2[2] == '1')
+							KnownDevice.PanelLock = true;
+						else
+							KnownDevice.PanelLock = false;
+						#endregion
+
+						#region GatewayOK
+						if (binValueData2[3] == '1')
+							KnownDevice.GatewayOK = true;
+						else
+							KnownDevice.GatewayOK = false;
+						#endregion
+
+						#region Mode
+						String ModeValue = binValueData2[6]+""+binValueData2[7];
+
+						switch(ModeValue)
+						{
+							case "00":
+								KnownDevice.ShutterState = ShutterContactModes.closed;
+							break;
+							case "10":
+								KnownDevice.ShutterState = ShutterContactModes.open;
+							break;
+							default:
+							break;
+						}
+						#endregion
+
+						#endregion
+
+					}
+					#endregion
 				}
 			}
 		}

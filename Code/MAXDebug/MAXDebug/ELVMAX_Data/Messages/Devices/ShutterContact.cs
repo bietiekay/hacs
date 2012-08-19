@@ -28,6 +28,14 @@ namespace MAXDebug
 			sb.AppendLine("\tDeviceName: "+Name);
 			sb.AppendLine("\tSerialNumber: "+SerialNumber);
 			sb.AppendLine("\tRFAddress: "+RFAddress);
+			sb.AppendLine("\tLowBattery: "+LowBattery);
+			sb.AppendLine("\tisAnwer: "+IsAnswer);
+			sb.AppendLine("\tpanelLock: "+PanelLock);
+			sb.AppendLine("\tgatewayOK: "+GatewayOK);
+			sb.AppendLine("\terror: "+Error);
+			sb.AppendLine("\tvalid: "+Valid);
+			sb.AppendLine("\tLinkError: "+LinkError);
+			sb.AppendLine("\tShutterState: "+ShutterState);
 
 			return sb.ToString();
 		}
