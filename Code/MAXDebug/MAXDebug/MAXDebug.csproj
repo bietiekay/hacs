@@ -68,8 +68,11 @@
     <Folder Include="ELVMAX_Data\Messages\" />
     <Folder Include="ELVMAX_Data\Messages\Metadata\" />
     <Folder Include="ELVMAX_Data\Messages\Devices\" />
+    <Folder Include="Notes\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Main_async.cs" />
+    <None Include="Notes\Notes.txt" />
+    <None Include="Notes\output.html" />
   </ItemGroup>
 </Project>
