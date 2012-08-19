@@ -51,7 +51,6 @@
     <Compile Include="ELVMAX_Data\Messages\Metadata\DeviceTypes.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="ELVMAX_Data\Messages\Metadata\House.cs" />
-    <Compile Include="ELVMAX_Data\Messages\Devices\Device.cs" />
     <Compile Include="ELVMAX_Data\Messages\Devices\HeatingThermostat.cs" />
     <Compile Include="ELVMAX_Data\Messages\Devices\IMAXDevice.cs" />
     <Compile Include="ELVMAX_Data\Messages\IMAXMessage.cs" />
@@ -59,6 +58,7 @@
     <Compile Include="ELVMAX_Data\Messages\Devices\WallMountedThermostat.cs" />
     <Compile Include="ELVMAX_Data\Messages\Devices\ShutterContact.cs" />
     <Compile Include="ELVMAX_Data\Messages\Devices\PushButton.cs" />
+    <Compile Include="ELVMAX_Data\Messages\Devices\UnknownDevice.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

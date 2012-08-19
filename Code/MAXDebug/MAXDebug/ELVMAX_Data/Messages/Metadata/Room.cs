@@ -10,6 +10,7 @@ namespace MAXDebug
 		public Byte RoomID;
 		public String RFAddress;
 		public List<IMAXDevice> Devices;
+		public House AssociatedHouse;
 
 		public override string ToString ()
 		{
@@ -29,8 +30,9 @@ namespace MAXDebug
 			return sb.ToString();
 		}
 
-		public Room ()
+		public Room (House _House)
 		{
+			AssociatedHouse = _House;
 			Devices = new List<IMAXDevice>();
 		}
 	}

@@ -8,7 +8,7 @@ namespace MAXDebug
 	public class L_Message : IMAXMessage
 	{
 		#region Message specific data
-		public String RFAdress;
+		public List<IMAXDevice> DevicesInThisMessage;
 		public byte[] RawMessageDecoded;
 		#endregion
 
@@ -18,9 +18,7 @@ namespace MAXDebug
 			StringBuilder sb = new StringBuilder();
 
 			sb.AppendLine("L-Message:");
-
-			sb.AppendLine("RFAdress: "+RFAdress);
-						
+					
 //			System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 //			sb.AppendLine("ASCII: "+enc.GetString(RawMessageDecoded));
 			sb.Append("RAW: ");
@@ -64,12 +62,38 @@ namespace MAXDebug
 
 				StringBuilder sb = new StringBuilder();
 
-				for(int i=1;i<=4;i++)
+				for(int i=0;i<=2;i++)
 				{
 					sb.Append(array[i]);
 				}
 
-				RFAdress = sb.ToString();
+				String RFAddress = sb.ToString();
+
+				// look for this RF Adress in the House's device list
+				List<IMAXDevice> AllDevices = _House.GetAllDevices();
+
+				IMAXDevice foundDevice = null;
+
+				foreach(IMAXDevice _device in AllDevices)
+				{
+					if (_device.RFAddress == RFAddress)
+					{
+						foundDevice = _device;
+						break;
+					}
+				}
+
+				if (foundDevice != null)
+				{
+					// we've found a device, now fill it with happiness
+
+
+				}
+				else
+				{
+					// unknown device / RF Address
+				}
+
 			}
 
 

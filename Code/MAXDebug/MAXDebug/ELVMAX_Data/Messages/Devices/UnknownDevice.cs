@@ -3,7 +3,7 @@ using System.Text;
 
 namespace MAXDebug
 {
-	public class Device : IMAXDevice
+	public class UnknownDevice : IMAXDevice
 	{
 		private DeviceTypes _Type;
 		private String _RFAddress;
@@ -23,7 +23,7 @@ namespace MAXDebug
 			return sb.ToString();
 		}
 
-		public Device(Room _ARoom)
+		public UnknownDevice(Room _ARoom)
 		{
 			_Type = DeviceTypes.Invalid;
 			_Room = _ARoom;

@@ -13,6 +13,26 @@ namespace MAXDebug
 		{
 			Rooms = new List<Room>();
 		}
+
+		/// <summary>
+		/// Gets all devices.
+		/// </summary>
+		/// <returns>
+		/// The all devices.
+		/// </returns>
+		public List<IMAXDevice> GetAllDevices()
+		{
+			List<IMAXDevice> Devices = new List<IMAXDevice>();
+			foreach(Room _room in Rooms)
+			{
+				foreach(IMAXDevice _Device in _room.Devices)
+				{
+					Devices.Add(_Device);
+				}
+			}
+
+			return Devices;
+		}
 	}
 }
 

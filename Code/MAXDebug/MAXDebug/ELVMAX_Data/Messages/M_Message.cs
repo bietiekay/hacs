@@ -67,7 +67,7 @@ namespace MAXDebug
 				// go through every room
 				for(byte roomnumber=1;roomnumber<=RoomCount;roomnumber++)
 				{
-					Room newRoom = new Room();
+					Room newRoom = new Room(thisHouse);
 
 					newRoom.RoomID = RawMessageDecoded[Cursor];
 					Cursor++;
@@ -100,7 +100,7 @@ namespace MAXDebug
 					for(byte devicenumber=1;devicenumber<=DeviceCount;devicenumber++)
 					{
 						// read in the device
-						IMAXDevice newDevice = new Device(newRoom);
+						IMAXDevice newDevice = new UnknownDevice(newRoom);
 
 						#region Determine DeviceType
 						Byte DevType = RawMessageDecoded[Cursor];
