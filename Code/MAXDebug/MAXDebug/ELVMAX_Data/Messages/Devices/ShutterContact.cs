@@ -11,6 +11,15 @@ namespace MAXDebug
 		private String _Name;
 		private Room _Room;
 
+		private bool lowBattery;
+		private bool panelLock;
+		private bool gatewayOK;
+		private bool error;
+		private bool valid;
+		private bool isAnswer;
+		private bool linkError;
+		private ShutterContactModes shutterState;
+
 		public override string ToString ()
 		{
 			StringBuilder sb = new StringBuilder();
@@ -72,6 +81,78 @@ namespace MAXDebug
 
 		#endregion
 
+		#region ShutterContact specific properties
+
+		public ShutterContactModes ShutterState {
+			get {
+				return shutterState;
+			}
+			set {
+				shutterState = value;
+			}
+		}
+		public bool LinkError {
+			get {
+				return linkError;
+			}
+			set {
+				linkError = value;
+			}
+		}
+
+		public bool IsAnswer {
+			get {
+				return isAnswer;
+			}
+			set {
+				isAnswer = value;
+			}
+		}
+
+		public bool Valid {
+			get {
+				return valid;
+			}
+			set {
+				valid = value;
+			}
+		}
+
+		public bool Error {
+			get {
+				return error;
+			}
+			set {
+				error = value;
+			}
+		}
+
+		public bool GatewayOK {
+			get {
+				return gatewayOK;
+			}
+			set {
+				gatewayOK = value;
+			}
+		}
+
+		public bool PanelLock {
+			get {
+				return panelLock;
+			}
+			set {
+				panelLock = value;
+			}
+		}
+		public bool LowBattery {
+			get {
+				return lowBattery;
+			}
+			set {
+				lowBattery = value;
+			}
+		}
+		#endregion
 
 	}
 }

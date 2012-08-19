@@ -11,6 +11,17 @@ namespace MAXDebug
 		private String _Name;
 		private Room _Room;
 
+		private double temperature;
+		private DateTime validUntil;
+		private bool lowBattery;
+		private bool panelLock;
+		private bool gatewayOK;
+		private bool error;
+		private bool valid;
+		private bool isAnswer;
+		private bool linkError;
+		private ThermostatModes mode;
+
 		public override string ToString ()
 		{
 			StringBuilder sb = new StringBuilder();
@@ -19,6 +30,7 @@ namespace MAXDebug
 			sb.AppendLine("\tDeviceName: "+Name);
 			sb.AppendLine("\tSerialNumber: "+SerialNumber);
 			sb.AppendLine("\tRFAddress: "+RFAddress);
+			sb.AppendLine("\tTemperature: "+Temperature);
 
 			return sb.ToString();
 		}
@@ -72,7 +84,95 @@ namespace MAXDebug
 
 		#endregion
 
+		#region HeatingThermostat specific properties
+		public ThermostatModes Mode {
+			get {
+				return mode;
+			}
+			set {
+				mode = value;
+			}
+		}
 
+		public bool LinkError {
+			get {
+				return linkError;
+			}
+			set {
+				linkError = value;
+			}
+		}
+
+		public bool IsAnswer {
+			get {
+				return isAnswer;
+			}
+			set {
+				isAnswer = value;
+			}
+		}
+
+		public bool Valid {
+			get {
+				return valid;
+			}
+			set {
+				valid = value;
+			}
+		}
+
+		public bool Error {
+			get {
+				return error;
+			}
+			set {
+				error = value;
+			}
+		}
+
+		public bool GatewayOK {
+			get {
+				return gatewayOK;
+			}
+			set {
+				gatewayOK = value;
+			}
+		}
+
+		public bool PanelLock {
+			get {
+				return panelLock;
+			}
+			set {
+				panelLock = value;
+			}
+		}
+		public double Temperature {
+			get {
+				return temperature;
+			}
+			set {
+				temperature = value;
+			}
+		}
+
+		public bool LowBattery {
+			get {
+				return lowBattery;
+			}
+			set {
+				lowBattery = value;
+			}
+		}
+		public DateTime ValidUntil {
+			get {
+				return validUntil;
+			}
+			set {
+				validUntil = value;
+			}
+		}
+		#endregion
 	}
 }
 

@@ -21,13 +21,37 @@ namespace MAXDebug
 					
 //			System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 //			sb.AppendLine("ASCII: "+enc.GetString(RawMessageDecoded));
-			sb.Append("RAW: ");
-
-			foreach(byte _b in RawMessageDecoded)
+//			sb.Append("RAW: ");
+//
+//			foreach(byte _b in RawMessageDecoded)
+//			{
+//				sb.Append(_b);
+//				sb.Append(" ");
+//			}
+			foreach(IMAXDevice _device in DevicesInThisMessage)
 			{
-				sb.Append(_b);
-				sb.Append(" ");
+				switch(_device.Type)
+				{
+				case DeviceTypes.HeatingThermostat:
+					sb.Append(((HeatingThermostat)_device).ToString());
+					break;
+				case DeviceTypes.HeatingThermostatPlus:
+					sb.Append(((HeatingThermostatPlus)_device).ToString());
+					break;
+				case DeviceTypes.PushButton:
+					sb.Append(((PushButton)_device).ToString());
+					break;
+				case DeviceTypes.ShutterContact:
+					sb.Append(((ShutterContact)_device).ToString());
+					break;
+				case DeviceTypes.WallMountedThermostat:
+					sb.Append(((WallMountedThermostat)_device).ToString());
+					break;
+				default:
+				break;
+				}
 			}
+
 			return sb.ToString();
 		}
 		#endregion
@@ -45,6 +69,8 @@ namespace MAXDebug
 		// initializes this class and processes the given Input Message and fills the Message Fields
 		public L_Message (String RAW_Message, House _House)
 		{
+			DevicesInThisMessage = new List<IMAXDevice>();
+
 			if (RAW_Message.Length < 2)
 				throw new MAXException("Unable to process the RAW Message.");
 
@@ -58,22 +84,29 @@ namespace MAXDebug
 
 			foreach(byte[] array in Tokenized)
 			{
-				byte Length = array[0];
-
 				StringBuilder sb = new StringBuilder();
 
 				for(int i=0;i<=2;i++)
 				{
 					sb.Append(array[i]);
 				}
+				// get data 1 and data 2 out
+				// on position 5,6
+				byte Data1 = array[4];
+				byte Data2 = array[5];
+
+				String binValueData1 = Convert.ToString(Int32.Parse(Data1.ToString(),System.Globalization.NumberStyles.HexNumber),2);
+				binValueData1 = binValueData1.PadLeft(8, '0');
+				String binValueData2 = Convert.ToString(Int32.Parse(Data2.ToString(),System.Globalization.NumberStyles.HexNumber),2);
+				binValueData2 = binValueData2.PadLeft(8, '0');
+
+				Int32 Cursor = 7;	// the current position, skipping ?1,
 
 				String RFAddress = sb.ToString();
 
-				// look for this RF Adress in the House's device list
+				#region look for this RF Adress in the House's device list
 				List<IMAXDevice> AllDevices = _House.GetAllDevices();
-
 				IMAXDevice foundDevice = null;
-
 				foreach(IMAXDevice _device in AllDevices)
 				{
 					if (_device.RFAddress == RFAddress)
@@ -82,21 +115,21 @@ namespace MAXDebug
 						break;
 					}
 				}
+				#endregion
 
 				if (foundDevice != null)
 				{
-					// we've found a device, now fill it with happiness
+					DevicesInThisMessage.Add(foundDevice);
 
-
+					if (foundDevice.Type == DeviceTypes.HeatingThermostat)
+					{
+						HeatingThermostat KnownDevice = (HeatingThermostat)foundDevice;
+						// hurray, we've got a device we know how to handle B-)
+						((HeatingThermostat)foundDevice).Temperature = array[Cursor]/2;
+						Cursor++;
+					}
 				}
-				else
-				{
-					// unknown device / RF Address
-				}
-
 			}
-
-
 		}
 	}
 }

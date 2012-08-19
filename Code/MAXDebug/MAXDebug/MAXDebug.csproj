@@ -59,6 +59,8 @@
     <Compile Include="ELVMAX_Data\Messages\Devices\ShutterContact.cs" />
     <Compile Include="ELVMAX_Data\Messages\Devices\PushButton.cs" />
     <Compile Include="ELVMAX_Data\Messages\Devices\UnknownDevice.cs" />
+    <Compile Include="ELVMAX_Data\Messages\Devices\ThermostatModes.cs" />
+    <Compile Include="ELVMAX_Data\Messages\Devices\ShutterContactModes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
