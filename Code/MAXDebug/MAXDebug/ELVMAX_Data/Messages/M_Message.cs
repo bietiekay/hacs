@@ -57,8 +57,14 @@ namespace MAXDebug
 				Count = Int32.Parse(SplittedRAWMessage[1],System.Globalization.NumberStyles.HexNumber);
 				RawMessageDecoded = Base64.Decode(SplittedRAWMessage[2]);
 
-				System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-				Console.WriteLine(enc.GetString (RawMessageDecoded));
+//				System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+//				Console.WriteLine(enc.GetString (RawMessageDecoded));
+//				StringBuilder hexlist = new StringBuilder();
+//
+//				foreach(Byte _byte in RawMessageDecoded)
+//				{
+//					hexlist.Append(_byte.ToString()+" ");
+//				}
 
 				Int32 Cursor = 2;
 
@@ -78,14 +84,15 @@ namespace MAXDebug
 					Byte RoomNameLength = RawMessageDecoded[Cursor];
 					Cursor++;
 
-					StringBuilder RoomName = new StringBuilder();
+					byte[] RoomName = new byte[RoomNameLength];
 
 					for(Byte j=0;j<=RoomNameLength-1;j++)
 					{
-						RoomName.Append((char)RawMessageDecoded[Cursor]);
+						//RoomName.Append((char)RawMessageDecoded[Cursor]);
+						RoomName[j] = RawMessageDecoded[Cursor];
 						Cursor++;
 					}
-					newRoom.RoomName = RoomName.ToString();
+					newRoom.RoomName = System.Text.Encoding.UTF8.GetString(RoomName);
 
 					StringBuilder RFAddress_Buffer = new StringBuilder();
 					for(Byte j=0;j<=3-1;j++)
@@ -95,79 +102,89 @@ namespace MAXDebug
 					}
 					newRoom.RFAddress = RFAddress_Buffer.ToString();//Int32.Parse(RFAddress_Buffer.ToString(),System.Globalization.NumberStyles.HexNumber);
 
-					//newRoom.RFAddress = Int32.Parse(RFAddress.ToString(),System.Globalization.NumberStyles.HexNumber);
-					#region Devices
-					Byte DeviceCount = RawMessageDecoded[Cursor];
-					Cursor++;
-					// go through all the devices in here
-					for(byte devicenumber=1;devicenumber<=DeviceCount;devicenumber++)
-					{
-						// read in the device
-						IMAXDevice newDevice = new UnknownDevice(newRoom);
-
-						#region Determine DeviceType
-						Byte DevType = RawMessageDecoded[Cursor];
-						Cursor++;
-						
-						switch(DevType)
-						{
-							case 1: 
-								newDevice = new HeatingThermostat(newRoom);
-						        break;
-						    case 2:
-						        newDevice = new HeatingThermostatPlus(newRoom);
-						        break;
-						    case 3:
-						        newDevice = new WallMountedThermostat(newRoom);
-						        break;
-						    case 4:
-						        newDevice = new ShutterContact(newRoom);
-						        break;
-						    case 5:
-						        newDevice = new PushButton(newRoom);
-						        break;
-						    default:
-						        break;
-						}
-						#endregion
-
-						StringBuilder DeviceRFAddress = new StringBuilder();
-						for(Byte j=0;j<=3-1;j++)
-						{
-							DeviceRFAddress.Append(RawMessageDecoded[Cursor]);
-							Cursor++;
-						}
-						newDevice.RFAddress = DeviceRFAddress.ToString();//Int32.Parse(DeviceRFAddress.ToString(),System.Globalization.NumberStyles.HexNumber);
-
-						StringBuilder DeviceSerialNumber = new StringBuilder();
-						for(Byte j=0;j<=10-1;j++)
-						{
-							DeviceSerialNumber.Append((char)RawMessageDecoded[Cursor]);
-							Cursor++;
-						}
-						newDevice.SerialNumber = DeviceSerialNumber.ToString();
-
-						Byte DeviceNameLength = RawMessageDecoded[Cursor];
-						Cursor++;
-
-						StringBuilder DeviceName = new StringBuilder();
-						for(Byte j=0;j<=DeviceNameLength-1;j++)
-						{
-							DeviceName.Append((char)RawMessageDecoded[Cursor]);
-							Cursor++;
-						}
-						newDevice.Name = DeviceName.ToString();
-
-						// skip over RoomID... we may not need it...
-						Cursor++;
-
-						// add the device to the room
-						newRoom.Devices.Add(newDevice);
-					}
-					#endregion
-					// add this Room to the M_Message-Structure
 					_House.Rooms.Add(newRoom);
 				}
+
+				#region Devices
+				//newRoom.RFAddress = Int32.Parse(RFAddress.ToString(),System.Globalization.NumberStyles.HexNumber);
+				Byte DeviceCount = RawMessageDecoded[Cursor];
+				Cursor++;
+				// go through all the devices in here
+				for(byte devicenumber=1;devicenumber<=DeviceCount;devicenumber++)
+				{
+					// read in the device
+					IMAXDevice newDevice = new UnknownDevice();
+
+					#region Determine DeviceType
+					Byte DevType = RawMessageDecoded[Cursor];
+					Cursor++;
+					
+					switch(DevType)
+					{
+						case 1: 
+							newDevice = new HeatingThermostat();
+					        break;
+					    case 2:
+					        newDevice = new HeatingThermostatPlus();
+					        break;
+					    case 3:
+					        newDevice = new WallMountedThermostat();
+					        break;
+					    case 4:
+					        newDevice = new ShutterContact();
+					        break;
+					    case 5:
+					        newDevice = new PushButton();
+					        break;
+					    default:
+					        break;
+					}
+					#endregion
+
+					StringBuilder DeviceRFAddress = new StringBuilder();
+					for(Byte j=0;j<=3-1;j++)
+					{
+						DeviceRFAddress.Append(RawMessageDecoded[Cursor]);
+						Cursor++;
+					}
+					newDevice.RFAddress = DeviceRFAddress.ToString();//Int32.Parse(DeviceRFAddress.ToString(),System.Globalization.NumberStyles.HexNumber);
+
+					StringBuilder DeviceSerialNumber = new StringBuilder();
+					for(Byte j=0;j<=10-1;j++)
+					{
+						DeviceSerialNumber.Append((char)RawMessageDecoded[Cursor]);
+						Cursor++;
+					}
+					newDevice.SerialNumber = DeviceSerialNumber.ToString();
+
+					Byte DeviceNameLength = RawMessageDecoded[Cursor];
+					Cursor++;
+
+					byte[] DeviceName = new byte[DeviceNameLength];
+
+					for(Byte j=0;j<=DeviceNameLength-1;j++)
+					{
+						DeviceName[j] = RawMessageDecoded[Cursor];
+						Cursor++;
+					}
+					newDevice.Name = System.Text.Encoding.UTF8.GetString(DeviceName);
+
+					Byte RoomID = RawMessageDecoded[Cursor];
+					Cursor++;
+
+					// add the device to the room
+					foreach(Room newRoom in _House.Rooms)
+					{
+						if (newRoom.RoomID == RoomID)
+						{
+							newDevice.AssociatedRoom = newRoom;
+							newRoom.Devices.Add(newDevice);
+							break;
+						}
+					}
+				}
+				#endregion
+				// add this Room to the M_Message-Structure
 				#endregion
 			}
 			else

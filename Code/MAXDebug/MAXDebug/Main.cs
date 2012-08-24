@@ -88,9 +88,9 @@ namespace MAXDebug
 				IMAXMessage Message = DecoderEncoder.ProcessMessage(_Message.ToString(), thisHouse);
 				if (Message != null)
 				{
-					ConsoleOutputLogger.WriteLine(_Message.ToString());
+					//ConsoleOutputLogger.WriteLine(_Message.ToString());
 					ConsoleOutputLogger.WriteLine(Message.ToString());
-					ConsoleOutputLogger.WriteLine("");
+					//ConsoleOutputLogger.WriteLine("");
 				}
 			}
 			// some writing

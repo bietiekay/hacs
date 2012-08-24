@@ -23,10 +23,9 @@ namespace MAXDebug
 			return sb.ToString();
 		}
 
-		public HeatingThermostatPlus(Room _ARoom)
+		public HeatingThermostatPlus()
 		{
 			_Type = DeviceTypes.HeatingThermostatPlus;
-			_Room = _ARoom;
 		}		
 
 		#region IMAXDevice implementation
@@ -67,6 +66,9 @@ namespace MAXDebug
  		{
 			get {
 				return _Room;
+			}
+			set {
+				_Room = value;
 			}
 		}
 

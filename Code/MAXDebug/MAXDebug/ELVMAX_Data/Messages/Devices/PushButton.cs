@@ -23,10 +23,9 @@ namespace MAXDebug
 			return sb.ToString();
 		}
 
-		public PushButton(Room _ARoom)
+		public PushButton()
 		{
 			_Type = DeviceTypes.PushButton;
-			_Room = _ARoom;
 		}		
 
 		#region IMAXDevice implementation
@@ -67,6 +66,9 @@ namespace MAXDebug
  		{
 			get {
 				return _Room;
+			}
+			set {
+				_Room = value;
 			}
 		}
 

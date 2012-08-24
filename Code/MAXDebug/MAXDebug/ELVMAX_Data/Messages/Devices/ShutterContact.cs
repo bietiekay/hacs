@@ -40,10 +40,9 @@ namespace MAXDebug
 			return sb.ToString();
 		}
 
-		public ShutterContact(Room _ARoom)
+		public ShutterContact()
 		{
 			_Type = DeviceTypes.ShutterContact;
-			_Room = _ARoom;
 		}		
 
 		#region IMAXDevice implementation
@@ -84,6 +83,9 @@ namespace MAXDebug
  		{
 			get {
 				return _Room;
+			}
+			set {
+				_Room = value;
 			}
 		}
 

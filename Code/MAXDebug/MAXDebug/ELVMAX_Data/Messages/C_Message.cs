@@ -16,20 +16,20 @@ namespace MAXDebug
 		{
 			StringBuilder sb = new StringBuilder();
 
-			sb.AppendLine("C-Message:");
+			//sb.AppendLine("C-Message:");
 
-			sb.AppendLine("RF Address: "+RFAdress);
+			//sb.AppendLine("RF Address: "+RFAdress);
 
-			System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+			//System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 			//sb.AppendLine("ASCII: "+enc.GetString(RawMessageDecoded));
-			sb.Append("RAW: ");
-
+			//sb.Append("RAW: ");
+			/*
 			foreach(byte _b in RawMessageDecoded)
 			{
 				sb.Append(_b);
 				sb.Append(" ");
 			}
-
+			*/
 			return sb.ToString();
 		}
 		#endregion
