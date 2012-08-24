@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 
 namespace MAXDebug
 {
@@ -23,11 +24,12 @@ namespace MAXDebug
 			}
 			ConsoleOutputLogger.LogToFile("--------------------------------------");
 
-			MAXMonitoringThread _Thread = new MAXMonitoringThread(args[0], Convert.ToInt32 (args[1]));
+			MAXMonitoringThread _Thread = new MAXMonitoringThread(args[0], Convert.ToInt32 (args[1]),1000);
             Thread MAXMonitoring = new Thread(new ThreadStart(_Thread.Run));
 
+			MAXMonitoring.Start();
 
-			while(true)
+			while(_Thread.running)
 			{
 				Thread.Sleep(100);
 			}

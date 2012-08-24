@@ -7,7 +7,8 @@ namespace MAXDebug
 		automatic,
 		manual,
 		vacation,
-		boost
+		boost,
+		unchanged
 	}
 }
 

@@ -183,6 +183,10 @@ namespace MAXDebug
 			}
 		}
 		#endregion
+
+		#region GetDifferences
+		//public 
+		#endregion
 	}
 }
 

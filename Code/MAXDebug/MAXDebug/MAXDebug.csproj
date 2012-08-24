@@ -60,7 +60,13 @@
     <Compile Include="ELVMAX_Data\Messages\Devices\UnknownDevice.cs" />
     <Compile Include="ELVMAX_Data\Messages\Devices\ThermostatModes.cs" />
     <Compile Include="ELVMAX_Data\Messages\Devices\ShutterContactModes.cs" />
-    <Compile Include="Main.cs" />
+    <Compile Include="Max_Threaded.cs" />
+    <Compile Include="MAXMonitoringThread.cs" />
+    <Compile Include="DiffSet\DiffHouse.cs" />
+    <Compile Include="DiffSet\DeviceDiffSet.cs" />
+    <Compile Include="DiffSet\HeatingThermostatDiff.cs" />
+    <Compile Include="DiffSet\ShutterContactDiff.cs" />
+    <Compile Include="DiffSet\BatteryStatus.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -69,12 +75,12 @@
     <Folder Include="ELVMAX_Data\Messages\Metadata\" />
     <Folder Include="ELVMAX_Data\Messages\Devices\" />
     <Folder Include="Notes\" />
+    <Folder Include="DiffSet\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Main_async.cs" />
     <None Include="Notes\Notes.txt" />
     <None Include="Notes\output.html" />
-    <None Include="MAXMonitoringThread.cs" />
-    <None Include="Max_Threaded.cs" />
+    <None Include="Main.cs" />
   </ItemGroup>
 </Project>

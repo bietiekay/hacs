@@ -6,6 +6,7 @@ namespace MAXDebug
 	{
 		closed,
 		open,
+		unchanged
 	}
 }
 

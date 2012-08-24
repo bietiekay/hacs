@@ -50,6 +50,7 @@ namespace MAXDebug
 				default:
 				break;
 				}
+				sb.AppendLine();
 			}
 
 			return sb.ToString();

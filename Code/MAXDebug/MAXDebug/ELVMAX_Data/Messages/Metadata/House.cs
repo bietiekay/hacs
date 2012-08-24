@@ -33,6 +33,20 @@ namespace MAXDebug
 
 			return Devices;
 		}
+
+		public Dictionary<String,IMAXDevice> GetAllDevicesInADictionary()
+		{
+			Dictionary<String,IMAXDevice> Devices = new Dictionary<string, IMAXDevice>();
+			foreach(Room _room in Rooms)
+			{
+				foreach(IMAXDevice _Device in _room.Devices)
+				{
+					Devices.Add(_Device.SerialNumber,_Device);
+				}
+			}
+
+			return Devices;
+		}
 	}
 }
 

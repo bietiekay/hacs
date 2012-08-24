@@ -1,22 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MAXDebug/ELVMAX_Data/Messages/M_Message.cs">
-    <Files>
-      <File FileName="MAXDebug/MAXMonitoringThread.cs" Line="89" Column="24" />
-      <File FileName="MAXDebug/Main.cs" Line="1" Column="1" />
-      <File FileName="MAXDebug/ELVMAX_Data/Messages/M_Message.cs" Line="68" Column="28" />
-      <File FileName="MAXDebug/Notes/Notes.txt" Line="9" Column="1" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="MAXDebug" expanded="True">
             <Node name="ELVMAX_Data" expanded="True">
               <Node name="Messages" expanded="True">
-                <Node name="M_Message.cs" selected="True" />
+                <Node name="Devices" expanded="True" />
+                <Node name="Metadata" expanded="True" />
               </Node>
             </Node>
             <Node name="Notes" expanded="True" />
+            <Node name="MAXMonitoringThread.cs" selected="True" />
           </Node>
         </State>
       </Pad>
