@@ -49,7 +49,6 @@
     <Compile Include="ELVMAX_Data\Messages\Metadata\Room.cs" />
     <Compile Include="ELVMAX_Data\Messages\M_Message.cs" />
     <Compile Include="ELVMAX_Data\Messages\Metadata\DeviceTypes.cs" />
-    <Compile Include="Main.cs" />
     <Compile Include="ELVMAX_Data\Messages\Metadata\House.cs" />
     <Compile Include="ELVMAX_Data\Messages\Devices\HeatingThermostat.cs" />
     <Compile Include="ELVMAX_Data\Messages\Devices\IMAXDevice.cs" />
@@ -61,6 +60,7 @@
     <Compile Include="ELVMAX_Data\Messages\Devices\UnknownDevice.cs" />
     <Compile Include="ELVMAX_Data\Messages\Devices\ThermostatModes.cs" />
     <Compile Include="ELVMAX_Data\Messages\Devices\ShutterContactModes.cs" />
+    <Compile Include="Main.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -74,5 +74,7 @@
     <None Include="Main_async.cs" />
     <None Include="Notes\Notes.txt" />
     <None Include="Notes\output.html" />
+    <None Include="MAXMonitoringThread.cs" />
+    <None Include="Max_Threaded.cs" />
   </ItemGroup>
 </Project>

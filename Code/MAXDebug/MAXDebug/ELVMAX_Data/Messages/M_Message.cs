@@ -57,6 +57,9 @@ namespace MAXDebug
 				Count = Int32.Parse(SplittedRAWMessage[1],System.Globalization.NumberStyles.HexNumber);
 				RawMessageDecoded = Base64.Decode(SplittedRAWMessage[2]);
 
+				System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+				Console.WriteLine(enc.GetString (RawMessageDecoded));
+
 				Int32 Cursor = 2;
 
 				// now go deeper
