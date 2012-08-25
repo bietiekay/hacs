@@ -29,75 +29,81 @@ namespace MAXDebug
 			while(running)
 			{
 				#region Update House
-				if (theHouse != null)
+				try
 				{
-					previousHouse = theHouse.GetAllDevicesInADictionary();
-				}
-
-				theHouse = new House();
-
-				// we obviously have enough paramteres, go on and try to connect
-				TcpClient client = new TcpClient();
-				client.Connect(Hostname,Port);
-				NetworkStream stream = client.GetStream();
-
-				// the read buffer (chosen quite big)
-				byte[] myReadBuffer = new byte[4096*8];
-				List<String> Messages = new List<string>();
-
-				// to build the complete message
-				StringBuilder myCompleteMessage = new StringBuilder();
-				int numberOfBytesRead = 0;
-
-				MAXEncodeDecode DecoderEncoder = new MAXEncodeDecode();
-				keepRunning = true;
-				// Incoming message may be larger than the buffer size.
-				do
-				{
-					myCompleteMessage = new StringBuilder();
-					stream.ReadTimeout = 1000;
-					try
+					if (theHouse != null)
 					{
-						numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);
-						myCompleteMessage.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
-
-						Messages.Add(myCompleteMessage.ToString());
+						previousHouse = theHouse.GetAllDevicesInADictionary();
 					}
-					catch(Exception)
-					{
-						keepRunning = false;
-					}
-				}
-				while(keepRunning);
 
-				List<String> PreProcessedMessages = new List<string>();
-				// preprocess
-				foreach(String _Message in Messages)
-				{
-					if (_Message.Remove(_Message.Length-2).Contains("\r\n"))
+					theHouse = new House();
+
+					// we obviously have enough paramteres, go on and try to connect
+					TcpClient client = new TcpClient();
+					client.Connect(Hostname,Port);
+					NetworkStream stream = client.GetStream();
+
+					// the read buffer (chosen quite big)
+					byte[] myReadBuffer = new byte[4096*8];
+					List<String> Messages = new List<string>();
+
+					// to build the complete message
+					StringBuilder myCompleteMessage = new StringBuilder();
+					int numberOfBytesRead = 0;
+
+					MAXEncodeDecode DecoderEncoder = new MAXEncodeDecode();
+					keepRunning = true;
+					// Incoming message may be larger than the buffer size.
+					do
 					{
-						String[] PMessages = _Message.Remove(_Message.Length-2).Split(new char[1] { '\n' },StringSplitOptions.RemoveEmptyEntries);
-						foreach(String pmessage in PMessages)
+						myCompleteMessage = new StringBuilder();
+						stream.ReadTimeout = 1000;
+						try
 						{
-							PreProcessedMessages.Add(pmessage.Replace("\r","")+"\r\n");
+							numberOfBytesRead = stream.Read(myReadBuffer, 0, myReadBuffer.Length);
+							myCompleteMessage.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
+
+							Messages.Add(myCompleteMessage.ToString());
+						}
+						catch(Exception)
+						{
+							keepRunning = false;
 						}
 					}
-					else
-						PreProcessedMessages.Add(_Message);
-				}			
-				// Analyze and Output Messages
-				foreach(String _Message in PreProcessedMessages)
-				{
-					IMAXMessage Message = DecoderEncoder.ProcessMessage(_Message.ToString(), theHouse);
-/*					if (Message != null)
+					while(keepRunning);
+
+					List<String> PreProcessedMessages = new List<string>();
+					// preprocess
+					foreach(String _Message in Messages)
 					{
-						ConsoleOutputLogger.WriteLine(_Message.ToString());
-						ConsoleOutputLogger.WriteLine(Message.ToString());
-						ConsoleOutputLogger.WriteLine("");
-					}*/
+						if (_Message.Remove(_Message.Length-2).Contains("\r\n"))
+						{
+							String[] PMessages = _Message.Remove(_Message.Length-2).Split(new char[1] { '\n' },StringSplitOptions.RemoveEmptyEntries);
+							foreach(String pmessage in PMessages)
+							{
+								PreProcessedMessages.Add(pmessage.Replace("\r","")+"\r\n");
+							}
+						}
+						else
+							PreProcessedMessages.Add(_Message);
+					}			
+					// Analyze and Output Messages
+					foreach(String _Message in PreProcessedMessages)
+					{
+						IMAXMessage Message = DecoderEncoder.ProcessMessage(_Message.ToString(), theHouse);
+	/*					if (Message != null)
+						{
+							ConsoleOutputLogger.WriteLine(_Message.ToString());
+							ConsoleOutputLogger.WriteLine(Message.ToString());
+							ConsoleOutputLogger.WriteLine("");
+						}*/
+					}
+					stream.Close();
+					client.Close();
 				}
-				stream.Close();
-				client.Close();
+				catch(Exception)
+				{
+				}
 				#endregion
 
 				#region Diff the house
