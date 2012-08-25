@@ -111,7 +111,6 @@ namespace MAXDebug
 				{
 					// only if we already got two houses in here...
 					List<IDeviceDiffSet> differences = DiffHouse.CalculateDifferences(previousHouse,theHouse.GetAllDevicesInADictionary());
-
 					if (differences.Count != 0)
 					{
 						foreach(IDeviceDiffSet _difference in differences)
@@ -124,17 +123,15 @@ namespace MAXDebug
 							{
 								HeatingThermostatDiff _heating = (HeatingThermostatDiff)_difference;
 
-								sb.Append("\t"+_heating.LowBattery+"\t"+_heating.Mode+"\t"+_heating.Temperature);
+								ConsoleOutputLogger.WriteLine(_heating.ToString());
 							}
 
 							if (_difference.DeviceType == DeviceTypes.ShutterContact)
 							{
 								ShutterContactDiff _shutter = (ShutterContactDiff)_difference;
 
-								sb.Append("\t"+_shutter.LowBattery+"\t"+_shutter.ShutterState);
+								ConsoleOutputLogger.WriteLine(_shutter.ToString());
 							}
-
-							ConsoleOutputLogger.WriteLine(sb.ToString());
 						}
 					}
 				}

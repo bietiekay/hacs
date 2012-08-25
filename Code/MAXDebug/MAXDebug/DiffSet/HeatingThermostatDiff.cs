@@ -80,6 +80,13 @@ namespace MAXDebug
 			}
 		}
 		#endregion
+
+		public override string ToString ()
+		{
+			return "\t"+lowBattery+"\t"+mode+"\t"+temperature;
+			//return string.Format ("[HeatingThermostatDiff: DeviceType={0}, DeviceName={1}, RoomID={2}, RoomName={3}, Mode={4}, Temperature={5}, LowBattery={6}]", DeviceType, DeviceName, RoomID, RoomName, Mode, Temperature, LowBattery);
+		}
+
 	}
 }
 

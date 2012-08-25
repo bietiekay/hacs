@@ -70,6 +70,11 @@ namespace MAXDebug
 			}
 		}
 		#endregion
+	
+		public override string ToString ()
+		{
+			return "\t"+lowBattery+"\t"+state;
+		}		
 	}
 }
 
