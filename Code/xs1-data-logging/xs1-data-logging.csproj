@@ -73,10 +73,37 @@
     <Compile Include="ActorStatusOutputTypes.cs" />
     <Compile Include="SensorCheck.cs" />
     <Compile Include="JSONHandlers\DataCache.cs" />
-    <Compile Include="Max\MaxThread.cs" />
     <Compile Include="HTTPProxy\HTTPProxy.cs" />
     <Compile Include="HTTPProxy\HTTPProxyConfiguration.cs" />
-    <Compile Include="Max\MAXEncodeDecode.cs" />
+    <Compile Include="ELVMAX\MAXEncodeDecode.cs" />
+    <Compile Include="ELVMAX\MAXMonitoringThread.cs" />
+    <Compile Include="ELVMAX\Max_Threaded.cs" />
+    <Compile Include="ELVMAX\DiffSet\BatteryStatus.cs" />
+    <Compile Include="ELVMAX\DiffSet\DeviceDiffSet.cs" />
+    <Compile Include="ELVMAX\DiffSet\DiffHouse.cs" />
+    <Compile Include="ELVMAX\DiffSet\HeatingThermostatDiff.cs" />
+    <Compile Include="ELVMAX\DiffSet\ShutterContactDiff.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Base64.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\MAXMessageTypes.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\MAX_Exception.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\TokenizeMessage.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\C_Message.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\H_Message.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\IMAXMessage.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\L_Message.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\M_Message.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\Devices\HeatingThermostat.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\Devices\HeatingThermostatPlus.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\Devices\IMAXDevice.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\Devices\PushButton.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\Devices\ShutterContact.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\Devices\ShutterContactModes.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\Devices\ThermostatModes.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\Devices\UnknownDevice.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\Devices\WallMountedThermostat.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\Metadata\DeviceTypes.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\Metadata\House.cs" />
+    <Compile Include="ELVMAX\ELVMAX_Data\Messages\Metadata\Room.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -141,5 +168,6 @@
   <ItemGroup>
     <Folder Include="Max\" />
     <Folder Include="HTTPProxy\" />
+    <Folder Include="ELVMAX\" />
   </ItemGroup>
 </Project>

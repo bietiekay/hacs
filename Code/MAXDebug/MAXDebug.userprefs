@@ -5,13 +5,6 @@
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="MAXDebug" expanded="True">
-            <Node name="ELVMAX_Data" expanded="True">
-              <Node name="Messages" expanded="True">
-                <Node name="Devices" expanded="True" />
-                <Node name="Metadata" expanded="True" />
-              </Node>
-            </Node>
-            <Node name="Notes" expanded="True" />
             <Node name="MAXMonitoringThread.cs" selected="True" />
           </Node>
         </State>

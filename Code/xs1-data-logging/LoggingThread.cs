@@ -65,9 +65,9 @@ namespace xs1_data_logging
 
 			// Start the ELVMax Thread
 			// Todo: Add configurability of this startup
-			MaxThread ELVMax = new MaxThread(ConsoleOutputLogger);
-			Thread ELVMaxThread = new Thread(new ThreadStart(ELVMax.Run));
-			ELVMaxThread.Start();
+			//MaxThread ELVMax = new MaxThread(ConsoleOutputLogger);
+			//Thread ELVMaxThread = new Thread(new ThreadStart(ELVMax.Run));
+			//ELVMaxThread.Start();
 
             while (!Shutdown)
             {
