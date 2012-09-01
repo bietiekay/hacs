@@ -119,18 +119,22 @@ namespace xs1_data_logging
 
 							sb.Append("S\t"+_difference.DeviceName+"\t"+_difference.DeviceType);
 
+							// TOdo: do something with that difference information... like infusing it into the "normal" queue...
+
 							if (_difference.DeviceType == DeviceTypes.HeatingThermostat)
 							{
 								HeatingThermostatDiff _heating = (HeatingThermostatDiff)_difference;
 
-								ConsoleOutputLogger.WriteLine(_heating.ToString());
+								// this is what is different on the heating thermostats
+								//ConsoleOutputLogger.WriteLine(_heating.ToString());
 							}
 
 							if (_difference.DeviceType == DeviceTypes.ShutterContact)
 							{
 								ShutterContactDiff _shutter = (ShutterContactDiff)_difference;
 
-								ConsoleOutputLogger.WriteLine(_shutter.ToString());
+								// this is what is different on the ShutterContacts
+								//ConsoleOutputLogger.WriteLine(_shutter.ToString());
 							}
 						}
 					}

@@ -106,6 +106,7 @@ namespace xs1_data_logging
 
                     do
                     {
+						#region XS1 Receiving and Handling
                         // fill the buffer with data
                         count = resStream.Read(buf, 0, buf.Length);
 
@@ -117,6 +118,7 @@ namespace xs1_data_logging
                             XS1_DataObject dataobject = HandleXS1_TSV.HandleValue(tempString);
                             dataobject.ServerName = ServerName;
 
+							#region there is a new Data Object, Handle it!
                             if (dataobject.Type == ObjectTypes.Actor)
                             {
                                 lock(actor_data_store)
@@ -236,8 +238,10 @@ namespace xs1_data_logging
                                     }
 
                             ConsoleOutputLogger.WriteLine(ServerName+" - "+tempString);
-
+							#endregion
                         }
+
+						#endregion
                     }
                     while (count > 0); // any more data to read?
                 }
