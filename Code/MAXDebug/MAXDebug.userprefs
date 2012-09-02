@@ -2,19 +2,17 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="../XS1_DataObject/XS1_DataObject.cs">
     <Files>
-      <File FileName="../xs1-data-logging/current_actor_status.cs" Line="6" Column="11" />
       <File FileName="../xs1-data-logging/ELVMAX/MAXEncodeDecode.cs" Line="10" Column="24" />
       <File FileName="../xs1-data-logging/ELVMAX/Max_Threaded.cs" Line="8" Column="5" />
       <File FileName="../xs1-data-logging/ELVMAX/ELVMAX_Data/Messages/IMAXMessage.cs" Line="1" Column="1" />
       <File FileName="../xs1-data-logging/ELVMAX/ELVMAX_Data/Messages/H_Message.cs" Line="1" Column="1" />
       <File FileName="../xs1-data-logging/ELVMAX/ELVMAX_Data/Messages/C_Message.cs" Line="1" Column="1" />
-      <File FileName="../xs1-data-logging/LoggingThread.cs" Line="126" Column="77" />
-      <File FileName="../xs1-data-logging/ELVMAX/MAXMonitoringThread.cs" Line="17" Column="31" />
+      <File FileName="../xs1-data-logging/ELVMAX/MAXMonitoringThread.cs" Line="17" Column="30" />
       <File FileName="../XS1_DataObject/XS1_DataObject.cs" Line="48" Column="9" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State selected="True" />
+        <State expanded="True" selected="True" />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
