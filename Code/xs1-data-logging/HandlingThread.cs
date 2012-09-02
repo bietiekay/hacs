@@ -70,10 +70,13 @@ namespace xs1_data_logging
             ActorReswitchThread.Start();
 
 			// Start the ELVMax Thread
-			// Todo: Add configurability of this startup
-			MAXMonitoringThread ELVMax = new MAXMonitoringThread(Properties.Settings.Default.ELVMAXIP,Properties.Settings.Default.ELVMAXPort,ConsoleOutputLogger,MAX_DataQueue,Properties.Settings.Default.ELVMAXUpdateIntervalMsec);
-			Thread ELVMaxThread = new Thread(new ThreadStart(ELVMax.Run));
-			ELVMaxThread.Start();
+			MAXMonitoringThread ELVMax = null;
+			if (Properties.Settings.Default.ELVMAXEnabled)
+			{
+				ELVMax = new MAXMonitoringThread(Properties.Settings.Default.ELVMAXIP,Properties.Settings.Default.ELVMAXPort,ConsoleOutputLogger,MAX_DataQueue,Properties.Settings.Default.ELVMAXUpdateIntervalMsec);
+				Thread ELVMaxThread = new Thread(new ThreadStart(ELVMax.Run));
+				ELVMaxThread.Start();
+			}
 
 			XS1MonitoringThread XS1 = new XS1MonitoringThread(ServerName,ConsoleOutputLogger,UserName,Password,XS1_DataQueue);
 			Thread XS1Thread = new Thread(new ThreadStart(XS1.Run));
@@ -211,68 +214,71 @@ namespace xs1_data_logging
 
 					#region Handle MAX events
 					// the strategy for MAX events is quite easy: emulate XS1 events and stuff the XS1 queue with those faked events
-					// that takes care of the storage and the 
-					IDeviceDiffSet max_dataobject = null;
+					// that takes care of the storage and the
+					if (Properties.Settings.Default.ELVMAXEnabled)
+					{
+						IDeviceDiffSet max_dataobject = null;
 
-					if(MAX_DataQueue.TryDequeue(out max_dataobject))
-				   	{
-						StringBuilder sb = new StringBuilder();
+						if(MAX_DataQueue.TryDequeue(out max_dataobject))
+					   	{
+							StringBuilder sb = new StringBuilder();
 
-						sb.Append("S\t"+max_dataobject.DeviceName+"\t"+max_dataobject.DeviceType);
+							sb.Append("S\t"+max_dataobject.DeviceName+"\t"+max_dataobject.DeviceType);
 
-						if (max_dataobject.DeviceType == DeviceTypes.HeatingThermostat)
-						{
-							HeatingThermostatDiff _heating = (HeatingThermostatDiff)max_dataobject;
-
-							// this is what is different on the heating thermostats
-							ConsoleOutputLogger.WriteLine(_heating.ToString());
-
-							// first the temperature data
-							XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"heating_thermostat",DateTime.Now,_heating.RoomID,_heating.Temperature);
-							XS1_DataQueue.Enqueue(maxdataobject);
-
-							// then the low battery if exists
-							if (_heating.LowBattery == BatteryStatus.lowbattery)
+							if (max_dataobject.DeviceType == DeviceTypes.HeatingThermostat)
 							{
-								XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_heating.RoomID,_heating.Temperature);
-								XS1_DataQueue.Enqueue(lowbatteryobject);
-							}
-						}
+								HeatingThermostatDiff _heating = (HeatingThermostatDiff)max_dataobject;
 
-						if (max_dataobject.DeviceType == DeviceTypes.ShutterContact)
-						{
-							ShutterContactDiff _shutter = (ShutterContactDiff)max_dataobject;
+								// this is what is different on the heating thermostats
+								ConsoleOutputLogger.WriteLine(_heating.ToString());
 
-							// this is what is different on the ShutterContacts
-							ConsoleOutputLogger.WriteLine(_shutter.ToString());
-
-							// first the open/close status
-							if (_shutter.ShutterState == ShutterContactModes.open)
-							{
-								XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,100.0);
+								// first the temperature data
+								XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"heating_thermostat",DateTime.Now,_heating.RoomID,_heating.Temperature);
 								XS1_DataQueue.Enqueue(maxdataobject);
-							}
-							else
-							{
-								XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,0.0);
-								XS1_DataQueue.Enqueue(maxdataobject);
+
+								// then the low battery if exists
+								if (_heating.LowBattery == BatteryStatus.lowbattery)
+								{
+									XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_heating.RoomID,_heating.Temperature);
+									XS1_DataQueue.Enqueue(lowbatteryobject);
+								}
 							}
 
-							// then the low battery if exists
-							if (_shutter.LowBattery == BatteryStatus.lowbattery)
+							if (max_dataobject.DeviceType == DeviceTypes.ShutterContact)
 							{
+								ShutterContactDiff _shutter = (ShutterContactDiff)max_dataobject;
+
+								// this is what is different on the ShutterContacts
+								ConsoleOutputLogger.WriteLine(_shutter.ToString());
+
+								// first the open/close status
 								if (_shutter.ShutterState == ShutterContactModes.open)
 								{
-									XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,100.0);
-									XS1_DataQueue.Enqueue(lowbatteryobject);
+									XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,100.0);
+									XS1_DataQueue.Enqueue(maxdataobject);
 								}
 								else
 								{
-									XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,0.0);
-									XS1_DataQueue.Enqueue(lowbatteryobject);
+									XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,0.0);
+									XS1_DataQueue.Enqueue(maxdataobject);
 								}
-							}
 
+								// then the low battery if exists
+								if (_shutter.LowBattery == BatteryStatus.lowbattery)
+								{
+									if (_shutter.ShutterState == ShutterContactModes.open)
+									{
+										XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,100.0);
+										XS1_DataQueue.Enqueue(lowbatteryobject);
+									}
+									else
+									{
+										XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,0.0);
+										XS1_DataQueue.Enqueue(lowbatteryobject);
+									}
+								}
+
+							}
 						}
 					}
 					#endregion
@@ -283,7 +289,8 @@ namespace xs1_data_logging
                     Thread.Sleep(1);
                 }
             }
-			ELVMax.running = false;
+			if (ELVMax != null)
+				ELVMax.running = false;
 			XS1.running = false;
 
 			Thread.Sleep (200);	// ... msecs period to wait for new input...
