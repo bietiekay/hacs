@@ -73,7 +73,7 @@ namespace xs1_data_logging
 	
 		public override string ToString ()
 		{
-			return "\t"+lowBattery+"\t"+state;
+			return RoomID+" - "+RoomName+" - "+DeviceType+" - "+DeviceName+" - "+lowBattery+" - "+ShutterState;
 		}		
 	}
 }

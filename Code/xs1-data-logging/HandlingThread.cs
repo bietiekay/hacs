@@ -225,7 +225,7 @@ namespace xs1_data_logging
 							HeatingThermostatDiff _heating = (HeatingThermostatDiff)max_dataobject;
 
 							// this is what is different on the heating thermostats
-							//ConsoleOutputLogger.WriteLine(_heating.ToString());
+							ConsoleOutputLogger.WriteLine(_heating.ToString());
 
 							// first the temperature data
 							XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"heating_thermostat",DateTime.Now,_heating.RoomID,_heating.Temperature);
@@ -244,7 +244,7 @@ namespace xs1_data_logging
 							ShutterContactDiff _shutter = (ShutterContactDiff)max_dataobject;
 
 							// this is what is different on the ShutterContacts
-							//ConsoleOutputLogger.WriteLine(_shutter.ToString());
+							ConsoleOutputLogger.WriteLine(_shutter.ToString());
 
 							// first the open/close status
 							if (_shutter.ShutterState == ShutterContactModes.open)
