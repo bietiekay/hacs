@@ -29,7 +29,8 @@ namespace xs1_data_logging
         public List<String> TemporaryBlacklist = new List<string>();
         public List<String> OnWaitOffLIst = new List<string>();
         public ConsoleOutputLogger ConsoleOutputLogger;
-		public ConcurrentQueue<XS1_DataObject> XS1_DataQueue;	// use a thread safe list like structure to hold the messages coming in from the XS1
+		private ConcurrentQueue<XS1_DataObject> XS1_DataQueue;	// use a thread safe list like structure to hold the messages coming in from the XS1
+		private ConcurrentQueue<IDeviceDiffSet> MAX_DataQueue;  // use a thread safe list like structure to hold the messages coming in from the ELV MAX
         bool Shutdown = false;
 
 		#region Ctor
@@ -44,6 +45,7 @@ namespace xs1_data_logging
             ConfigurationCacheMinutes = _ConfigurationCacheMinutes;
             ConsoleOutputLogger = Logger;
 			XS1_DataQueue = new ConcurrentQueue<XS1_DataObject>();
+			MAX_DataQueue = new ConcurrentQueue<IDeviceDiffSet>();
         }
 		#endregion
 
@@ -69,7 +71,7 @@ namespace xs1_data_logging
 
 			// Start the ELVMax Thread
 			// Todo: Add configurability of this startup
-			MAXMonitoringThread ELVMax = new MAXMonitoringThread(Properties.Settings.Default.ELVMAXIP,Properties.Settings.Default.ELVMAXPort,ConsoleOutputLogger,Properties.Settings.Default.ELVMAXUpdateIntervalMsec);
+			MAXMonitoringThread ELVMax = new MAXMonitoringThread(Properties.Settings.Default.ELVMAXIP,Properties.Settings.Default.ELVMAXPort,ConsoleOutputLogger,MAX_DataQueue,Properties.Settings.Default.ELVMAXUpdateIntervalMsec);
 			Thread ELVMaxThread = new Thread(new ThreadStart(ELVMax.Run));
 			ELVMaxThread.Start();
 
@@ -82,7 +84,7 @@ namespace xs1_data_logging
                 try
                 {
 					#region Handle XS1 events
-					XS1_DataObject dataobject;
+					XS1_DataObject dataobject = null;
 					if (XS1_DataQueue.TryDequeue(out dataobject))
 					{
 						if (dataobject.Type == ObjectTypes.Actor)
@@ -206,6 +208,33 @@ namespace xs1_data_logging
                         ConsoleOutputLogger.WriteLine(ServerName+" - "+dataobject.OriginalXS1Statement);
 					}
 					#endregion
+
+					#region Handle MAX events
+					IDeviceDiffSet max_dataobject = null;
+
+					if(MAX_DataQueue.TryDequeue(out max_dataobject))
+				   	{
+						StringBuilder sb = new StringBuilder();
+
+						sb.Append("S\t"+max_dataobject.DeviceName+"\t"+max_dataobject.DeviceType);
+
+						if (max_dataobject.DeviceType == DeviceTypes.HeatingThermostat)
+						{
+							HeatingThermostatDiff _heating = (HeatingThermostatDiff)max_dataobject;
+
+							// this is what is different on the heating thermostats
+							ConsoleOutputLogger.WriteLine(_heating.ToString());
+						}
+
+						if (max_dataobject.DeviceType == DeviceTypes.ShutterContact)
+						{
+							ShutterContactDiff _shutter = (ShutterContactDiff)max_dataobject;
+
+							// this is what is different on the ShutterContacts
+							ConsoleOutputLogger.WriteLine(_shutter.ToString());
+						}
+					}
+					#endregion
                 }
                 catch (Exception)
                 {                   
@@ -213,6 +242,8 @@ namespace xs1_data_logging
                     Thread.Sleep(1);
                 }
             }
+			ELVMax.running = false;
+			XS1.running = false;
 
 			Thread.Sleep (200);	// ... msecs period to wait for new input...
         }

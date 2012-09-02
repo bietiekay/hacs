@@ -3,6 +3,7 @@ using System.Net.Sockets;   // TCP-streaming
 using System.Threading;     // the sleeping part...
 using System.Text;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace xs1_data_logging
 {
@@ -16,13 +17,15 @@ namespace xs1_data_logging
 		public bool running = true;
 		private Int32 MAXUpdateTime;
 		private ConsoleOutputLogger ConsoleOutputLogger;
+		private ConcurrentQueue<IDeviceDiffSet> iQueue;
 
-		public MAXMonitoringThread(String _Hostname, Int32 _Port, ConsoleOutputLogger COL, Int32 UpdateTime = 10000)
+		public MAXMonitoringThread(String _Hostname, Int32 _Port, ConsoleOutputLogger COL, ConcurrentQueue<IDeviceDiffSet> EventQueue, Int32 UpdateTime = 10000)
 		{
 			Hostname = _Hostname;
 			Port = _Port;
 			MAXUpdateTime = UpdateTime;
 			ConsoleOutputLogger = COL;
+			iQueue = EventQueue;
 		}
 
 		// this is the ELV MAX! Cube monitoring script
@@ -37,9 +40,8 @@ namespace xs1_data_logging
 					{
 						previousHouse = theHouse.GetAllDevicesInADictionary();
 					}
-
 					theHouse = new House();
-
+					#region Network Handling
 					// we obviously have enough paramteres, go on and try to connect
 					TcpClient client = new TcpClient();
 					client.Connect(Hostname,Port);
@@ -73,9 +75,10 @@ namespace xs1_data_logging
 						}
 					}
 					while(keepRunning);
+					#endregion
 
+					#region preprocess
 					List<String> PreProcessedMessages = new List<string>();
-					// preprocess
 					foreach(String _Message in Messages)
 					{
 						if (_Message.Remove(_Message.Length-2).Contains("\r\n"))
@@ -89,16 +92,18 @@ namespace xs1_data_logging
 						else
 							PreProcessedMessages.Add(_Message);
 					}			
-					// Analyze and Output Messages
+					#endregion
+
+					// Analyze and Output Messages, feed them to the decoder
 					foreach(String _Message in PreProcessedMessages)
 					{
 						IMAXMessage Message = DecoderEncoder.ProcessMessage(_Message.ToString(), theHouse);
-	/*					if (Message != null)
-						{
-							ConsoleOutputLogger.WriteLine(_Message.ToString());
-							ConsoleOutputLogger.WriteLine(Message.ToString());
-							ConsoleOutputLogger.WriteLine("");
-						}*/
+//						if (Message != null)
+//						{
+//							ConsoleOutputLogger.WriteLine(_Message.ToString());
+//							ConsoleOutputLogger.WriteLine(Message.ToString());
+//							ConsoleOutputLogger.WriteLine("");
+//						}
 					}
 					stream.Close();
 					client.Close();
@@ -115,30 +120,12 @@ namespace xs1_data_logging
 					List<IDeviceDiffSet> differences = DiffHouse.CalculateDifferences(previousHouse,theHouse.GetAllDevicesInADictionary());
 					if (differences.Count != 0)
 					{
+						#region enqueue the difference-sets into the data queue
 						foreach(IDeviceDiffSet _difference in differences)
 						{
-							StringBuilder sb = new StringBuilder();
-
-							sb.Append("S\t"+_difference.DeviceName+"\t"+_difference.DeviceType);
-
-							// TOdo: do something with that difference information... like infusing it into the "normal" queue...
-
-							if (_difference.DeviceType == DeviceTypes.HeatingThermostat)
-							{
-								HeatingThermostatDiff _heating = (HeatingThermostatDiff)_difference;
-
-								// this is what is different on the heating thermostats
-								ConsoleOutputLogger.WriteLine(_heating.ToString());
-							}
-
-							if (_difference.DeviceType == DeviceTypes.ShutterContact)
-							{
-								ShutterContactDiff _shutter = (ShutterContactDiff)_difference;
-
-								// this is what is different on the ShutterContacts
-								ConsoleOutputLogger.WriteLine(_shutter.ToString());
-							}
+							iQueue.Enqueue(_difference);
 						}
+						#endregion
 					}
 				}
 				#endregion
