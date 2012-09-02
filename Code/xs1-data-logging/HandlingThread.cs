@@ -210,6 +210,8 @@ namespace xs1_data_logging
 					#endregion
 
 					#region Handle MAX events
+					// the strategy for MAX events is quite easy: emulate XS1 events and stuff the XS1 queue with those faked events
+					// that takes care of the storage and the 
 					IDeviceDiffSet max_dataobject = null;
 
 					if(MAX_DataQueue.TryDequeue(out max_dataobject))
@@ -223,7 +225,18 @@ namespace xs1_data_logging
 							HeatingThermostatDiff _heating = (HeatingThermostatDiff)max_dataobject;
 
 							// this is what is different on the heating thermostats
-							ConsoleOutputLogger.WriteLine(_heating.ToString());
+							//ConsoleOutputLogger.WriteLine(_heating.ToString());
+
+							// first the temperature data
+							XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"heating_thermostat",DateTime.Now,_heating.RoomID,_heating.Temperature);
+							XS1_DataQueue.Enqueue(maxdataobject);
+
+							// then the low battery if exists
+							if (_heating.LowBattery == BatteryStatus.lowbattery)
+							{
+								XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_heating.RoomID,_heating.Temperature);
+								XS1_DataQueue.Enqueue(lowbatteryobject);
+							}
 						}
 
 						if (max_dataobject.DeviceType == DeviceTypes.ShutterContact)
@@ -231,7 +244,35 @@ namespace xs1_data_logging
 							ShutterContactDiff _shutter = (ShutterContactDiff)max_dataobject;
 
 							// this is what is different on the ShutterContacts
-							ConsoleOutputLogger.WriteLine(_shutter.ToString());
+							//ConsoleOutputLogger.WriteLine(_shutter.ToString());
+
+							// first the open/close status
+							if (_shutter.ShutterState == ShutterContactModes.open)
+							{
+								XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,100.0);
+								XS1_DataQueue.Enqueue(maxdataobject);
+							}
+							else
+							{
+								XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,0.0);
+								XS1_DataQueue.Enqueue(maxdataobject);
+							}
+
+							// then the low battery if exists
+							if (_shutter.LowBattery == BatteryStatus.lowbattery)
+							{
+								if (_shutter.ShutterState == ShutterContactModes.open)
+								{
+									XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,100.0);
+									XS1_DataQueue.Enqueue(lowbatteryobject);
+								}
+								else
+								{
+									XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,0.0);
+									XS1_DataQueue.Enqueue(lowbatteryobject);
+								}
+							}
+
 						}
 					}
 					#endregion
