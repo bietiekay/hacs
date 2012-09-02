@@ -56,5 +56,17 @@
     <Setting Name="HTTPProxyConfigurationFilename" Type="System.String" Scope="User">
       <Value Profile="(Default)">HTTPProxy.config</Value>
     </Setting>
+    <Setting Name="ELVMAXEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ELVMAXIP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.178.82</Value>
+    </Setting>
+    <Setting Name="ELVMAXPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">62910</Value>
+    </Setting>
+    <Setting Name="ELVMAXUpdateIntervalMsec" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

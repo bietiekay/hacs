@@ -65,7 +65,7 @@ namespace xs1_data_logging
 
 			// Start the ELVMax Thread
 			// Todo: Add configurability of this startup
-			MAXMonitoringThread ELVMax = new MAXMonitoringThread("elvmax.fritz.box",62910,ConsoleOutputLogger,10000);
+			MAXMonitoringThread ELVMax = new MAXMonitoringThread(Properties.Settings.Default.ELVMAXIP,Properties.Settings.Default.ELVMAXPort,ConsoleOutputLogger,Properties.Settings.Default.ELVMAXUpdateIntervalMsec);
 			Thread ELVMaxThread = new Thread(new ThreadStart(ELVMax.Run));
 			ELVMaxThread.Start();
 

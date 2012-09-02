@@ -238,5 +238,53 @@ namespace xs1_data_logging.Properties {
                 this["HTTPProxyConfigurationFilename"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ELVMAXEnabled {
+            get {
+                return ((bool)(this["ELVMAXEnabled"]));
+            }
+            set {
+                this["ELVMAXEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.178.82")]
+        public string ELVMAXIP {
+            get {
+                return ((string)(this["ELVMAXIP"]));
+            }
+            set {
+                this["ELVMAXIP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("62910")]
+        public int ELVMAXPort {
+            get {
+                return ((int)(this["ELVMAXPort"]));
+            }
+            set {
+                this["ELVMAXPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10000")]
+        public int ELVMAXUpdateIntervalMsec {
+            get {
+                return ((int)(this["ELVMAXUpdateIntervalMsec"]));
+            }
+            set {
+                this["ELVMAXUpdateIntervalMsec"] = value;
+            }
+        }
     }
 }
