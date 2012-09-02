@@ -73,6 +73,10 @@ namespace xs1_data_logging
 			Thread ELVMaxThread = new Thread(new ThreadStart(ELVMax.Run));
 			ELVMaxThread.Start();
 
+			XS1MonitoringThread XS1 = new XS1MonitoringThread(ServerName,ConsoleOutputLogger,UserName,Password,XS1_DataQueue);
+			Thread XS1Thread = new Thread(new ThreadStart(XS1.Run));
+			XS1Thread.Start();
+
             while (!Shutdown)
             {
                 try
@@ -205,13 +209,12 @@ namespace xs1_data_logging
                 }
                 catch (Exception)
                 {                   
-                    //ConsoleOutputLogger.WriteLineToScreenOnly("Reconnecting...");
                     AcceptingCommands = false;
                     Thread.Sleep(1);
                 }
             }
 
-
+			Thread.Sleep (200);	// ... msecs period to wait for new input...
         }
     }
 }
