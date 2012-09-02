@@ -1,27 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/ELVMAX/MAXMonitoringThread.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="XS1_DataObject/XS1_DataObject.cs">
     <Files>
-      <File FileName="xs1-data-logging/current_actor_status.cs" Line="6" Column="11" />
-      <File FileName="xs1-data-logging/ELVMAX/MAXEncodeDecode.cs" Line="10" Column="24" />
-      <File FileName="xs1-data-logging/ELVMAX/Max_Threaded.cs" Line="8" Column="5" />
-      <File FileName="xs1-data-logging/ELVMAX/ELVMAX_Data/Messages/IMAXMessage.cs" Line="1" Column="1" />
-      <File FileName="xs1-data-logging/ELVMAX/ELVMAX_Data/Messages/H_Message.cs" Line="1" Column="1" />
-      <File FileName="xs1-data-logging/ELVMAX/ELVMAX_Data/Messages/C_Message.cs" Line="1" Column="1" />
-      <File FileName="xs1-data-logging/LoggingThread.cs" Line="70" Column="6" />
-      <File FileName="xs1-data-logging/ELVMAX/MAXMonitoringThread.cs" Line="126" Column="60" />
+      <File FileName="xs1-data-logging/LoggingThread.cs" Line="68" Column="102" />
+      <File FileName="xs1-data-logging/ELVMAX/MAXMonitoringThread.cs" Line="131" Column="9" />
+      <File FileName="xs1-data-logging/ELVMAX/Max_Threaded.cs" Line="21" Column="68" />
+      <File FileName="xs1-data-logging/ConsoleOutputLogger.cs" Line="50" Column="1" />
+      <File FileName="XS1_DataObject/XS1_DataObject.cs" Line="46" Column="3" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
+          <Node name="XS1_DataObject" expanded="True">
+            <Node name="XS1_DataObject.cs" selected="True" />
+          </Node>
           <Node name="xs1-data-logging" expanded="True">
-            <Node name="ELVMAX" expanded="True">
-              <Node name="DiffSet" expanded="True" />
-              <Node name="ELVMAX_Data" expanded="True">
-                <Node name="Messages" expanded="True" />
-              </Node>
-              <Node name="MAXMonitoringThread.cs" selected="True" />
-            </Node>
+            <Node name="ELVMAX" expanded="True" />
             <Node name="ScriptingTimers" expanded="True" />
           </Node>
         </State>

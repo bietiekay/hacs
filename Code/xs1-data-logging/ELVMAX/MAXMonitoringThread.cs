@@ -15,12 +15,14 @@ namespace xs1_data_logging
 		private static bool keepRunning = true;
 		public bool running = true;
 		private Int32 MAXUpdateTime;
+		private ConsoleOutputLogger ConsoleOutputLogger;
 
-		public MAXMonitoringThread(String _Hostname, Int32 _Port, Int32 UpdateTime = 10000)
+		public MAXMonitoringThread(String _Hostname, Int32 _Port, ConsoleOutputLogger COL, Int32 UpdateTime = 10000)
 		{
 			Hostname = _Hostname;
 			Port = _Port;
 			MAXUpdateTime = UpdateTime;
+			ConsoleOutputLogger = COL;
 		}
 
 		// this is the ELV MAX! Cube monitoring script
@@ -126,7 +128,7 @@ namespace xs1_data_logging
 								HeatingThermostatDiff _heating = (HeatingThermostatDiff)_difference;
 
 								// this is what is different on the heating thermostats
-								//ConsoleOutputLogger.WriteLine(_heating.ToString());
+								ConsoleOutputLogger.WriteLine(_heating.ToString());
 							}
 
 							if (_difference.DeviceType == DeviceTypes.ShutterContact)
@@ -134,7 +136,7 @@ namespace xs1_data_logging
 								ShutterContactDiff _shutter = (ShutterContactDiff)_difference;
 
 								// this is what is different on the ShutterContacts
-								//ConsoleOutputLogger.WriteLine(_shutter.ToString());
+								ConsoleOutputLogger.WriteLine(_shutter.ToString());
 							}
 						}
 					}
