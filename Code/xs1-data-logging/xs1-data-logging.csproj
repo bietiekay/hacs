@@ -56,7 +56,6 @@
     <Compile Include="HTTP\HTTPProcessor.cs" />
     <Compile Include="HTTP\HTTPServer.cs" />
     <Compile Include="JSONHandlers\JSONData.cs" />
-    <Compile Include="LoggingThread.cs" />
     <Compile Include="PowerSensor\PowerSensorOutputTypes.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -104,6 +103,8 @@
     <Compile Include="ELVMAX\ELVMAX_Data\Messages\Metadata\DeviceTypes.cs" />
     <Compile Include="ELVMAX\ELVMAX_Data\Messages\Metadata\House.cs" />
     <Compile Include="ELVMAX\ELVMAX_Data\Messages\Metadata\Room.cs" />
+    <Compile Include="HandlingThread.cs" />
+    <Compile Include="XS1\XS1MonitoringThread.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -168,5 +169,6 @@
   <ItemGroup>
     <Folder Include="HTTPProxy\" />
     <Folder Include="ELVMAX\" />
+    <Folder Include="XS1\" />
   </ItemGroup>
 </Project>

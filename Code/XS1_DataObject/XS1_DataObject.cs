@@ -28,6 +28,7 @@ namespace hacs.xs1
         public DateTime Timecode;
         public Int32 XS1ObjectID;
         public Double Value;
+		public String OriginalXS1Statement;
 
         public XS1_DataObject()
         {
