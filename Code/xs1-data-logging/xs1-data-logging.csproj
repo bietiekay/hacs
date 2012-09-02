@@ -47,12 +47,8 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorReSwitching.cs" />
     <Compile Include="ConsoleOutputLogger.cs" />
-    <Compile Include="SensorCheckIgnoreList.cs" />
-    <Compile Include="CurrentKnownActorStates.cs" />
     <Compile Include="PowerSensor\PowerSensorConfiguration.cs" />
-    <Compile Include="current_actor_status.cs" />
     <Compile Include="HTTP\HTTPProcessor.cs" />
     <Compile Include="HTTP\HTTPServer.cs" />
     <Compile Include="JSONHandlers\JSONData.cs" />
@@ -68,9 +64,6 @@
     <Compile Include="set_state_actuator\set_state_actuator.cs" />
     <Compile Include="xs1-data-logging.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScriptingActorConfiguration.cs" />
-    <Compile Include="ActorStatusOutputTypes.cs" />
-    <Compile Include="SensorCheck.cs" />
     <Compile Include="JSONHandlers\DataCache.cs" />
     <Compile Include="HTTPProxy\HTTPProxy.cs" />
     <Compile Include="HTTPProxy\HTTPProxyConfiguration.cs" />
@@ -105,6 +98,13 @@
     <Compile Include="ELVMAX\ELVMAX_Data\Messages\Metadata\Room.cs" />
     <Compile Include="HandlingThread.cs" />
     <Compile Include="XS1\XS1MonitoringThread.cs" />
+    <Compile Include="XS1\ActorReSwitching.cs" />
+    <Compile Include="XS1\ActorStatusOutputTypes.cs" />
+    <Compile Include="XS1\current_actor_status.cs" />
+    <Compile Include="XS1\CurrentKnownActorStates.cs" />
+    <Compile Include="XS1\ScriptingActorConfiguration.cs" />
+    <Compile Include="XS1\SensorCheck.cs" />
+    <Compile Include="XS1\SensorCheckIgnoreList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
