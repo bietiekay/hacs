@@ -254,7 +254,7 @@ namespace xs1_data_logging
 								// first the open/close status
 								if (_shutter.ShutterState == ShutterContactModes.open)
 								{
-									XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,100.0);
+									XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,1.0);
 									XS1_DataQueue.Enqueue(maxdataobject);
 								}
 								else
@@ -268,7 +268,7 @@ namespace xs1_data_logging
 								{
 									if (_shutter.ShutterState == ShutterContactModes.open)
 									{
-										XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,100.0);
+										XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,1.0);
 										XS1_DataQueue.Enqueue(lowbatteryobject);
 									}
 									else
