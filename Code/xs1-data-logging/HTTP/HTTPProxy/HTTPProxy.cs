@@ -18,10 +18,12 @@ namespace xs1_data_logging
 	public class HTTPProxy
 	{
         private ConsoleOutputLogger ConsoleOutputLogger;
+		private MAXMonitoringThread ELVMAX;
 
-		public HTTPProxy (ConsoleOutputLogger Logger)
+		public HTTPProxy (ConsoleOutputLogger Logger, MAXMonitoringThread ELVMAXMonitoringThread)
 		{
             ConsoleOutputLogger = Logger;
+			ELVMAX = ELVMAXMonitoringThread;
 		}
 
 		/// <summary>
@@ -57,7 +59,7 @@ namespace xs1_data_logging
 					break;
 				}
 			}
-
+			// /control?user=admin&pwd=xxx&callback=actuators&cmd=get_list_actuators
             ConsoleOutputLogger.WriteLine("Proxy: " + URL+" - "+URL.Replace(p_element.ActivationURL,p_element.OutgoingMappingURL));
 
 			if (p_element != null)
@@ -76,6 +78,31 @@ namespace xs1_data_logging
 				proxy_Response.response = response;
 	            // we will read data via the response stream
 	            proxy_Response.Content = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+				#region Check for XS1 trigger URLs and if found and ELV MAX is active inject actors and sensors
+
+				if (ELVMAX != null)
+				{
+					if (ELVMAX.theHouse != null)
+					{
+						// we've found a House, did we find a trigger here?
+						#region get_list_actuators
+						if(URL.Contains("cmd=get_list_actuators"))
+						{
+							proxy_Response.Content = VirtualXS1.Inject_get_list_actuators(proxy_Response.Content,ELVMAX.theHouse);
+						}
+						#endregion
+
+						#region get_list_sensors
+						if(URL.Contains("cmd=get_list_sensors"))
+						{
+							proxy_Response.Content = VirtualXS1.Inject_get_list_sensors(proxy_Response.Content,ELVMAX.theHouse);
+						}
+						#endregion
+					}
+				}
+
+				#endregion
 
 				return proxy_Response;
 			}

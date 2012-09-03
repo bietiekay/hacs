@@ -53,9 +53,10 @@ namespace xs1_data_logging
         {
             // initialize XS1 Configuration
             XS1_Configuration = new XS1Configuration(ConfigurationCacheMinutes);
+			MAXMonitoringThread ELVMax = null;
 
 			// Start integrated HTTP Server
-            HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort,Properties.Settings.Default.HTTPIP,Properties.Settings.Default.HTTPDocumentRoot,sensor_data_store,XS1_Configuration, ConsoleOutputLogger);
+			HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort,Properties.Settings.Default.HTTPIP,Properties.Settings.Default.HTTPDocumentRoot,sensor_data_store,XS1_Configuration, ConsoleOutputLogger, ELVMax);
             Thread http_server_thread = new Thread(new ThreadStart(httpServer.listen));
             http_server_thread.Start();
 
@@ -70,7 +71,6 @@ namespace xs1_data_logging
             ActorReswitchThread.Start();
 
 			// Start the ELVMax Thread
-			MAXMonitoringThread ELVMax = null;
 			if (Properties.Settings.Default.ELVMAXEnabled)
 			{
 				ELVMax = new MAXMonitoringThread(Properties.Settings.Default.ELVMAXIP,Properties.Settings.Default.ELVMAXPort,ConsoleOutputLogger,MAX_DataQueue,Properties.Settings.Default.ELVMAXUpdateIntervalMsec);
