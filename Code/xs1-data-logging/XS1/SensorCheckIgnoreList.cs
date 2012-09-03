@@ -12,6 +12,25 @@ namespace xs1_data_logging
     {
         public static List<String> SensorCheckIgnoreList = new List<String>();
 
+		public static void AddToIgnoreList(String Name)
+		{
+			bool found = false;
+			foreach(String _name in SensorCheckIgnoreList)
+			{
+				if (_name == Name)
+				{
+					found = true;
+					break;
+				}
+			}
+
+			if (!found)
+			{
+				SensorCheckIgnoreList.Add(Name);
+			}
+
+		}
+
         public static void ReadConfiguration(String Configfilename)
         {
             if (File.Exists(Configfilename))
