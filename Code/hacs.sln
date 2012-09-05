@@ -1,37 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xs1-data-logging", "xs1-data-logging\xs1-data-logging.csproj", "{05D63544-7968-4C2D-BB25-2383AEFE6F3C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hacs", "xs1-data-logging\hacs.csproj", "{05D63544-7968-4C2D-BB25-2383AEFE6F3C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9CEDCB10-4246-4A16-928D-75BC79FF15C0}"
-	ProjectSection(SolutionItems) = preProject
-		hacs.vsmdi = hacs.vsmdi
-		Local.testsettings = Local.testsettings
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Storage", "Storage", "{3DC3C32B-70AE-4EF6-8178-E97CFD7AC8C7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataObjectOnDisk", "DataObjectOnDisk\DataObjectOnDisk.csproj", "{16D19293-2334-44DC-9BEA-39651DA8F58B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sonesFastSerializer", "sonesFastSerializer\sonesFastSerializer.csproj", "{8A2C05AA-6E56-414B-A43C-7173FC34DB24}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XS1_DataObject", "XS1_DataObject\XS1_DataObject.csproj", "{EBE5CC2A-7430-4165-95C5-B595D5F91692}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XS1_ConfigurationData", "XS1_ConfigurationData\XS1_ConfigurationData.csproj", "{86356451-3580-4142-9DDF-B3D47A4EEB80}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xs1-backup-tool", "xs1-backup-tool\xs1-backup-tool.csproj", "{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XS1Authentication", "XS1Authentication\XS1Authentication.csproj", "{B4173BD4-3523-412B-B1BB-EEACE2628C55}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{39B33FCD-984D-4C45-901C-495665ED7F5F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleOutputLogger", "ConsoleOutputLogger\ConsoleOutputLogger.csproj", "{55D802EB-88E0-4996-9802-05DACDE70552}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataObjectOnDisk", "DataObjectOnDisk\DataObjectOnDisk.csproj", "{16D19293-2334-44DC-9BEA-39651DA8F58B}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavascriptTimestamps", "JavascriptTimestamps\JavascriptTimestamps.csproj", "{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sonesFastSerializer", "sonesFastSerializer\sonesFastSerializer.csproj", "{8A2C05AA-6E56-414B-A43C-7173FC34DB24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{CB3EFC82-527B-4703-B2B7-51677A74BEA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xs1-backup-tool", "xs1-backup-tool\xs1-backup-tool.csproj", "{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}"
+EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = hacs.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -61,36 +47,6 @@ Global
 		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Release|x86.ActiveCfg = Release|Any CPU
-		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Release|x86.ActiveCfg = Release|Any CPU
-		{EBE5CC2A-7430-4165-95C5-B595D5F91692}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EBE5CC2A-7430-4165-95C5-B595D5F91692}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EBE5CC2A-7430-4165-95C5-B595D5F91692}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{EBE5CC2A-7430-4165-95C5-B595D5F91692}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{EBE5CC2A-7430-4165-95C5-B595D5F91692}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{EBE5CC2A-7430-4165-95C5-B595D5F91692}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EBE5CC2A-7430-4165-95C5-B595D5F91692}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EBE5CC2A-7430-4165-95C5-B595D5F91692}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{EBE5CC2A-7430-4165-95C5-B595D5F91692}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{EBE5CC2A-7430-4165-95C5-B595D5F91692}.Release|x86.ActiveCfg = Release|Any CPU
-		{86356451-3580-4142-9DDF-B3D47A4EEB80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{86356451-3580-4142-9DDF-B3D47A4EEB80}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{86356451-3580-4142-9DDF-B3D47A4EEB80}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{86356451-3580-4142-9DDF-B3D47A4EEB80}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{86356451-3580-4142-9DDF-B3D47A4EEB80}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{86356451-3580-4142-9DDF-B3D47A4EEB80}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{86356451-3580-4142-9DDF-B3D47A4EEB80}.Release|Any CPU.Build.0 = Release|Any CPU
-		{86356451-3580-4142-9DDF-B3D47A4EEB80}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{86356451-3580-4142-9DDF-B3D47A4EEB80}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{86356451-3580-4142-9DDF-B3D47A4EEB80}.Release|x86.ActiveCfg = Release|Any CPU
 		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -101,16 +57,6 @@ Global
 		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Release|Mixed Platforms.Build.0 = Release|x86
 		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Release|x86.ActiveCfg = Release|x86
 		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C}.Release|x86.Build.0 = Release|x86
-		{B4173BD4-3523-412B-B1BB-EEACE2628C55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4173BD4-3523-412B-B1BB-EEACE2628C55}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4173BD4-3523-412B-B1BB-EEACE2628C55}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{B4173BD4-3523-412B-B1BB-EEACE2628C55}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{B4173BD4-3523-412B-B1BB-EEACE2628C55}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B4173BD4-3523-412B-B1BB-EEACE2628C55}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4173BD4-3523-412B-B1BB-EEACE2628C55}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B4173BD4-3523-412B-B1BB-EEACE2628C55}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B4173BD4-3523-412B-B1BB-EEACE2628C55}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{B4173BD4-3523-412B-B1BB-EEACE2628C55}.Release|x86.ActiveCfg = Release|Any CPU
 		{55D802EB-88E0-4996-9802-05DACDE70552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{55D802EB-88E0-4996-9802-05DACDE70552}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55D802EB-88E0-4996-9802-05DACDE70552}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -121,6 +67,16 @@ Global
 		{55D802EB-88E0-4996-9802-05DACDE70552}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{55D802EB-88E0-4996-9802-05DACDE70552}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{55D802EB-88E0-4996-9802-05DACDE70552}.Release|x86.ActiveCfg = Release|Any CPU
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Release|x86.ActiveCfg = Release|Any CPU
 		{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -132,14 +88,20 @@ Global
 		{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{16D19293-2334-44DC-9BEA-39651DA8F58B} = {3DC3C32B-70AE-4EF6-8178-E97CFD7AC8C7}
-		{8A2C05AA-6E56-414B-A43C-7173FC34DB24} = {3DC3C32B-70AE-4EF6-8178-E97CFD7AC8C7}
+		{55D802EB-88E0-4996-9802-05DACDE70552} = {39B33FCD-984D-4C45-901C-495665ED7F5F}
+		{16D19293-2334-44DC-9BEA-39651DA8F58B} = {39B33FCD-984D-4C45-901C-495665ED7F5F}
+		{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A} = {39B33FCD-984D-4C45-901C-495665ED7F5F}
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24} = {39B33FCD-984D-4C45-901C-495665ED7F5F}
+		{3C0C8B2D-9DCD-487E-964B-4633FC79F30C} = {CB3EFC82-527B-4703-B2B7-51677A74BEA5}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = xs1-data-logging\xs1-data-logging.csproj
+		StartupItem = xs1-data-logging\hacs.csproj
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = hacs.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

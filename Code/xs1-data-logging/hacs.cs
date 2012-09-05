@@ -42,7 +42,7 @@ namespace xs1_data_logging
             #endregion
 
             #region Logo
-            ConsoleOutputLogger.WriteLine("EzControl XS1 Data Logger " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            ConsoleOutputLogger.WriteLine("home automation control server " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
             ConsoleOutputLogger.WriteLine("(C) 2010-2012 Daniel Kirstenpfad - http://github.com/bietiekay/hacs");
             #endregion
 						

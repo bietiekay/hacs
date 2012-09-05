@@ -1,16 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/HandlingThread.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging\HandlingThread.cs">
     <Files>
-      <File FileName="xs1-data-logging/HandlingThread.cs" Line="72" Column="30" />
+      <File FileName="xs1-data-logging\HandlingThread.cs" Line="135" Column="30" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="xs1-data-logging" expanded="True">
-            <Node name="HandlingThread.cs" selected="True" />
-          </Node>
-        </State>
+        <State expanded="True" selected="True" />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
