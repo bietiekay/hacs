@@ -121,11 +121,11 @@ namespace xs1_data_logging
 
 						#region send L: request and get all the feedback
 						System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-						byte[] args_data_buffer = enc.GetBytes("L:\r\n");
-						stream.Write(args_data_buffer,0,args_data_buffer.Length);
+						byte[] args_data_buffer = enc.GetBytes("l:\r\n");
 						Messages = new List<string>();
 						keepRunning = true;
 						// Incoming message may be larger than the buffer size.
+                        stream.Write(args_data_buffer, 0, args_data_buffer.Length);
 						do
 						{
 							myCompleteMessage = new StringBuilder();

@@ -34,8 +34,8 @@ namespace xs1_data_logging
 			if (Message.StartsWith("H:"))
 				return new H_Message(Message, _House);
 			
-			if (Message.StartsWith("C:"))
-				return new C_Message(Message, _House);
+			//if (Message.StartsWith("C:"))
+			//	return new C_Message(Message, _House);
 
 			if (Message.StartsWith("L:"))
 				return new L_Message(Message, _House);
