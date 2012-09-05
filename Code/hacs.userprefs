@@ -1,12 +1,25 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging\HandlingThread.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/HTTP/HTTPProxy/VirtualXS1Sensors/VirtualXS1.cs">
     <Files>
-      <File FileName="xs1-data-logging\HandlingThread.cs" Line="135" Column="30" />
+      <File FileName="xs1-data-logging/HTTP/HTTPProxy/VirtualXS1Sensors/VirtualXS1.cs" Line="30" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True" selected="True" />
+        <State expanded="True">
+          <Node name="xs1-data-logging" expanded="True">
+            <Node name="Devices" expanded="True">
+              <Node name="ELVMAX" expanded="True" />
+            </Node>
+            <Node name="HTTP" expanded="True">
+              <Node name="HTTPProxy" expanded="True">
+                <Node name="VirtualXS1Sensors" expanded="True">
+                  <Node name="VirtualXS1.cs" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

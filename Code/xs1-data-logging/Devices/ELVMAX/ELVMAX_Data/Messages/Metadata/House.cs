@@ -47,6 +47,29 @@ namespace xs1_data_logging
 
 			return Devices;
 		}
+
+		public bool RemoveDevice(IMAXDevice _device)
+		{
+			foreach(Room _room in Rooms)
+			{
+				IMAXDevice _removedevice = null;
+				foreach(IMAXDevice _roomdevice in _room.Devices)
+				{
+					if (_roomdevice.RFAddress == _device.RFAddress)
+					{
+						_removedevice = _roomdevice;
+						break;
+					}
+				}
+				if (_removedevice != null)
+				{
+					_room.Devices.Remove(_removedevice);
+					return true;
+				}
+			}
+			
+			return false;
+		}
 	}
 }
 

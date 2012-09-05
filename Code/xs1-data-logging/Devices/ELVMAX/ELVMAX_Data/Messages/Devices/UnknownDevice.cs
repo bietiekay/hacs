@@ -28,6 +28,11 @@ namespace xs1_data_logging
 			_Type = DeviceTypes.Invalid;
 		}		
 
+		public UnknownDevice(DeviceTypes _ty)
+		{
+			_Type = _ty;
+		}
+
 		#region IMAXDevice implementation
 		public DeviceTypes Type {
 			get {
