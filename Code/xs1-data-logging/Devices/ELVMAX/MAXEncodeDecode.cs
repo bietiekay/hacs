@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace xs1_data_logging
 {
@@ -7,7 +8,7 @@ namespace xs1_data_logging
 	/// </summary>
 	public class MAXEncodeDecode
 	{
-		public IMAXMessage ProcessLMessage(String Message, House _House)
+        public IMAXMessage ProcessLMessage(String Message, House _House, Dictionary<String, IMAXDevice> _currentHouseDevices)
 		{
 			if (Message.Length < 2)
 				throw new MAXException("Unable to process message: "+Message);
@@ -15,7 +16,7 @@ namespace xs1_data_logging
 			// check what type of message we got and return the processed values
 
 			if (Message.StartsWith("L:"))
-				return new L_Message(Message, _House);
+                return new L_Message(Message, _House, _currentHouseDevices);
 
 			//throw new NotImplementedException();
 			return null;

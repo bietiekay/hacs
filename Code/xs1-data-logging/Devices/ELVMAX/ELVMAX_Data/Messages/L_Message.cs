@@ -67,7 +67,7 @@ namespace xs1_data_logging
 		}
 		#endregion
 
-		public L_Message(String RAW_Message, House _House, Dictionary<String,IMAXDevice> OutputDeviceList)
+		public L_Message(String RAW_Message, House _theHouse, Dictionary<String,IMAXDevice> OutputDeviceList)
 		{
 			DevicesInThisMessage = new List<IMAXDevice>();
 			
@@ -105,17 +105,29 @@ namespace xs1_data_logging
 				String RFAddress = sb.ToString();
 				
 				#region look for this RF Adress in the House's device list
-				List<IMAXDevice> AllDevices = _House.GetAllDevices();
-				IMAXDevice foundDevice = null;
+                List<IMAXDevice> AllDevices = _theHouse.GetAllDevices();
+                IMAXDevice foundDevice = null;
 				foreach(IMAXDevice _device in AllDevices)
 				{
 					if (_device.RFAddress == RFAddress)
 					{
-						foundDevice = new UnknownDevice(_device.Type);
-						foundDevice.AssociatedRoom = _device.AssociatedRoom;
-						foundDevice.Name = _device.Name;
-						foundDevice.RFAddress = _device.RFAddress;
-						foundDevice.SerialNumber = _device.SerialNumber;
+                        if (_device.Type == DeviceTypes.HeatingThermostat)
+                        {
+                            foundDevice = new HeatingThermostat();
+                            foundDevice.AssociatedRoom = _device.AssociatedRoom;
+                            foundDevice.Name = _device.Name;
+                            foundDevice.RFAddress = _device.RFAddress;
+                            foundDevice.SerialNumber = _device.SerialNumber;
+                        }
+                        if (_device.Type == DeviceTypes.ShutterContact)
+                        {
+                            foundDevice = new ShutterContact();
+                            foundDevice.AssociatedRoom = _device.AssociatedRoom;
+                            foundDevice.Name = _device.Name;
+                            foundDevice.RFAddress = _device.RFAddress;
+                            foundDevice.SerialNumber = _device.SerialNumber;
+                        }
+
 						break;
 					}
 				}
@@ -124,8 +136,6 @@ namespace xs1_data_logging
 				if (foundDevice != null)
 				{
 					// remove the device from the house to add it later again...
-					_House.RemoveDevice(foundDevice);
-
 					DevicesInThisMessage.Add(foundDevice);
 					
 					#region HeatingThermostat
@@ -212,7 +222,7 @@ namespace xs1_data_logging
 						((HeatingThermostat)foundDevice).Temperature = array[Cursor]/2;
 						Cursor++;
 
-						KnownDevice.AssociatedRoom.Devices.Add(KnownDevice);
+                        OutputDeviceList.Add(KnownDevice.SerialNumber,KnownDevice);
 					}
 					#endregion
 					
@@ -290,7 +300,7 @@ namespace xs1_data_logging
 						
 						#endregion
 
-						KnownDevice.AssociatedRoom.Devices.Add(KnownDevice);
+                        OutputDeviceList.Add(KnownDevice.SerialNumber, KnownDevice);
 					}
 					#endregion
 				}

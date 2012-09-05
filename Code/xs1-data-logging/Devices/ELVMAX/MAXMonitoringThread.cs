@@ -35,6 +35,8 @@ namespace xs1_data_logging
 			{
 				TcpClient client;
 				NetworkStream stream;
+                Dictionary<String, IMAXDevice> currentHouse = new Dictionary<string,IMAXDevice>();
+
 				#region Update House
 				try
 				{
@@ -173,8 +175,8 @@ namespace xs1_data_logging
 							//								ConsoleOutputLogger.WriteLine(Message.ToString());
 							//								ConsoleOutputLogger.WriteLine("");
 							//							}
-							
-							DecoderEncoder.ProcessMessage(_Message.ToString(), theHouse);
+                            currentHouse = new Dictionary<string, IMAXDevice>();
+							DecoderEncoder.ProcessLMessage(_Message.ToString(), theHouse, currentHouse);
 						}
 						#endregion
 
@@ -182,7 +184,7 @@ namespace xs1_data_logging
 						if (previousHouse != null)
 						{
 							// only if we already got two houses in here...
-							List<IDeviceDiffSet> differences = DiffHouse.CalculateDifferences(previousHouse,theHouse.GetAllDevicesInADictionary());
+							List<IDeviceDiffSet> differences = DiffHouse.CalculateDifferences(previousHouse,currentHouse);
 							if (differences.Count != 0)
 							{
 								#region enqueue the difference-sets into the data queue
@@ -194,6 +196,7 @@ namespace xs1_data_logging
 							}
 						}
 						#endregion
+                        theHouse.UpdateDevices(currentHouse);
 
 						Thread.Sleep (MAXUpdateTime);
 					}

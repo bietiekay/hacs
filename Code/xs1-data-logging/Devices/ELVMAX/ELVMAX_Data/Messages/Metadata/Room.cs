@@ -9,7 +9,7 @@ namespace xs1_data_logging
 		public String RoomName;
 		public Byte RoomID;
 		public String RFAddress;
-		public List<IMAXDevice> Devices;
+		public Dictionary<String,IMAXDevice> Devices;
 		public House AssociatedHouse;
 
 		public override string ToString ()
@@ -21,7 +21,7 @@ namespace xs1_data_logging
 			sb.AppendLine("RFAddress: "+RFAddress);
 			sb.AppendLine("Devices:");
 
-			foreach(IMAXDevice _device in Devices)
+			foreach(IMAXDevice _device in Devices.Values)
 			{
 				sb.Append(_device.ToString());
 				sb.AppendLine();
@@ -33,7 +33,7 @@ namespace xs1_data_logging
 		public Room (House _House)
 		{
 			AssociatedHouse = _House;
-			Devices = new List<IMAXDevice>();
+			Devices = new Dictionary<String,IMAXDevice>();
 		}
 	}
 }

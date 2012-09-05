@@ -178,7 +178,7 @@ namespace xs1_data_logging
 						if (newRoom.RoomID == RoomID)
 						{
 							newDevice.AssociatedRoom = newRoom;
-							newRoom.Devices.Add(newDevice);
+							newRoom.Devices.Add(newDevice.SerialNumber,newDevice);
 							break;
 						}
 					}
