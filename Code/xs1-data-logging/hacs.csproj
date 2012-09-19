@@ -110,6 +110,7 @@
     <Compile Include="Devices\XS1\XS1-Configuration.cs" />
     <Compile Include="Devices\XS1\XS1-Sensors.cs" />
     <Compile Include="hacs.cs" />
+    <Compile Include="HTTP\SwimlaneJSON\SwimlaneJSON.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -161,5 +162,6 @@
   -->
   <ItemGroup>
     <Folder Include="Devices\" />
+    <Folder Include="HTTP\SwimlaneJSON\" />
   </ItemGroup>
 </Project>
