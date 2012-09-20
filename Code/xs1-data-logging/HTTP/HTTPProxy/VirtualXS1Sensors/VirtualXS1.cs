@@ -29,7 +29,7 @@ namespace xs1_data_logging
             String SensorJSON = JsonConvert.SerializeObject(deserializedActors);
             SensorJSON = Start + SensorJSON + ")";
 
-            return SensorJSON;
+            return XS1_get_list_actuators_response;
 		}
 
 		/// <summary>
@@ -37,7 +37,8 @@ namespace xs1_data_logging
 		/// </summary>
 		public static String Inject_get_list_sensors(String XS1_get_list_sensor_response, House ELVMAXHouse)
 		{
-            Int32 id = 65;
+
+            Int32 id = 0;
             Int32 numberofCharactersToDelete = XS1_get_list_sensor_response.IndexOf('(');
 
             String Start = XS1_get_list_sensor_response.Remove(numberofCharactersToDelete + 1);
@@ -45,10 +46,22 @@ namespace xs1_data_logging
             String Prepared = XS1_get_list_sensor_response.Remove(0, numberofCharactersToDelete+1);
             Prepared = Prepared.Remove(Prepared.Length - 4, 4);
 
+            List<SensorJSON> activeSensors = new List<SensorJSON>();
+
             SensorJSON_Root deserializedSensors = JsonConvert.DeserializeObject<SensorJSON_Root>(Prepared);
 
             List<IMAXDevice> devices = ELVMAXHouse.GetAllDevices();
 
+            // find first zero sensor
+            foreach(SensorJSON _sensor in deserializedSensors.sensor)
+            {
+                if (_sensor.type != "disabled")
+                    activeSensors.Add(_sensor);
+            }
+
+            id = activeSensors.Count + 1;
+            deserializedSensors.sensor = activeSensors;
+            
             foreach(IMAXDevice _device in devices)
             {
                 if (_device.Type == DeviceTypes.HeatingThermostat)
