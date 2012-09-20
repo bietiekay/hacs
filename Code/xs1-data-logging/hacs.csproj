@@ -111,6 +111,7 @@
     <Compile Include="Devices\XS1\XS1-Sensors.cs" />
     <Compile Include="hacs.cs" />
     <Compile Include="HTTP\SwimlaneJSON\SwimlaneJSON.cs" />
+    <Compile Include="HTTP\HTTPProxy\VirtualXS1Sensors\SensorJSON.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
