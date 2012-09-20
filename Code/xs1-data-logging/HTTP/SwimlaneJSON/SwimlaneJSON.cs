@@ -1,14 +1,15 @@
 using System;
+using System.Collections.Generic;
 
 namespace xs1_data_logging
 {
-	public class Lane
+	public class LaneJSON
 	{
 		public int id { get; set; }
 		public string label { get; set; }
 	}
 	
-	public class Item
+	public class ItemJSON
 	{
 		public int id { get; set; }
 		public int lane { get; set; }
@@ -20,8 +21,8 @@ namespace xs1_data_logging
 	
 	public class RootObject
 	{
-		public List<Lane> lanes { get; set; }
-		public List<Item> items { get; set; }
+		public List<LaneJSON> lanes { get; set; }
+		public List<ItemJSON> items { get; set; }
 	}
 }
 

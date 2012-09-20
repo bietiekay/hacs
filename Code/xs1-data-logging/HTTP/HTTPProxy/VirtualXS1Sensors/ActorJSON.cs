@@ -3,7 +3,13 @@ using System.Collections.Generic;
 
 namespace xs1_data_logging
 {
-	public class SensorJSON
+	public class FunctionJSON
+	{
+		public string type { get; set; }
+		public string dsc { get; set; }
+	}
+	
+	public class ActuatorJSON
 	{
 		public string name { get; set; }
 		public int id { get; set; }
@@ -11,15 +17,16 @@ namespace xs1_data_logging
 		public double value { get; set; }
 		public int utime { get; set; }
 		public string unit { get; set; }
+		public List<FunctionJSON> function { get; set; }
 	}
 	
-	public class SensorJSON_Root
+	public class ActorJSON_Root
 	{
 		public int version { get; set; }
 		public string type { get; set; }
 		public int utc_offset { get; set; }
 		public string dst { get; set; }
-		public List<SensorJSON> sensor { get; set; }
+		public List<ActuatorJSON> actuator { get; set; }
 	}
 }
 

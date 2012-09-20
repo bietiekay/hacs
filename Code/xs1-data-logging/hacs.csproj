@@ -112,6 +112,7 @@
     <Compile Include="hacs.cs" />
     <Compile Include="HTTP\SwimlaneJSON\SwimlaneJSON.cs" />
     <Compile Include="HTTP\HTTPProxy\VirtualXS1Sensors\SensorJSON.cs" />
+    <Compile Include="HTTP\HTTPProxy\VirtualXS1Sensors\ActorJSON.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -150,6 +151,10 @@
     <ProjectReference Include="..\sonesFastSerializer\sonesFastSerializer.csproj">
       <Project>{8A2C05AA-6E56-414B-A43C-7173FC34DB24}</Project>
       <Name>sonesFastSerializer</Name>
+    </ProjectReference>
+    <ProjectReference Include="Newtonsoft.Json\Newtonsoft.Json.csproj">
+      <Project>{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}</Project>
+      <Name>Newtonsoft.Json</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

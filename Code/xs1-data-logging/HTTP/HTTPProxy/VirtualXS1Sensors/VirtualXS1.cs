@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace xs1_data_logging
 {
@@ -16,6 +17,7 @@ namespace xs1_data_logging
 		{
 			StringBuilder sb = new StringBuilder();
 
+			ActorJSON_Root deserializedSensors = JsonConvert.DeserializeObject<ActorJSON_Root>(XS1_get_list_actuators_response);
 
 			return sb.ToString();
 		}
@@ -27,7 +29,7 @@ namespace xs1_data_logging
 		{
 			StringBuilder sb = new StringBuilder();
 
-
+			SensorJSON_Root deserializedSensors = JsonConvert.DeserializeObject<SensorJSON_Root>(XS1_get_list_sensor_response);
 
 			return sb.ToString();
 		}
