@@ -55,11 +55,6 @@ namespace xs1_data_logging
             XS1_Configuration = new XS1Configuration(ConfigurationCacheMinutes);
 			MAXMonitoringThread ELVMax = null;
 
-			// Start integrated HTTP Server
-			HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort,Properties.Settings.Default.HTTPIP,Properties.Settings.Default.HTTPDocumentRoot,sensor_data_store,XS1_Configuration, ConsoleOutputLogger, ELVMax);
-            Thread http_server_thread = new Thread(new ThreadStart(httpServer.listen));
-            http_server_thread.Start();
-
 			// Start Sensor-Check Thread
             SensorCheck Sensorcheck = new SensorCheck(ConsoleOutputLogger);
             Thread SensorCheckThread = new Thread(new ThreadStart(Sensorcheck.Run));
@@ -81,6 +76,11 @@ namespace xs1_data_logging
 			XS1MonitoringThread XS1 = new XS1MonitoringThread(ServerName,ConsoleOutputLogger,UserName,Password,XS1_DataQueue);
 			Thread XS1Thread = new Thread(new ThreadStart(XS1.Run));
 			XS1Thread.Start();
+
+            // Start integrated HTTP Server
+            HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort, Properties.Settings.Default.HTTPIP, Properties.Settings.Default.HTTPDocumentRoot, sensor_data_store, XS1_Configuration, ConsoleOutputLogger, ELVMax);
+            Thread http_server_thread = new Thread(new ThreadStart(httpServer.listen));
+            http_server_thread.Start();
 
             while (!Shutdown)
             {
@@ -292,8 +292,9 @@ namespace xs1_data_logging
                 catch (Exception)
                 {                   
                     AcceptingCommands = false;
-                    Thread.Sleep(1);
+                    //Thread.Sleep(1);
                 }
+                Thread.Sleep(1);
             }
 			if (ELVMax != null)
 				ELVMax.running = false;

@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace xs1_data_logging
 {
@@ -15,11 +16,20 @@ namespace xs1_data_logging
 		/// </summary>
 		public static String Inject_get_list_actuators(String XS1_get_list_actuators_response, House ELVMAXHouse)
 		{
-			StringBuilder sb = new StringBuilder();
+            Int32 id = 65;
+            Int32 numberofCharactersToDelete = XS1_get_list_actuators_response.IndexOf('(');
 
-			ActorJSON_Root deserializedSensors = JsonConvert.DeserializeObject<ActorJSON_Root>(XS1_get_list_actuators_response);
+            String Start = XS1_get_list_actuators_response.Remove(numberofCharactersToDelete + 1);
 
-			return sb.ToString();
+            String Prepared = XS1_get_list_actuators_response.Remove(0, numberofCharactersToDelete + 1);
+            Prepared = Prepared.Remove(Prepared.Length - 4, 4);
+
+            ActorJSON_Root deserializedActors = JsonConvert.DeserializeObject<ActorJSON_Root>(Prepared);
+
+            String SensorJSON = JsonConvert.SerializeObject(deserializedActors);
+            SensorJSON = Start + SensorJSON + ")";
+
+            return SensorJSON;
 		}
 
 		/// <summary>
@@ -27,11 +37,75 @@ namespace xs1_data_logging
 		/// </summary>
 		public static String Inject_get_list_sensors(String XS1_get_list_sensor_response, House ELVMAXHouse)
 		{
-			StringBuilder sb = new StringBuilder();
+            Int32 id = 65;
+            Int32 numberofCharactersToDelete = XS1_get_list_sensor_response.IndexOf('(');
 
-			SensorJSON_Root deserializedSensors = JsonConvert.DeserializeObject<SensorJSON_Root>(XS1_get_list_sensor_response);
+            String Start = XS1_get_list_sensor_response.Remove(numberofCharactersToDelete + 1);
 
-			return sb.ToString();
+            String Prepared = XS1_get_list_sensor_response.Remove(0, numberofCharactersToDelete+1);
+            Prepared = Prepared.Remove(Prepared.Length - 4, 4);
+
+            SensorJSON_Root deserializedSensors = JsonConvert.DeserializeObject<SensorJSON_Root>(Prepared);
+
+            List<IMAXDevice> devices = ELVMAXHouse.GetAllDevices();
+
+            foreach(IMAXDevice _device in devices)
+            {
+                if (_device.Type == DeviceTypes.HeatingThermostat)
+                {
+                    HeatingThermostat heating = (HeatingThermostat)_device;
+
+                    //heating.Temperature
+                    SensorJSON _newsensor = new SensorJSON();
+
+                    if (heating.Temperature == 4.0)
+                    {
+                        // this heatingthermostat is on "OFF"
+                        _newsensor.id = id;
+                        id++;
+                        _newsensor.name = heating.Name;
+                        _newsensor.type = "remotecontrol";
+                        _newsensor.unit = "boolean";
+                        _newsensor.value = 0.0;
+                    }
+                    else
+                    {
+                        //this is normal temperature
+                        _newsensor.id = id;
+                        id++;
+                        _newsensor.name = heating.Name;
+                        _newsensor.type = "temperature";
+                        _newsensor.unit = "°C";
+                        _newsensor.value = heating.Temperature;
+                    }
+
+                    deserializedSensors.sensor.Add(_newsensor);
+                }
+
+                if (_device.Type == DeviceTypes.ShutterContact)
+                {
+                    ShutterContact shutter = (ShutterContact)_device;
+
+                    SensorJSON _newsensor = new SensorJSON();
+                    _newsensor.id = id;
+                    id++;
+                    _newsensor.name = shutter.Name;
+                    _newsensor.type = "dooropen";
+                    _newsensor.unit = "boolean";
+                    if (shutter.ShutterState == ShutterContactModes.open)
+                        _newsensor.value = 1.0;
+                    else
+                        _newsensor.value = 0.0;
+
+                    deserializedSensors.sensor.Add(_newsensor);
+                }
+            }
+
+            String SensorJSON = JsonConvert.SerializeObject(deserializedSensors);
+
+            SensorJSON = Start + SensorJSON + ")";
+
+            return SensorJSON;
 		}
 
 	}
