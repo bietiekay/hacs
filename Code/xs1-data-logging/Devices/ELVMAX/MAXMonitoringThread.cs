@@ -204,7 +204,7 @@ namespace xs1_data_logging
 				catch(Exception e)
 				{
 					ConsoleOutputLogger.WriteLine(e.Message);
-                    Thread.Sleep(60000);
+                    Thread.Sleep(Properties.Settings.Default.ELVMAXReconnectTimeMsec);
 
 					ConsoleOutputLogger.WriteLine("ELV MAX Cube reconnect...");
 					//stream.Close();

@@ -71,7 +71,7 @@ namespace xs1_data_logging
                 {
                 }
 
-				Thread.Sleep(6000); // just check every 6 seconds...
+				Thread.Sleep(Properties.Settings.Default.SensorCheckIntervalSec*1000); // just check every 6 seconds...
 			}
 		}
 	}

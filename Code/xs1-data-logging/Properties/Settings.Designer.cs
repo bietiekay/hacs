@@ -286,5 +286,29 @@ namespace xs1_data_logging.Properties {
                 this["ELVMAXUpdateIntervalMsec"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60000")]
+        public int ELVMAXReconnectTimeMsec {
+            get {
+                return ((int)(this["ELVMAXReconnectTimeMsec"]));
+            }
+            set {
+                this["ELVMAXReconnectTimeMsec"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int SensorCheckIntervalSec {
+            get {
+                return ((int)(this["SensorCheckIntervalSec"]));
+            }
+            set {
+                this["SensorCheckIntervalSec"] = value;
+            }
+        }
     }
 }
