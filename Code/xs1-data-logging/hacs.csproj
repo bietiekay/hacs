@@ -113,6 +113,7 @@
     <Compile Include="HTTP\SwimlaneJSON\SwimlaneJSON.cs" />
     <Compile Include="HTTP\HTTPProxy\VirtualXS1Sensors\SensorJSON.cs" />
     <Compile Include="HTTP\HTTPProxy\VirtualXS1Sensors\ActorJSON.cs" />
+    <Compile Include="HTTP\SwimlaneJSON\GenerateSwimlane.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -46,6 +46,8 @@ namespace HTTP
 		private JSONData JSON_Data;
         private ConsoleOutputLogger ConsoleOutputLogger;
 		private HTTPProxy internal_proxy;
+		private MAXMonitoringThread ELVMAX;
+		private TinyOnDiskStorage SensorDataStore;
 		#endregion
 
 		#region Constructor
@@ -70,6 +72,8 @@ namespace HTTP
             XS1_Configuration = _XS1_Configuration;
             ConsoleOutputLogger = Logger;
 			internal_proxy = new HTTPProxy(ConsoleOutputLogger,ELVMAXMonitoring);
+			ELVMAX = ELVMAXMonitoring;
+			SensorDataStore = Storage;
 		}
 		#endregion
 
@@ -338,6 +342,30 @@ namespace HTTP
 					#region data request
 					// remove the /data/ stuff
 					url = url.Remove(0, 6);
+
+					#region Swimlane - All Sensors
+					// this is a swimlane diagram containing for now containing all switches in the given household
+					// TODO: do something more useful here
+					if (url.ToUpper().StartsWith("SWIMLANE"))
+					{
+						method_found = true;
+						#region Querystring Handling
+						url = url.Remove(0,8);
+						NameValueCollection nvcollection = HttpUtility.ParseQueryString(url);
+						#endregion
+
+						String Output = GenerateSwimlane.Generate(ELVMAX,SensorDataStore);
+
+						int left = new UTF8Encoding().GetByteCount(Output);
+						//writeSuccess(left, "application/json");
+						writeSuccess(left, "text/html");
+						byte[] buffer = new UTF8Encoding().GetBytes(Output);
+						ns.Write(buffer, 0, left);
+						ns.Flush();
+						return;
+
+					}
+					#endregion
 
 					#region Sensor Data
 					if (url.ToUpper().StartsWith("SENSOR"))

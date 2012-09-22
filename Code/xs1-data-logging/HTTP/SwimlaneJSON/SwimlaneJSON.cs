@@ -19,7 +19,7 @@ namespace xs1_data_logging
 		public string desc { get; set; }
 	}
 	
-	public class RootObject
+	public class SwimLaneRootObject
 	{
 		public List<LaneJSON> lanes { get; set; }
 		public List<ItemJSON> items { get; set; }
