@@ -348,13 +348,95 @@ namespace HTTP
 					// TODO: do something more useful here
 					if (url.ToUpper().StartsWith("SWIMLANE"))
 					{
+						String ObjectTypeName = "";
+						String ObjectName = "";
+						String StartDate = "";
+						String EndDate = "";
+						DateTime start = DateTime.Now;
+						DateTime end = DateTime.Now;
+
 						method_found = true;
 						#region Querystring Handling
 						url = url.Remove(0,8);
 						NameValueCollection nvcollection = HttpUtility.ParseQueryString(url);
+
+						foreach (String Key in nvcollection.AllKeys)
+						{
+							if (Key.ToUpper() == "NAME")
+								ObjectName = nvcollection[Key];
+							if (Key.ToUpper() == "TYPE")
+								ObjectTypeName = nvcollection[Key];
+							if (Key.ToUpper() == "START")
+								StartDate = nvcollection[Key];
+							if (Key.ToUpper() == "END")
+								EndDate = nvcollection[Key];
+						}
+
+						if (ObjectTypeName == "")
+						{
+							writeError(404, "No Method found");
+							return;
+						}
+						if (ObjectName == "")
+						{
+							writeError(404, "No Method found");
+							return;
+						}
+						if (StartDate == "") // defaults
+						{
+							start = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+						}
+						else
+						{
+							// parse the date and set it...
+							// since we are only interested in the day, month and year it's necessary to only parse that
+							// we expect the following format: day-month-year
+							// for example: 12-01-2012 will be 12th of January 2012
+							String[] Splitted = StartDate.Split(new char[1] { '-' });
+							
+							if (Splitted.Length == 3)
+							{
+								Int32 year = Convert.ToInt32(Splitted[2]);
+								Int32 month = Convert.ToInt32(Splitted[1]);
+								Int32 day = Convert.ToInt32(Splitted[0]);
+								
+								start = new DateTime(year, month, day);
+							}
+							else
+							{
+								start = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+							}
+						}
+						
+						if (EndDate == "")
+						{
+							end = DateTime.Now;
+						}
+						else
+						{
+							// parse the date and set it...
+							// since we are only interested in the day, month and year it's necessary to only parse that
+							// we expect the following format: day-month-year
+							// for example: 12-01-2012 will be 12th of January 2012
+							String[] Splitted = EndDate.Split(new char[1] { '-' });
+							
+							if (Splitted.Length == 3)
+							{
+								Int32 year = Convert.ToInt32(Splitted[2]);
+								Int32 month = Convert.ToInt32(Splitted[1]);
+								Int32 day = Convert.ToInt32(Splitted[0]);
+								
+								end = new DateTime(year, month, day);
+							}
+							else
+							{
+								end = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+							}
+						}
+
 						#endregion
 
-						String Output = GenerateSwimlane.Generate(ELVMAX,SensorDataStore);
+						String Output = GenerateSwimlane.Generate(ELVMAX,SensorDataStore,ObjectName,ObjectTypeName,start,end);
 
 						int left = new UTF8Encoding().GetByteCount(Output);
 						//writeSuccess(left, "application/json");

@@ -29,6 +29,19 @@ namespace sones.Storage
         public Int64 CreationTime;
         public Int64 Start;
         public Int64 End;
+		public object cachedDeserializedObject;
+
+		public object CachedDeserializedObject 
+		{
+			get 
+			{
+				return cachedDeserializedObject;
+			}
+			set 
+			{
+				cachedDeserializedObject = value;
+			}
+		}
 
         public OnDiscAdress()
         {
