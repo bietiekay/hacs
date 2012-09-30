@@ -81,7 +81,6 @@
     <Compile Include="Devices\ELVMAX\DiffSet\HeatingThermostatDiff.cs" />
     <Compile Include="Devices\ELVMAX\DiffSet\ShutterContactDiff.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Base64.cs" />
-    <Compile Include="Devices\ELVMAX\ELVMAX_Data\MAXMessageTypes.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\MAX_Exception.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\TokenizeMessage.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\C_Message.cs" />
@@ -94,11 +93,8 @@
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Devices\IMAXDevice.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Devices\PushButton.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Devices\ShutterContact.cs" />
-    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Devices\ShutterContactModes.cs" />
-    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Devices\ThermostatModes.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Devices\UnknownDevice.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Devices\WallMountedThermostat.cs" />
-    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Metadata\DeviceTypes.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Metadata\House.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Metadata\Room.cs" />
     <Compile Include="HTTP\HTTPProxy\HTTPProxy.cs" />
@@ -114,6 +110,10 @@
     <Compile Include="HTTP\HTTPProxy\VirtualXS1Sensors\SensorJSON.cs" />
     <Compile Include="HTTP\HTTPProxy\VirtualXS1Sensors\ActorJSON.cs" />
     <Compile Include="HTTP\SwimlaneJSON\GenerateSwimlane.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Modes\ShutterContactModes.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Modes\ThermostatModes.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\DeviceTypes.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\MAXMessageTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -170,5 +170,7 @@
   <ItemGroup>
     <Folder Include="Devices\" />
     <Folder Include="HTTP\SwimlaneJSON\" />
+    <Folder Include="Devices\ELVMAX\ELVMAX_Data\Messages\Modes\" />
+    <Folder Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\" />
   </ItemGroup>
 </Project>

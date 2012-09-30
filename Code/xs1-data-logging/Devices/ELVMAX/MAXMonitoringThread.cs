@@ -40,9 +40,6 @@ namespace xs1_data_logging
 				#region Update House
 				try
 				{
-					previousHouse = null;
-					// everything to start
-					theHouse = new House();
 					// now fill that with the initial handshake data...
 
 					#region Initial connect and retrieving everything we get from the cube
@@ -75,6 +72,10 @@ namespace xs1_data_logging
 						}
 						catch(Exception)
 						{
+							previousHouse = null;
+							// everything to start
+							theHouse = new House();
+
 							keepRunning = false;
 						}
 					}
@@ -197,6 +198,9 @@ namespace xs1_data_logging
 						}
 						#endregion
                         theHouse.UpdateDevices(currentHouse);
+
+						// update appropriate devices and in given intervals output non updated
+
 
 						Thread.Sleep (MAXUpdateTime);
 					}

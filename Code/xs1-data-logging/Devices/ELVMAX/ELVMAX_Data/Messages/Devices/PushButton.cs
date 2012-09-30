@@ -10,6 +10,7 @@ namespace xs1_data_logging
 		private String _SerialNumber;
 		private String _Name;
 		private Room _Room;
+		private DateTime lastUpdate;
 
 		public override string ToString ()
 		{
@@ -72,6 +73,11 @@ namespace xs1_data_logging
 			}
 		}
 
+		public DateTime LastUpdate {
+			get {
+				return lastUpdate;
+			}
+		}
 		#endregion
 
 

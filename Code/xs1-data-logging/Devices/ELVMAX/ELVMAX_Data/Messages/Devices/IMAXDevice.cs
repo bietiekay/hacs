@@ -9,6 +9,7 @@ namespace xs1_data_logging
 		String SerialNumber { get; set;}
 		String Name { get; set;}
 		Room AssociatedRoom { get; set;}
+		DateTime LastUpdate { get;}
 	}
 }
 

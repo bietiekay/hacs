@@ -10,6 +10,7 @@ namespace xs1_data_logging
 		private String _SerialNumber;
 		private String _Name;
 		private Room _Room;
+		private DateTime lastUpdate;
 
 		private double temperature;
 		private DateTime validUntil;
@@ -92,6 +93,11 @@ namespace xs1_data_logging
 			}
 		}
 
+		public DateTime LastUpdate {
+			get {
+				return lastUpdate;
+			}
+		}
 		#endregion
 
 		#region HeatingThermostat specific properties

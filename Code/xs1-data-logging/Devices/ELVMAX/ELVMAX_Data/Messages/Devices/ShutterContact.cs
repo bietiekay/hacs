@@ -10,6 +10,7 @@ namespace xs1_data_logging
 		private String _SerialNumber;
 		private String _Name;
 		private Room _Room;
+		private DateTime lastUpdate;
 
 		private bool lowBattery;
 		private bool panelLock;
@@ -89,6 +90,12 @@ namespace xs1_data_logging
 			}
 		}
 
+		public DateTime LastUpdate {
+			get {
+				return lastUpdate;
+			}
+		}
+	
 		#endregion
 
 		#region ShutterContact specific properties
