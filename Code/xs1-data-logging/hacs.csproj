@@ -113,6 +113,7 @@
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Modes\ThermostatModes.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\DeviceTypes.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\MAXMessageTypes.cs" />
+    <Compile Include="Monitoring\Monitoring.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -171,5 +172,6 @@
     <Folder Include="HTTP\SwimlaneJSON\" />
     <Folder Include="Devices\ELVMAX\ELVMAX_Data\Messages\Modes\" />
     <Folder Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\" />
+    <Folder Include="Monitoring\" />
   </ItemGroup>
 </Project>
