@@ -113,7 +113,7 @@
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Modes\ThermostatModes.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\DeviceTypes.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\MAXMessageTypes.cs" />
-    <Compile Include="Monitoring\Monitoring.cs" />
+    <Compile Include="Monitoring\ServiceMonitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

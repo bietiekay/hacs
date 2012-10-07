@@ -82,6 +82,11 @@ namespace xs1_data_logging
             Thread http_server_thread = new Thread(new ThreadStart(httpServer.listen));
             http_server_thread.Start();
 
+			// Start Service Monitorng thread
+			ServiceMonitor monitor = new ServiceMonitor(ConsoleOutputLogger);
+			Thread serviceMonitorThread = new Thread(new ThreadStart(monitor.Run));
+			serviceMonitorThread.Start();
+
             while (!Shutdown)
             {
                 try

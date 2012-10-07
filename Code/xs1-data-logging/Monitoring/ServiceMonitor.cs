@@ -7,12 +7,12 @@ using System.Collections.Concurrent;
 
 namespace xs1_data_logging
 {
-	public class MonitoringThread
+	public class ServiceMonitor
 	{
 		public bool running = true;
 		private ConsoleOutputLogger ConsoleOutputLogger;
 
-		public MonitoringThread(ConsoleOutputLogger COL)
+		public ServiceMonitor(ConsoleOutputLogger COL)
 		{
 			ConsoleOutputLogger = COL;
 		}
