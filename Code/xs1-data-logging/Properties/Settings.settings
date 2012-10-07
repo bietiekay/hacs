@@ -74,5 +74,8 @@
     <Setting Name="SensorCheckIntervalSec" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">60</Value>
     </Setting>
+    <Setting Name="ELVMAXSensorReStoringSec" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">360</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

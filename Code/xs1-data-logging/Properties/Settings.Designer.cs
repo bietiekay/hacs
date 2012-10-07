@@ -310,5 +310,17 @@ namespace xs1_data_logging.Properties {
                 this["SensorCheckIntervalSec"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("360")]
+        public int ELVMAXSensorReStoringSec {
+            get {
+                return ((int)(this["ELVMAXSensorReStoringSec"]));
+            }
+            set {
+                this["ELVMAXSensorReStoringSec"] = value;
+            }
+        }
     }
 }

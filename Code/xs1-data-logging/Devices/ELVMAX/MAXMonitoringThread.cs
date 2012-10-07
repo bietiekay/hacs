@@ -205,7 +205,7 @@ namespace xs1_data_logging
 							TimeSpan _lastUpdate = DateTime.Now-_device.LastUpdate;
 
 							// auto-update every n ... minutes
-							if (_lastUpdate.TotalMinutes > 5)
+							if (_lastUpdate.TotalSeconds > Properties.Settings.Default.ELVMAXSensorReStoringSec)
 							{
 								if (_device.Type == DeviceTypes.HeatingThermostat)
 								{
