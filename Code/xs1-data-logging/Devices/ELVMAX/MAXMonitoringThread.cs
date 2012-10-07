@@ -12,6 +12,7 @@ namespace xs1_data_logging
 		private String Hostname;
 		private Int32 Port;
 		public House theHouse;
+		private DateTime LastReStoring;
 		private Dictionary<String,IMAXDevice> previousHouse;
 		private static bool keepRunning = true;
 		public bool running = true;
@@ -26,6 +27,7 @@ namespace xs1_data_logging
 			MAXUpdateTime = UpdateTime;
 			ConsoleOutputLogger = COL;
 			iQueue = EventQueue;
+			LastReStoring = DateTime.Now;
 		}
 
 		// this is the ELV MAX! Cube monitoring script
@@ -200,13 +202,17 @@ namespace xs1_data_logging
                         theHouse.UpdateDevices(currentHouse);
 
 						// update appropriate devices and in given intervals output non updated
-						foreach(IMAXDevice _device in currentHouse.Values)
+						TimeSpan _lastUpdate = DateTime.Now-LastReStoring;
+						
+						// auto-update every n ... minutes
+						if (_lastUpdate.TotalSeconds > Properties.Settings.Default.ELVMAXSensorReStoringSec)
 						{
-							TimeSpan _lastUpdate = DateTime.Now-_device.LastUpdate;
+							LastReStoring = DateTime.Now;
 
-							// auto-update every n ... minutes
-							if (_lastUpdate.TotalSeconds > Properties.Settings.Default.ELVMAXSensorReStoringSec)
+							foreach(IMAXDevice _device in currentHouse.Values)
 							{
+
+								#region Heating Thermostat
 								if (_device.Type == DeviceTypes.HeatingThermostat)
 								{
 									HeatingThermostat _heating = (HeatingThermostat)_device;
@@ -221,6 +227,9 @@ namespace xs1_data_logging
 									_queueable.Temperature = _heating.Temperature;
 									iQueue.Enqueue(_queueable);
 								}
+								#endregion
+
+								#region ShutterContact
 								if (_device.Type == DeviceTypes.ShutterContact)
 								{
 									ShutterContact _shutter = (ShutterContact)_device;
@@ -234,9 +243,9 @@ namespace xs1_data_logging
 									_queueable.ShutterState = _shutter.ShutterState;
 									iQueue.Enqueue(_queueable);
 								}
+								#endregion
 							}
 						}
-
 						Thread.Sleep (MAXUpdateTime);
 					}
 				}
