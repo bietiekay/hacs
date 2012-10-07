@@ -78,7 +78,7 @@ namespace xs1_data_logging
                         _newsensor.type = "remotecontrol";
                         _newsensor.unit = "boolean";
                         _newsensor.value = 0.0;
-						_newsensor.utime = heating.LastUpdate.JavaScriptTimestamp();
+						_newsensor.utime = heating.LastUpdate.JavaScriptTimestampNonMsec();
 					}
                     else
                     {
@@ -89,7 +89,7 @@ namespace xs1_data_logging
                         _newsensor.type = "temperature";
                         _newsensor.unit = "°C";
                         _newsensor.value = heating.Temperature;
-						_newsensor.utime = heating.LastUpdate.JavaScriptTimestamp();
+						_newsensor.utime = heating.LastUpdate.JavaScriptTimestampNonMsec();
                     }
 
                     deserializedSensors.sensor.Add(_newsensor);
@@ -105,7 +105,7 @@ namespace xs1_data_logging
                     _newsensor.name = shutter.Name;
                     _newsensor.type = "dooropen";
                     _newsensor.unit = "boolean";
-					_newsensor.utime = shutter.LastUpdate.JavaScriptTimestamp();
+					_newsensor.utime = shutter.LastUpdate.JavaScriptTimestampNonMsec();
 
                     if (shutter.ShutterState == ShutterContactModes.open)
                         _newsensor.value = 1.0;
