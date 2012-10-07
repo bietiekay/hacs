@@ -62,11 +62,11 @@ namespace HTTP
 		/// <param name="docRoot">Root-Directory of the HTTP Server</param>
 		/// <param name="s">the Socket to work with</param>
 		/// <param name="webserver">the "master" HttpServer Object of this Client</param>
-		public HttpProcessor(Socket s, String HTTP_DocumentRoot, TinyOnDiskStorage Storage, XS1Configuration _XS1_Configuration, ConsoleOutputLogger Logger, DataCache Cache, MAXMonitoringThread ELVMAXMonitoring)
+		public HttpProcessor(Socket s, String HTTP_DocumentRoot, TinyOnDiskStorage Storage, XS1Configuration _XS1_Configuration, ConsoleOutputLogger Logger, MAXMonitoringThread ELVMAXMonitoring)
 		{
 			this.s = s;
 			HTTPServer_DocumentRoot = HTTP_DocumentRoot;
-			JSON_Data = new JSONData(Storage,Logger,Cache);
+			JSON_Data = new JSONData(Storage,Logger);
 			docRootFile = new FileInfo(HTTPServer_DocumentRoot);
 			headers = new Hashtable();
             XS1_Configuration = _XS1_Configuration;

@@ -48,11 +48,11 @@ namespace xs1_data_logging
 						
             ConsoleOutputLogger.writeLogfile = true;
 
-            TinyOnDiskStorage actor_data_store = new TinyOnDiskStorage("actor-data", false);
+			TinyOnDiskStorage actor_data_store = new TinyOnDiskStorage("actor-data", false,xs1_data_logging.Properties.Settings.Default.DataObjectCacheSize);
 			ConsoleOutputLogger.WriteLine("Initialized actor-data storage: "+actor_data_store.InMemoryIndex.Count);
-            TinyOnDiskStorage sensor_data_store = new TinyOnDiskStorage("sensor-data", false);
+			TinyOnDiskStorage sensor_data_store = new TinyOnDiskStorage("sensor-data", false,xs1_data_logging.Properties.Settings.Default.DataObjectCacheSize);
 			ConsoleOutputLogger.WriteLine("Initialized sensor-data storage: "+sensor_data_store.InMemoryIndex.Count);
-			TinyOnDiskStorage unknown_data_store = new TinyOnDiskStorage("unknown-data", false);
+			TinyOnDiskStorage unknown_data_store = new TinyOnDiskStorage("unknown-data", false,xs1_data_logging.Properties.Settings.Default.DataObjectCacheSize);
 			ConsoleOutputLogger.WriteLine("Initialized unknown-data storage: "+unknown_data_store.InMemoryIndex.Count);
 
             //List<Thread> LoggingThreads = new List<Thread>();

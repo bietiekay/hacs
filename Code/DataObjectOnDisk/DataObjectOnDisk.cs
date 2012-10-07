@@ -32,11 +32,14 @@ namespace sones.storage
     {
         private FileStream DatabaseFile;
         private FileStream DatabaseIndexFile;
+		public ObjectCache Cache;
 
         public List<OnDiscAdress> InMemoryIndex = null;
 
-        public TinyOnDiskStorage(String DatabaseFilename, bool createNew)
+        public TinyOnDiskStorage(String DatabaseFilename, bool createNew, long MaximumCacheItems)
         {
+			Cache = new ObjectCache(MaximumCacheItems);
+
             if (createNew)
             {
                 DatabaseFile = new FileStream(DatabaseFilename + ".data", FileMode.CreateNew);
@@ -70,6 +73,7 @@ namespace sones.storage
             DatabaseFile.Close();
             DatabaseIndexFile.Close();
             InMemoryIndex = null;
+			Cache.EmptyCache();
         }
 
         public void Write(byte[] Data)

@@ -24,7 +24,6 @@ namespace HTTP
         private TinyOnDiskStorage Storage;
         private XS1Configuration XS1_Configuration;
         private ConsoleOutputLogger ConsoleOutputLogger;
-        private DataCache Cache;
 		private MAXMonitoringThread ELVMAXMonitoringThread;
         #endregion
 
@@ -37,7 +36,6 @@ namespace HTTP
             Storage = _Storage;
             XS1_Configuration = _XS1_Configuration;
             ConsoleOutputLogger = Logger;
-            Cache = new DataCache(xs1_data_logging.Properties.Settings.Default.DataObjectCacheSize, _Storage);
 			ELVMAXMonitoringThread = _ELVMAXMonitoringThread;
         }
         #endregion
@@ -73,7 +71,7 @@ namespace HTTP
                         Socket s = listener.Accept();
 
                         // Create a new processor for this request
-                        HttpProcessor processor = new HttpProcessor(s, HTTPServer_DocumentRoot,Storage,XS1_Configuration, ConsoleOutputLogger, Cache, ELVMAXMonitoringThread);
+                        HttpProcessor processor = new HttpProcessor(s, HTTPServer_DocumentRoot,Storage,XS1_Configuration, ConsoleOutputLogger, ELVMAXMonitoringThread);
 
 
                         // Dispatch that processor in its own thread

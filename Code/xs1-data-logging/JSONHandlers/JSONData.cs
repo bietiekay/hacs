@@ -16,16 +16,33 @@ namespace xs1_data_logging.JSONHandlers
     {
         private TinyOnDiskStorage sensor_data;
         private ConsoleOutputLogger ConsoleOutputLogger_;
-		private DataCache Cache;
 
-        public JSONData(TinyOnDiskStorage sensor_data_storage, ConsoleOutputLogger Logger, DataCache OuterCache)
+        public JSONData(TinyOnDiskStorage sensor_data_storage, ConsoleOutputLogger Logger)
         {
             sensor_data = sensor_data_storage;
             ConsoleOutputLogger_ = Logger;
-            Cache = OuterCache;
-			//Cache = new DataCache(1000000,sensor_data);	// set the maximum number of cached items
         }
-		
+
+		private XS1_DataObject ReadFromCache(OnDiscAdress adress)
+		{
+			XS1_DataObject dataobject = null;
+
+			object cacheditem = sensor_data.Cache.ReadFromCache(adress);
+			if (cacheditem == null)
+			{
+				// not found in cache, read from disk and add to cache
+				dataobject.Deserialize(sensor_data.Read(adress));
+				sensor_data.Cache.AddToCache(adress,dataobject);
+			}
+			else
+			{
+				// found in cache, take it...
+				dataobject = (XS1_DataObject)cacheditem;
+			}
+
+			return dataobject;
+		}
+
         /// <summary>
         /// generates JSON dataset from sensor data
         /// </summary>
@@ -58,7 +75,7 @@ namespace xs1_data_logging.JSONHandlers
                     {
                         if (ondisc.CreationTime <= EndDateTime.Ticks)
                         {
-                            XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
+							XS1_DataObject dataobject = ReadFromCache(ondisc);
 							SerializerCounter++;
 
                             if (dataobject.Type == DataType)
@@ -140,7 +157,7 @@ namespace xs1_data_logging.JSONHandlers
                     {
                         if (ondisc.CreationTime <= EndDateTime.Ticks)
                         {
-                            XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
+							XS1_DataObject dataobject = ReadFromCache(ondisc);
                             SerializerCounter++;
 
                             if (dataobject.Type == DataType)
@@ -192,8 +209,8 @@ namespace xs1_data_logging.JSONHandlers
             {
                 foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex.Reverse<OnDiscAdress>())
                 {
-                    XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
-                    //Console.WriteLine(">>> "+dataobject.Name);
+					XS1_DataObject dataobject = ReadFromCache(ondisc);
+					//Console.WriteLine(">>> "+dataobject.Name);
                     SerializerCounter++;
 
                     if (dataobject.Type == DataType)
@@ -247,8 +264,8 @@ namespace xs1_data_logging.JSONHandlers
                         {
                             if (ondisc.CreationTime <= EndDateTime.Ticks)
                             {
-                                XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
-                                SerializerCounter++;
+								XS1_DataObject dataobject = ReadFromCache(ondisc);
+								SerializerCounter++;
 
                                 if (dataobject.Type == ObjectTypes.Sensor)
                                 {
@@ -289,8 +306,8 @@ namespace xs1_data_logging.JSONHandlers
                         {
                             if (ondisc.CreationTime <= EndDateTime.Ticks)
                             {
-                                XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
-                                SerializerCounter++;
+								XS1_DataObject dataobject = ReadFromCache(ondisc);
+								SerializerCounter++;
 
                                 if (dataobject.Type == ObjectTypes.Sensor)
                                 {
@@ -350,8 +367,8 @@ namespace xs1_data_logging.JSONHandlers
                                 {
                                     if (ondisc.CreationTime <= EndDateTime.Ticks)
                                     {
-                                        XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
-                                        SerializerCounter++;
+										XS1_DataObject dataobject = ReadFromCache(ondisc);
+										SerializerCounter++;
 
                                         if (dataobject.Type == ObjectTypes.Sensor)
                                         {
@@ -423,8 +440,8 @@ namespace xs1_data_logging.JSONHandlers
                         {
                             if (ondisc.CreationTime <= EndDateTime.Ticks)
                             {
-                                XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
-                                SerializerCounter++;
+								XS1_DataObject dataobject = ReadFromCache(ondisc);
+								SerializerCounter++;
 
                                 if (dataobject.Type == ObjectTypes.Sensor)
                                 {
@@ -509,8 +526,8 @@ namespace xs1_data_logging.JSONHandlers
                         {
                             if (ondisc.CreationTime <= EndDateTime.Ticks)
                             {
-                                XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
-                                SerializerCounter++;
+								XS1_DataObject dataobject = ReadFromCache(ondisc);
+								SerializerCounter++;
 
                                 if (dataobject.Type == ObjectTypes.Sensor)
                                 {
@@ -666,7 +683,7 @@ namespace xs1_data_logging.JSONHandlers
                     {
                         if (ondisc.CreationTime <= EndDateTime.Ticks)
                         {
-                            XS1_DataObject dataobject = Cache.ReadFromCache(ondisc);
+							XS1_DataObject dataobject = ReadFromCache(ondisc);
 							SerializerCounter++;
 
                             if (dataobject.Type == DataType)
