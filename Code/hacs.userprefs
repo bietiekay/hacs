@@ -1,11 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/Devices/ELVMAX/MAXMonitoringThread.cs">
-    <Files>
-      <File FileName="xs1-data-logging/Devices/ELVMAX/ELVMAX_Data/Messages/Devices/UnknownDevice.cs" Line="13" Column="31" />
-      <File FileName="xs1-data-logging/Devices/ELVMAX/MAXMonitoringThread.cs" Line="181" Column="8" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

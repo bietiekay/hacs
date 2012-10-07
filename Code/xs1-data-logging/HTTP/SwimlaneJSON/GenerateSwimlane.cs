@@ -27,8 +27,6 @@ namespace xs1_data_logging
 			return dataobject;
 		}
 
-
-
 		public static string Generate(MAXMonitoringThread ELVMAX,TinyOnDiskStorage SensorDataStore, String ObjectName, String ObjectTypeName, DateTime StartDateTime, DateTime EndDateTime)
 		{
 			SwimLaneRootObject _root = new SwimLaneRootObject();
@@ -48,15 +46,21 @@ namespace xs1_data_logging
 						if (ondisc.CreationTime <= EndDateTime.Ticks)
 						{
 							// we are in the right timespan
+							// is this the right sensor?
 							XS1_DataObject dataobject = ReadFromCache(SensorDataStore,ondisc);
+
+							if (dataobject.TypeName == ObjectTypeName)
+							{
+								if (dataobject.Name == ObjectName)
+								{
+									// okay we got what we want...
+								}
+							}
 						}
 					}
 				}
 			}
-
-
 			#endregion
-
 
 			return "";
 		}
