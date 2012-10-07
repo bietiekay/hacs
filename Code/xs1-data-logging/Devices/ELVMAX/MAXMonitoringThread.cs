@@ -200,7 +200,42 @@ namespace xs1_data_logging
                         theHouse.UpdateDevices(currentHouse);
 
 						// update appropriate devices and in given intervals output non updated
+						foreach(IMAXDevice _device in currentHouse.Values)
+						{
+							TimeSpan _lastUpdate = DateTime.Now-_device.LastUpdate;
 
+							// auto-update every n ... minutes
+							if (_lastUpdate.TotalMinutes > 5)
+							{
+								if (_device.Type == DeviceTypes.HeatingThermostat)
+								{
+									HeatingThermostat _heating = (HeatingThermostat)_device;
+									HeatingThermostatDiff _queueable = new HeatingThermostatDiff(_device.Name,_device.AssociatedRoom.RoomID,_device.AssociatedRoom.RoomName);
+
+									if (_heating.LowBattery)
+										_queueable.LowBattery = BatteryStatus.lowbattery;
+									else
+										_queueable.LowBattery = BatteryStatus.ok;
+
+									_queueable.Mode = _heating.Mode;
+									_queueable.Temperature = _heating.Temperature;
+									iQueue.Enqueue(_queueable);
+								}
+								if (_device.Type == DeviceTypes.ShutterContact)
+								{
+									ShutterContact _shutter = (ShutterContact)_device;
+									ShutterContactDiff _queueable = new ShutterContactDiff(_device.Name,_device.AssociatedRoom.RoomID,_device.AssociatedRoom.RoomName);
+
+									if (_shutter.LowBattery)
+										_queueable.LowBattery = BatteryStatus.lowbattery;
+									else
+										_queueable.LowBattery = BatteryStatus.ok;
+
+									_queueable.ShutterState = _shutter.ShutterState;
+									iQueue.Enqueue(_queueable);
+								}
+							}
+						}
 
 						Thread.Sleep (MAXUpdateTime);
 					}
