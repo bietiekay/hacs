@@ -25,7 +25,7 @@ namespace xs1_data_logging.JSONHandlers
 
 		private XS1_DataObject ReadFromCache(OnDiscAdress adress)
 		{
-			XS1_DataObject dataobject = null;
+			XS1_DataObject dataobject = new XS1_DataObject();
 
 			object cacheditem = sensor_data.Cache.ReadFromCache(adress);
 			if (cacheditem == null)
