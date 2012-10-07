@@ -10,7 +10,7 @@ namespace JavaScriptTimeStampExtension
         public static Int64 JavaScriptTimestamp(this DateTime myDateTime)
         {
             DateTime unixstarted = new DateTime(1970, 1, 1);  // reference date
-            return (Convert.ToInt64((myDateTime - unixstarted).TotalSeconds));
+            return (Convert.ToInt64((myDateTime.ToUniversalTime() - unixstarted).TotalSeconds));
         }
 
         public static DateTime ParseJavaScriptTimestamp(Int64 JavaScriptTimestamp)
