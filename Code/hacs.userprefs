@@ -1,9 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/HandlingThread.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/HTTP/HTTPProxy/VirtualXS1Sensors/VirtualXS1.cs">
     <Files>
-      <File FileName="xs1-data-logging/HandlingThread.cs" Line="91" Column="14" />
-      <File FileName="xs1-data-logging/Devices/XS1/XS1MonitoringThread.cs" Line="34" Column="10" />
+      <File FileName="xs1-data-logging/Devices/XS1/XS1MonitoringThread.cs" Line="53" Column="95" />
+      <File FileName="JavascriptTimestamps/Convert.cs" Line="12" Column="60" />
+      <File FileName="xs1-data-logging/HTTP/HTTPProxy/VirtualXS1Sensors/VirtualXS1.cs" Line="84" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
