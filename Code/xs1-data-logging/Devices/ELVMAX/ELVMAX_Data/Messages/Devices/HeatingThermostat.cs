@@ -47,6 +47,7 @@ namespace xs1_data_logging
 		public HeatingThermostat()
 		{
 			_Type = DeviceTypes.HeatingThermostat;
+			lastUpdate = DateTime.Now;
 		}		
 
 		#region IMAXDevice implementation
@@ -61,6 +62,7 @@ namespace xs1_data_logging
 				return _RFAddress;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				_RFAddress = value;
 			}
 		}
@@ -70,6 +72,7 @@ namespace xs1_data_logging
 				return _SerialNumber;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				_SerialNumber = value;
 			}
 		}
@@ -80,6 +83,7 @@ namespace xs1_data_logging
 			}
 			set {
 				_Name = value;
+				lastUpdate = DateTime.Now;
 			}
 		}
 
@@ -89,6 +93,7 @@ namespace xs1_data_logging
 				return _Room;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				_Room = value;
 			}
 		}
@@ -106,6 +111,7 @@ namespace xs1_data_logging
 				return mode;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				mode = value;
 			}
 		}
@@ -115,6 +121,7 @@ namespace xs1_data_logging
 				return linkError;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				linkError = value;
 			}
 		}
@@ -124,6 +131,7 @@ namespace xs1_data_logging
 				return isAnswer;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				isAnswer = value;
 			}
 		}
@@ -133,6 +141,7 @@ namespace xs1_data_logging
 				return valid;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				valid = value;
 			}
 		}
@@ -142,6 +151,7 @@ namespace xs1_data_logging
 				return error;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				error = value;
 			}
 		}
@@ -151,6 +161,7 @@ namespace xs1_data_logging
 				return gatewayOK;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				gatewayOK = value;
 			}
 		}
@@ -160,6 +171,7 @@ namespace xs1_data_logging
 				return panelLock;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				panelLock = value;
 			}
 		}
@@ -168,6 +180,7 @@ namespace xs1_data_logging
 				return temperature;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				temperature = value;
 			}
 		}
@@ -177,6 +190,7 @@ namespace xs1_data_logging
 				return lowBattery;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				lowBattery = value;
 			}
 		}
@@ -185,13 +199,10 @@ namespace xs1_data_logging
 				return validUntil;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				validUntil = value;
 			}
 		}
-		#endregion
-
-		#region GetDifferences
-		//public 
 		#endregion
 	}
 }

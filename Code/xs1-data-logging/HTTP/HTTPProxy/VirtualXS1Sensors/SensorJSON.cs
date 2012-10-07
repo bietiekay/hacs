@@ -9,7 +9,7 @@ namespace xs1_data_logging
 		public int id { get; set; }
 		public string type { get; set; }
 		public double value { get; set; }
-		public int utime { get; set; }
+		public Int64 utime { get; set; }
 		public string unit { get; set; }
 	}
 	

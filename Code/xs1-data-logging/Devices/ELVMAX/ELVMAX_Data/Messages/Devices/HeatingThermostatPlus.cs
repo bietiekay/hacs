@@ -27,6 +27,7 @@ namespace xs1_data_logging
 		public HeatingThermostatPlus()
 		{
 			_Type = DeviceTypes.HeatingThermostatPlus;
+			lastUpdate = DateTime.Now;
 		}		
 
 		#region IMAXDevice implementation
@@ -41,6 +42,7 @@ namespace xs1_data_logging
 				return _RFAddress;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				_RFAddress = value;
 			}
 		}
@@ -50,6 +52,7 @@ namespace xs1_data_logging
 				return _SerialNumber;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				_SerialNumber = value;
 			}
 		}
@@ -59,6 +62,7 @@ namespace xs1_data_logging
 				return _Name;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				_Name = value;
 			}
 		}
@@ -69,6 +73,7 @@ namespace xs1_data_logging
 				return _Room;
 			}
 			set {
+				lastUpdate = DateTime.Now;
 				_Room = value;
 			}
 		}

@@ -1,12 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|Mixed Platforms" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/HTTP/SwimlaneJSON/GenerateSwimlane.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/Devices/ELVMAX/MAXMonitoringThread.cs">
     <Files>
-      <File FileName="xs1-data-logging/HTTP/SwimlaneJSON/GenerateSwimlane.cs" Line="9" Column="181" />
-      <File FileName="xs1-data-logging/HTTP/HTTPProcessor.cs" Line="359" Column="7" />
-      <File FileName="DataObjectOnDisk/DataObjectOnDisk.cs" Line="1" Column="1" />
-      <File FileName="DataObjectOnDisk/OnDiscAdress.cs" Line="38" Column="37" />
-      <File FileName="xs1-data-logging/JSONHandlers/JSONData.cs" Line="53" Column="1" />
+      <File FileName="xs1-data-logging/Devices/ELVMAX/ELVMAX_Data/Messages/Devices/UnknownDevice.cs" Line="13" Column="31" />
+      <File FileName="xs1-data-logging/Devices/ELVMAX/MAXMonitoringThread.cs" Line="181" Column="8" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using JavaScriptTimeStampExtension;
 
 namespace xs1_data_logging
 {
@@ -37,7 +38,6 @@ namespace xs1_data_logging
 		/// </summary>
 		public static String Inject_get_list_sensors(String XS1_get_list_sensor_response, House ELVMAXHouse)
 		{
-
             Int32 id = 0;
             Int32 numberofCharactersToDelete = XS1_get_list_sensor_response.IndexOf('(');
 
@@ -47,9 +47,7 @@ namespace xs1_data_logging
             Prepared = Prepared.Remove(Prepared.Length - 4, 4);
 
             List<SensorJSON> activeSensors = new List<SensorJSON>();
-
             SensorJSON_Root deserializedSensors = JsonConvert.DeserializeObject<SensorJSON_Root>(Prepared);
-
             List<IMAXDevice> devices = ELVMAXHouse.GetAllDevices();
 
             // find first zero sensor
@@ -80,7 +78,8 @@ namespace xs1_data_logging
                         _newsensor.type = "remotecontrol";
                         _newsensor.unit = "boolean";
                         _newsensor.value = 0.0;
-                    }
+						_newsensor.utime = heating.LastUpdate.JavaScriptTimestamp();
+					}
                     else
                     {
                         //this is normal temperature
@@ -90,6 +89,7 @@ namespace xs1_data_logging
                         _newsensor.type = "temperature";
                         _newsensor.unit = "°C";
                         _newsensor.value = heating.Temperature;
+						_newsensor.utime = heating.LastUpdate.JavaScriptTimestamp();
                     }
 
                     deserializedSensors.sensor.Add(_newsensor);
@@ -105,6 +105,8 @@ namespace xs1_data_logging
                     _newsensor.name = shutter.Name;
                     _newsensor.type = "dooropen";
                     _newsensor.unit = "boolean";
+					_newsensor.utime = shutter.LastUpdate.JavaScriptTimestamp();
+
                     if (shutter.ShutterState == ShutterContactModes.open)
                         _newsensor.value = 1.0;
                     else
