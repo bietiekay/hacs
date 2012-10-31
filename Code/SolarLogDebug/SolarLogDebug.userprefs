@@ -1,14 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/HandlingThread.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../xs1-data-logging/HandlingThread.cs">
     <Files>
-      <File FileName="SolarLogDebug/SolarLogDebug/Main.cs" Line="17" Column="1" />
-      <File FileName="SolarLogDebug/SolarLogDebug/SolarLog.cs" Line="9" Column="59" />
-      <File FileName="xs1-data-logging/Devices/SolarLog/SolarLogMonitoringThread.cs" Line="34" Column="5" />
-      <File FileName="xs1-data-logging/Devices/SolarLog/SolarLogDataSet.cs" Line="3" Column="27" />
-      <File FileName="xs1-data-logging/Devices/SolarLog/SolarLogDataHelper.cs" Line="45" Column="38" />
-      <File FileName="xs1-data-logging/hacs.cs" Line="1" Column="1" />
-      <File FileName="xs1-data-logging/HandlingThread.cs" Line="306" Column="6" />
+      <File FileName="SolarLogDebug/Main.cs" Line="17" Column="1" />
+      <File FileName="SolarLogDebug/SolarLog.cs" Line="9" Column="59" />
+      <File FileName="../xs1-data-logging/Devices/SolarLog/SolarLogMonitoringThread.cs" Line="34" Column="5" />
+      <File FileName="../xs1-data-logging/Devices/SolarLog/SolarLogDataSet.cs" Line="3" Column="27" />
+      <File FileName="../xs1-data-logging/Devices/SolarLog/SolarLogDataHelper.cs" Line="45" Column="38" />
+      <File FileName="../xs1-data-logging/hacs.cs" Line="1" Column="1" />
+      <File FileName="../xs1-data-logging/HandlingThread.cs" Line="306" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

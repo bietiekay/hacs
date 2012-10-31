@@ -225,7 +225,9 @@ namespace xs1_data_logging
 
 									_queueable.Mode = _heating.Mode;
 									_queueable.Temperature = _heating.Temperature;
-									iQueue.Enqueue(_queueable);
+
+									if (_queueable.Temperature != 0)
+										iQueue.Enqueue(_queueable);
 								}
 								#endregion
 

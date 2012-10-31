@@ -57,7 +57,8 @@ namespace xs1_data_logging
 
 						if (Diff != null)
 						{
-							Differences.Add(Diff);
+							if (Diff.Temperature != 0)
+								Differences.Add(Diff);
 						}
 					}
 					else
