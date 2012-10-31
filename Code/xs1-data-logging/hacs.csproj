@@ -114,6 +114,7 @@
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\DeviceTypes.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\MAXMessageTypes.cs" />
     <Compile Include="Monitoring\ServiceMonitor.cs" />
+    <Compile Include="Devices\SolarLog\SolarLogMonitoringThread.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -173,5 +174,6 @@
     <Folder Include="Devices\ELVMAX\ELVMAX_Data\Messages\Modes\" />
     <Folder Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\" />
     <Folder Include="Monitoring\" />
+    <Folder Include="Devices\SolarLog\" />
   </ItemGroup>
 </Project>
