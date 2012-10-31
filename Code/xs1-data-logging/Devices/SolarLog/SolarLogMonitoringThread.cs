@@ -14,6 +14,7 @@ namespace xs1_data_logging
 		private Int32 SolarLogUpdateTime;
 		private ConsoleOutputLogger ConsoleOutputLogger;
 		private ConcurrentQueue<SolarLogDataSet> iQueue;
+		private SolarLogDataSet LastDataSet = null;
 
 		public SolarLogMonitoringThread(String _URL, ConsoleOutputLogger COL, ConcurrentQueue<SolarLogDataSet> EventQueue, Int32 UpdateTime = 10000)
 		{
@@ -31,7 +32,30 @@ namespace xs1_data_logging
 			{
 				SolarLogDataSet data = SolarLogDataHelper.UpdateSolarLog(URL,ConsoleOutputLogger);
 
-				iQueue.Enqueue(data);
+				if (data != null)
+				{
+					if (LastDataSet == null)
+					{
+						LastDataSet = data;
+						iQueue.Enqueue(data);
+					}
+					else
+					{
+						bool QueueIt = false;
+
+						if (data.Pac != LastDataSet.Pac)
+							QueueIt = true;
+
+						if (data.aPdc != LastDataSet.aPdc)
+							QueueIt = true;
+
+						if (data.InverterEfficiency != data.InverterEfficiency)
+							QueueIt = true;
+
+						if (QueueIt)
+							iQueue.Enqueue(data);
+					}
+				}
 
 				Thread.Sleep (SolarLogUpdateTime);
 			}
