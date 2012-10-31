@@ -322,5 +322,41 @@ namespace xs1_data_logging.Properties {
                 this["ELVMAXSensorReStoringSec"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SolarLogEnabled {
+            get {
+                return ((bool)(this["SolarLogEnabled"]));
+            }
+            set {
+                this["SolarLogEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("solarlog.fritz.box")]
+        public string SolarLogURLDomain {
+            get {
+                return ((string)(this["SolarLogURLDomain"]));
+            }
+            set {
+                this["SolarLogURLDomain"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10000")]
+        public int SolarLogUpdateIntervalMsec {
+            get {
+                return ((int)(this["SolarLogUpdateIntervalMsec"]));
+            }
+            set {
+                this["SolarLogUpdateIntervalMsec"] = value;
+            }
+        }
     }
 }

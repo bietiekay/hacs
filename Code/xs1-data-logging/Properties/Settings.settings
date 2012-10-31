@@ -77,5 +77,14 @@
     <Setting Name="ELVMAXSensorReStoringSec" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">360</Value>
     </Setting>
+    <Setting Name="SolarLogEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SolarLogURLDomain" Type="System.String" Scope="User">
+      <Value Profile="(Default)">solarlog.fritz.box</Value>
+    </Setting>
+    <Setting Name="SolarLogUpdateIntervalMsec" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
