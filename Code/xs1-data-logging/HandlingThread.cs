@@ -69,9 +69,12 @@ namespace xs1_data_logging
 
 			// Start the SolarLog Thread (if enabled)
 			// TODO: make it switchable / configurable
-			SolarLog = new SolarLogMonitoringThread("solarlog.fritz.box",ConsoleOutputLogger,SolarLog_DataQueue,5000);
-			Thread SolarLogThread = new Thread(new ThreadStart(SolarLog.Run));
-			SolarLogThread.Start();
+			if (Properties.Settings.Default.SolarLogEnabled)
+			{
+				SolarLog = new SolarLogMonitoringThread(Properties.Settings.Default.SolarLogURLDomain,ConsoleOutputLogger,SolarLog_DataQueue,Properties.Settings.Default.SolarLogUpdateIntervalMsec);
+				Thread SolarLogThread = new Thread(new ThreadStart(SolarLog.Run));
+				SolarLogThread.Start();
+			}
 
 			// Start the ELVMax Thread
 			if (Properties.Settings.Default.ELVMAXEnabled)
@@ -303,8 +306,20 @@ namespace xs1_data_logging
 					#endregion
 
 					#region Handle SolarLog events
-
-
+					if (Properties.Settings.Default.SolarLogEnabled)
+					{
+						SolarLogDataSet solarlog_dataobject = null;
+						
+						if(SolarLog_DataQueue.TryDequeue(out solarlog_dataobject))
+						{
+							// Pac
+							XS1_DataQueue.Enqueue(new XS1_DataObject(Properties.Settings.Default.SolarLogURLDomain,"Pac",ObjectTypes.Sensor,"Pac",solarlog_dataobject.DateAndTime,1,solarlog_dataobject.Pac));
+							// aPdc
+							XS1_DataQueue.Enqueue(new XS1_DataObject(Properties.Settings.Default.SolarLogURLDomain,"aPdc",ObjectTypes.Sensor,"aPdc",solarlog_dataobject.DateAndTime,1,solarlog_dataobject.aPdc));
+							// Efficiency
+							XS1_DataQueue.Enqueue(new XS1_DataObject(Properties.Settings.Default.SolarLogURLDomain,"IEff",ObjectTypes.Sensor,"IEff",solarlog_dataobject.DateAndTime,1,solarlog_dataobject.InverterEfficiency));
+						}
+					}
 					#endregion
                 }
                 catch (Exception)

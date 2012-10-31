@@ -7,7 +7,7 @@ namespace xs1_data_logging
 		public DateTime DateAndTime;
 		public Int32 Pac;
 		public Int32 aPdc;
-		public float InverterEfficiency;
+		public Double InverterEfficiency;
 
 		public SolarLogDataSet()
 		{
