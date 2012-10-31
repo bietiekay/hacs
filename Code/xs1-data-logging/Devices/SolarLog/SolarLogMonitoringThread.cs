@@ -13,9 +13,9 @@ namespace xs1_data_logging
 		public bool running = true;
 		private Int32 SolarLogUpdateTime;
 		private ConsoleOutputLogger ConsoleOutputLogger;
-		private ConcurrentQueue<IDeviceDiffSet> iQueue;
+		private ConcurrentQueue<SolarLogDataSet> iQueue;
 
-		public SolarLogMonitoringThread(String _URL, ConsoleOutputLogger COL, ConcurrentQueue<IDeviceDiffSet> EventQueue, Int32 UpdateTime = 10000)
+		public SolarLogMonitoringThread(String _URL, ConsoleOutputLogger COL, ConcurrentQueue<SolarLogDataSet> EventQueue, Int32 UpdateTime = 10000)
 		{
 			URL = _URL;
 			SolarLogUpdateTime = UpdateTime;
@@ -29,6 +29,10 @@ namespace xs1_data_logging
 			ConsoleOutputLogger.WriteLine("Starting up SolarLog data gathering...");
 			while(running)
 			{
+				SolarLogDataSet data = SolarLogDataHelper.UpdateSolarLog(URL,ConsoleOutputLogger);
+
+				iQueue.Enqueue(data);
+
 				Thread.Sleep (SolarLogUpdateTime);
 			}
 		}

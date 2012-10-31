@@ -31,6 +31,7 @@ namespace xs1_data_logging
         public ConsoleOutputLogger ConsoleOutputLogger;
 		private ConcurrentQueue<XS1_DataObject> XS1_DataQueue;	// use a thread safe list like structure to hold the messages coming in from the XS1
 		private ConcurrentQueue<IDeviceDiffSet> MAX_DataQueue;  // use a thread safe list like structure to hold the messages coming in from the ELV MAX
+		private ConcurrentQueue<SolarLogDataSet> SolarLog_DataQueue; // use a thread safe list like structure to hold the messages coming in from the SolarLog
         bool Shutdown = false;
 
 		#region Ctor
@@ -54,6 +55,7 @@ namespace xs1_data_logging
             // initialize XS1 Configuration
             XS1_Configuration = new XS1Configuration(ConfigurationCacheMinutes);
 			MAXMonitoringThread ELVMax = null;
+			SolarLogMonitoringThread SolarLog = null;
 
 			// Start Sensor-Check Thread
             SensorCheck Sensorcheck = new SensorCheck(ConsoleOutputLogger);
@@ -64,6 +66,12 @@ namespace xs1_data_logging
             ActorReswitching ActorReSwitch_ = new ActorReswitching(XS1_Configuration, ConsoleOutputLogger, TemporaryBlacklist,OnWaitOffLIst);
             Thread ActorReswitchThread = new Thread(new ThreadStart(ActorReSwitch_.Run));
             ActorReswitchThread.Start();
+
+			// Start the SolarLog Thread (if enabled)
+			// TODO: make it switchable / configurable
+			SolarLog = new SolarLogMonitoringThread("solarlog.fritz.box",ConsoleOutputLogger,SolarLog_DataQueue,5000);
+			Thread SolarLogThread = new Thread(new ThreadStart(SolarLog.Run));
+			SolarLogThread.Start();
 
 			// Start the ELVMax Thread
 			if (Properties.Settings.Default.ELVMAXEnabled)
@@ -292,6 +300,11 @@ namespace xs1_data_logging
 							}
 						}
 					}
+					#endregion
+
+					#region Handle SolarLog events
+
+
 					#endregion
                 }
                 catch (Exception)

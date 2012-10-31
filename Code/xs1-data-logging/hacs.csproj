@@ -115,6 +115,8 @@
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\MAXMessageTypes.cs" />
     <Compile Include="Monitoring\ServiceMonitor.cs" />
     <Compile Include="Devices\SolarLog\SolarLogMonitoringThread.cs" />
+    <Compile Include="Devices\SolarLog\SolarLogDataSet.cs" />
+    <Compile Include="Devices\SolarLog\SolarLogDataHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
