@@ -49,9 +49,6 @@ namespace xs1_data_logging
 						if (data.aPdc != LastDataSet.aPdc)
 							QueueIt = true;
 
-						if (data.InverterEfficiency != data.InverterEfficiency)
-							QueueIt = true;
-
 						if (QueueIt)
 							iQueue.Enqueue(data);
 					}

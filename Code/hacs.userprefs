@@ -2,9 +2,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/HandlingThread.cs">
     <Files>
-      <File FileName="xs1-data-logging/HandlingThread.cs" Line="321" Column="8" />
-      <File FileName="xs1-data-logging/Devices/SolarLog/SolarLogMonitoringThread.cs" Line="9" Column="2" />
-      <File FileName="xs1-data-logging/Devices/SolarLog/SolarLogDataSet.cs" Line="10" Column="16" />
+      <File FileName="xs1-data-logging/HandlingThread.cs" Line="319" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

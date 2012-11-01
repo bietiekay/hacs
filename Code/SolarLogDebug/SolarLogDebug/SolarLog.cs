@@ -38,6 +38,8 @@ namespace SolarLogDebug
 					#region aPdc
 					if (_line.StartsWith("var aPdc="))
 					{
+						String firstpart_removed = _line.Replace("var aPdc=new Array(","");
+						Output.aPdc = Convert.ToInt32( firstpart_removed.Remove(firstpart_removed.IndexOf(',')));
 					}
 					#endregion
 				}
