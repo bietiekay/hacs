@@ -49,6 +49,12 @@ namespace xs1_data_logging
 						if (data.aPdc != LastDataSet.aPdc)
 							QueueIt = true;
 
+						// if the last data set is older than 5 minutes, definitly queue this one...
+						TimeSpan Diff = DateTime.Now-LastDataSet.DateAndTime;
+						//if (Diff.TotalMinutes > Properties.Settings.Default.AutomatedSensorCheck_ResponseTimeWindow)
+						if (Diff.TotalMinutes > 5)
+							QueueIt = true;
+
 						if (QueueIt)
                         {
 							iQueue.Enqueue(data);

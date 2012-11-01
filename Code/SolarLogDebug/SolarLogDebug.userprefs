@@ -2,7 +2,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="SolarLogDebug/SolarLog.cs">
     <Files>
-      <File FileName="SolarLogDebug/SolarLog.cs" Line="38" Column="1" />
+      <File FileName="SolarLogDebug/SolarLog.cs" Line="45" Column="6" />
       <File FileName="SolarLogDebug/Main.cs" Line="12" Column="1" />
       <File FileName="SolarLogDebug/SolarLogDataSet.cs" Line="10" Column="1" />
     </Files>
