@@ -50,7 +50,10 @@ namespace xs1_data_logging
 							QueueIt = true;
 
 						if (QueueIt)
+                        {
 							iQueue.Enqueue(data);
+                            LastDataSet = data;
+                        }
 					}
 				}
 

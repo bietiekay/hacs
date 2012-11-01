@@ -47,6 +47,7 @@ namespace xs1_data_logging
             ConsoleOutputLogger = Logger;
 			XS1_DataQueue = new ConcurrentQueue<XS1_DataObject>();
 			MAX_DataQueue = new ConcurrentQueue<IDeviceDiffSet>();
+            SolarLog_DataQueue = new ConcurrentQueue<SolarLogDataSet>();
         }
 		#endregion
 
@@ -313,9 +314,9 @@ namespace xs1_data_logging
 						if(SolarLog_DataQueue.TryDequeue(out solarlog_dataobject))
 						{
 							// Pac
-							XS1_DataQueue.Enqueue(new XS1_DataObject(Properties.Settings.Default.SolarLogURLDomain,"Pac",ObjectTypes.Sensor,"Pac",solarlog_dataobject.DateAndTime,1,solarlog_dataobject.Pac));
+                            XS1_DataQueue.Enqueue(new XS1_DataObject(Properties.Settings.Default.SolarLogURLDomain, "Pac", ObjectTypes.Sensor, "Pac", solarlog_dataobject.DateAndTime, 1, solarlog_dataobject.Pac, "solarlog," + Properties.Settings.Default.SolarLogURLDomain + ",Pac," + solarlog_dataobject.Pac + "," + solarlog_dataobject.DateAndTime.Ticks));
 							// aPdc
-							XS1_DataQueue.Enqueue(new XS1_DataObject(Properties.Settings.Default.SolarLogURLDomain,"aPdc",ObjectTypes.Sensor,"aPdc",solarlog_dataobject.DateAndTime,1,solarlog_dataobject.aPdc));
+                            XS1_DataQueue.Enqueue(new XS1_DataObject(Properties.Settings.Default.SolarLogURLDomain, "aPdc", ObjectTypes.Sensor, "aPdc", solarlog_dataobject.DateAndTime, 1, solarlog_dataobject.aPdc, "solarlog," + Properties.Settings.Default.SolarLogURLDomain + ",aPdc," + solarlog_dataobject.aPdc+","+solarlog_dataobject.DateAndTime.Ticks));
 						}
 					}
 					#endregion

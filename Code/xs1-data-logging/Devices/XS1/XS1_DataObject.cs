@@ -45,6 +45,18 @@ namespace hacs.xs1
             Value = _Value;
         }
 
+        public XS1_DataObject(String _ServerName, String _Name, ObjectTypes _Type, String _TypeName, DateTime _Timecode, Int32 _XS1ObjectID, Double _Value,String OriginalStatement)
+        {
+            ServerName = _ServerName;
+            Name = _Name;
+            Type = _Type;
+            TypeName = _TypeName;
+            Timecode = _Timecode;
+            XS1ObjectID = _XS1ObjectID;
+            Value = _Value;
+            OriginalXS1Statement = OriginalStatement;
+        }
+
         #region IFastSerialize Members
         public byte[] Serialize()
         {
