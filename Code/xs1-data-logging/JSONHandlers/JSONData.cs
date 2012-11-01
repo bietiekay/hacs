@@ -273,13 +273,17 @@ namespace xs1_data_logging.JSONHandlers
                                     {
                                         if (dataobject.Name == ObjectName)
                                         {
-                                            Output2.Clear();
-                                            Output2.Append("[");
-                                            Output2.Append(dataobject.Timecode.JavaScriptTimestamp());
-                                            Output2.Append(",");
-                                            //Double Value = dataobject.Value / 1000;
-                                            Output2.Append(dataobject.Value.ToString().Replace(',', '.'));
-                                            Output2.Append("]");
+											// only up to a certain amount we consider this a valid value...
+											if (dataobject.Value < 15000)
+											{
+	                                            Output2.Clear();
+	                                            Output2.Append("[");
+	                                            Output2.Append(dataobject.Timecode.JavaScriptTimestamp());
+	                                            Output2.Append(",");
+	                                            //Double Value = dataobject.Value / 1000;
+	                                            Output2.Append(dataobject.Value.ToString().Replace(',', '.'));
+	                                            Output2.Append("]");
+											}
                                         }
 
                                     }
