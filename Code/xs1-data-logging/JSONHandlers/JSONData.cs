@@ -319,14 +319,18 @@ namespace xs1_data_logging.JSONHandlers
                                     {
                                         if (dataobject.Name == ObjectName)
                                         {
-                                            Output2.Clear();
-                                            Output2.Append("[");
-                                            Output2.Append(dataobject.Timecode.JavaScriptTimestamp());
-                                            Output2.Append(",");
-                                            //Double Value = dataobject.Value / 1000;
+                                            // only up to a certain amount we consider this a valid value...
+											if (dataobject.Value < 15000)
+											{
+                                                Output2.Clear();
+                                                Output2.Append("[");
+                                                Output2.Append(dataobject.Timecode.JavaScriptTimestamp());
+                                                Output2.Append(",");
+                                                //Double Value = dataobject.Value / 1000;
 
-                                            Output2.Append(dataobject.Value.ToString().Replace(',', '.'));
-                                            Output2.Append("]");
+                                                Output2.Append(dataobject.Value.ToString().Replace(',', '.'));
+                                                Output2.Append("]");
+                                            }
                                         }
                                     }
                                 }
@@ -380,26 +384,30 @@ namespace xs1_data_logging.JSONHandlers
                                             {
                                                 if (dataobject.Name == ObjectName)
                                                 {
+                                                    // only up to a certain amount we consider this a valid value...
+											        if (dataobject.Value < 15000)
+											        {
                                                     // okay, we got the right sensor data element type with the right name... 
 
-                                                    // calculate the time difference between hour start and current data object
-                                                    TimeSpan ts = new TimeSpan(dataobject.Timecode.Ticks - CurrentHourStart.Ticks);
+                                                        // calculate the time difference between hour start and current data object
+                                                        TimeSpan ts = new TimeSpan(dataobject.Timecode.Ticks - CurrentHourStart.Ticks);
 
-                                                    if (ts.TotalMinutes >= 60)
-                                                    {
-                                                        // we have a full hour...add to the calculated value and reset hour values
-                                                        CurrentHourStart = dataobject.Timecode;
-                                                        PowerSensorCalculatedValue += CurrentHourMeanValue / 1000;
-                                                        //Console.WriteLine(" -> " + PowerSensorCalculatedValue + " : "+CurrentHourMeanValue + "("+dataobject.Timecode.ToShortDateString()+")");
-                                                        CurrentHourMeanValue = Double.MinValue;
-                                                    }
-                                                    else
-                                                    {
-                                                        if (CurrentHourMeanValue == Double.MinValue)
-                                                            CurrentHourMeanValue = dataobject.Value;
+                                                        if (ts.TotalMinutes >= 60)
+                                                        {
+                                                            // we have a full hour...add to the calculated value and reset hour values
+                                                            CurrentHourStart = dataobject.Timecode;
+                                                            PowerSensorCalculatedValue += CurrentHourMeanValue / 1000;
+                                                            //Console.WriteLine(" -> " + PowerSensorCalculatedValue + " : "+CurrentHourMeanValue + "("+dataobject.Timecode.ToShortDateString()+")");
+                                                            CurrentHourMeanValue = Double.MinValue;
+                                                        }
                                                         else
                                                         {
-                                                            CurrentHourMeanValue = (CurrentHourMeanValue + dataobject.Value) / 2;
+                                                            if (CurrentHourMeanValue == Double.MinValue)
+                                                                CurrentHourMeanValue = dataobject.Value;
+                                                            else
+                                                            {
+                                                                CurrentHourMeanValue = (CurrentHourMeanValue + dataobject.Value) / 2;
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -453,49 +461,53 @@ namespace xs1_data_logging.JSONHandlers
                                     {
                                         if (dataobject.Name == ObjectName)
                                         {
-                                            // calculate the time difference between hour start and current data object
-                                            TimeSpan ts = new TimeSpan(dataobject.Timecode.Ticks - CurrentHourStart.Ticks);
+                                            // only up to a certain amount we consider this a valid value...
+											if (dataobject.Value < 15000)
+											{
+                                                // calculate the time difference between hour start and current data object
+                                                TimeSpan ts = new TimeSpan(dataobject.Timecode.Ticks - CurrentHourStart.Ticks);
 
-                                            if (ts.TotalMinutes >= 60)
-                                            {
-                                                // we have a full hour...add to the calculated value and reset hour values
-                                                CurrentHourStart = dataobject.Timecode;
-
-                                                HourNumber++;
-
-                                                if (HourNumber >= 24)
+                                                if (ts.TotalMinutes >= 60)
                                                 {
-                                                    if (!firstdataset)
+                                                    // we have a full hour...add to the calculated value and reset hour values
+                                                    CurrentHourStart = dataobject.Timecode;
+
+                                                    HourNumber++;
+
+                                                    if (HourNumber >= 24)
+                                                    {
+                                                        if (!firstdataset)
+                                                            Output.Append(",");
+                                                        else
+                                                            firstdataset = false;
+
+                                                        // we have 24 hours completed
+                                                        Output.Append("[");
+                                                        Output.Append(dataobject.Timecode.JavaScriptTimestamp());
                                                         Output.Append(",");
+                                                        //CurrentHourMeanValue = CurrentHourMeanValue / 100;
+                                                        Output.Append(CurrentHourMeanValue.ToString().Replace(',', '.'));
+                                                        Output.Append("]");
+                                                        HourNumber = 0;
+                                                    }
                                                     else
-                                                        firstdataset = false;
+                                                    {
+                                                        if (DailyMeanValue == Double.MinValue)
+                                                            DailyMeanValue = CurrentHourMeanValue;
+                                                        else
+                                                            DailyMeanValue = (DailyMeanValue + CurrentHourMeanValue) / 2;
+                                                    }
 
-                                                    // we have 24 hours completed
-                                                    Output.Append("[");
-                                                    Output.Append(dataobject.Timecode.JavaScriptTimestamp());
-                                                    Output.Append(",");
-                                                    //CurrentHourMeanValue = CurrentHourMeanValue / 100;
-                                                    Output.Append(CurrentHourMeanValue.ToString().Replace(',', '.'));
-                                                    Output.Append("]");
-                                                    HourNumber = 0;
+                                                    CurrentHourMeanValue = Double.MinValue;
                                                 }
                                                 else
                                                 {
-                                                    if (DailyMeanValue == Double.MinValue)
-                                                        DailyMeanValue = CurrentHourMeanValue;
+                                                    if (CurrentHourMeanValue == Double.MinValue)
+                                                        CurrentHourMeanValue = dataobject.Value;
                                                     else
-                                                        DailyMeanValue = (DailyMeanValue + CurrentHourMeanValue) / 2;
-                                                }
-
-                                                CurrentHourMeanValue = Double.MinValue;
-                                            }
-                                            else
-                                            {
-                                                if (CurrentHourMeanValue == Double.MinValue)
-                                                    CurrentHourMeanValue = dataobject.Value;
-                                                else
-                                                {
-                                                    CurrentHourMeanValue = (CurrentHourMeanValue + dataobject.Value) / 2;
+                                                    {
+                                                        CurrentHourMeanValue = (CurrentHourMeanValue + dataobject.Value) / 2;
+                                                    }
                                                 }
                                             }
                                         }
@@ -539,39 +551,43 @@ namespace xs1_data_logging.JSONHandlers
                                     {
                                         if (dataobject.Name == ObjectName)
                                         {
-                                            // calculate the time difference between hour start and current data object
-                                            TimeSpan ts = new TimeSpan(dataobject.Timecode.Ticks - CurrentHourStart.Ticks);
+                                            // only up to a certain amount we consider this a valid value...
+											if (dataobject.Value < 15000)
+											{
+                                                // calculate the time difference between hour start and current data object
+                                                TimeSpan ts = new TimeSpan(dataobject.Timecode.Ticks - CurrentHourStart.Ticks);
 
-                                            if (ts.TotalMinutes >= 60)
-                                            {
-                                                // we have a full hour...add to the calculated value and reset hour values
-                                                CurrentHourStart = dataobject.Timecode;
-
-                                                if (CurrentHourMeanValue > 0)
+                                                if (ts.TotalMinutes >= 60)
                                                 {
+                                                    // we have a full hour...add to the calculated value and reset hour values
+                                                    CurrentHourStart = dataobject.Timecode;
 
-                                                    if (!firstdataset)
+                                                    if (CurrentHourMeanValue > 0)
+                                                    {
+
+                                                        if (!firstdataset)
+                                                            Output.Append(",");
+                                                        else
+                                                            firstdataset = false;
+
+                                                        // we have 24 hours completed
+                                                        Output.Append("[");
+                                                        Output.Append(dataobject.Timecode.JavaScriptTimestamp());
                                                         Output.Append(",");
-                                                    else
-                                                        firstdataset = false;
-
-                                                    // we have 24 hours completed
-                                                    Output.Append("[");
-                                                    Output.Append(dataobject.Timecode.JavaScriptTimestamp());
-                                                    Output.Append(",");
-                                                    //CurrentHourMeanValue = CurrentHourMeanValue / 100;
-                                                    Output.Append(CurrentHourMeanValue.ToString().Replace(',', '.'));
-                                                    Output.Append("]");
+                                                        //CurrentHourMeanValue = CurrentHourMeanValue / 100;
+                                                        Output.Append(CurrentHourMeanValue.ToString().Replace(',', '.'));
+                                                        Output.Append("]");
+                                                    }
+                                                    CurrentHourMeanValue = Double.MinValue;                                                
                                                 }
-                                                CurrentHourMeanValue = Double.MinValue;                                                
-                                            }
-                                            else
-                                            {
-                                                if (CurrentHourMeanValue == Double.MinValue)
-                                                    CurrentHourMeanValue = dataobject.Value;
                                                 else
                                                 {
-                                                    CurrentHourMeanValue = (CurrentHourMeanValue + dataobject.Value) / 2;
+                                                    if (CurrentHourMeanValue == Double.MinValue)
+                                                        CurrentHourMeanValue = dataobject.Value;
+                                                    else
+                                                    {
+                                                        CurrentHourMeanValue = (CurrentHourMeanValue + dataobject.Value) / 2;
+                                                    }
                                                 }
                                             }
                                         }
