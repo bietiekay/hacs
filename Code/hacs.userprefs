@@ -1,9 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/Devices/SolarLog/SolarLogMonitoringThread.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/HandlingThread.cs">
     <Files>
-      <File FileName="xs1-data-logging/HandlingThread.cs" Line="106" Column="6" />
-      <File FileName="xs1-data-logging/Devices/SolarLog/SolarLogMonitoringThread.cs" Line="55" Column="32" />
+      <File FileName="xs1-data-logging/HandlingThread.cs" Line="268" Column="72" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -11,10 +10,8 @@
           <Node name="hacs" expanded="True">
             <Node name="Devices" expanded="True">
               <Node name="ELVMAX" expanded="True" />
-              <Node name="SolarLog" expanded="True">
-                <Node name="SolarLogMonitoringThread.cs" selected="True" />
-              </Node>
             </Node>
+            <Node name="HandlingThread.cs" selected="True" />
           </Node>
         </State>
       </Pad>

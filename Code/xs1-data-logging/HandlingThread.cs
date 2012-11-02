@@ -261,6 +261,13 @@ namespace xs1_data_logging
 									SensorCheckIgnoreConfiguration.AddToIgnoreList(lowbatteryobject.Name);
 									XS1_DataQueue.Enqueue(lowbatteryobject);
 								}
+
+								if (_heating.Mode == ThermostatModes.boost)
+								{
+									XS1_DataObject boostmodeobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"boost",DateTime.Now,_heating.RoomID,_heating.Temperature);
+									SensorCheckIgnoreConfiguration.AddToIgnoreList(boostmodeobject.Name);
+									XS1_DataQueue.Enqueue(boostmodeobject);
+								}
 							}
 
 							if (max_dataobject.DeviceType == DeviceTypes.ShutterContact)
