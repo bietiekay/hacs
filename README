@@ -1,5 +1,34 @@
-﻿HACS (Home Automation Control Server) 
+HACS (Home Automation Control Server) 
 (C) 2010-2012 Daniel Kirstenpfad
+
+                                                                           +-------------+
+                                                                  +--------+  ezcontrol  |
+ +----------+                                                     |thread  |434 / 868 mhz|
+ |          |                                                     |        +-------------+
+ |          |                                                     |
+ |          |                                                     |
+ |          |                                                     |
+ |          |                            +-------------------+    |        +----------------+
+ |          |     +---------------+      |     h.a.c.s       |    |        |    ELV MAX!    |
+ |          +-----+RESTful Service+------+  home automation  +----+--------+ thermostat and |
+ |  Client  +-----+ built-in http +------+  control server   |    |thread  |shutter contacts|
+ |          |     +---------------+      |                   |    |        +----------------+
+ |          |                            +---------+-------+-+    |
+ |          |                                      |       |      |
+ |          |                                      |       |      |
+ |          |                                      |       |      |        +-------------------+
+ |          |                                      |       |      +--------+   SolarLog500     |
+ |          |                                      |       |       thread  | roof solar panel  |
+ +----------+                               +------+-----+ |               |inverter monitoring|
+                                            |Data Storage| |               +-------------------+
+                                            +------------+ |
+                                                           +------+
+                                                                  |
+                                                                  |
+                                                           +------+------+
+                                                           |Scripting and|
+                                                           |Monitoring   |
+                                                           +-------------+
 
 In the last 10+ years I was fiddling with different home automation concepts. 
 Because of the lack of broad use cases at that time no one seemed to be interested
