@@ -1,17 +1,22 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/HandlingThread.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/ConsoleOutputLogger.cs">
     <Files>
       <File FileName="xs1-data-logging/HandlingThread.cs" Line="268" Column="72" />
+      <File FileName="xs1-data-logging/Devices/ELVMAX/MAXEncodeDecode.cs" Line="14" Column="25" />
+      <File FileName="xs1-data-logging/Devices/ELVMAX/MAXMonitoringThread.cs" Line="25" Column="3" />
+      <File FileName="xs1-data-logging/Devices/XS1/XS1-Actuators.cs" Line="1" Column="1" />
+      <File FileName="xs1-data-logging/Devices/XS1/XS1-Configuration.cs" Line="53" Column="4" />
+      <File FileName="xs1-data-logging/Devices/XS1/ActorReSwitching.cs" Line="16" Column="132" />
+      <File FileName="xs1-data-logging/Devices/ELVMAX/ELVMAX_Data/Messages/Metadata/House.cs" Line="1" Column="1" />
+      <File FileName="xs1-data-logging/ConsoleOutputLogger.cs" Line="46" Column="35" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
+          <Node name="Libraries" expanded="True" />
           <Node name="hacs" expanded="True">
-            <Node name="Devices" expanded="True">
-              <Node name="ELVMAX" expanded="True" />
-            </Node>
-            <Node name="HandlingThread.cs" selected="True" />
+            <Node name="ConsoleOutputLogger.cs" selected="True" />
           </Node>
         </State>
       </Pad>

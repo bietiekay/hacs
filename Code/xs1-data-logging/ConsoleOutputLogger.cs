@@ -2,6 +2,8 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using System.Globalization;
+using System.Threading;
 
 namespace xs1_data_logging
 {
@@ -39,6 +41,17 @@ namespace xs1_data_logging
 			else
 				return false;
         }
+		private String GenerateLogFilename()
+		{
+			CultureInfo originalCulture = Thread.CurrentThread.CurrentCulture;
+			// Change culture to en-US.
+			Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
+			String LogFilename = DateTime.Now.ToShortDateString() + "-xs1.log";
+			// Restore original culture.
+			Thread.CurrentThread.CurrentCulture = originalCulture;
+
+			return LogFilename;
+		}
 
         public void LogToFile(String text)
         {
@@ -46,8 +59,8 @@ namespace xs1_data_logging
             {
                 if (Logfile == null)
                 {
-                    WriteLineToScreenOnly("Opening Logfile: " + Properties.Settings.Default.LogfileDirectory + Path.DirectorySeparatorChar + DateTime.Now.ToShortDateString() + "-xs1.log");
-                    Logfile = new StreamWriter(Properties.Settings.Default.LogfileDirectory + Path.DirectorySeparatorChar + DateTime.Now.ToShortDateString() + "-xs1.log", true);
+					WriteLineToScreenOnly("Opening Logfile: " + Properties.Settings.Default.LogfileDirectory + Path.DirectorySeparatorChar + GenerateLogFilename());
+					Logfile = new StreamWriter(Properties.Settings.Default.LogfileDirectory + Path.DirectorySeparatorChar + GenerateLogFilename(), true);
                     Logfile.AutoFlush = true;
                 }
 
@@ -61,7 +74,7 @@ namespace xs1_data_logging
 				    if (Logfile != null)
 					    Logfile.Close();
 				    // now we reopen/create the new logfile for this day...
-                    Logfile = new StreamWriter(Properties.Settings.Default.LogfileDirectory + Path.DirectorySeparatorChar + DateTime.Now.ToShortDateString() + "-xs1.log", true);
+					Logfile = new StreamWriter(Properties.Settings.Default.LogfileDirectory + Path.DirectorySeparatorChar + GenerateLogFilename(), true);
 				    Logfile.AutoFlush = true;
 			    }
 
