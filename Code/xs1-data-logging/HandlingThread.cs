@@ -247,24 +247,24 @@ namespace xs1_data_logging
 								HeatingThermostatDiff _heating = (HeatingThermostatDiff)max_dataobject;
 
 								// this is what is different on the heating thermostats
-								ConsoleOutputLogger.WriteLine(_heating.ToString());
+								//ConsoleOutputLogger.WriteLine(_heating.ToString());
 
 								// first the temperature data
-								XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"heating_thermostat",DateTime.Now,_heating.RoomID,_heating.Temperature);
+								XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"heating_thermostat",DateTime.Now,_heating.RoomID,_heating.Temperature,_heating.ToString());
 								SensorCheckIgnoreConfiguration.AddToIgnoreList(maxdataobject.Name);
 								XS1_DataQueue.Enqueue(maxdataobject);
 
 								// then the low battery if exists
 								if (_heating.LowBattery == BatteryStatus.lowbattery)
 								{
-									XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_heating.RoomID,_heating.Temperature);
+									XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_heating.RoomID,_heating.Temperature,_heating.ToString()+", LowBattery");
 									SensorCheckIgnoreConfiguration.AddToIgnoreList(lowbatteryobject.Name);
 									XS1_DataQueue.Enqueue(lowbatteryobject);
 								}
 
 								if (_heating.Mode == ThermostatModes.boost)
 								{
-									XS1_DataObject boostmodeobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"boost",DateTime.Now,_heating.RoomID,_heating.Temperature);
+									XS1_DataObject boostmodeobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"boost",DateTime.Now,_heating.RoomID,_heating.Temperature, _heating.ToString()+", Boost");
 									SensorCheckIgnoreConfiguration.AddToIgnoreList(boostmodeobject.Name);
 									XS1_DataQueue.Enqueue(boostmodeobject);
 								}
@@ -275,18 +275,18 @@ namespace xs1_data_logging
 								ShutterContactDiff _shutter = (ShutterContactDiff)max_dataobject;
 
 								// this is what is different on the ShutterContacts
-								ConsoleOutputLogger.WriteLine(_shutter.ToString());
+								//ConsoleOutputLogger.WriteLine(_shutter.ToString());
 
 								// first the open/close status
 								if (_shutter.ShutterState == ShutterContactModes.open)
 								{
-									XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,1.0);
+									XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,1.0,_shutter.ToString());
 									SensorCheckIgnoreConfiguration.AddToIgnoreList(maxdataobject.Name);
 									XS1_DataQueue.Enqueue(maxdataobject);
 								}
 								else
 								{
-									XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,0.0);
+									XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,0.0,_shutter.ToString());
 									SensorCheckIgnoreConfiguration.AddToIgnoreList(maxdataobject.Name);
 									XS1_DataQueue.Enqueue(maxdataobject);
 								}
@@ -296,13 +296,13 @@ namespace xs1_data_logging
 								{
 									if (_shutter.ShutterState == ShutterContactModes.open)
 									{
-										XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,1.0);
+										XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,1.0,_shutter.ToString()+",LowBattery");
 										SensorCheckIgnoreConfiguration.AddToIgnoreList(lowbatteryobject.Name);
 										XS1_DataQueue.Enqueue(lowbatteryobject);
 									}
 									else
 									{
-										XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,0.0);
+										XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,0.0,_shutter.ToString()+",LowBattery");
 										SensorCheckIgnoreConfiguration.AddToIgnoreList(lowbatteryobject.Name);
 										XS1_DataQueue.Enqueue(lowbatteryobject);
 									}
