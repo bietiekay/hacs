@@ -49,6 +49,9 @@
     <WarningLevel>4</WarningLevel>
     <AssemblyName>hacs</AssemblyName>
   </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyName>xs1-data-logging</AssemblyName>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -134,25 +137,27 @@
     <Compile Include="Devices\SolarLog\SolarLogDataHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="SensorCheckIgnoreList.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="ScriptingTimerConfiguration.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="PowerSensorConfiguration.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="ScriptingActorConfiguration.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="HTTPProxy.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -185,12 +190,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="Devices\" />
-    <Folder Include="HTTP\SwimlaneJSON\" />
-    <Folder Include="Devices\ELVMAX\ELVMAX_Data\Messages\Modes\" />
-    <Folder Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\" />
-    <Folder Include="Monitoring\" />
-    <Folder Include="Devices\SolarLog\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

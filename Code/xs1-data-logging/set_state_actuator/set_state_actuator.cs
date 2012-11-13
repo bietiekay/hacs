@@ -31,9 +31,10 @@ namespace xs1_data_logging.set_state_actuator
 
             foreach (XS1Actuator _actuator in actuatorlist.actuator)
             {
+                foundActorID++;
                 if (_actuator.name.ToUpper() == actorname.ToUpper())
                 {
-                    foundActorID = _actuator.id;
+                    //foundActorID = _actuator.id;
 
                     bool foundpreset = false;
 
