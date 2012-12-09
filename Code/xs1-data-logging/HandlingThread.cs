@@ -127,6 +127,72 @@ namespace xs1_data_logging
 
                                 if (usethisactor)
                                 {
+									// this actor action did not result in any action hacs made - so we try to make the best out of it
+									#region Scripting Handling
+									// check if this sensor is something we should act uppon
+									foreach (ScriptingActorElement Element in ScriptingActorConfiguration.ScriptingActorActions)
+									{
+										if (dataobject.Name == Element.SensorToWatchName)
+										{
+											if (dataobject.Value == Element.SensorValue)
+											{ 
+												// obviously there is a ScriptingActorConfiguration entry
+												// so we execute the actor preset
+												
+												set_state_actuator.set_state_actuator ssa = new set_state_actuator.set_state_actuator();
+												ConsoleOutputLogger.WriteLineToScreenOnly("detected actor scripting action on actor "+Element.SensorToWatchName+" - "+Element.ActorToSwitchName+" to "+Element.ActionToRunName);
+												
+												// check what action is going to happen now...
+												if (Element.ActionToRunName == actor_status.On)
+												{
+													ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
+												}
+												
+												if (Element.ActionToRunName == actor_status.Off)
+												{
+													ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
+													
+													// remove from OnWaitOffList
+													lock (OnWaitOffLIst)
+													{
+														if (OnWaitOffLIst.Contains(Element.ActorToSwitchName))
+															OnWaitOffLIst.Remove(Element.ActorToSwitchName);
+													}
+												}
+												
+												if (Element.ActionToRunName == actor_status.OnOff)
+												{
+													// look for the current status in the known actors table
+													lock(KnownActorStates.KnownActorStatuses)
+													{
+														if (KnownActorStates.KnownActorStatuses.ContainsKey(Element.ActorToSwitchName))
+														{
+															current_actor_status Status = KnownActorStates.KnownActorStatuses[Element.ActorToSwitchName];
+															if (Status.Status == actor_status.On)
+																ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
+															else
+																if (Status.Status == actor_status.Off)
+																	ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
+														}
+														else
+															ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
+													}
+												}
+												if (Element.ActionToRunName == actor_status.OnWaitOff)
+												{
+													lock (OnWaitOffLIst)
+													{
+														ConsoleOutputLogger.WriteLine("Adding " + Element.ActorToSwitchName + " to ActorReSwitching OnWaitOff List");
+														OnWaitOffLIst.Add(Element.ActorToSwitchName);
+													}
+													ssa.SetStateActuatorPreset(xs1_data_logging.Properties.Settings.Default.XS1, xs1_data_logging.Properties.Settings.Default.Username, xs1_data_logging.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON_WAIT_OFF", XS1_Configuration);
+												}
+											}
+										}
+									}
+									#endregion
+
+
                                     if (KnownActorStates.KnownActorStatuses.ContainsKey(dataobject.Name))
                                     {
                                         // is contained
