@@ -604,6 +604,98 @@ namespace xs1_data_logging.JSONHandlers
                 #endregion
             }
 
+			if (OutputType == PowerSensorOutputs.CalculateWeeklykWh)
+			{
+				#region Calculated Weekly kWh Counter
+				Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
+				bool firstdataset = true;
+				UInt64 SerializerCounter = 0;
+				DateTime CurrentHourStart = StartDateTime;
+				Double CurrentHourMeanValue = Double.MinValue;
+				
+				// TODO: there should be an appropriate caching algorithm in the sensor data... 
+				lock (sensor_data.InMemoryIndex)
+				{
+					Double DailyMeanValue = Double.MinValue;
+					Int32 HourNumber = 0;
+					
+					foreach (OnDiscAdress ondisc in sensor_data.InMemoryIndex)
+					{
+						if (ondisc.CreationTime >= StartDateTime.Ticks)
+						{
+							if (ondisc.CreationTime <= EndDateTime.Ticks)
+							{
+								XS1_DataObject dataobject = ReadFromCache(ondisc);
+								SerializerCounter++;
+								
+								if (dataobject.Type == ObjectTypes.Sensor)
+								{
+									if (dataobject.TypeName == "pwr_consump")
+									{
+										if (dataobject.Name == ObjectName)
+										{
+											// only up to a certain amount we consider this a valid value...
+											if (dataobject.Value < 15000)
+											{
+												// calculate the time difference between hour start and current data object
+												TimeSpan ts = new TimeSpan(dataobject.Timecode.Ticks - CurrentHourStart.Ticks);
+												
+												if (ts.TotalMinutes >= 60)
+												{
+													// we have a full hour...add to the calculated value and reset hour values
+													CurrentHourStart = dataobject.Timecode;
+													
+													HourNumber++;
+													
+													if (HourNumber >= 168)
+													{
+														if (!firstdataset)
+															Output.Append(",");
+														else
+															firstdataset = false;
+														
+														// we have 24 hours completed
+														Output.Append("[");
+														Output.Append(dataobject.Timecode.JavaScriptTimestamp());
+														Output.Append(",");
+														//CurrentHourMeanValue = CurrentHourMeanValue / 100;
+														Output.Append(CurrentHourMeanValue.ToString().Replace(',', '.'));
+														Output.Append("]");
+														HourNumber = 0;
+													}
+													else
+													{
+														if (DailyMeanValue == Double.MinValue)
+															DailyMeanValue = CurrentHourMeanValue;
+														else
+															DailyMeanValue = (DailyMeanValue + CurrentHourMeanValue) / 2;
+													}
+													
+													CurrentHourMeanValue = Double.MinValue;
+												}
+												else
+												{
+													if (CurrentHourMeanValue == Double.MinValue)
+														CurrentHourMeanValue = dataobject.Value;
+													else
+													{
+														CurrentHourMeanValue = (CurrentHourMeanValue + dataobject.Value) / 2;
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					ConsoleOutputLogger_.WriteLineToScreenOnly("Generated JSON Dataset with " + SerializerCounter + " Elements");
+				}
+				
+			#endregion
+			}
+
+
             Output.Append("]}");
 
             //ConsoleOutputLogger.WriteLineToScreenOnly("Generated JSON Dataset with " + SerializerCounter + " Elements");

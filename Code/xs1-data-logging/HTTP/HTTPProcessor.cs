@@ -656,6 +656,9 @@ namespace HTTP
                         if (OutputType.ToUpper() == "CALCKWH")
                             Outputs = PowerSensorOutputs.CalculatedkWhCounterTotal;
 
+						if (OutputType.ToUpper() == "CALCWEEKLYKWH")
+							Outputs = PowerSensorOutputs.CalculateWeeklykWh;
+
                         if (OutputType.ToUpper() == "CALCDAILYKWH")
                             Outputs = PowerSensorOutputs.CalculatedDailykWh;
 
