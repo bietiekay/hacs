@@ -49,9 +49,6 @@
     <WarningLevel>4</WarningLevel>
     <AssemblyName>hacs</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyName>xs1-data-logging</AssemblyName>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -180,6 +177,10 @@
       <Project>{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}</Project>
       <Name>Newtonsoft.Json</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ICMP\ICMP.csproj">
+      <Project>{B833E7C9-ECF5-4790-8B47-9E3D84244E6A}</Project>
+      <Name>ICMP</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -191,4 +192,7 @@
   </Target>
   -->
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Devices\NetworkMonitoring\" />
+  </ItemGroup>
 </Project>
