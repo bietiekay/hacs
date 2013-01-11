@@ -86,5 +86,8 @@
     <Setting Name="SolarLogUpdateIntervalMsec" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10000</Value>
     </Setting>
+    <Setting Name="NetworkMonitorConfigurationFilename" Type="System.String" Scope="User">
+      <Value Profile="(Default)">NetworkMonitorConfiguration.config</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
