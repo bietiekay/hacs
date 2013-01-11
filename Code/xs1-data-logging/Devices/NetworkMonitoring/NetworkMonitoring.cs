@@ -40,8 +40,11 @@ namespace xs1_data_logging
 					}
 					catch(Exception e)
 					{
-						ConsoleOutputLogger.WriteLine("NetworkMonitor Exception: "+e.Message);
-					}
+						//ConsoleOutputLogger.WriteLine("NetworkMonitor Exception: "+e.Message);
+                        result = new ICMP_PingResult();
+                        result.Status = ICMP_Status.TimeOut;
+                        result.hostIP = null;
+                    }
 
 					// we got a result...
 					if (result != null)

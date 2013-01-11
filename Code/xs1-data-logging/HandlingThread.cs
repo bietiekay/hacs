@@ -49,6 +49,7 @@ namespace xs1_data_logging
 			XS1_DataQueue = new ConcurrentQueue<XS1_DataObject>();
 			MAX_DataQueue = new ConcurrentQueue<IDeviceDiffSet>();
             SolarLog_DataQueue = new ConcurrentQueue<SolarLogDataSet>();
+            NetworkMonitor_Queue = new ConcurrentQueue<NetworkMonitoringDataSet>();
         }
 		#endregion
 
