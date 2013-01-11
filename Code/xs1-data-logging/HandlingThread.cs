@@ -96,7 +96,7 @@ namespace xs1_data_logging
             http_server_thread.Start();
 
 			// Start Service Monitorng thread
-			NetworkMonitoring monitor = new NetworkMonitoring(ConsoleOutputLogger,NetworkMonitor_Queue,10000);
+			NetworkMonitoring monitor = new NetworkMonitoring(ConsoleOutputLogger,NetworkMonitor_Queue,Properties.Settings.Default.NetworkMonitorUpdateIntervalMsec);
 			Thread monitorThread = new Thread(new ThreadStart(monitor.Run));
 			monitorThread.Start();
 
@@ -396,16 +396,18 @@ namespace xs1_data_logging
 					#endregion
 
 					#region Handle Network Monitor events
-					/*if (Properties.Settings.Default.NetworkMonitorEnabled)
+					if (Properties.Settings.Default.NetworkMonitorEnabled)
 					{
 						NetworkMonitoringDataSet networkmonitor_dataobject = null;
 						
 						if(NetworkMonitor_Queue.TryDequeue(out networkmonitor_dataobject))
 						{
-							// Pac
-							XS1_DataQueue.Enqueue(new XS1_DataObject(Properties.Settings.Default.SolarLogURLDomain, "Pac", ObjectTypes.Sensor, "Pac", solarlog_dataobject.DateAndTime, 1, solarlog_dataobject.Pac, "solarlog," + Properties.Settings.Default.SolarLogURLDomain + ",Pac," + solarlog_dataobject.Pac + "," + solarlog_dataobject.DateAndTime.Ticks));
+							if (networkmonitor_dataobject.Status == Org.Mentalis.Network.ICMP_Status.Success)
+								XS1_DataQueue.Enqueue(new XS1_DataObject(networkmonitor_dataobject.Descriptor,networkmonitor_dataobject.HostnameIP,ObjectTypes.Sensor,"Ping",networkmonitor_dataobject.TimeOfMeasurement,2,1,"OnlineCheck,"+networkmonitor_dataobject.HostnameIP+","+networkmonitor_dataobject.Descriptor+",Online"));
+							else
+								XS1_DataQueue.Enqueue(new XS1_DataObject(networkmonitor_dataobject.Descriptor,networkmonitor_dataobject.HostnameIP,ObjectTypes.Sensor,"Ping",networkmonitor_dataobject.TimeOfMeasurement,2,0,"OnlineCheck,"+networkmonitor_dataobject.HostnameIP+","+networkmonitor_dataobject.Descriptor+",Offline"));
 						}
-					}*/
+					}
 					#endregion
                 }
                 catch (Exception)

@@ -8,7 +8,8 @@ namespace xs1_data_logging
 		public DateTime TimeOfMeasurement;
 		public ICMP_Status Status;
 		public double AverageRoundtripMS;
-		public String Hostname;
+		public String HostnameIP;
+		public String Descriptor;
 
 		public NetworkMonitoringDataSet()
 		{
