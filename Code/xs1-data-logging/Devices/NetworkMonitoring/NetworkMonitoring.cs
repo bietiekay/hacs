@@ -14,12 +14,14 @@ namespace xs1_data_logging
 		private Int32 NetworkMonitorUpdateTime;
 		private ConsoleOutputLogger ConsoleOutputLogger;
 		private ConcurrentQueue<NetworkMonitoringDataSet> iQueue;
+		private Dictionary<String,Boolean> OnOfflineList;
 
 		public NetworkMonitoring(ConsoleOutputLogger COL, ConcurrentQueue<NetworkMonitoringDataSet> EventQueue, Int32 UpdateTime = 10000)
 		{
 			NetworkMonitorUpdateTime = UpdateTime;
 			ConsoleOutputLogger = COL;
 			iQueue = EventQueue;
+			OnOfflineList = new Dictionary<string, bool>();
 		}
 
 		// this is the network monitoring script
@@ -49,15 +51,65 @@ namespace xs1_data_logging
 					// we got a result...
 					if (result != null)
 					{
-						NetworkMonitoringDataSet ds_result = new NetworkMonitoringDataSet();
+						// it's already in the list
+						if (OnOfflineList.ContainsKey(Host.IPAdressOrHostname))
+						{
+							if (OnOfflineList[Host.IPAdressOrHostname] == true) // this one was online before...
+							{
+								if (result.Status == ICMP_Status.TimeOut)
+								{
+									// it's now offline...
+									OnOfflineList[Host.IPAdressOrHostname] = false;
 
-						ds_result.AverageRoundtripMS = result.AverageRoundtripMS;
-						ds_result.Descriptor = Host.Descriptor;
-						ds_result.HostnameIP = Host.IPAdressOrHostname;
-						ds_result.Status = result.Status;
-						ds_result.TimeOfMeasurement = result.TimeOfMeasurement;
+									NetworkMonitoringDataSet ds_result = new NetworkMonitoringDataSet();
+									
+									ds_result.AverageRoundtripMS = result.AverageRoundtripMS;
+									ds_result.Descriptor = Host.Descriptor;
+									ds_result.HostnameIP = Host.IPAdressOrHostname;
+									ds_result.Status = result.Status;
+									ds_result.TimeOfMeasurement = result.TimeOfMeasurement;
+									
+									iQueue.Enqueue(ds_result);
+								}
+							}
+							else
+							{
+								if (result.Status == ICMP_Status.Success)
+								{
+									// it's now online...
+									OnOfflineList[Host.IPAdressOrHostname] = true;
+									
+									NetworkMonitoringDataSet ds_result = new NetworkMonitoringDataSet();
+									
+									ds_result.AverageRoundtripMS = result.AverageRoundtripMS;
+									ds_result.Descriptor = Host.Descriptor;
+									ds_result.HostnameIP = Host.IPAdressOrHostname;
+									ds_result.Status = result.Status;
+									ds_result.TimeOfMeasurement = result.TimeOfMeasurement;
+									
+									iQueue.Enqueue(ds_result);
+								}
+							}
+						}
+						else
+						{
+							if (result.Status == ICMP_Status.Success)
+								OnOfflineList.Add(Host.IPAdressOrHostname,true);
+							else
+								OnOfflineList.Add(Host.IPAdressOrHostname,false);
 
-						iQueue.Enqueue(ds_result);
+							// enqueue
+							NetworkMonitoringDataSet ds_result = new NetworkMonitoringDataSet();
+							
+							ds_result.AverageRoundtripMS = result.AverageRoundtripMS;
+							ds_result.Descriptor = Host.Descriptor;
+							ds_result.HostnameIP = Host.IPAdressOrHostname;
+							ds_result.Status = result.Status;
+							ds_result.TimeOfMeasurement = result.TimeOfMeasurement;
+							
+							iQueue.Enqueue(ds_result);
+						}
+
 					}
 				}
 
