@@ -89,5 +89,11 @@
     <Setting Name="NetworkMonitorConfigurationFilename" Type="System.String" Scope="User">
       <Value Profile="(Default)">NetworkMonitorConfiguration.config</Value>
     </Setting>
+    <Setting Name="NetworkMonitorEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="NetworkMonitorUpdateIntervalMsec" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

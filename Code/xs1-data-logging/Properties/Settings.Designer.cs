@@ -370,5 +370,29 @@ namespace xs1_data_logging.Properties {
                 this["NetworkMonitorConfigurationFilename"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool NetworkMonitorEnabled {
+            get {
+                return ((bool)(this["NetworkMonitorEnabled"]));
+            }
+            set {
+                this["NetworkMonitorEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60000")]
+        public int NetworkMonitorUpdateIntervalMsec {
+            get {
+                return ((int)(this["NetworkMonitorUpdateIntervalMsec"]));
+            }
+            set {
+                this["NetworkMonitorUpdateIntervalMsec"] = value;
+            }
+        }
     }
 }
