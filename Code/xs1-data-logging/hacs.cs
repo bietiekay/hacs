@@ -63,6 +63,7 @@ namespace xs1_data_logging
             ScriptingTimerConfiguration.ReadConfiguration(Properties.Settings.Default.ScriptingTimerConfigurationFilename);
             SensorCheckIgnoreConfiguration.ReadConfiguration(Properties.Settings.Default.SensorCheckIgnoreFile);
 			HTTPProxyConfiguration.ReadConfiguration(Properties.Settings.Default.HTTPProxyConfigurationFilename);
+			//NetworkMonitorConfiguration.ReadConfiguration(Properties.Settings.Default.)
 
             #region Logging and Actor Handling
             ConsoleOutputLogger.WriteLineToScreenOnly("Starting Logging for Server: " + Properties.Settings.Default.XS1);                        

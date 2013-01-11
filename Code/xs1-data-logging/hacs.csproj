@@ -132,6 +132,9 @@
     <Compile Include="Devices\SolarLog\SolarLogMonitoringThread.cs" />
     <Compile Include="Devices\SolarLog\SolarLogDataSet.cs" />
     <Compile Include="Devices\SolarLog\SolarLogDataHelper.cs" />
+    <Compile Include="Devices\NetworkMonitoring\NetworkMonitoring.cs" />
+    <Compile Include="Devices\NetworkMonitoring\NetworkMonitoringDataSet.cs" />
+    <Compile Include="Devices\NetworkMonitoring\NetworkMonitoringConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -145,6 +148,7 @@
     </None>
     <None Include="PowerSensorConfiguration.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <DependentUpon>PowerSensorConfiguration.config</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -154,6 +158,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="HTTPProxy.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="NetworkMonitorConfiguration.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
