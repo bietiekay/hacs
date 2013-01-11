@@ -7,7 +7,7 @@ using Org.Mentalis.Network;	// the icmp ping part
 
 namespace xs1_data_logging
 {
-	public class NetworkMonitoringThread
+	public class NetworkMonitoring
 	{
 		private String URL;
 		public bool running = true;
@@ -15,7 +15,7 @@ namespace xs1_data_logging
 		private ConsoleOutputLogger ConsoleOutputLogger;
 		private ConcurrentQueue<NetworkMonitoringDataSet> iQueue;
 
-		public NetworkMonitoringThread(ConsoleOutputLogger COL, ConcurrentQueue<NetworkMonitoringDataSet> EventQueue, Int32 UpdateTime = 10000)
+		public NetworkMonitoring(ConsoleOutputLogger COL, ConcurrentQueue<NetworkMonitoringDataSet> EventQueue, Int32 UpdateTime = 10000)
 		{
 			NetworkMonitorUpdateTime = UpdateTime;
 			ConsoleOutputLogger = COL;

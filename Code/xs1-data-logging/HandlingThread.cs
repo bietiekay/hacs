@@ -32,6 +32,7 @@ namespace xs1_data_logging
 		private ConcurrentQueue<XS1_DataObject> XS1_DataQueue;	// use a thread safe list like structure to hold the messages coming in from the XS1
 		private ConcurrentQueue<IDeviceDiffSet> MAX_DataQueue;  // use a thread safe list like structure to hold the messages coming in from the ELV MAX
 		private ConcurrentQueue<SolarLogDataSet> SolarLog_DataQueue; // use a thread safe list like structure to hold the messages coming in from the SolarLog
+		private ConcurrentQueue<NetworkMonitoringDataSet> NetworkMonitor_Queue; // use a thread safe list like structure to hold the messages coming in from the NetworkMonitor
         bool Shutdown = false;
 
 		#region Ctor
@@ -95,9 +96,9 @@ namespace xs1_data_logging
             http_server_thread.Start();
 
 			// Start Service Monitorng thread
-			ServiceMonitor monitor = new ServiceMonitor(ConsoleOutputLogger);
-			Thread serviceMonitorThread = new Thread(new ThreadStart(monitor.Run));
-			serviceMonitorThread.Start();
+			NetworkMonitoring monitor = new NetworkMonitoring(ConsoleOutputLogger,NetworkMonitor_Queue,10000);
+			Thread monitorThread = new Thread(new ThreadStart(monitor.Run));
+			monitorThread.Start();
 
             while (!Shutdown)
             {
@@ -392,6 +393,19 @@ namespace xs1_data_logging
                             XS1_DataQueue.Enqueue(new XS1_DataObject(Properties.Settings.Default.SolarLogURLDomain, "aPdc", ObjectTypes.Sensor, "aPdc", solarlog_dataobject.DateAndTime, 1, solarlog_dataobject.aPdc, "solarlog," + Properties.Settings.Default.SolarLogURLDomain + ",aPdc," + solarlog_dataobject.aPdc+","+solarlog_dataobject.DateAndTime.Ticks));
 						}
 					}
+					#endregion
+
+					#region Handle Network Monitor events
+					/*if (Properties.Settings.Default.NetworkMonitorEnabled)
+					{
+						NetworkMonitoringDataSet networkmonitor_dataobject = null;
+						
+						if(NetworkMonitor_Queue.TryDequeue(out networkmonitor_dataobject))
+						{
+							// Pac
+							XS1_DataQueue.Enqueue(new XS1_DataObject(Properties.Settings.Default.SolarLogURLDomain, "Pac", ObjectTypes.Sensor, "Pac", solarlog_dataobject.DateAndTime, 1, solarlog_dataobject.Pac, "solarlog," + Properties.Settings.Default.SolarLogURLDomain + ",Pac," + solarlog_dataobject.Pac + "," + solarlog_dataobject.DateAndTime.Ticks));
+						}
+					}*/
 					#endregion
                 }
                 catch (Exception)

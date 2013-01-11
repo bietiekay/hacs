@@ -1,6 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/HandlingThread.cs">
+    <Files>
+      <File FileName="xs1-data-logging/Devices/NetworkMonitoring/NetworkMonitoring.cs" Line="16" Column="60" />
+      <File FileName="xs1-data-logging/Devices/XS1/ScriptingActorConfiguration.cs" Line="23" Column="34" />
+      <File FileName="xs1-data-logging/HandlingThread.cs" Line="408" Column="9" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
