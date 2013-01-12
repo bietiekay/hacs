@@ -65,6 +65,16 @@ namespace xs1_data_logging
 			HTTPProxyConfiguration.ReadConfiguration(Properties.Settings.Default.HTTPProxyConfigurationFilename);
 			NetworkMonitorConfiguration.ReadConfiguration(Properties.Settings.Default.NetworkMonitorConfigurationFilename);
 
+			#region add NetworkMonitor sensors to sensorcheckignore list
+			if (Properties.Settings.Default.NetworkMonitorEnabled)
+			{
+				foreach(NetworkMonitoringHost Host in NetworkMonitorConfiguration.NetworkHosts)
+				{
+					SensorCheckIgnoreConfiguration.AddToIgnoreList(Host.IPAdressOrHostname);
+				}
+			}
+			#endregion
+
             #region Logging and Actor Handling
             ConsoleOutputLogger.WriteLineToScreenOnly("Starting Logging for Server: " + Properties.Settings.Default.XS1);                        
             LoggingThread _Thread = new LoggingThread(Properties.Settings.Default.XS1, ConsoleOutputLogger, actor_data_store, sensor_data_store, unknown_data_store,Properties.Settings.Default.Username,Properties.Settings.Default.Password,Properties.Settings.Default.ConfigurationCacheMinutes);
