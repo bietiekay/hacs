@@ -38,7 +38,7 @@ namespace xs1_data_logging
 					ICMP_PingResult result = null;
 					try
 					{
-						result = pinger.Ping(Host.IPAdressOrHostname);
+						result = pinger.Ping(Host.IPAdressOrHostname,1,500);
 					}
 					catch(Exception e)
 					{
