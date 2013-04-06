@@ -1,4 +1,7 @@
 .DS_Store
+/Code/hacs-dbtool/bin
+/Code/SMS77.NET/SMS77/bin
+/Code/SMS77.NET/SendSMS/bin
 /Code/MAXDebug/MAXDebug/bin
 Code/MAXDebug/MAXDebug/obj
 /Code/xs1-data-logging/obj

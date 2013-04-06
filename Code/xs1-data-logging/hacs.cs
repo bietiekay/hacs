@@ -43,7 +43,7 @@ namespace xs1_data_logging
 
             #region Logo
             ConsoleOutputLogger.WriteLine("home automation control server " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
-            ConsoleOutputLogger.WriteLine("(C) 2010-2012 Daniel Kirstenpfad - http://github.com/bietiekay/hacs");
+            ConsoleOutputLogger.WriteLine("(C) 2010-2013 Daniel Kirstenpfad - http://github.com/bietiekay/hacs");
             #endregion
 						
             ConsoleOutputLogger.writeLogfile = true;

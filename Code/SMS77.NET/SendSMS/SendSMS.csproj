@@ -2,15 +2,16 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}</ProjectGuid>
+    <ProjectGuid>{62945C65-2A24-4F6D-AA75-77E68FF08E58}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>hacsdbtool</RootNamespace>
-    <AssemblyName>hacs-dbtool</AssemblyName>
+    <RootNamespace>SendSMS</RootNamespace>
+    <AssemblyName>SendSMS</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
@@ -18,16 +19,14 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
     <Externalconsole>True</Externalconsole>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>True</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
     <Externalconsole>True</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
@@ -36,17 +35,12 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="XS1_DataObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\DataObjectOnDisk\DataObjectOnDisk.csproj">
-      <Project>{16D19293-2334-44DC-9BEA-39651DA8F58B}</Project>
-      <Name>DataObjectOnDisk</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\sonesFastSerializer\sonesFastSerializer.csproj">
-      <Project>{8A2C05AA-6E56-414B-A43C-7173FC34DB24}</Project>
-      <Name>sonesFastSerializer</Name>
+    <ProjectReference Include="..\SMS77\SMS77.csproj">
+      <Project>{8745FAF6-18DF-49A6-9285-BB3A0380F0C3}</Project>
+      <Name>SMS77</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -129,7 +129,7 @@ Global
 		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032} = {CB3EFC82-527B-4703-B2B7-51677A74BEA5}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = xs1-data-logging\hacs.csproj
+		StartupItem = hacs-dbtool\hacs-dbtool.csproj
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = hacs.vsmdi
