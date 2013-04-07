@@ -101,6 +101,11 @@ namespace xs1_data_logging
 			Thread monitorThread = new Thread(new ThreadStart(monitor.Run));
 			monitorThread.Start();
 
+			// Start Alarming thread
+			AlarmingThread alarmThread = new AlarmingThread(ConsoleOutputLogger);
+			Thread alarming_thread = new Thread(new ThreadStart(alarmThread.Run));
+			alarming_thread.Start();
+
             while (!Shutdown)
             {
                 try

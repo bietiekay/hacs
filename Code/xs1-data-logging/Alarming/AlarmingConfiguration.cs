@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace xs1_data_logging
 {
@@ -41,14 +43,26 @@ namespace xs1_data_logging
 	public class AlarmConfiguration
 	{
 		public List<Alarm> Alarms { get; set; }
+
+		public AlarmConfiguration()
+		{
+			Alarms = new List<Alarm>();
+		}
 	}
 	
 	#endregion
 
-	public class Alarming
+	public class AlarmingConfiguration
 	{
-		public Alarming ()
+		public static AlarmConfiguration Alarms = new AlarmConfiguration();
+
+		public static void ReadConfiguration(String ConfigurationFilename)
 		{
+			if (File.Exists(ConfigurationFilename))
+			{
+				String jsonfile = File.ReadAllText(ConfigurationFilename);
+				Alarms = JsonConvert.DeserializeObject<AlarmConfiguration>(jsonfile);				
+			}
 		}
 	}
 }

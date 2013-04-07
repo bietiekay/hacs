@@ -137,6 +137,7 @@
     <Compile Include="Devices\NetworkMonitoring\NetworkMonitoringConfiguration.cs" />
     <Compile Include="Alarming\SMS\SMSAlarm.cs" />
     <Compile Include="Alarming\AlarmingConfiguration.cs" />
+    <Compile Include="Alarming\AlarmingThread.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

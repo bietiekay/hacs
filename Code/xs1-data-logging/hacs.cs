@@ -64,6 +64,7 @@ namespace xs1_data_logging
             SensorCheckIgnoreConfiguration.ReadConfiguration(Properties.Settings.Default.SensorCheckIgnoreFile);
 			HTTPProxyConfiguration.ReadConfiguration(Properties.Settings.Default.HTTPProxyConfigurationFilename);
 			NetworkMonitorConfiguration.ReadConfiguration(Properties.Settings.Default.NetworkMonitorConfigurationFilename);
+			AlarmingConfiguration.ReadConfiguration(Properties.Settings.Default.AlarmingConfigurationFilename);
 
 			#region add NetworkMonitor sensors to sensorcheckignore list
 			if (Properties.Settings.Default.NetworkMonitorEnabled)

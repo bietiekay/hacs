@@ -1,12 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/AlarmingConfiguration.config">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/HandlingThread.cs">
     <Files>
-      <File FileName="hacs-dbtool/Main.cs" Line="1" Column="1" />
-      <File FileName="hacs-dbtool/XS1_DataObject.cs" Line="1" Column="1" />
-      <File FileName="xs1-data-logging/ScriptingTimers/ScriptingTimerConfiguration.cs" Line="1" Column="1" />
-      <File FileName="xs1-data-logging/ScriptingTimers/ScriptingTimerOperationModes.cs" Line="1" Column="1" />
-      <File FileName="xs1-data-logging/AlarmingConfiguration.config" Line="27" Column="10" />
+      <File FileName="xs1-data-logging/HandlingThread.cs" Line="90" Column="51" />
+      <File FileName="xs1-data-logging/Alarming/AlarmingThread.cs" Line="18" Column="61" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
