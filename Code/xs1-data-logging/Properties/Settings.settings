@@ -95,5 +95,8 @@
     <Setting Name="NetworkMonitorUpdateIntervalMsec" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">60000</Value>
     </Setting>
+    <Setting Name="AlarmingConfigurationFilename" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AlarmingConfiguration.config</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

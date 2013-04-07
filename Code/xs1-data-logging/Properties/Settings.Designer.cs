@@ -394,5 +394,17 @@ namespace xs1_data_logging.Properties {
                 this["NetworkMonitorUpdateIntervalMsec"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("AlarmingConfiguration.config")]
+        public string AlarmingConfigurationFilename {
+            get {
+                return ((string)(this["AlarmingConfigurationFilename"]));
+            }
+            set {
+                this["AlarmingConfigurationFilename"] = value;
+            }
+        }
     }
 }
