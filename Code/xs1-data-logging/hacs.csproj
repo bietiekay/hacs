@@ -135,6 +135,8 @@
     <Compile Include="Devices\NetworkMonitoring\NetworkMonitoring.cs" />
     <Compile Include="Devices\NetworkMonitoring\NetworkMonitoringDataSet.cs" />
     <Compile Include="Devices\NetworkMonitoring\NetworkMonitoringConfiguration.cs" />
+    <Compile Include="Alarming\SMS\SMSAlarm.cs" />
+    <Compile Include="Alarming\AlarmingConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -163,6 +165,9 @@
     <None Include="NetworkMonitorConfiguration.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="AlarmingConfiguration.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="license.txt" />
@@ -188,6 +193,10 @@
       <Project>{B833E7C9-ECF5-4790-8B47-9E3D84244E6A}</Project>
       <Name>ICMP</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SMS77.NET\SMS77\SMS77.csproj">
+      <Project>{8745FAF6-18DF-49A6-9285-BB3A0380F0C3}</Project>
+      <Name>SMS77</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -201,5 +210,7 @@
   <ItemGroup />
   <ItemGroup>
     <Folder Include="Devices\NetworkMonitoring\" />
+    <Folder Include="Alarming\" />
+    <Folder Include="Alarming\SMS\" />
   </ItemGroup>
 </Project>
