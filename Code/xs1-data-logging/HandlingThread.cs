@@ -97,19 +97,28 @@ namespace xs1_data_logging
             http_server_thread.Start();
 
 			// Start Service Monitorng thread
-			NetworkMonitoring monitor = new NetworkMonitoring(ConsoleOutputLogger,NetworkMonitor_Queue,Properties.Settings.Default.NetworkMonitorUpdateIntervalMsec);
-			Thread monitorThread = new Thread(new ThreadStart(monitor.Run));
-			monitorThread.Start();
+            if (Properties.Settings.Default.NetworkMonitorEnabled)
+            {
+			    NetworkMonitoring monitor = new NetworkMonitoring(ConsoleOutputLogger,NetworkMonitor_Queue,Properties.Settings.Default.NetworkMonitorUpdateIntervalMsec);
+			    Thread monitorThread = new Thread(new ThreadStart(monitor.Run));
+			    monitorThread.Start();
+            }
 
 			// Start Alarming thread
-			AlarmingThread alarmThread = new AlarmingThread(ConsoleOutputLogger);
-			Thread alarming_thread = new Thread(new ThreadStart(alarmThread.Run));
-			alarming_thread.Start();
+            if (Properties.Settings.Default.AlarmingEnabled)
+            {
+			    AlarmingThread alarmThread = new AlarmingThread(ConsoleOutputLogger);
+			    Thread alarming_thread = new Thread(new ThreadStart(alarmThread.Run));
+			    alarming_thread.Start();
+            }
 
 			// Start Google Latitude Thread
-			GoogleLatitudeThread googleLatitudeThread = new GoogleLatitudeThread(ConsoleOutputLogger);
-			Thread googleLatitude_Thread = new Thread(new ThreadStart(googleLatitudeThread.Run));
-			googleLatitude_Thread.Start();
+			if (Properties.Settings.Default.GoogleLatitudeEnabled)
+            {
+                GoogleLatitudeThread googleLatitudeThread = new GoogleLatitudeThread(ConsoleOutputLogger,Properties.Settings.Default.GoogleLatitudeUpdateTime,Properties.Settings.Default.DataObjectCacheSize);
+			    Thread googleLatitude_Thread = new Thread(new ThreadStart(googleLatitudeThread.Run));
+			    googleLatitude_Thread.Start();
+            }
 
 	        while (!Shutdown)
             {

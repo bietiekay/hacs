@@ -15,7 +15,7 @@ namespace xs1_data_logging
 	
 	public class GoogleLatitudeConfigurationFile
 	{
-		public List<GoogleLatitudeAccount> GoogleLatitudeAccounts { get; set; }
+		public List<GoogleLatitudeAccount> GoogleLatitudeIDs { get; set; }
 	}
 	#endregion
 
@@ -28,7 +28,9 @@ namespace xs1_data_logging
 			if (File.Exists(ConfigurationFilename))
 			{
 				String jsonfile = File.ReadAllText(ConfigurationFilename);
-				GoogleLatitudeAccounts = JsonConvert.DeserializeObject<GoogleLatitudeConfigurationFile>(jsonfile);				
+                //Console.WriteLine(jsonfile);
+				GoogleLatitudeAccounts = JsonConvert.DeserializeObject<GoogleLatitudeConfigurationFile>(jsonfile);
+                //Console.WriteLine(GoogleLatitudeAccounts.GoogleLatitudeIDs.Count);
 			}
 		}
 	}

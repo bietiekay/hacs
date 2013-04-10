@@ -49,6 +49,9 @@
     <WarningLevel>4</WarningLevel>
     <AssemblyName>hacs</AssemblyName>
   </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyName>xs1_data_logging</AssemblyName>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -147,6 +150,7 @@
   <ItemGroup>
     <None Include="app.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="SensorCheckIgnoreList.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -217,10 +221,5 @@
   </Target>
   -->
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Devices\NetworkMonitoring\" />
-    <Folder Include="Alarming\" />
-    <Folder Include="Alarming\SMS\" />
-    <Folder Include="Devices\GoogleLatitude\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

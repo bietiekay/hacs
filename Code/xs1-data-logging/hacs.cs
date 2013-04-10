@@ -63,14 +63,18 @@ namespace xs1_data_logging
             ScriptingTimerConfiguration.ReadConfiguration(Properties.Settings.Default.ScriptingTimerConfigurationFilename);
             SensorCheckIgnoreConfiguration.ReadConfiguration(Properties.Settings.Default.SensorCheckIgnoreFile);
 			HTTPProxyConfiguration.ReadConfiguration(Properties.Settings.Default.HTTPProxyConfigurationFilename);
-			NetworkMonitorConfiguration.ReadConfiguration(Properties.Settings.Default.NetworkMonitorConfigurationFilename);
-			AlarmingConfiguration.ReadConfiguration(Properties.Settings.Default.AlarmingConfigurationFilename);
+			
+            if (Properties.Settings.Default.AlarmingEnabled)
+                AlarmingConfiguration.ReadConfiguration(Properties.Settings.Default.AlarmingConfigurationFilename);
 
-			GoogleLatitudeConfiguration.ReadConfiguration("GoogleLatitudeConfiguration.config");
+            if (Properties.Settings.Default.GoogleLatitudeEnabled)
+			    GoogleLatitudeConfiguration.ReadConfiguration(Properties.Settings.Default.GoogleLatitudeConfigurationFilename);
 
 			#region add NetworkMonitor sensors to sensorcheckignore list
 			if (Properties.Settings.Default.NetworkMonitorEnabled)
 			{
+                NetworkMonitorConfiguration.ReadConfiguration(Properties.Settings.Default.NetworkMonitorConfigurationFilename);
+
 				foreach(NetworkMonitoringHost Host in NetworkMonitorConfiguration.NetworkHosts)
 				{
 					SensorCheckIgnoreConfiguration.AddToIgnoreList(Host.IPAdressOrHostname);

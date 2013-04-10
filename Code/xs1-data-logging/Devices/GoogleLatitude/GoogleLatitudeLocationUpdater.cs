@@ -15,7 +15,7 @@ namespace xs1_data_logging
 			try
 			{
 				// create a web client and get the data
-				String fullURL = "http://www.google.com/latitude/apps/badge/api?user="+LatitudeID+"type=json";
+                String fullURL = "http://www.google.com/latitude/apps/badge/api?user=" + LatitudeID + "&type=json";
 				WebClient client = new WebClient ();
 
 				String Value = client.DownloadString(fullURL);

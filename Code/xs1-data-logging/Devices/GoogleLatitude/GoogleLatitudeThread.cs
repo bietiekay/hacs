@@ -34,7 +34,7 @@ namespace xs1_data_logging
 			{
 				try
 				{
-					foreach(GoogleLatitudeAccount Account in GoogleLatitudeConfiguration.GoogleLatitudeAccounts.GoogleLatitudeAccounts)
+					foreach(GoogleLatitudeAccount Account in GoogleLatitudeConfiguration.GoogleLatitudeAccounts.GoogleLatitudeIDs)
 					{
 						// retrieve new data for this account...
 						#region Retrieve Data

@@ -406,5 +406,53 @@ namespace xs1_data_logging.Properties {
                 this["AlarmingConfigurationFilename"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AlarmingEnabled {
+            get {
+                return ((bool)(this["AlarmingEnabled"]));
+            }
+            set {
+                this["AlarmingEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool GoogleLatitudeEnabled {
+            get {
+                return ((bool)(this["GoogleLatitudeEnabled"]));
+            }
+            set {
+                this["GoogleLatitudeEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("GoogleLatitudeConfiguration.config")]
+        public string GoogleLatitudeConfigurationFilename {
+            get {
+                return ((string)(this["GoogleLatitudeConfigurationFilename"]));
+            }
+            set {
+                this["GoogleLatitudeConfigurationFilename"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30000")]
+        public int GoogleLatitudeUpdateTime {
+            get {
+                return ((int)(this["GoogleLatitudeUpdateTime"]));
+            }
+            set {
+                this["GoogleLatitudeUpdateTime"] = value;
+            }
+        }
     }
 }
