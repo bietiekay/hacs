@@ -66,6 +66,8 @@ namespace xs1_data_logging
 			NetworkMonitorConfiguration.ReadConfiguration(Properties.Settings.Default.NetworkMonitorConfigurationFilename);
 			AlarmingConfiguration.ReadConfiguration(Properties.Settings.Default.AlarmingConfigurationFilename);
 
+			GoogleLatitudeConfiguration.ReadConfiguration("GoogleLatitudeConfiguration.config");
+
 			#region add NetworkMonitor sensors to sensorcheckignore list
 			if (Properties.Settings.Default.NetworkMonitorEnabled)
 			{

@@ -106,7 +106,12 @@ namespace xs1_data_logging
 			Thread alarming_thread = new Thread(new ThreadStart(alarmThread.Run));
 			alarming_thread.Start();
 
-            while (!Shutdown)
+			// Start Google Latitude Thread
+			GoogleLatitudeThread googleLatitudeThread = new GoogleLatitudeThread(ConsoleOutputLogger);
+			Thread googleLatitude_Thread = new Thread(new ThreadStart(googleLatitudeThread.Run));
+			googleLatitude_Thread.Start();
+
+	        while (!Shutdown)
             {
                 try
                 {

@@ -138,6 +138,11 @@
     <Compile Include="Alarming\SMS\SMSAlarm.cs" />
     <Compile Include="Alarming\AlarmingConfiguration.cs" />
     <Compile Include="Alarming\AlarmingThread.cs" />
+    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeConfiguration.cs" />
+    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeThread.cs" />
+    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeDataObject.cs" />
+    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeLocationData.cs" />
+    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeLocationUpdater.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -167,6 +172,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="AlarmingConfiguration.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="GoogleLatitudeConfiguration.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -213,5 +221,6 @@
     <Folder Include="Devices\NetworkMonitoring\" />
     <Folder Include="Alarming\" />
     <Folder Include="Alarming\SMS\" />
+    <Folder Include="Devices\GoogleLatitude\" />
   </ItemGroup>
 </Project>
