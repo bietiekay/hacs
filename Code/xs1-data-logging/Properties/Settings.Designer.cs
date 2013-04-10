@@ -421,18 +421,6 @@ namespace xs1_data_logging.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool GoogleLatitudeEnabled {
-            get {
-                return ((bool)(this["GoogleLatitudeEnabled"]));
-            }
-            set {
-                this["GoogleLatitudeEnabled"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("GoogleLatitudeConfiguration.config")]
         public string GoogleLatitudeConfigurationFilename {
             get {
@@ -452,6 +440,18 @@ namespace xs1_data_logging.Properties {
             }
             set {
                 this["GoogleLatitudeUpdateTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool GoogleLatitudeEnabled {
+            get {
+                return ((bool)(this["GoogleLatitudeEnabled"]));
+            }
+            set {
+                this["GoogleLatitudeEnabled"] = value;
             }
         }
     }

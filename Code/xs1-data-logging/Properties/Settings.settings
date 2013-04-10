@@ -101,14 +101,14 @@
     <Setting Name="AlarmingEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="GoogleLatitudeEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="GoogleLatitudeConfigurationFilename" Type="System.String" Scope="User">
       <Value Profile="(Default)">GoogleLatitudeConfiguration.config</Value>
     </Setting>
     <Setting Name="GoogleLatitudeUpdateTime" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">30000</Value>
+    </Setting>
+    <Setting Name="GoogleLatitudeEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -50,7 +50,7 @@
     <AssemblyName>hacs</AssemblyName>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyName>xs1_data_logging</AssemblyName>
+    <AssemblyName>xs1-data-logging</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
