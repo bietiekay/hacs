@@ -54,6 +54,14 @@ namespace xs1_data_logging
 			ConsoleOutputLogger.WriteLine("Initialized sensor-data storage: "+sensor_data_store.InMemoryIndex.Count);
 			TinyOnDiskStorage unknown_data_store = new TinyOnDiskStorage("unknown-data", false,xs1_data_logging.Properties.Settings.Default.DataObjectCacheSize);
 			ConsoleOutputLogger.WriteLine("Initialized unknown-data storage: "+unknown_data_store.InMemoryIndex.Count);
+			TinyOnDiskStorage latitude_data_store = null;
+
+			if (xs1_data_logging.Properties.Settings.Default.GoogleLatitudeEnabled)
+			{
+				latitude_data_store = new TinyOnDiskStorage("googlelatitude-data", false,xs1_data_logging.Properties.Settings.Default.DataObjectCacheSize);
+				ConsoleOutputLogger.WriteLine("Initialized latitude storage: "+latitude_data_store.InMemoryIndex.Count);
+			}
+
 
             //List<Thread> LoggingThreads = new List<Thread>();
             ScriptingTimerThread _ScriptingTimerThread;
@@ -84,7 +92,7 @@ namespace xs1_data_logging
 
             #region Logging and Actor Handling
             ConsoleOutputLogger.WriteLineToScreenOnly("Starting Logging for Server: " + Properties.Settings.Default.XS1);                        
-            LoggingThread _Thread = new LoggingThread(Properties.Settings.Default.XS1, ConsoleOutputLogger, actor_data_store, sensor_data_store, unknown_data_store,Properties.Settings.Default.Username,Properties.Settings.Default.Password,Properties.Settings.Default.ConfigurationCacheMinutes);
+			LoggingThread _Thread = new LoggingThread(Properties.Settings.Default.XS1, ConsoleOutputLogger, actor_data_store, sensor_data_store, unknown_data_store,latitude_data_store,Properties.Settings.Default.Username,Properties.Settings.Default.Password,Properties.Settings.Default.ConfigurationCacheMinutes);
             Thread LoggingThread = new Thread(new ThreadStart(_Thread.Run));
             LoggingThread.Start();
             #endregion

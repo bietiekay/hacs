@@ -44,10 +44,12 @@ namespace HTTP
 		private String HTTPServer_DocumentRoot;
         private XS1Configuration XS1_Configuration;
 		private JSONData JSON_Data;
+		private Geolocation LatitudeGeoLocation;
         private ConsoleOutputLogger ConsoleOutputLogger;
 		private HTTPProxy internal_proxy;
 		private MAXMonitoringThread ELVMAX;
 		private TinyOnDiskStorage SensorDataStore;
+		private TinyOnDiskStorage LatitudeDataStore;
 		#endregion
 
 		#region Constructor
@@ -62,7 +64,7 @@ namespace HTTP
 		/// <param name="docRoot">Root-Directory of the HTTP Server</param>
 		/// <param name="s">the Socket to work with</param>
 		/// <param name="webserver">the "master" HttpServer Object of this Client</param>
-		public HttpProcessor(Socket s, String HTTP_DocumentRoot, TinyOnDiskStorage Storage, XS1Configuration _XS1_Configuration, ConsoleOutputLogger Logger, MAXMonitoringThread ELVMAXMonitoring)
+		public HttpProcessor(Socket s, String HTTP_DocumentRoot, TinyOnDiskStorage Storage, TinyOnDiskStorage LatitudeStorage, XS1Configuration _XS1_Configuration, ConsoleOutputLogger Logger, MAXMonitoringThread ELVMAXMonitoring)
 		{
 			this.s = s;
 			HTTPServer_DocumentRoot = HTTP_DocumentRoot;
@@ -74,6 +76,8 @@ namespace HTTP
 			internal_proxy = new HTTPProxy(ConsoleOutputLogger,ELVMAXMonitoring);
 			ELVMAX = ELVMAXMonitoring;
 			SensorDataStore = Storage;
+			LatitudeDataStore = LatitudeStorage;
+			LatitudeGeoLocation = new Geolocation(LatitudeStorage,Logger);
 		}
 		#endregion
 
@@ -557,6 +561,112 @@ namespace HTTP
 						ns.Write(buffer, 0, left);
 						ns.Flush();
 						return;
+					}
+					#endregion
+
+					#region Google Latitude
+					if (xs1_data_logging.Properties.Settings.Default.GoogleLatitudeEnabled)
+					{
+						if (url.ToUpper().StartsWith("GEOLOCATION"))
+						{
+							method_found = true;
+							url = url.Remove(0, 11);
+							
+							NameValueCollection nvcollection = HttpUtility.ParseQueryString(url);
+							
+							// TODO: ADD handling and calculation here
+							String ObjectName = "";
+							String StartDate = "";
+							String EndDate = "";
+							//String OutputType = "";
+							DateTime start = DateTime.Now;
+							DateTime end = DateTime.Now;
+							Boolean JustLastEntry = false;
+
+							#region Querystring handling
+							foreach (String Key in nvcollection.AllKeys)
+							{
+								if (Key.ToUpper() == "NAME")
+									ObjectName = nvcollection[Key];
+								if (Key.ToUpper() == "START")
+									StartDate = nvcollection[Key];
+								if (Key.ToUpper() == "END")
+									EndDate = nvcollection[Key];
+								if (Key.ToUpper() == "LASTENTRY")
+									JustLastEntry = true;
+							}
+							
+							if (ObjectName == "")
+							{
+								writeError(404, "No Method found");
+								return;
+							}
+							if (StartDate == "") // defaults
+							{
+								start = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+							}
+							else
+							{
+								// parse the date and set it...
+								// since we are only interested in the day, month and year it's necessary to only parse that
+								// we expect the following format: day-month-year
+								// for example: 12-01-2012 will be 12th of January 2012
+								String[] Splitted = StartDate.Split(new char[1] { '-' });
+								
+								if (Splitted.Length == 3)
+								{
+									Int32 year = Convert.ToInt32(Splitted[2]);
+									Int32 month = Convert.ToInt32(Splitted[1]);
+									Int32 day = Convert.ToInt32(Splitted[0]);
+									
+									start = new DateTime(year, month, day);
+								}
+								else
+								{
+									start = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+								}
+							}
+							
+							if (EndDate == "")
+							{
+								end = DateTime.Now;
+							}
+							else
+							{
+								// parse the date and set it...
+								// since we are only interested in the day, month and year it's necessary to only parse that
+								// we expect the following format: day-month-year
+								// for example: 12-01-2012 will be 12th of January 2012
+								String[] Splitted = EndDate.Split(new char[1] { '-' });
+								
+								if (Splitted.Length == 3)
+								{
+									Int32 year = Convert.ToInt32(Splitted[2]);
+									Int32 month = Convert.ToInt32(Splitted[1]);
+									Int32 day = Convert.ToInt32(Splitted[0]);
+									
+									end = new DateTime(year, month, day);
+								}
+								else
+								{
+									end = DateTime.Now - (new TimeSpan(xs1_data_logging.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+								}
+							}
+							#endregion
+
+							String Output = "";
+
+							if (JustLastEntry)
+								Output = LatitudeGeoLocation.GenerateJSON_LastEntry(ObjectName);
+							
+							int left = new UTF8Encoding().GetByteCount(Output);
+							writeSuccess(left, "text/html");
+							byte[] buffer = new UTF8Encoding().GetBytes(Output);
+							ns.Write(buffer, 0, left);
+							ns.Flush();
+
+							return;
+						}
 					}
 					#endregion
 

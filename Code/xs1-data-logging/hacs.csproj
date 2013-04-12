@@ -49,9 +49,6 @@
     <WarningLevel>4</WarningLevel>
     <AssemblyName>hacs</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyName>xs1-data-logging</AssemblyName>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -123,10 +120,8 @@
     <Compile Include="Devices\XS1\XS1-Configuration.cs" />
     <Compile Include="Devices\XS1\XS1-Sensors.cs" />
     <Compile Include="hacs.cs" />
-    <Compile Include="HTTP\SwimlaneJSON\SwimlaneJSON.cs" />
     <Compile Include="HTTP\HTTPProxy\VirtualXS1Sensors\SensorJSON.cs" />
     <Compile Include="HTTP\HTTPProxy\VirtualXS1Sensors\ActorJSON.cs" />
-    <Compile Include="HTTP\SwimlaneJSON\GenerateSwimlane.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Modes\ShutterContactModes.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Modes\ThermostatModes.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\DeviceTypes.cs" />
@@ -146,6 +141,10 @@
     <Compile Include="Devices\GoogleLatitude\GoogleLatitudeDataObject.cs" />
     <Compile Include="Devices\GoogleLatitude\GoogleLatitudeLocationData.cs" />
     <Compile Include="Devices\GoogleLatitude\GoogleLatitudeLocationUpdater.cs" />
+    <Compile Include="JSONHandlers\SwimlaneJSON\SwimlaneJSON.cs" />
+    <Compile Include="JSONHandlers\SwimlaneJSON\GenerateSwimlane.cs" />
+    <Compile Include="JSONHandlers\GeoJSON\GeoJSON_PointFeature.cs" />
+    <Compile Include="JSONHandlers\GeoJSON\Geolocation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -222,4 +221,7 @@
   -->
   <ItemGroup />
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="JSONHandlers\GeoJSON\" />
+  </ItemGroup>
 </Project>

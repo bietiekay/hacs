@@ -17,18 +17,16 @@ namespace xs1_data_logging
 
 		public static Dictionary<String,GoogleLatitudeDataObject> CurrentLocations = new Dictionary<string, GoogleLatitudeDataObject>();
 
-		public GoogleLatitudeThread(ConsoleOutputLogger Logger, Int32 UpdateTime = 30000, long DataObjectCacheSize = 100000)
+		public GoogleLatitudeThread(ConsoleOutputLogger Logger, TinyOnDiskStorage DataStore,Int32 UpdateTime = 30000)
 		{
 			ConsoleOutputLogger = Logger;
 			LatitudeUpdateTime = UpdateTime;
-			ObjectCacheSize = DataObjectCacheSize;
+			googlelatitudestore = DataStore;
 		}
 
 		public void Run()
 		{
 			ConsoleOutputLogger.WriteLine("Google Latitude Thread started");
-			googlelatitudestore = new TinyOnDiskStorage("googlelatitude-data", false, ObjectCacheSize);
-			ConsoleOutputLogger.WriteLine("Initialized GoogleLatitude storage: "+googlelatitudestore.InMemoryIndex.Count);
 
 			while (!Shutdown)
 			{
