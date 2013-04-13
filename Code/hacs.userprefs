@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/JSONHandlers/GeoJSON/Geolocation.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="xs1-data-logging/Devices/GoogleLatitude/GoogleLatitudeThread.cs">
     <Files>
-      <File FileName="xs1-data-logging/JSONHandlers/GeoJSON/Geolocation.cs" Line="22" Column="60" />
+      <File FileName="xs1-data-logging/JSONHandlers/GeoJSON/Geolocation.cs" Line="32" Column="5" />
+      <File FileName="xs1-data-logging/Devices/GoogleLatitude/GoogleLatitudeThread.cs" Line="75" Column="36" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
