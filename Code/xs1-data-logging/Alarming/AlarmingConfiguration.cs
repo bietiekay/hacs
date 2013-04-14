@@ -17,6 +17,7 @@ namespace xs1_data_logging
 		public string name { get; set; }
 		public string value { get; set; }
 		public string type { get; set; }
+		public string device { get; set; }
 	}
 	
 	public class Sensorcheck
@@ -24,12 +25,14 @@ namespace xs1_data_logging
 		public string name { get; set; }
 		public string value { get; set; }
 		public string type { get; set; }
+		public string device { get; set; }
 	}
 	
 	public class Actorcheck
 	{
 		public string name { get; set; }
 		public string value { get; set; }
+		public string device { get; set; }
 	}
 	
 	public class Alarm
