@@ -2,9 +2,33 @@ using System;
 using System.Threading;
 using System.Collections.Concurrent;
 using sones.storage;
+using hacs.xs1;
 
 namespace xs1_data_logging
 {
+	/// <summary>
+	/// Here all the alarming takes place - you configure this in the AlarmingConfiguration.config file in finest JSON notation
+	/// 
+	/// Alarming works like that:
+	/// 
+	/// An alarm consists of the following ingredients:
+	/// 	- activators
+	/// 		- these are the sensor values that need to match for the alarm to go off if multiple are defined here only
+	/// 		  one of them needs to match correctly for the alarm to be activated
+	/// 		- an activator has 
+	/// 			- a type (temperature, hygrometer, remotecontrol, dooropen, windowopen, pwr_consump, pwr_peak, waterdetector, 
+	/// 			  shutter_contact, heating_thermostat, Ping, Pac, aPdc
+	/// 			- a device (XS1, ELVMAX, GoogleLatitude, SolarLog, NetworkMonitor)
+	/// 			- a name (freely given... case sensitive!
+	/// 			- a value
+	/// 			- a comparison type (==,<=,>=)
+	/// 	- sensorchecks
+	/// 		- these are the sensor values that need to match 100% for the alarm to go off after being activated by the activators
+	/// 	- actorchecks
+	/// 		- these are the actor values that need to match 100% for the alarm to go off after being activated by the activators
+	/// 	- smsrecipients
+	/// 		- Since Alarming currently only knows about SMS this basically is the list of phone numbers who shall receive a SMS
+	/// </summary>
 	public class AlarmingThread
 	{
 		public bool Shutdown = false;
@@ -30,44 +54,110 @@ namespace xs1_data_logging
 						// we should get events from all sorts of devices here - let's take them and check if they
 						// are eventually matching the activators - if they do we check against the other
 						// data storages to follow up with the alarms...
-						#region XS1 Events
-						if (dataobject.AlarmingType() == AlarmingEventType.XS1Event)
-						{
-						}
-						#endregion
 
-						#region ELVMAX Events
-						if (dataobject.AlarmingType() == AlarmingEventType.ELVMAXEvent)
+						// check if we find this in the alarms...
+						foreach(Alarm _alarm in AlarmingConfiguration.Alarms.Alarms)
 						{
-						}
-						#endregion
+							foreach(Activator _activator in _alarm.activators)
+							{
+								// activator names are case sensitive!!!
+								if (dataobject.AlarmingName() == _activator.name)
+								{
+									// we got a positive activator match here!
+									// now check further circumstances...
+									#region XS1 Events
+									if ((_activator.device.ToUpper() == "XS1")&&(dataobject.AlarmingType() == AlarmingEventType.XS1Event))
+									{
+										// now we got an alarm triggering this activator and device...
+										// check if the type matches...
+										XS1_DataObject xs1_data = (XS1_DataObject)dataobject;
 
-						#region SolarLog Events
-						if (dataobject.AlarmingType() == AlarmingEventType.SolarLogEvent)
-						{
-						}
-						#endregion
+										if (_activator.type.ToUpper() == xs1_data.TypeName.ToUpper())
+										{
+											// for the value comparison convert the given value to a double...
+											double comp_value = Convert.ToDouble(_activator.value);
+											// it's the right typename...
+											// now we gotta check for the right value there...
+											Boolean alarm_activated = false;
+											#region Activator Value Comparison
+											switch(_activator.comparison)
+											{
+												case "==":
+													if (comp_value == xs1_data.Value)
+													{
+														// hurray, everything matches! Activate this event!!!
+														alarm_activated = true;
+													}
+													break;
+												case "<=":
+													if (comp_value <= xs1_data.Value)
+													{
+														// hurray, everything matches! Activate this event!!!
+														alarm_activated = true;
+													}
+													break;
+												case ">=":
+													if (comp_value >= xs1_data.Value)
+													{
+														// hurray, everything matches! Activate this event!!!
+														alarm_activated = true;
+													}
+													break;
+											}
+											#endregion
 
-						#region Network Monitor Events
-						if (dataobject.AlarmingType() == AlarmingEventType.NetworkingEvent)
-						{
+											if (alarm_activated)
+											{
+												// send out an SMS...
+											}
+										}
+									}
+									#endregion
+									// TODO: ------------------------------
+									#region ELVMAX Events
+									if ((_activator.device.ToUpper() == "ELVMAX")&&(dataobject.AlarmingType() == AlarmingEventType.ELVMAXEvent))
+									{
+										// now we got an alarm triggering this activator and device...
+									}
+									#endregion
+									#region SolarLog Events
+									if ((_activator.device.ToUpper() == "SOLARLOG")&&(dataobject.AlarmingType() == AlarmingEventType.SolarLogEvent))
+									{
+										// now we got an alarm triggering this activator and device...
+									}
+									#endregion
+									#region Network Monitor Events
+									if ((_activator.device.ToUpper() == "NETWORKMONITOR")&&(dataobject.AlarmingType() == AlarmingEventType.NetworkingEvent))
+									{
+										// now we got an alarm triggering this activator and device...
+									}
+									#endregion
+									#region Google Latitude Events
+									if ((_activator.device.ToUpper() == "GOOGLELATITUDE")&&(dataobject.AlarmingType() == AlarmingEventType.GoogleLatitudeEvent))
+									{
+										// now we got an alarm triggering this activator and device...
+									}
+									#endregion
+								}
+							}
 						}
-						#endregion
 
-						#region Google Latitude Events
-						if (dataobject.AlarmingType() == AlarmingEventType.GoogleLatitudeEvent)
-						{
-						}
-						#endregion
+
+
+
+
 					}
 
 				}
 				catch (Exception e)
 				{                   
+					Shutdown = true;
+					ConsoleOutputLogger.WriteLine("Alarming Exception: "+e.Message);
+					ConsoleOutputLogger.WriteLine("Stopping Alarming Execution!");
 					Thread.Sleep(100);
 				}
 				
-				Thread.Sleep(1);
+				Thread.Sleep(10);
 			}
 			
 			

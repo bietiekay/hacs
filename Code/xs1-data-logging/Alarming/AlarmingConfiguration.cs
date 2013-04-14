@@ -18,6 +18,7 @@ namespace xs1_data_logging
 		public string value { get; set; }
 		public string type { get; set; }
 		public string device { get; set; }
+		public string comparison { get; set; }
 	}
 	
 	public class Sensorcheck

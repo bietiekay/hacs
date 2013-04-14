@@ -36,7 +36,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="SMS77.cs" />
-    <Compile Include="UnitTime.cs" />
+    <Compile Include="UnixTime.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
