@@ -114,7 +114,7 @@ namespace xs1_data_logging
 			// Start Alarming thread
             if (Properties.Settings.Default.AlarmingEnabled)
             {
-				AlarmingThread alarmThread = new AlarmingThread(ConsoleOutputLogger,Alarming_Queue);
+				AlarmingThread alarmThread = new AlarmingThread(ConsoleOutputLogger,Alarming_Queue,sensor_data_store,actor_data_store,latitude_data_store);
 			    Thread alarming_thread = new Thread(new ThreadStart(alarmThread.Run));
 			    alarming_thread.Start();
             }

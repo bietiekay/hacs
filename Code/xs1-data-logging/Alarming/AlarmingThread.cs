@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Collections.Concurrent;
+using sones.storage;
 
 namespace xs1_data_logging
 {
@@ -10,7 +11,7 @@ namespace xs1_data_logging
 		private ConsoleOutputLogger ConsoleOutputLogger;
 		private ConcurrentQueue<IAlarmingEvent> Alarming_Queue; // use a thread safe list like structure to hold the event's going to be sent to alarming
 
-		public AlarmingThread(ConsoleOutputLogger Logger, ConcurrentQueue<IAlarmingEvent> _AlarmQueue)
+		public AlarmingThread(ConsoleOutputLogger Logger, ConcurrentQueue<IAlarmingEvent> _AlarmQueue, TinyOnDiskStorage sensor_data, TinyOnDiskStorage actor_data, TinyOnDiskStorage latitude_data)
 		{
 			ConsoleOutputLogger = Logger;
 			Alarming_Queue = _AlarmQueue;
@@ -27,7 +28,8 @@ namespace xs1_data_logging
 					if (Alarming_Queue.TryDequeue(out dataobject))
 					{
 						// we should get events from all sorts of devices here - let's take them and check if they
-						// are eventually 
+						// are eventually matching the activators - if they do we check against the other
+						// data storages to follow up with the alarms...
 						#region XS1 Events
 						if (dataobject.AlarmingType() == AlarmingEventType.XS1Event)
 						{
