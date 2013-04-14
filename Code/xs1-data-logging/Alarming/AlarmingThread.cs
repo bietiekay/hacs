@@ -111,11 +111,12 @@ namespace xs1_data_logging
 
 											if (alarm_activated)
 											{
+												ConsoleOutputLogger.WriteLine("!!!! ALARM - "+_alarm.name+" - ALARM !!!!");
 												// send out the SMS...
 												foreach(Smsrecipient recipient in _alarm.smsrecipients)
 												{
 													ConsoleOutputLogger.WriteLine("Sending Alarm SMS to "+recipient.number+" for alarm "+_alarm.name);
-													//SMSGateway.SendSMS(recipient.number,_alarm.message,
+													SMSGateway.SendSMS(recipient.number,_alarm.message,Properties.Settings.Default.AlarmingSMS77SenderNumber);
 												}
 											}
 										}
