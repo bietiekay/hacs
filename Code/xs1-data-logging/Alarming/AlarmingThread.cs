@@ -109,8 +109,50 @@ namespace xs1_data_logging
 											}
 											#endregion
 
+											#region do the sensor and actor checks...
+											// TODO: this is very rough - needs to be worked out more later on... 
+											// for the moment it is just a actor check - MORE HERE !!!!!!!!
 											if (alarm_activated)
 											{
+												foreach(Actorcheck _actor in _alarm.actorchecks)
+												{
+													#region XS1 actors...
+													if (_actor.device.ToUpper() == "XS1")
+													{
+														if (KnownActorStates.KnownActorStatuses.ContainsKey(_actor.name))
+														{
+															// there's an actor...
+															current_actor_status status = (current_actor_status)KnownActorStates.KnownActorStatuses[_actor.name];
+															// TODO: what about actor types!?
+
+															if (_actor.value.ToUpper() == "ON")
+															{
+																// so it should be on...
+																if (status.Status != actor_status.On)
+																{
+																	alarm_activated = false;
+																}									
+															}
+															if (_actor.value.ToUpper() == "OFF")
+															{
+																// so it should be off...
+																if (status.Status != actor_status.Off)
+																{
+																	alarm_activated = false;
+																}									
+
+															}
+														}
+													}
+													#endregion
+												}
+											}
+											#endregion
+
+											if (alarm_activated)
+											{
+
+
 												ConsoleOutputLogger.WriteLine("!!!! ALARM - "+_alarm.name+" - ALARM !!!!");
 												// send out the SMS...
 												foreach(Smsrecipient recipient in _alarm.smsrecipients)
