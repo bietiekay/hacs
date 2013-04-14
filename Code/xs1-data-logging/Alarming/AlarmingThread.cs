@@ -3,6 +3,7 @@ using System.Threading;
 using System.Collections.Concurrent;
 using sones.storage;
 using hacs.xs1;
+using SMS77;
 
 namespace xs1_data_logging
 {
@@ -34,11 +35,13 @@ namespace xs1_data_logging
 		public bool Shutdown = false;
 		private ConsoleOutputLogger ConsoleOutputLogger;
 		private ConcurrentQueue<IAlarmingEvent> Alarming_Queue; // use a thread safe list like structure to hold the event's going to be sent to alarming
+		private SMS77Gateway SMSGateway;
 
 		public AlarmingThread(ConsoleOutputLogger Logger, ConcurrentQueue<IAlarmingEvent> _AlarmQueue, TinyOnDiskStorage sensor_data, TinyOnDiskStorage actor_data, TinyOnDiskStorage latitude_data)
 		{
 			ConsoleOutputLogger = Logger;
 			Alarming_Queue = _AlarmQueue;
+			SMSGateway = new SMS77Gateway(Properties.Settings.Default.AlarmingSMS77Username,Properties.Settings.Default.AlarmingSMS77Password);
 		}
 
 		public void Run()
@@ -108,7 +111,12 @@ namespace xs1_data_logging
 
 											if (alarm_activated)
 											{
-												// send out an SMS...
+												// send out the SMS...
+												foreach(Smsrecipient recipient in _alarm.smsrecipients)
+												{
+													ConsoleOutputLogger.WriteLine("Sending Alarm SMS to "+recipient.number+" for alarm "+_alarm.name);
+													//SMSGateway.SendSMS(recipient.number,_alarm.message,
+												}
 											}
 										}
 									}
