@@ -454,5 +454,29 @@ namespace xs1_data_logging.Properties {
                 this["GoogleLatitudeEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("sms77username")]
+        public string AlarmingSMS77Username {
+            get {
+                return ((string)(this["AlarmingSMS77Username"]));
+            }
+            set {
+                this["AlarmingSMS77Username"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("sms77password")]
+        public string AlarmingSMS77Password {
+            get {
+                return ((string)(this["AlarmingSMS77Password"]));
+            }
+            set {
+                this["AlarmingSMS77Password"] = value;
+            }
+        }
     }
 }

@@ -110,5 +110,11 @@
     <Setting Name="GoogleLatitudeEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="AlarmingSMS77Username" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sms77username</Value>
+    </Setting>
+    <Setting Name="AlarmingSMS77Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sms77password</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
