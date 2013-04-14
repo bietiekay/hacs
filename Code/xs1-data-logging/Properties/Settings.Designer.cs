@@ -478,5 +478,17 @@ namespace xs1_data_logging.Properties {
                 this["AlarmingSMS77Password"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0000000")]
+        public string AlarmingSMS77SenderNumber {
+            get {
+                return ((string)(this["AlarmingSMS77SenderNumber"]));
+            }
+            set {
+                this["AlarmingSMS77SenderNumber"] = value;
+            }
+        }
     }
 }

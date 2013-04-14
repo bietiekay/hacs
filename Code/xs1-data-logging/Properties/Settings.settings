@@ -116,5 +116,8 @@
     <Setting Name="AlarmingSMS77Password" Type="System.String" Scope="User">
       <Value Profile="(Default)">sms77password</Value>
     </Setting>
+    <Setting Name="AlarmingSMS77SenderNumber" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0000000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
