@@ -57,7 +57,7 @@
       <Value Profile="(Default)">HTTPProxy.config</Value>
     </Setting>
     <Setting Name="ELVMAXEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ELVMAXIP" Type="System.String" Scope="User">
       <Value Profile="(Default)">192.168.178.82</Value>
@@ -78,7 +78,7 @@
       <Value Profile="(Default)">360</Value>
     </Setting>
     <Setting Name="SolarLogEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="SolarLogURLDomain" Type="System.String" Scope="User">
       <Value Profile="(Default)">solarlog.fritz.box</Value>
@@ -90,7 +90,7 @@
       <Value Profile="(Default)">NetworkMonitorConfiguration.config</Value>
     </Setting>
     <Setting Name="NetworkMonitorEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="NetworkMonitorUpdateIntervalMsec" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">60000</Value>
@@ -99,7 +99,7 @@
       <Value Profile="(Default)">AlarmingConfiguration.config</Value>
     </Setting>
     <Setting Name="AlarmingEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="GoogleLatitudeConfigurationFilename" Type="System.String" Scope="User">
       <Value Profile="(Default)">GoogleLatitudeConfiguration.config</Value>
@@ -108,7 +108,7 @@
       <Value Profile="(Default)">30000</Value>
     </Setting>
     <Setting Name="GoogleLatitudeEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="AlarmingSMS77Username" Type="System.String" Scope="User">
       <Value Profile="(Default)">sms77username</Value>

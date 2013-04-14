@@ -49,6 +49,9 @@
     <WarningLevel>4</WarningLevel>
     <AssemblyName>hacs</AssemblyName>
   </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyName>xs1_data_logging</AssemblyName>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -224,8 +227,5 @@
   -->
   <ItemGroup />
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="JSONHandlers\GeoJSON\" />
-    <Folder Include="Alarming\AlarmingQueue\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

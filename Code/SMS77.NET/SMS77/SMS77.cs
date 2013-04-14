@@ -51,7 +51,7 @@ namespace SMS77
 
 			URL.Query = kvp.ToString();
 
-			Console.WriteLine(URL.ToString ());
+			//Console.WriteLine(URL.ToString ());
 
 			WebRequest wrGETURL;
 			wrGETURL = WebRequest.Create(URL.ToString());
@@ -68,8 +68,8 @@ namespace SMS77
 			{
 				i++;
 				sLine = objReader.ReadLine();
-				if (sLine!=null)
-					Console.WriteLine("{0}:{1}",i,sLine);
+				//if (sLine!=null)
+				//	Console.WriteLine("{0}:{1}",i,sLine);
 			}
 
 		}

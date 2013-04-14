@@ -241,7 +241,7 @@ namespace xs1_data_logging.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool ELVMAXEnabled {
             get {
                 return ((bool)(this["ELVMAXEnabled"]));
@@ -325,7 +325,7 @@ namespace xs1_data_logging.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool SolarLogEnabled {
             get {
                 return ((bool)(this["SolarLogEnabled"]));
@@ -373,7 +373,7 @@ namespace xs1_data_logging.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool NetworkMonitorEnabled {
             get {
                 return ((bool)(this["NetworkMonitorEnabled"]));
@@ -409,7 +409,7 @@ namespace xs1_data_logging.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool AlarmingEnabled {
             get {
                 return ((bool)(this["AlarmingEnabled"]));
@@ -445,7 +445,7 @@ namespace xs1_data_logging.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool GoogleLatitudeEnabled {
             get {
                 return ((bool)(this["GoogleLatitudeEnabled"]));
