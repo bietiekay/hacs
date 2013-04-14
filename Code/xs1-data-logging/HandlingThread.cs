@@ -34,6 +34,7 @@ namespace xs1_data_logging
 		private ConcurrentQueue<IDeviceDiffSet> MAX_DataQueue;  // use a thread safe list like structure to hold the messages coming in from the ELV MAX
 		private ConcurrentQueue<SolarLogDataSet> SolarLog_DataQueue; // use a thread safe list like structure to hold the messages coming in from the SolarLog
 		private ConcurrentQueue<NetworkMonitoringDataSet> NetworkMonitor_Queue; // use a thread safe list like structure to hold the messages coming in from the NetworkMonitor
+		private ConcurrentQueue<IAlarmingEvent> Alarming_Queue; // use a thread safe list like structure to hold the event's going to be sent to alarming
         bool Shutdown = false;
 
 		#region Ctor
@@ -52,6 +53,10 @@ namespace xs1_data_logging
 			MAX_DataQueue = new ConcurrentQueue<IDeviceDiffSet>();
             SolarLog_DataQueue = new ConcurrentQueue<SolarLogDataSet>();
             NetworkMonitor_Queue = new ConcurrentQueue<NetworkMonitoringDataSet>();
+
+			if (Properties.Settings.Default.AlarmingEnabled)
+				Alarming_Queue = new ConcurrentQueue<IAlarmingEvent>();
+
         }
 		#endregion
 
@@ -109,7 +114,7 @@ namespace xs1_data_logging
 			// Start Alarming thread
             if (Properties.Settings.Default.AlarmingEnabled)
             {
-			    AlarmingThread alarmThread = new AlarmingThread(ConsoleOutputLogger);
+				AlarmingThread alarmThread = new AlarmingThread(ConsoleOutputLogger,Alarming_Queue);
 			    Thread alarming_thread = new Thread(new ThreadStart(alarmThread.Run));
 			    alarming_thread.Start();
             }
@@ -150,6 +155,12 @@ namespace xs1_data_logging
 
                                 if (usethisactor)
                                 {
+									// if Alarming is enabled, queue this XS1 Event up for alarming...
+									if (Properties.Settings.Default.AlarmingEnabled)
+									{
+										Alarming_Queue.Enqueue(dataobject);
+									}
+
 									// this actor action did not result in any action hacs made - so we try to make the best out of it
 									#region Scripting Handling
 									// check if this sensor is something we should act uppon
@@ -246,6 +257,13 @@ namespace xs1_data_logging
                                 // update the sensor in the sensor check
                                 Sensorcheck.UpdateSensor(dataobject.Name);
 
+								// if Alarming is enabled, queue this XS1 Event up for alarming...
+								if (Properties.Settings.Default.AlarmingEnabled)
+								{
+									if (!dataobject.IgnoreForAlarming)	// this if for those events which get re-queued as xs1 events despite being for example elvmax events
+										Alarming_Queue.Enqueue(dataobject);
+								}
+
                                 // check if this sensor is something we should act uppon
                                 foreach (ScriptingActorElement Element in ScriptingActorConfiguration.ScriptingActorActions)
                                 {
@@ -327,6 +345,12 @@ namespace xs1_data_logging
 
 						if(MAX_DataQueue.TryDequeue(out max_dataobject))
 					   	{
+							// if Alarming is enabled, queue this ELV MAX up for alarming...
+							if (Properties.Settings.Default.AlarmingEnabled)
+							{
+								Alarming_Queue.Enqueue(max_dataobject);
+							}
+
 							StringBuilder sb = new StringBuilder();
 
 							sb.Append("S\t"+max_dataobject.DeviceName+"\t"+max_dataobject.DeviceType);
@@ -339,21 +363,21 @@ namespace xs1_data_logging
 								//ConsoleOutputLogger.WriteLine(_heating.ToString());
 
 								// first the temperature data
-								XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"heating_thermostat",DateTime.Now,_heating.RoomID,_heating.Temperature,_heating.ToString());
+								XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"heating_thermostat",DateTime.Now,_heating.RoomID,_heating.Temperature,_heating.ToString(),true);
 								SensorCheckIgnoreConfiguration.AddToIgnoreList(maxdataobject.Name);
 								XS1_DataQueue.Enqueue(maxdataobject);
 
 								// then the low battery if exists
 								if (_heating.LowBattery == BatteryStatus.lowbattery)
 								{
-									XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_heating.RoomID,_heating.Temperature,_heating.ToString()+", LowBattery");
+									XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_heating.RoomID,_heating.Temperature,_heating.ToString()+", LowBattery",true);
 									SensorCheckIgnoreConfiguration.AddToIgnoreList(lowbatteryobject.Name);
 									XS1_DataQueue.Enqueue(lowbatteryobject);
 								}
 
 								if (_heating.Mode == ThermostatModes.boost)
 								{
-									XS1_DataObject boostmodeobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"boost",DateTime.Now,_heating.RoomID,_heating.Temperature, _heating.ToString()+", Boost");
+									XS1_DataObject boostmodeobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_heating.RoomName+"-"+_heating.DeviceName,ObjectTypes.Sensor,"boost",DateTime.Now,_heating.RoomID,_heating.Temperature, _heating.ToString()+", Boost",true);
 									SensorCheckIgnoreConfiguration.AddToIgnoreList(boostmodeobject.Name);
 									XS1_DataQueue.Enqueue(boostmodeobject);
 								}
@@ -369,13 +393,13 @@ namespace xs1_data_logging
 								// first the open/close status
 								if (_shutter.ShutterState == ShutterContactModes.open)
 								{
-									XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,1.0,_shutter.ToString());
+									XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,1.0,_shutter.ToString(),true);
 									SensorCheckIgnoreConfiguration.AddToIgnoreList(maxdataobject.Name);
 									XS1_DataQueue.Enqueue(maxdataobject);
 								}
 								else
 								{
-									XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,0.0,_shutter.ToString());
+									XS1_DataObject maxdataobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"shutter_contact",DateTime.Now,_shutter.RoomID,0.0,_shutter.ToString(),true);
 									SensorCheckIgnoreConfiguration.AddToIgnoreList(maxdataobject.Name);
 									XS1_DataQueue.Enqueue(maxdataobject);
 								}
@@ -385,13 +409,13 @@ namespace xs1_data_logging
 								{
 									if (_shutter.ShutterState == ShutterContactModes.open)
 									{
-										XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,1.0,_shutter.ToString()+",LowBattery");
+										XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,1.0,_shutter.ToString()+",LowBattery",true);
 										SensorCheckIgnoreConfiguration.AddToIgnoreList(lowbatteryobject.Name);
 										XS1_DataQueue.Enqueue(lowbatteryobject);
 									}
 									else
 									{
-										XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,0.0,_shutter.ToString()+",LowBattery");
+										XS1_DataObject lowbatteryobject = new XS1_DataObject(Properties.Settings.Default.ELVMAXIP,_shutter.RoomName+"-"+_shutter.DeviceName,ObjectTypes.Sensor,"low_battery",DateTime.Now,_shutter.RoomID,0.0,_shutter.ToString()+",LowBattery",true);
 										SensorCheckIgnoreConfiguration.AddToIgnoreList(lowbatteryobject.Name);
 										XS1_DataQueue.Enqueue(lowbatteryobject);
 									}
@@ -410,9 +434,15 @@ namespace xs1_data_logging
 						if(SolarLog_DataQueue.TryDequeue(out solarlog_dataobject))
 						{
 							// Pac
-                            XS1_DataQueue.Enqueue(new XS1_DataObject(Properties.Settings.Default.SolarLogURLDomain, "Pac", ObjectTypes.Sensor, "Pac", solarlog_dataobject.DateAndTime, 1, solarlog_dataobject.Pac, "solarlog," + Properties.Settings.Default.SolarLogURLDomain + ",Pac," + solarlog_dataobject.Pac + "," + solarlog_dataobject.DateAndTime.Ticks));
+                            XS1_DataQueue.Enqueue(new XS1_DataObject(Properties.Settings.Default.SolarLogURLDomain, "Pac", ObjectTypes.Sensor, "Pac", solarlog_dataobject.DateAndTime, 1, solarlog_dataobject.Pac, "solarlog," + Properties.Settings.Default.SolarLogURLDomain + ",Pac," + solarlog_dataobject.Pac + "," + solarlog_dataobject.DateAndTime.Ticks,true));
 							// aPdc
-                            XS1_DataQueue.Enqueue(new XS1_DataObject(Properties.Settings.Default.SolarLogURLDomain, "aPdc", ObjectTypes.Sensor, "aPdc", solarlog_dataobject.DateAndTime, 1, solarlog_dataobject.aPdc, "solarlog," + Properties.Settings.Default.SolarLogURLDomain + ",aPdc," + solarlog_dataobject.aPdc+","+solarlog_dataobject.DateAndTime.Ticks));
+                            XS1_DataQueue.Enqueue(new XS1_DataObject(Properties.Settings.Default.SolarLogURLDomain, "aPdc", ObjectTypes.Sensor, "aPdc", solarlog_dataobject.DateAndTime, 1, solarlog_dataobject.aPdc, "solarlog," + Properties.Settings.Default.SolarLogURLDomain + ",aPdc," + solarlog_dataobject.aPdc+","+solarlog_dataobject.DateAndTime.Ticks,true));
+
+							// if Alarming is enabled, queue this SolarLog Event up for alarming...
+							if (Properties.Settings.Default.AlarmingEnabled)
+							{
+								Alarming_Queue.Enqueue(solarlog_dataobject);
+							}
 						}
 					}
 					#endregion
@@ -425,9 +455,15 @@ namespace xs1_data_logging
 						if(NetworkMonitor_Queue.TryDequeue(out networkmonitor_dataobject))
 						{
 							if (networkmonitor_dataobject.Status == Org.Mentalis.Network.ICMP_Status.Success)
-								XS1_DataQueue.Enqueue(new XS1_DataObject(networkmonitor_dataobject.Descriptor,networkmonitor_dataobject.HostnameIP,ObjectTypes.Sensor,"Ping",networkmonitor_dataobject.TimeOfMeasurement,2,1,"OnlineCheck,"+networkmonitor_dataobject.HostnameIP+","+networkmonitor_dataobject.Descriptor+",Online"));
+								XS1_DataQueue.Enqueue(new XS1_DataObject(networkmonitor_dataobject.Descriptor,networkmonitor_dataobject.HostnameIP,ObjectTypes.Sensor,"Ping",networkmonitor_dataobject.TimeOfMeasurement,2,1,"OnlineCheck,"+networkmonitor_dataobject.HostnameIP+","+networkmonitor_dataobject.Descriptor+",Online",true));
 							else
-								XS1_DataQueue.Enqueue(new XS1_DataObject(networkmonitor_dataobject.Descriptor,networkmonitor_dataobject.HostnameIP,ObjectTypes.Sensor,"Ping",networkmonitor_dataobject.TimeOfMeasurement,2,0,"OnlineCheck,"+networkmonitor_dataobject.HostnameIP+","+networkmonitor_dataobject.Descriptor+",Offline"));
+								XS1_DataQueue.Enqueue(new XS1_DataObject(networkmonitor_dataobject.Descriptor,networkmonitor_dataobject.HostnameIP,ObjectTypes.Sensor,"Ping",networkmonitor_dataobject.TimeOfMeasurement,2,0,"OnlineCheck,"+networkmonitor_dataobject.HostnameIP+","+networkmonitor_dataobject.Descriptor+",Offline",true));
+
+							// if Alarming is enabled, queue this Network Monitor Event up for alarming...
+							if (Properties.Settings.Default.AlarmingEnabled)
+							{
+								Alarming_Queue.Enqueue(networkmonitor_dataobject);
+							}
 						}
 					}
 					#endregion

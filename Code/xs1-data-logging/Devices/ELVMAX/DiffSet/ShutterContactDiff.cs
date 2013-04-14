@@ -8,6 +8,7 @@ namespace xs1_data_logging
 		private String _DeviceName;
 		private Int32 _RoomID;
 		private String _RoomName;
+		private DateTime _Creation;
 
 		#region device specific diff information
 		private ShutterContactModes state;
@@ -22,6 +23,7 @@ namespace xs1_data_logging
 			_RoomName = Room_Name;
 			lowBattery = BatteryStatus.unchanged;
 			state = ShutterContactModes.unchanged;
+			_Creation = DateTime.Now;
 		}
 
 		#region IDeviceDiffSet implementation
@@ -75,6 +77,25 @@ namespace xs1_data_logging
 		{
 			return RoomID+" - "+DeviceType+" - "+RoomName+"-"+DeviceName+" - "+lowBattery+" - "+ShutterState;
 		}		
+
+		#region IAlarmingEvent implementation
+		
+		public AlarmingEventType AlarmingType ()
+		{
+			return AlarmingEventType.ELVMAXEvent;
+		}
+		
+		public string AlarmingName ()
+		{
+			return _DeviceName;
+		}
+		
+		public DateTime AlarmingCreated ()
+		{
+			return _Creation;
+		}
+		
+		#endregion
 	}
 }
 

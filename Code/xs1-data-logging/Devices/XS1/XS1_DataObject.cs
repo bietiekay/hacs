@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using sones.Storage.Serializer;
+using xs1_data_logging;
 
 namespace hacs.xs1
 {
@@ -19,7 +20,7 @@ namespace hacs.xs1
     /// <summary>
     /// holds the values
     /// </summary>
-    public class XS1_DataObject : IFastSerialize
+    public class XS1_DataObject : IFastSerialize,IAlarmingEvent
     {
         public String ServerName;
         public String Name;
@@ -29,12 +30,14 @@ namespace hacs.xs1
         public Int32 XS1ObjectID;
         public Double Value;
 		public String OriginalXS1Statement;
+		private DateTime Creation;
+		public Boolean IgnoreForAlarming;
 
         public XS1_DataObject()
         {
         }
 
-        public XS1_DataObject(String _ServerName, String _Name, ObjectTypes _Type, String _TypeName, DateTime _Timecode, Int32 _XS1ObjectID, Double _Value)
+		public XS1_DataObject(String _ServerName, String _Name, ObjectTypes _Type, String _TypeName, DateTime _Timecode, Int32 _XS1ObjectID, Double _Value, Boolean _IgnoreForAlarming = false)
         {
             ServerName = _ServerName;
             Name = _Name;
@@ -43,9 +46,10 @@ namespace hacs.xs1
             Timecode = _Timecode;
             XS1ObjectID = _XS1ObjectID;
             Value = _Value;
+			IgnoreForAlarming = _IgnoreForAlarming;
         }
 
-        public XS1_DataObject(String _ServerName, String _Name, ObjectTypes _Type, String _TypeName, DateTime _Timecode, Int32 _XS1ObjectID, Double _Value,String OriginalStatement)
+        public XS1_DataObject(String _ServerName, String _Name, ObjectTypes _Type, String _TypeName, DateTime _Timecode, Int32 _XS1ObjectID, Double _Value,String OriginalStatement, Boolean _IgnoreForAlarming = false)
         {
             ServerName = _ServerName;
             Name = _Name;
@@ -55,6 +59,8 @@ namespace hacs.xs1
             XS1ObjectID = _XS1ObjectID;
             Value = _Value;
             OriginalXS1Statement = OriginalStatement;
+			Creation = DateTime.Now;
+			IgnoreForAlarming = _IgnoreForAlarming;
         }
 
         #region IFastSerialize Members
@@ -106,5 +112,24 @@ namespace hacs.xs1
         }
 
         #endregion
+
+		#region IAlarmingEvent implementation
+
+		public AlarmingEventType AlarmingType ()
+		{
+			return AlarmingEventType.XS1Event;
+		}
+
+		public string AlarmingName ()
+		{
+			return Name;
+		}
+
+		public DateTime AlarmingCreated ()
+		{
+			return Creation;
+		}
+
+		#endregion
     }
 }

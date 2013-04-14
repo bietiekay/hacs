@@ -3,7 +3,7 @@ using Org.Mentalis.Network;
 
 namespace xs1_data_logging
 {
-	public class NetworkMonitoringDataSet
+	public class NetworkMonitoringDataSet : IAlarmingEvent
 	{
 		public DateTime TimeOfMeasurement;
 		public ICMP_Status Status;
@@ -13,8 +13,32 @@ namespace xs1_data_logging
 
 		public NetworkMonitoringDataSet()
 		{
+			TimeOfMeasurement = DateTime.Now;
+		}
+
+		#region IAlarmingEvent implementation
+
+		public AlarmingEventType AlarmingType ()
+		{
+			return AlarmingEventType.NetworkingEvent;
+			HostnameIP = "";
+		}
+
+		public string AlarmingName ()
+		{
+			if (HostnameIP == "")
+				return "Ping";
+			else
+				return HostnameIP;
 
 		}
+
+		public DateTime AlarmingCreated ()
+		{
+			return TimeOfMeasurement;
+		}
+
+		#endregion
 	}
 }
 

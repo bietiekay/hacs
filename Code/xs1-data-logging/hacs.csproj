@@ -145,6 +145,9 @@
     <Compile Include="JSONHandlers\SwimlaneJSON\GenerateSwimlane.cs" />
     <Compile Include="JSONHandlers\GeoJSON\GeoJSON_PointFeature.cs" />
     <Compile Include="JSONHandlers\GeoJSON\Geolocation.cs" />
+    <Compile Include="Alarming\AlarmingQueue\IAlarmingEvent.cs" />
+    <Compile Include="Alarming\AlarmingQueue\AlarmingEventType.cs" />
+    <Compile Include="Alarming\AlarmingQueue\AlarmingDataset.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -223,5 +226,6 @@
   <ItemGroup />
   <ItemGroup>
     <Folder Include="JSONHandlers\GeoJSON\" />
+    <Folder Include="Alarming\AlarmingQueue\" />
   </ItemGroup>
 </Project>

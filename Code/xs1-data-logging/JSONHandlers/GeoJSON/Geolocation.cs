@@ -73,4 +73,3 @@ namespace xs1_data_logging
 		}
 	}
 }
-

@@ -9,6 +9,7 @@ namespace xs1_data_logging
 		private String _DeviceName;
 		private Int32 _RoomID;
 		private String _RoomName;
+		private DateTime _Creation;
 
 		#region device specific diff information
 		private ThermostatModes mode;
@@ -25,6 +26,7 @@ namespace xs1_data_logging
 			lowBattery = BatteryStatus.unchanged;
 			temperature = Double.NaN;
 			mode = ThermostatModes.unchanged;
+			_Creation = DateTime.Now;
 		}
 
 		#region IDeviceDiffSet implementation
@@ -101,6 +103,26 @@ namespace xs1_data_logging
 			throw new NotImplementedException ();
 		}
 		#endregion
+
+		#region IAlarmingEvent implementation
+		
+		public AlarmingEventType AlarmingType ()
+		{
+			return AlarmingEventType.ELVMAXEvent;
+		}
+		
+		public string AlarmingName ()
+		{
+			return _DeviceName;
+		}
+		
+		public DateTime AlarmingCreated ()
+		{
+			return _Creation;
+		}
+		
+		#endregion
+
 	}
 }
 

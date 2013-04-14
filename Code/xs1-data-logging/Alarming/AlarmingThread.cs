@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Collections.Concurrent;
 
 namespace xs1_data_logging
 {
@@ -7,10 +8,12 @@ namespace xs1_data_logging
 	{
 		public bool Shutdown = false;
 		private ConsoleOutputLogger ConsoleOutputLogger;
-		
-		public AlarmingThread(ConsoleOutputLogger Logger)
+		private ConcurrentQueue<IAlarmingEvent> Alarming_Queue; // use a thread safe list like structure to hold the event's going to be sent to alarming
+
+		public AlarmingThread(ConsoleOutputLogger Logger, ConcurrentQueue<IAlarmingEvent> _AlarmQueue)
 		{
 			ConsoleOutputLogger = Logger;
+			Alarming_Queue = _AlarmQueue;
 		}
 
 		public void Run()
@@ -20,6 +23,42 @@ namespace xs1_data_logging
 			{
 				try
 				{
+					IAlarmingEvent dataobject = null;
+					if (Alarming_Queue.TryDequeue(out dataobject))
+					{
+						// we should get events from all sorts of devices here - let's take them and check if they
+						// are eventually 
+						#region XS1 Events
+						if (dataobject.AlarmingType() == AlarmingEventType.XS1Event)
+						{
+						}
+						#endregion
+
+						#region ELVMAX Events
+						if (dataobject.AlarmingType() == AlarmingEventType.ELVMAXEvent)
+						{
+						}
+						#endregion
+
+						#region SolarLog Events
+						if (dataobject.AlarmingType() == AlarmingEventType.SolarLogEvent)
+						{
+						}
+						#endregion
+
+						#region Network Monitor Events
+						if (dataobject.AlarmingType() == AlarmingEventType.NetworkingEvent)
+						{
+						}
+						#endregion
+
+						#region Google Latitude Events
+						if (dataobject.AlarmingType() == AlarmingEventType.GoogleLatitudeEvent)
+						{
+						}
+						#endregion
+					}
+
 				}
 				catch (Exception e)
 				{                   

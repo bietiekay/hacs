@@ -16,12 +16,14 @@ namespace xs1_data_logging
 	{
 		public string name { get; set; }
 		public string value { get; set; }
+		public string type { get; set; }
 	}
 	
 	public class Sensorcheck
 	{
 		public string name { get; set; }
 		public string value { get; set; }
+		public string type { get; set; }
 	}
 	
 	public class Actorcheck
