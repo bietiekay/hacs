@@ -151,8 +151,6 @@ namespace xs1_data_logging
 
 											if (alarm_activated)
 											{
-
-
 												ConsoleOutputLogger.WriteLine("!!!! ALARM - "+_alarm.name+" - ALARM !!!!");
 												// send out the SMS...
 												foreach(Smsrecipient recipient in _alarm.smsrecipients)
@@ -164,13 +162,85 @@ namespace xs1_data_logging
 										}
 									}
 									#endregion
-									// TODO: ------------------------------
+
 									#region ELVMAX Events
 									if ((_activator.device.ToUpper() == "ELVMAX")&&(dataobject.AlarmingType() == AlarmingEventType.ELVMAXEvent))
 									{
 										// now we got an alarm triggering this activator and device...
+										// check if the type matches...
+										IDeviceDiffSet diffset = (IDeviceDiffSet)dataobject;
+
+										// for now only shuttercontacts are interesting
+										if ((_activator.type.ToUpper() == "SHUTTERCONTACT")&&(diffset.DeviceType == DeviceTypes.ShutterContact))
+										{
+											ShutterContactDiff shutterdiff = (ShutterContactDiff)diffset;
+
+											ShutterContactModes activatorstate = ShutterContactModes.unchanged;
+											Boolean alarm_activated = false;
+
+											if (_activator.value.ToUpper() == "OPEN")
+												activatorstate = ShutterContactModes.open;
+
+											if (_activator.value.ToUpper() == "CLOSED")
+												activatorstate = ShutterContactModes.closed;
+
+											if (activatorstate == shutterdiff.ShutterState)
+												alarm_activated = true;
+
+											#region do the sensor and actor checks...
+											// TODO: this is very rough - needs to be worked out more later on... 
+											// for the moment it is just a actor check - MORE HERE !!!!!!!!
+											if (alarm_activated)
+											{
+												foreach(Actorcheck _actor in _alarm.actorchecks)
+												{
+													#region XS1 actors...
+													if (_actor.device.ToUpper() == "XS1")
+													{
+														if (KnownActorStates.KnownActorStatuses.ContainsKey(_actor.name))
+														{
+															// there's an actor...
+															current_actor_status status = (current_actor_status)KnownActorStates.KnownActorStatuses[_actor.name];
+															// TODO: what about actor types!?
+															
+															if (_actor.value.ToUpper() == "ON")
+															{
+																// so it should be on...
+																if (status.Status != actor_status.On)
+																{
+																	alarm_activated = false;
+																}									
+															}
+															if (_actor.value.ToUpper() == "OFF")
+															{
+																// so it should be off...
+																if (status.Status != actor_status.Off)
+																{
+																	alarm_activated = false;
+																}									
+																
+															}
+														}
+													}
+													#endregion
+												}
+											}
+											#endregion
+											
+											if (alarm_activated)
+											{
+												ConsoleOutputLogger.WriteLine("!!!! ALARM - "+_alarm.name+" - ALARM !!!!");
+												// send out the SMS...
+												foreach(Smsrecipient recipient in _alarm.smsrecipients)
+												{
+													ConsoleOutputLogger.WriteLine("Sending Alarm SMS to "+recipient.number+" for alarm "+_alarm.name);
+													SMSGateway.SendSMS(recipient.number,_alarm.message,Properties.Settings.Default.AlarmingSMS77SenderNumber);
+												}
+											}
+											}
 									}
 									#endregion
+									// TODO: ------------------------------
 									#region SolarLog Events
 									if ((_activator.device.ToUpper() == "SOLARLOG")&&(dataobject.AlarmingType() == AlarmingEventType.SolarLogEvent))
 									{
