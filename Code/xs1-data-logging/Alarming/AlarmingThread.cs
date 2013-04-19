@@ -166,14 +166,28 @@ namespace xs1_data_logging
 									#region ELVMAX Events
 									if ((_activator.device.ToUpper() == "ELVMAX")&&(dataobject.AlarmingType() == AlarmingEventType.ELVMAXEvent))
 									{
+                                        
+                                        //ConsoleOutputLogger.WriteLine("ELVMAX: " + _activator.device);
+
 										// now we got an alarm triggering this activator and device...
 										// check if the type matches...
 										IDeviceDiffSet diffset = (IDeviceDiffSet)dataobject;
 
+                                        //ConsoleOutputLogger.WriteLine("ELVMAX: " + diffset.DeviceName);
+                                        //ConsoleOutputLogger.WriteLine("ELVMAX: " + diffset.RoomName);
+                                        //ConsoleOutputLogger.WriteLine("ELVMAX: " + _activator.type);
+                                        //ConsoleOutputLogger.WriteLine("ELVMAX: " + _activator.name);
+
+
 										// for now only shuttercontacts are interesting
-										if ((_activator.type.ToUpper() == "SHUTTERCONTACT")&&(diffset.DeviceType == DeviceTypes.ShutterContact))
+										if ((_activator.type.ToUpper() == "SHUTTERCONTACT")&&(diffset.DeviceType == DeviceTypes.ShutterContact)&&
+                                            (_activator.name == diffset.DeviceName))
 										{
+                                            //ConsoleOutputLogger.WriteLine("ELVMAX Shuttercontact");
+
 											ShutterContactDiff shutterdiff = (ShutterContactDiff)diffset;
+
+                                            //ConsoleOutputLogger.WriteLine("ELVMAX: "+shutterdiff.ToString());
 
 											ShutterContactModes activatorstate = ShutterContactModes.unchanged;
 											Boolean alarm_activated = false;
