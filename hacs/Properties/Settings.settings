@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="xs1_data_logging.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="hacs.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="XS1" Type="System.String" Scope="User">
@@ -118,6 +118,12 @@
     </Setting>
     <Setting Name="AlarmingSMS77SenderNumber" Type="System.String" Scope="User">
       <Value Profile="(Default)">0000000</Value>
+    </Setting>
+    <Setting Name="ConfigurationDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">configuration</Value>
+    </Setting>
+    <Setting Name="DataDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">data</Value>
     </Setting>
   </Settings>
 </SettingsFile>

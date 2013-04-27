@@ -64,7 +64,7 @@ namespace hacs
             }
             else
             {
-                throw (new Exception("Scripting Actor Configuration File not found!"));
+                throw (new Exception("Scripting Actor Configuration File not found! (" + Configfilename+")"));
             }
         }
 

@@ -48,17 +48,17 @@ namespace hacs
 						
             ConsoleOutputLogger.writeLogfile = true;
 
-			TinyOnDiskStorage actor_data_store = new TinyOnDiskStorage("actor-data", false,hacs.Properties.Settings.Default.DataObjectCacheSize);
+            TinyOnDiskStorage actor_data_store = new TinyOnDiskStorage(Properties.Settings.Default.DataDirectory + Path.DirectorySeparatorChar + "actor-data", false, hacs.Properties.Settings.Default.DataObjectCacheSize);
 			ConsoleOutputLogger.WriteLine("Initialized actor-data storage: "+actor_data_store.InMemoryIndex.Count);
-			TinyOnDiskStorage sensor_data_store = new TinyOnDiskStorage("sensor-data", false,hacs.Properties.Settings.Default.DataObjectCacheSize);
+            TinyOnDiskStorage sensor_data_store = new TinyOnDiskStorage(Properties.Settings.Default.DataDirectory + Path.DirectorySeparatorChar + "sensor-data", false, hacs.Properties.Settings.Default.DataObjectCacheSize);
 			ConsoleOutputLogger.WriteLine("Initialized sensor-data storage: "+sensor_data_store.InMemoryIndex.Count);
-			TinyOnDiskStorage unknown_data_store = new TinyOnDiskStorage("unknown-data", false,hacs.Properties.Settings.Default.DataObjectCacheSize);
+            TinyOnDiskStorage unknown_data_store = new TinyOnDiskStorage(Properties.Settings.Default.DataDirectory + Path.DirectorySeparatorChar + "unknown-data", false, hacs.Properties.Settings.Default.DataObjectCacheSize);
 			ConsoleOutputLogger.WriteLine("Initialized unknown-data storage: "+unknown_data_store.InMemoryIndex.Count);
 			TinyOnDiskStorage latitude_data_store = null;
 
 			if (hacs.Properties.Settings.Default.GoogleLatitudeEnabled)
 			{
-				latitude_data_store = new TinyOnDiskStorage("googlelatitude-data", false,hacs.Properties.Settings.Default.DataObjectCacheSize);
+                latitude_data_store = new TinyOnDiskStorage(Properties.Settings.Default.DataDirectory + Path.DirectorySeparatorChar + "googlelatitude-data", false, hacs.Properties.Settings.Default.DataObjectCacheSize);
 				ConsoleOutputLogger.WriteLine("Initialized latitude storage: "+latitude_data_store.InMemoryIndex.Count);
 			}
 
@@ -66,22 +66,22 @@ namespace hacs
             //List<Thread> LoggingThreads = new List<Thread>();
             ScriptingTimerThread _ScriptingTimerThread;
 
-            ScriptingActorConfiguration.ReadConfiguration(Properties.Settings.Default.ScriptingActorConfigurationFilename);
-            PowerSensorConfiguration.ReadConfiguration(Properties.Settings.Default.PowerSensorConfigurationFilename);
-            ScriptingTimerConfiguration.ReadConfiguration(Properties.Settings.Default.ScriptingTimerConfigurationFilename);
-            SensorCheckIgnoreConfiguration.ReadConfiguration(Properties.Settings.Default.SensorCheckIgnoreFile);
-			HTTPProxyConfiguration.ReadConfiguration(Properties.Settings.Default.HTTPProxyConfigurationFilename);
+            ScriptingActorConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.ScriptingActorConfigurationFilename);
+            PowerSensorConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.PowerSensorConfigurationFilename);
+            ScriptingTimerConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.ScriptingTimerConfigurationFilename);
+            SensorCheckIgnoreConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.SensorCheckIgnoreFile);
+            HTTPProxyConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.HTTPProxyConfigurationFilename);
 			
             if (Properties.Settings.Default.AlarmingEnabled)
-                AlarmingConfiguration.ReadConfiguration(Properties.Settings.Default.AlarmingConfigurationFilename);
+                AlarmingConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.AlarmingConfigurationFilename);
 
             if (Properties.Settings.Default.GoogleLatitudeEnabled)
-			    GoogleLatitudeConfiguration.ReadConfiguration(Properties.Settings.Default.GoogleLatitudeConfigurationFilename);
+                GoogleLatitudeConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.GoogleLatitudeConfigurationFilename);
 
 			#region add NetworkMonitor sensors to sensorcheckignore list
 			if (Properties.Settings.Default.NetworkMonitorEnabled)
 			{
-                NetworkMonitorConfiguration.ReadConfiguration(Properties.Settings.Default.NetworkMonitorConfigurationFilename);
+                NetworkMonitorConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.NetworkMonitorConfigurationFilename);
 
 				foreach(NetworkMonitoringHost Host in NetworkMonitorConfiguration.NetworkHosts)
 				{
