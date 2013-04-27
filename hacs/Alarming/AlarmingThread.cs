@@ -293,7 +293,7 @@ namespace hacs
 				}
 				catch (Exception e)
 				{                   
-					Shutdown = true;
+					//Shutdown = true;
 					ConsoleOutputLogger.WriteLine("Alarming Exception: "+e.Message);
 					ConsoleOutputLogger.WriteLine("Stopping Alarming Execution!");
 					Thread.Sleep(100);
