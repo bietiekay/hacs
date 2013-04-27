@@ -408,5 +408,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
     </None>
+    <None Include="ui\hacs.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
+    </None>
   </ItemGroup>
 </Project>
