@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{05D63544-7968-4C2D-BB25-2383AEFE6F3C}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>xs1_data_logging</RootNamespace>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>xs1-data-logging</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>xs1-data-logging</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>xs1_data_logging.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>hacs</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>hacs</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyName>xs1_data_logging</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConsoleOutputLogger.cs" />
+    <Compile Include="PowerSensor\PowerSensorConfiguration.cs" />
+    <Compile Include="HTTP\HTTPProcessor.cs" />
+    <Compile Include="HTTP\HTTPServer.cs" />
+    <Compile Include="JSONHandlers\JSONData.cs" />
+    <Compile Include="PowerSensor\PowerSensorOutputTypes.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptingTimers\ScriptingTimerThread.cs" />
+    <Compile Include="ScriptingTimers\ScriptingTimerConfiguration.cs" />
+    <Compile Include="ScriptingTimers\ScriptingTimerOperationModes.cs" />
+    <Compile Include="set_state_actuator\set_state_actuator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HandlingThread.cs" />
+    <Compile Include="Devices\XS1\XS1MonitoringThread.cs" />
+    <Compile Include="Devices\XS1\ActorReSwitching.cs" />
+    <Compile Include="Devices\XS1\ActorStatusOutputTypes.cs" />
+    <Compile Include="Devices\XS1\current_actor_status.cs" />
+    <Compile Include="Devices\XS1\CurrentKnownActorStates.cs" />
+    <Compile Include="Devices\XS1\ScriptingActorConfiguration.cs" />
+    <Compile Include="Devices\XS1\SensorCheck.cs" />
+    <Compile Include="Devices\XS1\SensorCheckIgnoreList.cs" />
+    <Compile Include="Devices\ELVMAX\MAXEncodeDecode.cs" />
+    <Compile Include="Devices\ELVMAX\MAXMonitoringThread.cs" />
+    <Compile Include="Devices\ELVMAX\DiffSet\BatteryStatus.cs" />
+    <Compile Include="Devices\ELVMAX\DiffSet\DeviceDiffSet.cs" />
+    <Compile Include="Devices\ELVMAX\DiffSet\DiffHouse.cs" />
+    <Compile Include="Devices\ELVMAX\DiffSet\HeatingThermostatDiff.cs" />
+    <Compile Include="Devices\ELVMAX\DiffSet\ShutterContactDiff.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Base64.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\MAX_Exception.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\TokenizeMessage.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\C_Message.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\H_Message.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\IMAXMessage.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\L_Message.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\M_Message.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Devices\HeatingThermostat.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Devices\HeatingThermostatPlus.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Devices\IMAXDevice.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Devices\PushButton.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Devices\ShutterContact.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Devices\UnknownDevice.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Devices\WallMountedThermostat.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Metadata\House.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Metadata\Room.cs" />
+    <Compile Include="HTTP\HTTPProxy\HTTPProxy.cs" />
+    <Compile Include="HTTP\HTTPProxy\HTTPProxyConfiguration.cs" />
+    <Compile Include="HTTP\HTTPProxy\VirtualXS1Sensors\VirtualXS1.cs" />
+    <Compile Include="Devices\XS1\HandleXS1_TSV.cs" />
+    <Compile Include="Devices\XS1\XS1_DataObject.cs" />
+    <Compile Include="Devices\XS1\XS1-Actuators.cs" />
+    <Compile Include="Devices\XS1\XS1-Configuration.cs" />
+    <Compile Include="Devices\XS1\XS1-Sensors.cs" />
+    <Compile Include="hacs.cs" />
+    <Compile Include="HTTP\HTTPProxy\VirtualXS1Sensors\SensorJSON.cs" />
+    <Compile Include="HTTP\HTTPProxy\VirtualXS1Sensors\ActorJSON.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Modes\ShutterContactModes.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Modes\ThermostatModes.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\DeviceTypes.cs" />
+    <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\MAXMessageTypes.cs" />
+    <Compile Include="Monitoring\ServiceMonitor.cs" />
+    <Compile Include="Devices\SolarLog\SolarLogMonitoringThread.cs" />
+    <Compile Include="Devices\SolarLog\SolarLogDataSet.cs" />
+    <Compile Include="Devices\SolarLog\SolarLogDataHelper.cs" />
+    <Compile Include="Devices\NetworkMonitoring\NetworkMonitoring.cs" />
+    <Compile Include="Devices\NetworkMonitoring\NetworkMonitoringDataSet.cs" />
+    <Compile Include="Devices\NetworkMonitoring\NetworkMonitoringConfiguration.cs" />
+    <Compile Include="Alarming\SMS\SMSAlarm.cs" />
+    <Compile Include="Alarming\AlarmingConfiguration.cs" />
+    <Compile Include="Alarming\AlarmingThread.cs" />
+    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeConfiguration.cs" />
+    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeThread.cs" />
+    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeDataObject.cs" />
+    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeLocationData.cs" />
+    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeLocationUpdater.cs" />
+    <Compile Include="JSONHandlers\SwimlaneJSON\SwimlaneJSON.cs" />
+    <Compile Include="JSONHandlers\SwimlaneJSON\GenerateSwimlane.cs" />
+    <Compile Include="JSONHandlers\GeoJSON\GeoJSON_PointFeature.cs" />
+    <Compile Include="JSONHandlers\GeoJSON\Geolocation.cs" />
+    <Compile Include="Alarming\AlarmingQueue\IAlarmingEvent.cs" />
+    <Compile Include="Alarming\AlarmingQueue\AlarmingEventType.cs" />
+    <Compile Include="Alarming\AlarmingQueue\AlarmingDataset.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SensorCheckIgnoreList.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ScriptingTimerConfiguration.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="PowerSensorConfiguration.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <DependentUpon>PowerSensorConfiguration.config</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="ScriptingActorConfiguration.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="HTTPProxy.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="NetworkMonitorConfiguration.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="AlarmingConfiguration.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="GoogleLatitudeConfiguration.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataObjectOnDisk\DataObjectOnDisk.csproj">
+      <Project>{16D19293-2334-44DC-9BEA-39651DA8F58B}</Project>
+      <Name>DataObjectOnDisk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JavascriptTimestamps\JavascriptTimestamps.csproj">
+      <Project>{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}</Project>
+      <Name>JavascriptTimestamps</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\sonesFastSerializer\sonesFastSerializer.csproj">
+      <Project>{8A2C05AA-6E56-414B-A43C-7173FC34DB24}</Project>
+      <Name>sonesFastSerializer</Name>
+    </ProjectReference>
+    <ProjectReference Include="Newtonsoft.Json\Newtonsoft.Json.csproj">
+      <Project>{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}</Project>
+      <Name>Newtonsoft.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ICMP\ICMP.csproj">
+      <Project>{B833E7C9-ECF5-4790-8B47-9E3D84244E6A}</Project>
+      <Name>ICMP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SMS77.NET\SMS77\SMS77.csproj">
+      <Project>{8745FAF6-18DF-49A6-9285-BB3A0380F0C3}</Project>
+      <Name>SMS77</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup />
+</Project>
