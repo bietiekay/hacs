@@ -1,3 +1,4 @@
-.DS_Store
-/SMS77/bin
-/SendSMS/bin
+/SendSMS/bin/
+/SensSMS/obj/
+/SMS77/bin/
+/SMS77/obj/
