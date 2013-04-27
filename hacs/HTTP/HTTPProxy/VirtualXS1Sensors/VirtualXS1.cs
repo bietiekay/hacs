@@ -17,7 +17,7 @@ namespace hacs
 		/// </summary>
 		public static String Inject_get_list_actuators(String XS1_get_list_actuators_response, House ELVMAXHouse)
 		{
-            Int32 id = 65;
+            //Int32 id = 65;
             Int32 numberofCharactersToDelete = XS1_get_list_actuators_response.IndexOf('(');
 
             String Start = XS1_get_list_actuators_response.Remove(numberofCharactersToDelete + 1);

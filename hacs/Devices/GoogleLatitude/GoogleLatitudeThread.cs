@@ -12,7 +12,7 @@ namespace hacs
 		public bool Shutdown = false;
 		private ConsoleOutputLogger ConsoleOutputLogger;
 		private Int32 LatitudeUpdateTime = 30;
-		private long ObjectCacheSize = 100000;
+		//private long ObjectCacheSize = 100000;
 		private TinyOnDiskStorage googlelatitudestore;
 
 		public static Dictionary<String,GoogleLatitudeDataObject> CurrentLocations = new Dictionary<string, GoogleLatitudeDataObject>();
@@ -67,7 +67,7 @@ namespace hacs
 						}
 					}
 				}
-				catch (Exception e)
+				catch (Exception)
 				{                   
 					Thread.Sleep(100);
 				}

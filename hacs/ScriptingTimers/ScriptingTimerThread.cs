@@ -15,12 +15,12 @@ namespace hacs
     public class ScriptingTimerThread
     {
         public bool Shutdown = false;
-        private LoggingThread _LoggingThreadInstance;
+        //private LoggingThread _LoggingThreadInstance;
         private ConsoleOutputLogger ConsoleOutputLogger;
 
         public ScriptingTimerThread(LoggingThread __LoggingThreadInstance, ConsoleOutputLogger Logger)
         {
-            _LoggingThreadInstance = __LoggingThreadInstance;
+            //_LoggingThreadInstance = __LoggingThreadInstance;
             ConsoleOutputLogger = Logger;
         }
 
@@ -60,7 +60,7 @@ namespace hacs
 
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {                   
                     Thread.Sleep(100);
                 }

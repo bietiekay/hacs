@@ -9,7 +9,7 @@ namespace hacs
 {
 	public class NetworkMonitoring
 	{
-		private String URL;
+		//private String URL;
 		public bool running = true;
 		private Int32 NetworkMonitorUpdateTime;
 		private ConsoleOutputLogger ConsoleOutputLogger;
@@ -40,7 +40,7 @@ namespace hacs
 					{
 						result = pinger.Ping(Host.IPAdressOrHostname,1,500);
 					}
-					catch(Exception e)
+					catch(Exception)
 					{
 						//ConsoleOutputLogger.WriteLine("NetworkMonitor Exception: "+e.Message);
                         result = new ICMP_PingResult();

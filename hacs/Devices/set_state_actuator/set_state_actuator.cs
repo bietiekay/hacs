@@ -24,7 +24,7 @@ namespace hacs.set_state_actuator
             // get the XS1 Actuator List to find the ID and the Preset ID
             XS1ActuatorList actuatorlist = XS1_Configuration.getXS1ActuatorList(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password);
 
-            bool foundatleastoneactuator = false;
+            //bool foundatleastoneactuator = false;
 
             Int32 foundActorID = 0;
             Int32 foundPresetID = 0;
@@ -57,7 +57,7 @@ namespace hacs.set_state_actuator
                             // so we obviously got the actor and the preset id... now lets do the call
                             set_state_actuator ssa = new set_state_actuator();
                             Output = ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, foundActorID, foundPresetID);
-                            foundatleastoneactuator = true;
+                            //foundatleastoneactuator = true;
                             break;
                         }
                     }

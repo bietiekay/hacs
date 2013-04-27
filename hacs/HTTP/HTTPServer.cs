@@ -17,7 +17,7 @@ namespace HTTP
     public class HttpServer
     {
         #region Data
-        private string docRoot;
+        //private string docRoot;
         private Int32 HTTPServer_Port;
         private String HTTPServer_ListeningIP;
         private String HTTPServer_DocumentRoot;

@@ -20,8 +20,8 @@ namespace hacs
 
 		public AlarmingEventType AlarmingType ()
 		{
-			return AlarmingEventType.NetworkingEvent;
 			HostnameIP = "";
+			return AlarmingEventType.NetworkingEvent;
 		}
 
 		public string AlarmingName ()

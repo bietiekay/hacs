@@ -33,7 +33,7 @@ namespace HTTP
 		private string method;
 		private string url;
 		private string original_url;
-		private string querystring;
+		//private string querystring;
 		private string protocol;
 		private Hashtable headers;
 		private string request;
@@ -49,7 +49,7 @@ namespace HTTP
 		private HTTPProxy internal_proxy;
 		private MAXMonitoringThread ELVMAX;
 		private TinyOnDiskStorage SensorDataStore;
-		private TinyOnDiskStorage LatitudeDataStore;
+		//private TinyOnDiskStorage LatitudeDataStore;
 		#endregion
 
 		#region Constructor
@@ -76,7 +76,7 @@ namespace HTTP
 			internal_proxy = new HTTPProxy(ConsoleOutputLogger,ELVMAXMonitoring);
 			ELVMAX = ELVMAXMonitoring;
 			SensorDataStore = Storage;
-			LatitudeDataStore = LatitudeStorage;
+			//LatitudeDataStore = LatitudeStorage;
 			LatitudeGeoLocation = new Geolocation(LatitudeStorage,Logger);
 		}
 		#endregion
@@ -320,7 +320,7 @@ namespace HTTP
 				//    return;
 				//}
 
-				querystring = "";
+				//querystring = "";
 				url = original_url;
 
 				if (internal_proxy.isThisAProxyURL(url))
@@ -824,7 +824,7 @@ namespace HTTP
                         }
 						
 						// now we should have a name we need to look up
-						bool foundactor = false;
+						//bool foundactor = false;
 						
 						// get the XS1 Actuator List to find the ID and the Preset ID
                         XS1ActuatorList actuatorlist = XS1_Configuration.getXS1ActuatorList(hacs.Properties.Settings.Default.XS1,hacs.Properties.Settings.Default.Username,hacs.Properties.Settings.Default.Password);
@@ -834,15 +834,15 @@ namespace HTTP
                             if (_actuator.name.ToUpper() == ObjectName.ToUpper())
                             {
 								// we found one!
-								foundactor = true;
+								//foundactor = true;
 								
 								// TODO: we need to output a JSON dataset here
-                                bool Status = false;
-
-                                if (_actuator.value == 0.0)
-                                    Status = false;
-                                else
-                                    Status = true;
+//                                bool Status = false;
+//
+//                                if (_actuator.value == 0.0)
+//                                    Status = false;
+//                                else
+//                                    Status = true;
 
                                 String Output = JSON_Data.GenerateJSONDataActorStatus(ActorOutputType, _actuator.name);
 
@@ -984,7 +984,7 @@ namespace HTTP
 					if (url.Contains("?"))
 					{
 						// yes, remove everything after the ? from the url but save it to querystring
-						querystring = url.Substring(url.IndexOf('?') + 1);
+						//querystring = url.Substring(url.IndexOf('?') + 1);
 						url = url.Remove(url.IndexOf('?'));
 					}
 
@@ -1006,7 +1006,7 @@ namespace HTTP
 							FileStream fs = null;
 							BufferedStream bs = null;
 							long bytesSent = 0;
-							bool resumed = false;
+							//bool resumed = false;
 
 							try
 							{
@@ -1034,7 +1034,7 @@ namespace HTTP
 										fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
 										long left = file.Length;
-										bool isThisARecordingRecording = false;
+										//bool isThisARecordingRecording = false;
 
 										#region different mime-type-handling
 										switch (getFileExtension(filename))

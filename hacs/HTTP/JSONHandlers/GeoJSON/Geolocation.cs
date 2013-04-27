@@ -9,12 +9,12 @@ namespace hacs
 	public class Geolocation
 	{
 		private TinyOnDiskStorage latitude_data;
-		private ConsoleOutputLogger ConsoleOutputLogger_;
+		//private ConsoleOutputLogger ConsoleOutputLogger_;
 		
 		public Geolocation(TinyOnDiskStorage sensor_data_storage, ConsoleOutputLogger Logger)
 		{
 			latitude_data = sensor_data_storage;
-			ConsoleOutputLogger_ = Logger;
+			//ConsoleOutputLogger_ = Logger;
 		}
 
 		private GoogleLatitudeDataObject ReadFromCache(OnDiscAdress adress)
