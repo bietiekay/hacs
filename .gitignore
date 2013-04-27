@@ -1,4 +1,7 @@
 .DS_Store
+/hacs/bin/
+/hacs/obj/
+*.pidb
 /old/Code/hacs-dbtool/bin
 /old/Code/SMS77.NET/SMS77/bin
 /old/Code/SMS77.NET/SendSMS/bin

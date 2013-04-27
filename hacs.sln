@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hacs", "hacs\hacs.csproj", "{E0267EE9-B2A3-4F6C-8F48-E6C26863EE8A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{494DC9A1-8F7E-4BC1-96BE-542E7217F8FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataObjectOnDisk", "hacs\Libraries\sonesStorage\DataObjectOnDisk.csproj", "{16D19293-2334-44DC-9BEA-39651DA8F58B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sonesFastSerializer", "hacs\Libraries\sonesFastSerializer\sonesFastSerializer.csproj", "{8A2C05AA-6E56-414B-A43C-7173FC34DB24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Newtonsoft.Json", "hacs\Libraries\Newtonsoft.Json\Newtonsoft.Json.csproj", "{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMS77", "hacs\Libraries\SMS77.NET\SMS77\SMS77.csproj", "{8745FAF6-18DF-49A6-9285-BB3A0380F0C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICMP", "hacs\Libraries\ICMP\ICMP.csproj", "{B833E7C9-ECF5-4790-8B47-9E3D84244E6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavascriptTimestamps", "hacs\Libraries\JavascriptTimestamps\JavascriptTimestamps.csproj", "{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Debug|x86.Build.0 = Debug|Any CPU
+		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Release|x86.ActiveCfg = Release|Any CPU
+		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Release|x86.Build.0 = Release|Any CPU
+		{8745FAF6-18DF-49A6-9285-BB3A0380F0C3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8745FAF6-18DF-49A6-9285-BB3A0380F0C3}.Debug|x86.Build.0 = Debug|Any CPU
+		{8745FAF6-18DF-49A6-9285-BB3A0380F0C3}.Release|x86.ActiveCfg = Release|Any CPU
+		{8745FAF6-18DF-49A6-9285-BB3A0380F0C3}.Release|x86.Build.0 = Release|Any CPU
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Debug|x86.Build.0 = Debug|Any CPU
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Release|x86.ActiveCfg = Release|Any CPU
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24}.Release|x86.Build.0 = Release|Any CPU
+		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Debug|x86.Build.0 = Debug|Any CPU
+		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Release|x86.ActiveCfg = Release|Any CPU
+		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}.Release|x86.Build.0 = Release|Any CPU
+		{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}.Debug|x86.Build.0 = Debug|Any CPU
+		{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}.Release|x86.ActiveCfg = Release|Any CPU
+		{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}.Release|x86.Build.0 = Release|Any CPU
+		{B833E7C9-ECF5-4790-8B47-9E3D84244E6A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B833E7C9-ECF5-4790-8B47-9E3D84244E6A}.Debug|x86.Build.0 = Debug|Any CPU
+		{B833E7C9-ECF5-4790-8B47-9E3D84244E6A}.Release|x86.ActiveCfg = Release|Any CPU
+		{B833E7C9-ECF5-4790-8B47-9E3D84244E6A}.Release|x86.Build.0 = Release|Any CPU
+		{E0267EE9-B2A3-4F6C-8F48-E6C26863EE8A}.Debug|x86.ActiveCfg = Debug|x86
+		{E0267EE9-B2A3-4F6C-8F48-E6C26863EE8A}.Debug|x86.Build.0 = Debug|x86
+		{E0267EE9-B2A3-4F6C-8F48-E6C26863EE8A}.Release|x86.ActiveCfg = Release|x86
+		{E0267EE9-B2A3-4F6C-8F48-E6C26863EE8A}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{16D19293-2334-44DC-9BEA-39651DA8F58B} = {494DC9A1-8F7E-4BC1-96BE-542E7217F8FF}
+		{8A2C05AA-6E56-414B-A43C-7173FC34DB24} = {494DC9A1-8F7E-4BC1-96BE-542E7217F8FF}
+		{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D} = {494DC9A1-8F7E-4BC1-96BE-542E7217F8FF}
+		{8745FAF6-18DF-49A6-9285-BB3A0380F0C3} = {494DC9A1-8F7E-4BC1-96BE-542E7217F8FF}
+		{B833E7C9-ECF5-4790-8B47-9E3D84244E6A} = {494DC9A1-8F7E-4BC1-96BE-542E7217F8FF}
+		{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A} = {494DC9A1-8F7E-4BC1-96BE-542E7217F8FF}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = hacs\hacs.csproj
+	EndGlobalSection
+EndGlobal
