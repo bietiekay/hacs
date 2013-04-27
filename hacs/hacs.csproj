@@ -70,6 +70,10 @@
       <Project>{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}</Project>
       <Name>JavascriptTimestamps</Name>
     </ProjectReference>
+    <ProjectReference Include="Libraries\XMPP\agsxmpp\agsXMPP.csproj">
+      <Project>{91EA0D0B-D3BA-497F-AFEB-2CAD59DEBA0E}</Project>
+      <Name>agsXMPP</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="log\" />
