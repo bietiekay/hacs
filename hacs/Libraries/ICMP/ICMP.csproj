@@ -28,6 +28,16 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug Tools|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug Tools</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release Tools|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release Tools</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>

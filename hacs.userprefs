@@ -1,8 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="hacs/HandlingThread.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="tools/SolarLogDebug/SolarLogDebug/Main.cs">
     <Files>
-      <File FileName="hacs/HandlingThread.cs" Line="10" Column="2" />
+      <File FileName="tools/SolarLogDebug/SolarLogDebug/Main.cs" Line="11" Column="20" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

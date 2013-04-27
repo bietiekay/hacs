@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}</ProjectGuid>
@@ -10,25 +10,25 @@
     <RootNamespace>hacsdbtool</RootNamespace>
     <AssemblyName>hacs-dbtool</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-    <Externalconsole>True</Externalconsole>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>none</DebugType>
-    <Optimize>True</Optimize>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-    <Externalconsole>True</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug Tools|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug Tools</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release Tools|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release Tools</OutputPath>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -41,11 +41,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\DataObjectOnDisk\DataObjectOnDisk.csproj">
+    <ProjectReference Include="..\..\hacs\Libraries\sonesStorage\DataObjectOnDisk.csproj">
       <Project>{16D19293-2334-44DC-9BEA-39651DA8F58B}</Project>
       <Name>DataObjectOnDisk</Name>
     </ProjectReference>
-    <ProjectReference Include="..\sonesFastSerializer\sonesFastSerializer.csproj">
+    <ProjectReference Include="..\..\hacs\Libraries\sonesFastSerializer\sonesFastSerializer.csproj">
       <Project>{8A2C05AA-6E56-414B-A43C-7173FC34DB24}</Project>
       <Name>sonesFastSerializer</Name>
     </ProjectReference>

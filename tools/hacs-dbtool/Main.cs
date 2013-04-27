@@ -70,7 +70,7 @@ namespace hacsdbtool
 			{
 				GoogleLatitudeDataObject dataobject = new GoogleLatitudeDataObject();
 				dataobject.Deserialize(data_store.Read(ondisc));
-				Int32 CurrentDay = -1;
+				//Int32 CurrentDay = -1;
 
 				if (dataobject.AccountName == Accountname) 
 				{

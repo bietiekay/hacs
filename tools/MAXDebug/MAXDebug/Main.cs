@@ -58,7 +58,7 @@ namespace MAXDebug
 
 					Messages.Add(myCompleteMessage.ToString());
 				}
-				catch(Exception e)
+				catch(Exception)
 				{
 					//Console.WriteLine("Exception: "+e.Message);
 					keepRunning = false;
@@ -115,7 +115,7 @@ namespace MAXDebug
 						myCompleteMessage.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
 						Messages.Add(myCompleteMessage.ToString());
 					}
-					catch(Exception e)
+					catch(Exception)
 					{
 						//jConsole.WriteLine("Exception: "+e.Message);
 						keepRunning = false;
