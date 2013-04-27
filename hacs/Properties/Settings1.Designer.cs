@@ -73,18 +73,6 @@ namespace hacs.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http")]
-        public string HTTPDocumentRoot {
-            get {
-                return ((string)(this["HTTPDocumentRoot"]));
-            }
-            set {
-                this["HTTPDocumentRoot"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("60")]
         public int ConfigurationCacheMinutes {
             get {
@@ -512,6 +500,42 @@ namespace hacs.Properties {
             }
             set {
                 this["DataDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ui")]
+        public string HTTPDocumentRoot {
+            get {
+                return ((string)(this["HTTPDocumentRoot"]));
+            }
+            set {
+                this["HTTPDocumentRoot"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool XMPPEnabled {
+            get {
+                return ((bool)(this["XMPPEnabled"]));
+            }
+            set {
+                this["XMPPEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("XMPPConfiguration.config")]
+        public string XMPPConfigurationFilename {
+            get {
+                return ((string)(this["XMPPConfigurationFilename"]));
+            }
+            set {
+                this["XMPPConfigurationFilename"] = value;
             }
         }
     }

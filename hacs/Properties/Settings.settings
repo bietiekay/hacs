@@ -14,9 +14,6 @@
     <Setting Name="HTTPIP" Type="System.String" Scope="User">
       <Value Profile="(Default)">0.0.0.0</Value>
     </Setting>
-    <Setting Name="HTTPDocumentRoot" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http</Value>
-    </Setting>
     <Setting Name="ConfigurationCacheMinutes" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">60</Value>
     </Setting>
@@ -124,6 +121,15 @@
     </Setting>
     <Setting Name="DataDirectory" Type="System.String" Scope="User">
       <Value Profile="(Default)">data</Value>
+    </Setting>
+    <Setting Name="HTTPDocumentRoot" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ui</Value>
+    </Setting>
+    <Setting Name="XMPPEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="XMPPConfigurationFilename" Type="System.String" Scope="User">
+      <Value Profile="(Default)">XMPPConfiguration.config</Value>
     </Setting>
   </Settings>
 </SettingsFile>

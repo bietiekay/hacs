@@ -75,10 +75,7 @@
       <Name>agsXMPP</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="log\" />
-    <Folder Include="ui\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="Alarming\AlarmingConfiguration.cs" />
     <Compile Include="Alarming\AlarmingThread.cs" />
@@ -208,7 +205,7 @@
     <None Include="configuration\SensorCheckIgnoreList.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="log\readme.txt">
+    <None Include="HTTP\log\readme.txt">
       <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
