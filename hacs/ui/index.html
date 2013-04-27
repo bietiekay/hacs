@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html><head>
+<title>hacs - home automation control server</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="" />
+<link rel="stylesheet" type="text/css" href="css/kickstart.css" media="all" />                  <!-- KICKSTART -->
+<link rel="stylesheet" type="text/css" href="style.css" media="all" />                          <!-- CUSTOM STYLES -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/kickstart.js"></script>                                  <!-- KICKSTART -->
+</head><body>
+
+<div class="grid">
+<!-- ===================================== END HEADER ===================================== -->
+<h1 class="center">
+	<p><i class="icon-home icon-3x"></i></p>
+</h1>
+<h3 class="center">
+	Home Automation Control Server
+</h3>
+<h6 style="color:#999;margin-bottom:40px;" class="center">
+	(C) 2010 - 2013 Daniel Kirstenpfad
+	<hr class="alt2" />
+</h6>
+<p>
+In the last 10+ years I was fiddling with different home automation concepts.Because of the lack of broad use cases at that time no one seemed to be interested in having sensors and actors like crazy at home. In fact not that many people seem to care these days. I strongly believe many people will care in the future. Not that they would use anything like the tools I want to create and use. It's just that I cannot wait until the main stream sees a need for the things I and hopefully you need today.
+</p>
+<p>
+That said I found a nice plastic box I want to use in a winter project I'll call HACS. This plastic box is called "EzControl XS1". It comes with several visible and invisible interfaces.
+</p>
+<p>
+The visible and obvious ones are: power, 100 mbit ethernet, sd card slot. So it takes some power and does something on the network. The not so obvious interfaces are the most interesting ones: the EzControl XS1 comes with the ability to send and receive on 433 Mhz and 868 Mhz.
+</p>
+<p>
+Yes these are the ranges used by switchable and dimable power sockets, temperature sensor and AMR. Another great feature of the EzControl XS1 is the embedded WebServer with which the users application (the one I want to write) can interact using a HTTP/JSON Protocol. 
+</p>
+<div align="center"><img src="hacs.png"></div>
+<p>
+Conclusion: Sensor data and Actor control using JSON. How great is that!
+</p>
+<p>
+There is some example code available (even a proprietary iPad/iPhone client) but since I want to have some custom features I do not currently see to be available in already available software I am going to write a set of tools which will get and protocol sensor data and run scripts to controls actors.
+</p>
+<p>
+And basically HACS is a project to come up with first a framework and toolset to control and access the EzControl XS1 and secondly integrate with some if not all of the other available home automation / sensor-actor gadgets.
+</p>
+<hr class="alt2" />
+
+
+
+</div><!-- END GRID-->
+</body>
+</html>
