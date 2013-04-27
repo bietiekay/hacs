@@ -248,7 +248,14 @@ namespace xs1_data_logging
 												foreach(Smsrecipient recipient in _alarm.smsrecipients)
 												{
 													ConsoleOutputLogger.WriteLine("Sending Alarm SMS to "+recipient.number+" for alarm "+_alarm.name);
-													SMSGateway.SendSMS(recipient.number,_alarm.message,Properties.Settings.Default.AlarmingSMS77SenderNumber);
+                                                    try
+                                                    {
+													    SMSGateway.SendSMS(recipient.number,_alarm.message,Properties.Settings.Default.AlarmingSMS77SenderNumber,false,false,SMSType.quality);
+                                                    }
+                                                    catch(Exception e)
+                                                    {
+                                                        ConsoleOutputLogger.WriteLine("SMS Sending Exception: " + e.Message);
+                                                    }
 												}
 											}
 											}

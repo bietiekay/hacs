@@ -53,25 +53,40 @@ namespace SMS77
 
 			//Console.WriteLine(URL.ToString ());
 
-			WebRequest wrGETURL;
-			wrGETURL = WebRequest.Create(URL.ToString());
+            bool success = false;
+            Int32 tryCounter = 0;
+            Int32 MaxTries = 10;
 
-			Stream objStream;
-			objStream = wrGETURL.GetResponse().GetResponseStream();
+            while (!success)
+            {
+                tryCounter++;
+                WebRequest wrGETURL;
+                wrGETURL = WebRequest.Create(URL.ToString());
 
-			StreamReader objReader = new StreamReader(objStream);
-			
-			string sLine = "";
-			int i = 0;
+                Stream objStream;
+                objStream = wrGETURL.GetResponse().GetResponseStream();
 
-			while (sLine!=null)
-			{
-				i++;
-				sLine = objReader.ReadLine();
-				//if (sLine!=null)
-				//	Console.WriteLine("{0}:{1}",i,sLine);
-			}
+                StreamReader objReader = new StreamReader(objStream);
 
+                string sLine = "";
+                int i = 0;
+
+                while (sLine != null)
+                {
+                    i++;
+                    sLine = objReader.ReadLine();
+                    if (sLine != null)
+                    {
+                        if (sLine.Contains("100"))
+                            success = true;
+                    }
+                }
+
+                if (tryCounter == MaxTries)
+                {
+                    return;
+                }
+            }
 		}
 	}
 }
