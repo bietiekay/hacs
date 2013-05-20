@@ -413,6 +413,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
     </None>
+    <None Include="configuration\IFTHISTHANTHIS.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Devices\XMPP\" />
