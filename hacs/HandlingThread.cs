@@ -99,7 +99,7 @@ namespace hacs
 			XS1Thread.Start();
 
             // Start integrated HTTP Server
-            HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort, Properties.Settings.Default.HTTPIP, Properties.Settings.Default.HTTPDocumentRoot, sensor_data_store, latitude_data_store, XS1_Configuration, ConsoleOutputLogger, ELVMax);
+            HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort, Properties.Settings.Default.HTTPIP, Properties.Settings.Default.HTTPDocumentRoot, sensor_data_store, latitude_data_store, XS1_Configuration, ConsoleOutputLogger, ELVMax,false,"username","password");
             Thread http_server_thread = new Thread(new ThreadStart(httpServer.listen));
             http_server_thread.Start();
 

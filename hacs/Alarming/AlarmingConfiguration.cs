@@ -11,7 +11,10 @@ namespace hacs
 	{
 		public string number { get; set; }
 	}
-	
+	public class Xmpprecipient
+	{
+		public string xmpp { get; set; }
+	}	
 	public class Activator
 	{
 		public string name { get; set; }
@@ -41,6 +44,7 @@ namespace hacs
 		public string name { get; set; }
 		public string message { get; set; }
 		public List<Smsrecipient> smsrecipients { get; set; }
+		public List<Xmpprecipient> xmpprecipients { get; set; }
 		public List<Activator> activators { get; set; }
 		public List<Sensorcheck> sensorchecks { get; set; }
 		public List<Actorcheck> actorchecks { get; set; }

@@ -120,8 +120,6 @@
     <Compile Include="Devices\NetworkMonitoring\NetworkMonitoring.cs" />
     <Compile Include="Devices\NetworkMonitoring\NetworkMonitoringConfiguration.cs" />
     <Compile Include="Devices\NetworkMonitoring\NetworkMonitoringDataSet.cs" />
-    <Compile Include="Devices\PowerSensor\PowerSensorConfiguration.cs" />
-    <Compile Include="Devices\PowerSensor\PowerSensorOutputTypes.cs" />
     <Compile Include="Devices\SolarLog\SolarLogDataHelper.cs" />
     <Compile Include="Devices\SolarLog\SolarLogDataSet.cs" />
     <Compile Include="Devices\SolarLog\SolarLogMonitoringThread.cs" />
@@ -138,7 +136,6 @@
     <Compile Include="Devices\XS1\XS1MonitoringThread.cs" />
     <Compile Include="Devices\XS1\XS1_DataObject.cs" />
     <Compile Include="Devices\XS1\current_actor_status.cs" />
-    <Compile Include="Devices\set_state_actuator\set_state_actuator.cs" />
     <Compile Include="HTTP\HTTPProcessor.cs">
       <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
     </Compile>
@@ -165,6 +162,9 @@
     <Compile Include="ConsoleOutputLogger.cs" />
     <Compile Include="hacs.cs" />
     <Compile Include="HandlingThread.cs" />
+    <Compile Include="Devices\XS1\set_state_actuator\set_state_actuator.cs" />
+    <Compile Include="Devices\XS1\PowerSensor\PowerSensorConfiguration.cs" />
+    <Compile Include="Devices\XS1\PowerSensor\PowerSensorOutputTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -411,5 +411,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
     </None>
+    <None Include="log\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
+    </None>
+    <None Include="configuration\IFTHISTHANTHIS.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Devices\XMPP\" />
+    <Folder Include="log\" />
   </ItemGroup>
 </Project>
