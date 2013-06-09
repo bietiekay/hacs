@@ -1,10 +1,21 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="hacs/configuration/AlarmingConfiguration.config">
+  <MonoDevelop.Ide.Workbench ActiveDocument="hacs/HandlingThread.cs">
     <Files>
-      <File FileName="hacs/Alarming/AlarmingConfiguration.cs" Line="47" Column="34" />
-      <File FileName="hacs/configuration/AlarmingConfiguration.config" Line="12" Column="15" />
+      <File FileName="hacs/HTTP/HTTPServer.cs" Line="35" Column="308" />
+      <File FileName="hacs/HTTP/HTTPProcessor.cs" Line="367" Column="29" />
+      <File FileName="hacs/HandlingThread.cs" Line="102" Column="264" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="hacs" expanded="True">
+            <Node name="HTTP" expanded="True" />
+            <Node name="HandlingThread.cs" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

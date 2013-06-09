@@ -26,10 +26,13 @@ namespace HTTP
         private XS1Configuration XS1_Configuration;
         private ConsoleOutputLogger ConsoleOutputLogger;
 		private MAXMonitoringThread ELVMAXMonitoringThread;
+		private bool AuthorizationEnabled;
+		private String Username;
+		private String Password;
         #endregion
 
         #region Construction
-		public HttpServer(Int32 HTTP_Port, String HTTP_ListeningIP, String HTTP_DocumentRoot, TinyOnDiskStorage _Storage, TinyOnDiskStorage _LatitudeStorage, XS1Configuration _XS1_Configuration, ConsoleOutputLogger Logger, MAXMonitoringThread _ELVMAXMonitoringThread)
+		public HttpServer(Int32 HTTP_Port, String HTTP_ListeningIP, String HTTP_DocumentRoot, TinyOnDiskStorage _Storage, TinyOnDiskStorage _LatitudeStorage, XS1Configuration _XS1_Configuration, ConsoleOutputLogger Logger, MAXMonitoringThread _ELVMAXMonitoringThread, bool AuthEnabled, String Uname, String Pword)
         {
             HTTPServer_Port = HTTP_Port;
             HTTPServer_ListeningIP = HTTP_ListeningIP;
@@ -39,6 +42,9 @@ namespace HTTP
             ConsoleOutputLogger = Logger;
 			ELVMAXMonitoringThread = _ELVMAXMonitoringThread;
 			LatitudeStorage = _LatitudeStorage;
+			AuthorizationEnabled = AuthEnabled;
+			Username = Uname;
+			Password = Pword;
         }
         #endregion
 
@@ -73,8 +79,7 @@ namespace HTTP
                         Socket s = listener.Accept();
 
                         // Create a new processor for this request
-                        HttpProcessor processor = new HttpProcessor(s, HTTPServer_DocumentRoot,Storage,LatitudeStorage,XS1_Configuration, ConsoleOutputLogger, ELVMAXMonitoringThread);
-
+                        HttpProcessor processor = new HttpProcessor(s, HTTPServer_DocumentRoot,Storage,LatitudeStorage,XS1_Configuration, ConsoleOutputLogger, ELVMAXMonitoringThread, AuthorizationEnabled,Username,Password);
 
                         // Dispatch that processor in its own thread
                         Thread thread = new Thread(new ThreadStart(processor.process));

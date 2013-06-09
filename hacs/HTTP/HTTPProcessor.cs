@@ -50,6 +50,10 @@ namespace HTTP
 		private MAXMonitoringThread ELVMAX;
 		private TinyOnDiskStorage SensorDataStore;
 		//private TinyOnDiskStorage LatitudeDataStore;
+		private bool AuthorizationEnabled;
+		private String Username;
+		private String Password;
+		private bool AuthenticatedSuccessfully;
 		#endregion
 
 		#region Constructor
@@ -64,7 +68,7 @@ namespace HTTP
 		/// <param name="docRoot">Root-Directory of the HTTP Server</param>
 		/// <param name="s">the Socket to work with</param>
 		/// <param name="webserver">the "master" HttpServer Object of this Client</param>
-		public HttpProcessor(Socket s, String HTTP_DocumentRoot, TinyOnDiskStorage Storage, TinyOnDiskStorage LatitudeStorage, XS1Configuration _XS1_Configuration, ConsoleOutputLogger Logger, MAXMonitoringThread ELVMAXMonitoring)
+		public HttpProcessor(Socket s, String HTTP_DocumentRoot, TinyOnDiskStorage Storage, TinyOnDiskStorage LatitudeStorage, XS1Configuration _XS1_Configuration, ConsoleOutputLogger Logger, MAXMonitoringThread ELVMAXMonitoring, bool AuthEnabled, String Uname, String Pword)
 		{
 			this.s = s;
 			HTTPServer_DocumentRoot = HTTP_DocumentRoot;
@@ -78,6 +82,9 @@ namespace HTTP
 			SensorDataStore = Storage;
 			//LatitudeDataStore = LatitudeStorage;
 			LatitudeGeoLocation = new Geolocation(LatitudeStorage,Logger);
+			AuthorizationEnabled = AuthEnabled;
+			Username = Uname;
+			Password = Pword;
 		}
 		#endregion
 
@@ -103,6 +110,39 @@ namespace HTTP
 				{
 					if (readHeaders())
 					{
+
+						AuthenticatedSuccessfully = true;
+						#region Authentification
+						if (AuthorizationEnabled)
+						{
+							AuthenticatedSuccessfully = false;
+							if (headers.ContainsKey("Authorization"))
+							{
+								String encodedInputPW = (String)headers["Authorization"];
+								// remove first 6 bytes..."Basic asfasfasfasfdsdf=="
+								encodedInputPW = encodedInputPW.Remove(0,6);
+
+								string decoded = Encoding.UTF8.GetString(Convert.FromBase64String(encodedInputPW));
+								int position = decoded.IndexOf(':');
+								if (position == -1)
+								{
+									AuthenticatedSuccessfully = false;
+									writeError(401,"Authorization header not correct set");
+								}
+
+								string password = decoded.Substring(position + 1, decoded.Length - position - 1);
+								string userName = decoded.Substring(0, position);
+
+								if ((Username == userName) && (Password == password))
+									AuthenticatedSuccessfully = true;
+							}
+							else
+							{
+								AuthenticatedSuccessfully = false;
+							}
+						}
+						#endregion
+
 						// This makes sure we don't have too many persistent connections and also
 						// checks to see if the client can maintain keep-alive, if so then we will
 						// keep this http processor around to process again.
@@ -322,6 +362,16 @@ namespace HTTP
 
 				//querystring = "";
 				url = original_url;
+
+				#region Authentification
+				if (AuthorizationEnabled)
+				{
+					if (!AuthenticatedSuccessfully)
+					{
+						writeNotAuthorized("hacs");
+					}
+				}
+				#endregion
 
 				if (internal_proxy.isThisAProxyURL(url))
 				{
@@ -1130,6 +1180,29 @@ namespace HTTP
 		{
 			writeResult(200, "OK", length);
 		}
+
+		public void writeNotAuthorized(String realm)
+		{
+			string auth_header = "WWW-Authenticate: Basic realm=\""+realm+"\"\n";
+			string output = "HTTP/1.0 401 Not Authorized";
+
+			try
+			{
+				sw.Write("HTTP/1.0 401 Not Authorized\r\n");
+				sw.Write("Content-Type: text/html\r\n");
+				sw.Write("Content-Length: " + output.Length + "\r\n");
+				sw.Write("WWW-Authenticate: Basic realm=\""+realm+"\"\r\n");
+				sw.Write("Connection: close\r\n");
+				sw.Write("\r\n");
+				sw.Write(output);
+				sw.Flush();
+			}
+			catch (Exception e)
+			{
+				ConsoleOutputLogger.WriteLine("[FEHLER@HTTP] " + e.Message);
+			}
+		}
+
 
 		public void writeFailure()
 		{
