@@ -75,7 +75,9 @@
       <Name>agsXMPP</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="HTTP\log\" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Alarming\AlarmingConfiguration.cs" />
     <Compile Include="Alarming\AlarmingThread.cs" />
@@ -203,10 +205,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="configuration\SensorCheckIgnoreList.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="HTTP\log\readme.txt">
-      <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="ui\css\jquery.fancybox-1.3.4.css">

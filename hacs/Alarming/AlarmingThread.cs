@@ -156,7 +156,7 @@ namespace hacs
 												foreach(Smsrecipient recipient in _alarm.smsrecipients)
 												{
 													ConsoleOutputLogger.WriteLine("Sending Alarm SMS to "+recipient.number+" for alarm "+_alarm.name);
-													SMSGateway.SendSMS(recipient.number,_alarm.message,Properties.Settings.Default.AlarmingSMS77SenderNumber);
+													SMSGateway.SendSMS(recipient.number,_alarm.message,Properties.Settings.Default.AlarmingSMS77SenderNumber,false,false,SMSType.quality);
 												}
 											}
 										}
