@@ -54,6 +54,7 @@ namespace HTTP
 		private String Username;
 		private String Password;
 		private bool AuthenticatedSuccessfully;
+        private String AuthDisabledForAdressesThatStartWith;
 		#endregion
 
 		#region Constructor
@@ -68,7 +69,7 @@ namespace HTTP
 		/// <param name="docRoot">Root-Directory of the HTTP Server</param>
 		/// <param name="s">the Socket to work with</param>
 		/// <param name="webserver">the "master" HttpServer Object of this Client</param>
-		public HttpProcessor(Socket s, String HTTP_DocumentRoot, TinyOnDiskStorage Storage, TinyOnDiskStorage LatitudeStorage, XS1Configuration _XS1_Configuration, ConsoleOutputLogger Logger, MAXMonitoringThread ELVMAXMonitoring, bool AuthEnabled, String Uname, String Pword)
+		public HttpProcessor(Socket s, String HTTP_DocumentRoot, TinyOnDiskStorage Storage, TinyOnDiskStorage LatitudeStorage, XS1Configuration _XS1_Configuration, ConsoleOutputLogger Logger, MAXMonitoringThread ELVMAXMonitoring, bool AuthEnabled, String Uname, String Pword, String StartAddrFilter)
 		{
 			this.s = s;
 			HTTPServer_DocumentRoot = HTTP_DocumentRoot;
@@ -85,6 +86,7 @@ namespace HTTP
 			AuthorizationEnabled = AuthEnabled;
 			Username = Uname;
 			Password = Pword;
+            AuthDisabledForAdressesThatStartWith = StartAddrFilter;
 		}
 		#endregion
 
@@ -364,6 +366,9 @@ namespace HTTP
 				url = original_url;
 
 				#region Authentification
+                if (AC_endpoint.Address.ToString().StartsWith(AuthDisabledForAdressesThatStartWith))
+                    AuthenticatedSuccessfully = true;
+
 				if (AuthorizationEnabled)
 				{
 					if (!AuthenticatedSuccessfully)

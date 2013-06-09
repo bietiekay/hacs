@@ -131,5 +131,17 @@
     <Setting Name="XMPPConfigurationFilename" Type="System.String" Scope="User">
       <Value Profile="(Default)">XMPPConfiguration.config</Value>
     </Setting>
+    <Setting Name="HTTPAuthEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="HTTPAuthUsername" Type="System.String" Scope="User">
+      <Value Profile="(Default)">username</Value>
+    </Setting>
+    <Setting Name="HTTPAuthPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">password</Value>
+    </Setting>
+    <Setting Name="HTTPAuthDisabledAdressStartsWith" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.178</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

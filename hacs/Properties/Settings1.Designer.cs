@@ -538,5 +538,53 @@ namespace hacs.Properties {
                 this["XMPPConfigurationFilename"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HTTPAuthEnabled {
+            get {
+                return ((bool)(this["HTTPAuthEnabled"]));
+            }
+            set {
+                this["HTTPAuthEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("username")]
+        public string HTTPAuthUsername {
+            get {
+                return ((string)(this["HTTPAuthUsername"]));
+            }
+            set {
+                this["HTTPAuthUsername"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("password")]
+        public string HTTPAuthPassword {
+            get {
+                return ((string)(this["HTTPAuthPassword"]));
+            }
+            set {
+                this["HTTPAuthPassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.178")]
+        public string HTTPAuthDisabledAdressStartsWith {
+            get {
+                return ((string)(this["HTTPAuthDisabledAdressStartsWith"]));
+            }
+            set {
+                this["HTTPAuthDisabledAdressStartsWith"] = value;
+            }
+        }
     }
 }

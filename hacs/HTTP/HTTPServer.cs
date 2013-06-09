@@ -29,10 +29,11 @@ namespace HTTP
 		private bool AuthorizationEnabled;
 		private String Username;
 		private String Password;
+        private String AuthDisabledForAdressesThatStartWith;
         #endregion
 
         #region Construction
-		public HttpServer(Int32 HTTP_Port, String HTTP_ListeningIP, String HTTP_DocumentRoot, TinyOnDiskStorage _Storage, TinyOnDiskStorage _LatitudeStorage, XS1Configuration _XS1_Configuration, ConsoleOutputLogger Logger, MAXMonitoringThread _ELVMAXMonitoringThread, bool AuthEnabled, String Uname, String Pword)
+		public HttpServer(Int32 HTTP_Port, String HTTP_ListeningIP, String HTTP_DocumentRoot, TinyOnDiskStorage _Storage, TinyOnDiskStorage _LatitudeStorage, XS1Configuration _XS1_Configuration, ConsoleOutputLogger Logger, MAXMonitoringThread _ELVMAXMonitoringThread, bool AuthEnabled, String Uname, String Pword, String StartAdrFilter)
         {
             HTTPServer_Port = HTTP_Port;
             HTTPServer_ListeningIP = HTTP_ListeningIP;
@@ -45,6 +46,7 @@ namespace HTTP
 			AuthorizationEnabled = AuthEnabled;
 			Username = Uname;
 			Password = Pword;
+            AuthDisabledForAdressesThatStartWith = StartAdrFilter;
         }
         #endregion
 
@@ -79,7 +81,7 @@ namespace HTTP
                         Socket s = listener.Accept();
 
                         // Create a new processor for this request
-                        HttpProcessor processor = new HttpProcessor(s, HTTPServer_DocumentRoot,Storage,LatitudeStorage,XS1_Configuration, ConsoleOutputLogger, ELVMAXMonitoringThread, AuthorizationEnabled,Username,Password);
+                        HttpProcessor processor = new HttpProcessor(s, HTTPServer_DocumentRoot,Storage,LatitudeStorage,XS1_Configuration, ConsoleOutputLogger, ELVMAXMonitoringThread, AuthorizationEnabled,Username,Password, AuthDisabledForAdressesThatStartWith);
 
                         // Dispatch that processor in its own thread
                         Thread thread = new Thread(new ThreadStart(processor.process));
