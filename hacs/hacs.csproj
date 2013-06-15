@@ -76,9 +76,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="HTTP\log\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Alarming\AlarmingConfiguration.cs" />
     <Compile Include="Alarming\AlarmingThread.cs" />
     <Compile Include="Alarming\AlarmingQueue\AlarmingDataset.cs" />
