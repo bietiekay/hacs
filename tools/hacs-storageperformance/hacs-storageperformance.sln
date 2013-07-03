@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataObjectOnDisk", "..\..\hacs\Libraries\sonesStorage\DataObjectOnDisk.csproj", "{16D19293-2334-44DC-9BEA-39651DA8F58B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hacs-storageperformance-splitting", "StoragePerformance-Splitting\hacs-storageperformance-splitting.csproj", "{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hacs-storageperformance-benchmark", "StoragePerformance-Benchmark\hacs-storageperformance-benchmark.csproj", "{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastSerializer", "..\..\hacs\Libraries\FastSerializer\FastSerializer.csproj", "{7267AFEB-D3FC-4416-8792-C386A685C86F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Debug Tools|Any CPU = Debug Tools|Any CPU
+		Release Tools|Any CPU = Release Tools|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Debug Tools|Any CPU.ActiveCfg = Debug Tools|Any CPU
+		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Debug Tools|Any CPU.Build.0 = Debug Tools|Any CPU
+		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Release Tools|Any CPU.ActiveCfg = Release Tools|Any CPU
+		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Release Tools|Any CPU.Build.0 = Release Tools|Any CPU
+		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16D19293-2334-44DC-9BEA-39651DA8F58B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7267AFEB-D3FC-4416-8792-C386A685C86F}.Debug Tools|Any CPU.ActiveCfg = Release|Any CPU
+		{7267AFEB-D3FC-4416-8792-C386A685C86F}.Debug Tools|Any CPU.Build.0 = Release|Any CPU
+		{7267AFEB-D3FC-4416-8792-C386A685C86F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7267AFEB-D3FC-4416-8792-C386A685C86F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7267AFEB-D3FC-4416-8792-C386A685C86F}.Release Tools|Any CPU.ActiveCfg = Release|Any CPU
+		{7267AFEB-D3FC-4416-8792-C386A685C86F}.Release Tools|Any CPU.Build.0 = Release|Any CPU
+		{7267AFEB-D3FC-4416-8792-C386A685C86F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7267AFEB-D3FC-4416-8792-C386A685C86F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Debug Tools|Any CPU.ActiveCfg = Debug Tools|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Debug Tools|Any CPU.ActiveCfg = Debug Tools|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Debug Tools|Any CPU.Build.0 = Debug Tools|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Debug Tools|Any CPU.Build.0 = Debug Tools|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Release Tools|Any CPU.ActiveCfg = Release Tools|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Release Tools|Any CPU.ActiveCfg = Release Tools|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Release Tools|Any CPU.Build.0 = Release Tools|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Release Tools|Any CPU.Build.0 = Release Tools|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFDDAE01-55D2-4BC3-BA29-FAE5B54B2032}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = StoragePerformance-Benchmark\hacs-storageperformance-benchmark.csproj
+	EndGlobalSection
+EndGlobal
