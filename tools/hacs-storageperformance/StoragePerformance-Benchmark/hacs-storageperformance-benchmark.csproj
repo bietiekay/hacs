@@ -9,7 +9,6 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>hacsdbtool</RootNamespace>
     <AssemblyName>hacs-benchmark</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <Optimize>false</Optimize>
@@ -46,9 +45,9 @@
       <Project>{16D19293-2334-44DC-9BEA-39651DA8F58B}</Project>
       <Name>DataObjectOnDisk</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\hacs\Libraries\FastSerializer\FastSerializer.csproj">
-      <Project>{7267AFEB-D3FC-4416-8792-C386A685C86F}</Project>
-      <Name>FastSerializer</Name>
+    <ProjectReference Include="..\..\..\hacs\Libraries\sonesFastSerializer\sonesFastSerializer.csproj">
+      <Project>{8A2C05AA-6E56-414B-A43C-7173FC34DB24}</Project>
+      <Name>sonesFastSerializer</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

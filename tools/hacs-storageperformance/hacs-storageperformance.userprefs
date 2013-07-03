@@ -1,10 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="StoragePerformance-Splitting/Main.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="StoragePerformance-Benchmark/Main.cs">
     <Files>
-      <File FileName="StoragePerformance-Benchmark/Main.cs" Line="4" Column="1" />
-      <File FileName="../../hacs/Libraries/sonesStorage/DataObjectOnDisk.cs" Line="31" Column="35" />
-      <File FileName="StoragePerformance-Splitting/Main.cs" Line="2" Column="7" />
+      <File FileName="StoragePerformance-Benchmark/Main.cs" Line="76" Column="5" />
+      <File FileName="../../hacs/Libraries/sonesStorage/DataObjectOnDisk.cs" Line="1" Column="1" />
+      <File FileName="../../hacs/Libraries/sonesStorage/OnDiscAdress.cs" Line="1" Column="1" />
+      <File FileName="StoragePerformance-Benchmark/XS1_DataObject.cs" Line="1" Column="1" />
+      <File FileName="StoragePerformance-Benchmark/GoogleLatitudeDataObject.cs" Line="1" Column="1" />
+      <File FileName="../../hacs/Libraries/sonesFastSerializer/FastSerializer.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

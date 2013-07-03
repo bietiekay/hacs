@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Framework.Serialization;
+using sones.Storage.Serializer;
 
 namespace hacs.xs1
 {

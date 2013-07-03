@@ -111,7 +111,7 @@ namespace sones.Storage.Serializer
 		internal static readonly BitVector32.Section HoursSection = BitVector32.CreateSection(23, HasMillisecondsSection); // 5 bits
 		internal static readonly BitVector32.Section MinutesSection = BitVector32.CreateSection(59, HoursSection); // 6 bits  total = 2 bytes
 		internal static readonly BitVector32.Section SecondsSection = BitVector32.CreateSection(59, MinutesSection); // 6 bits total = 3 bytes
-		internal static readonly BitVector32.Section MillisecondsSection = BitVector32.CreateSection(1024, SecondsSection); // 10 bits - total 31 bits = 4 bytes
+		internal static readonly BitVector32.Section MillisecondsSection = BitVector32.CreateSection(1023, SecondsSection); // 10 bits - total 31 bits = 4 bytes
 
 		/// <summary>
 		/// Holds the highest Int16 that can be optimized into less than the normal 2 bytes

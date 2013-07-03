@@ -1,17 +1,20 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="hacs/HandlingThread.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug Tools" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="hacs/HTTP/HTTPServer.cs">
     <Files>
       <File FileName="hacs/HTTP/HTTPServer.cs" Line="1" Column="1" />
       <File FileName="hacs/HTTP/HTTPProcessor.cs" Line="1" Column="1" />
       <File FileName="hacs/HandlingThread.cs" Line="102" Column="264" />
+      <File FileName="hacs/Libraries/sonesFastSerializer/FastSerializer.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="hacs" expanded="True">
-            <Node name="HTTP" expanded="True" />
-            <Node name="HandlingThread.cs" selected="True" />
+        <State expanded="True" selected="True">
+          <Node name="Libraries" expanded="True">
+            <Node name="sonesFastSerializer" expanded="True" />
+          </Node>
+          <Node name="Tools" expanded="True">
+            <Node name="hacs-dbtool" expanded="True" />
           </Node>
         </State>
       </Pad>
