@@ -21,7 +21,6 @@ namespace hacsdbtool
 			Console.WriteLine("Usage:");
 			Console.WriteLine();
 			Console.WriteLine("\t-sl\tthis parameter lists all available sensors and a short statistic on it");
-			Console.WriteLine("\t-sl\tthis parameter lists all available sensors and a short statistic on it");
 			Console.WriteLine("\t-kml\tthis parameter exports all available latitude data for a certain accountname as kml");
 			Console.WriteLine();
 		}
