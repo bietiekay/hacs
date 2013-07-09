@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C3BCD85C-DBAE-4780-910C-14748655FDC9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Telekom</RootNamespace>
+    <AssemblyName>Telekom</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Telekom.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>Telekom.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Auth\OAuth2\AccessTokenRequest.cs" />
+    <Compile Include="Common\Auth\OAuth2\GrantRequest.cs" />
+    <Compile Include="Common\Auth\OAuth2\AccessTokenResponse.cs" />
+    <Compile Include="Common\Auth\OAuth2\RefreshAccessTokenRequest.cs" />
+    <Compile Include="Common\Auth\OAuth2\OAuth2Request.cs" />
+    <Compile Include="Common\Auth\OAuth2\RevokeRequest.cs" />
+    <Compile Include="Common\Auth\TelekomAuth.cs" />
+    <Compile Include="Common\Auth\TelekomOAuth2Auth.cs" />
+    <Compile Include="Common\Auth\TelekomUPAuth.cs" />
+    <Compile Include="Common\Enum.cs" />
+    <Compile Include="Common\Model\JsonExtensions.cs" />
+    <Compile Include="Common\Model\SmsResponseInboundSmsMessageValues.cs" />
+    <Compile Include="Common\Model\SmsResponseSubscriptionValues.cs" />
+    <Compile Include="Common\Model\SmsResponseDeliveryValues.cs" />
+    <Compile Include="Common\Model\NoHttpParameterAttribute.cs" />
+    <Compile Include="Common\Model\SmsResponse.cs" />
+    <Compile Include="Common\Model\SmsResponseStatus.cs" />
+    <Compile Include="Common\Model\SmsResponseStatusValues.cs" />
+    <Compile Include="Common\Model\Validation\CollectionNotEmptyAttribute.cs" />
+    <Compile Include="Common\Model\HttpParameterAttribute.cs" />
+    <Compile Include="Common\TelekomConfig.cs" />
+    <Compile Include="Common\UriHelper.cs" />
+    <Compile Include="Common\WebRequest\HttpParamWriter\HttpBodyParamWriter.cs" />
+    <Compile Include="Common\WebRequest\HttpParamWriter\RequestStringWriter.cs" />
+    <Compile Include="Common\WebRequest\HttpParamWriter\UriParameterBuilder.cs" />
+    <Compile Include="Common\WebRequest\JsonSerializer.cs" />
+    <Compile Include="Common\Model\TelekomRequest.cs" />
+    <Compile Include="Common\TelekomClient.cs" />
+    <Compile Include="Common\Model\Validation\StringLengthAttribute.cs" />
+    <Compile Include="Common\Model\Validation\RequiredAttributecs.cs" />
+    <Compile Include="Common\Model\Validation\ValidationAttribute.cs" />
+    <Compile Include="Common\Model\TelekomResponse.cs" />
+    <Compile Include="Common\Model\ResponseStatus.cs" />
+    <Compile Include="Common\WebRequest\HttpParamWriter\FormMultipartWriter.cs" />
+    <Compile Include="Common\WebRequest\TelekomJsonWebRequest.cs" />
+    <Compile Include="Common\WebRequest\TelekomWebRequest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SendMms\Model\SendMmsRequest.cs" />
+    <Compile Include="SendMms\SendMmsClient.cs" />
+    <Compile Include="SendSms\ReceiveNotificationUnsubscribeClient.cs" />
+    <Compile Include="SendSms\Model\ReceiveNotificationUnsubscribeRequest.cs" />
+    <Compile Include="SendSms\Model\ReceiveNotificationSubscribeRequest.cs" />
+    <Compile Include="SendSms\ReceiveNotificationSubscribeClient.cs" />
+    <Compile Include="SendSms\Model\SendSmsReceiveRequest.cs" />
+    <Compile Include="SendSms\NotificationUnsubscribeClient.cs" />
+    <Compile Include="SendSms\Model\NotificationUnsubscribeRequest.cs" />
+    <Compile Include="SendSms\Model\NotificationSubscribeRequest.cs" />
+    <Compile Include="SendSms\NotificationSubscribeClient.cs" />
+    <Compile Include="SendSms\Model\QueryReportRequest.cs" />
+    <Compile Include="SendSms\QueryReportClient.cs" />
+    <Compile Include="SendSms\OutboundSMSEncoding.cs" />
+    <Compile Include="SendSms\Model\SendSmsRequest.cs" />
+    <Compile Include="SendSms\OutboundSMSType.cs" />
+    <Compile Include="SendSms\SendSmsClient.cs" />
+    <Compile Include="SendSms\SendSmsReceiveClient.cs" />
+    <Compile Include="SmsValidation\Model\GetValidatedNumbersResponse.cs" />
+    <Compile Include="SmsValidation\Model\SendValidationKeywordRequest.cs" />
+    <Compile Include="SmsValidation\Model\ValidatedNumber.cs" />
+    <Compile Include="SmsValidation\Model\ValidateRequest.cs" />
+    <Compile Include="SmsValidation\SmsValidationClient.cs" />
+    <Compile Include="Speech2Text\Model\Speech2TextDiscoveryRequest.cs" />
+    <Compile Include="Speech2Text\Model\Speech2TextRequest.cs" />
+    <Compile Include="Speech2Text\Model\Speech2TextResponse.cs" />
+    <Compile Include="Speech2Text\Speech2TextClient.cs" />
+    <Compile Include="VoiceCall\Model\CallStatusRequest.cs" />
+    <Compile Include="VoiceCall\Model\CallStatusResponse.cs" />
+    <Compile Include="VoiceCall\Model\Enum.cs" />
+    <Compile Include="VoiceCall\Model\NewCallRequest.cs" />
+    <Compile Include="VoiceCall\Model\NewCallResponse.cs" />
+    <Compile Include="VoiceCall\VoiceCallClient.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\Newtonsoft.Json\Newtonsoft.Json.csproj">
+      <Project>{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}</Project>
+      <Name>Newtonsoft.Json</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
