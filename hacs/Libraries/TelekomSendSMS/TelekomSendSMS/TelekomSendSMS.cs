@@ -25,7 +25,7 @@ using Telekom.Common.Model;
 
 namespace TelekomSendSMS                                                                                                                                                                                   
 {
-	class SendSMS
+	public class TelekomSendSMSGateway
 	{
 		/// <summary>
 		/// Your DeveloperGarden account credentials
@@ -54,7 +54,7 @@ namespace TelekomSendSMS
 		private TelekomOAuth2Auth authentication;
 
 		#region Ctor
-		public SendSMS(String _clientId, String _clientSecret)
+        public TelekomSendSMSGateway(String _clientId, String _clientSecret)
 		{
 			clientId = _clientId;
 			clientSecret = _clientSecret;

@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using sones.storage;
 using hacs.xs1;
 using SMS77;
+using TelekomSendSMS;
 
 namespace hacs
 {
@@ -36,6 +37,7 @@ namespace hacs
 		private ConsoleOutputLogger ConsoleOutputLogger;
 		private ConcurrentQueue<IAlarmingEvent> Alarming_Queue; // use a thread safe list like structure to hold the event's going to be sent to alarming
 		private SMS77Gateway SMSGateway;
+        private TelekomSendSMSGateway TelekomSMSGateway;
 
 		public AlarmingThread(ConsoleOutputLogger Logger, ConcurrentQueue<IAlarmingEvent> _AlarmQueue, TinyOnDiskStorage sensor_data, TinyOnDiskStorage actor_data, TinyOnDiskStorage latitude_data)
 		{
@@ -152,11 +154,27 @@ namespace hacs
 											if (alarm_activated)
 											{
 												ConsoleOutputLogger.WriteLine("!!!! ALARM - "+_alarm.name+" - ALARM !!!!");
+                                                
+                                                // authenticate Telekom
+                                                if (Properties.Settings.Default.UseTelekomSMSInsteadofSMS77)
+                                                    TelekomSMSGateway = new TelekomSendSMSGateway(Properties.Settings.Default.TelekomSMSClientID, Properties.Settings.Default.TelekomSMSClientSecret);
+
 												// send out the SMS...
 												foreach(Smsrecipient recipient in _alarm.smsrecipients)
 												{
 													ConsoleOutputLogger.WriteLine("Sending Alarm SMS to "+recipient.number+" for alarm "+_alarm.name);
-													SMSGateway.SendSMS(recipient.number,_alarm.message,Properties.Settings.Default.AlarmingSMS77SenderNumber,false,false,SMSType.quality);
+
+                                                    try
+                                                    {
+                                                        if (!Properties.Settings.Default.UseTelekomSMSInsteadofSMS77)
+                                                            SMSGateway.SendSMS(recipient.number, _alarm.message, Properties.Settings.Default.AlarmingSMS77SenderNumber, false, false, SMSType.quality);
+                                                        else
+                                                            TelekomSMSGateway.Send(recipient.number, _alarm.message, Properties.Settings.Default.AlarmingSMS77SenderNumber);
+                                                    }
+                                                    catch(Exception e)
+                                                    {
+                                                        ConsoleOutputLogger.WriteLine("SMS Sending Exception: " + e.Message);
+                                                    }
 												}
 											}
 										}
@@ -244,13 +262,21 @@ namespace hacs
 											if (alarm_activated)
 											{
 												ConsoleOutputLogger.WriteLine("!!!! ALARM - "+_alarm.name+" - ALARM !!!!");
-												// send out the SMS...
+
+                                                // authenticate Telekom
+                                                if (Properties.Settings.Default.UseTelekomSMSInsteadofSMS77)
+                                                    TelekomSMSGateway = new TelekomSendSMSGateway(Properties.Settings.Default.TelekomSMSClientID, Properties.Settings.Default.TelekomSMSClientSecret);
+                                                
+                                                // send out the SMS...
 												foreach(Smsrecipient recipient in _alarm.smsrecipients)
 												{
 													ConsoleOutputLogger.WriteLine("Sending Alarm SMS to "+recipient.number+" for alarm "+_alarm.name);
                                                     try
                                                     {
-													    SMSGateway.SendSMS(recipient.number,_alarm.message,Properties.Settings.Default.AlarmingSMS77SenderNumber,false,false,SMSType.quality);
+                                                        if (!Properties.Settings.Default.UseTelekomSMSInsteadofSMS77)
+                                                            SMSGateway.SendSMS(recipient.number, _alarm.message, Properties.Settings.Default.AlarmingSMS77SenderNumber, false, false, SMSType.quality);
+                                                        else
+                                                            TelekomSMSGateway.Send(recipient.number, _alarm.message, Properties.Settings.Default.AlarmingSMS77SenderNumber);
                                                     }
                                                     catch(Exception e)
                                                     {
@@ -258,7 +284,7 @@ namespace hacs
                                                     }
 												}
 											}
-											}
+                                        }
 									}
 									#endregion
 									// TODO: ------------------------------
