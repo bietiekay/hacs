@@ -74,6 +74,10 @@
       <Project>{91EA0D0B-D3BA-497F-AFEB-2CAD59DEBA0E}</Project>
       <Name>agsXMPP</Name>
     </ProjectReference>
+    <ProjectReference Include="Libraries\TelekomSendSMS\TelekomSendSMS\TelekomSendSMS.csproj">
+      <Project>{698A9F23-2BA4-40C5-8818-68BFF15585DE}</Project>
+      <Name>TelekomSendSMS</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alarming\AlarmingConfiguration.cs" />

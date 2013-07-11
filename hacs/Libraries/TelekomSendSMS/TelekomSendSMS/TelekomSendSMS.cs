@@ -19,6 +19,9 @@ using System;
 using Telekom.Common.Auth;
 using Telekom.SendSms;
 using Telekom.Common;
+using System.Collections.Generic;
+using Telekom.SendSms.Model;
+using Telekom.Common.Model;
 
 namespace TelekomSendSMS                                                                                                                                                                                   
 {
@@ -27,54 +30,87 @@ namespace TelekomSendSMS
 		/// <summary>
 		/// Your DeveloperGarden account credentials
 		/// </summary>
-		static string clientId = "";
-		static string clientSecret = "";
-		static string scope = "DC0QX4UK"; // this is Global SMS API
+		private string clientId = "";
+		private string clientSecret = "";
+		private string scope = "DC0QX4UK"; // this is Global SMS API
 
 		/// <summary>
 		/// Number to send the SMS to.
 		/// Please note that the SDK call allows to specify multiple numbers.
 		/// </summary>
-		static string targetNumber = "tel:+49xxxx";
+		private String targetNumber;
 
 		/// <summary>
 		/// Sender, as shown at the receiver
 		/// </summary>
-		static string senderAddress = "tel:+49xxxx";
+		private string senderAddress;
 
 		/// <summary>
 		/// Account-ID of the sub account to be billed. Null to use your main account.
 		/// Can be set in Developer Center.
 		/// </summary>
-		static string subAccountId = null;
+		private string subAccountId = null;
+
+		private TelekomOAuth2Auth authentication;
 
 		#region Ctor
-		public SendSMS()
+		public SendSMS(String _clientId, String _clientSecret)
 		{
-		}
-		#endregion
+			clientId = _clientId;
+			clientSecret = _clientSecret;
 
-		#region Send a SMS
-		public void Send()
-		{
 			//Console.Write("Requesting auth token...");
-
 			//! [setproxy]
 			//TelekomConfig.Proxy = new WebProxy("<yourproxy>", 1234);
 			//! [setproxy]
 
 			//! [upauth]
-			TelekomOAuth2Auth authentication = new TelekomOAuth2Auth(clientId, clientSecret, scope);
+			authentication = new TelekomOAuth2Auth(clientId, clientSecret, scope);
 
 			authentication.RequestAccessToken();
 			if (!authentication.HasValidToken())
 				throw new Exception("Authentication error.");
 			//! [upauth]
 
-			//Console.WriteLine("done");
+
+		}
+		#endregion
+
+		#region Send a SMS
+		public void Send(String _targetNumber,String Message, String _sender, ServiceEnvironment SMSType = ServiceEnvironment.Premium)
+		{
+			targetNumber = "tel:"+_targetNumber;
+			senderAddress = "tel:"+_sender;
 
 			//! [client]
-			SendSmsClient client = new SendSmsClient(authentication, ServiceEnvironment.Premium);
+			SendSmsClient client = new SendSmsClient(authentication, SMSType);
+
+			//! [prepare]
+			List<String> receiverNumbers = new List<String>();
+			receiverNumbers.Add(targetNumber);
+
+			SendSmsRequest request = new SendSmsRequest();
+			request.Numbers = receiverNumbers;
+			request.Message = Message;
+			request.SenderAddress = senderAddress;
+			request.SMSType = OutboundSMSType.TEXT;
+			request.Account = subAccountId;
+			//! [prepare]
+
+			//Console.Write("Sending SMS...");
+			//! [send]
+			SmsResponse response = client.SendSms(request);
+			if (!response.Success)
+				throw new Exception(string.Format("error {0}: {1} - {2}",
+				                                  response.requestError.policyException.messageId,
+				                                  response.requestError.policyException.text.Substring(0, response.requestError.policyException.text.Length - 2),
+				                                  response.requestError.policyException.variables[0]));
+			//! [send]
+
+			//Console.WriteLine("ok");
+
+			//Console.WriteLine("End of demo. Press Enter to exit.");
+			//Console.ReadLine();
 
 		}
 		#endregion
