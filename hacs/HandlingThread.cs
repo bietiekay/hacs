@@ -119,13 +119,13 @@ namespace hacs
 			    alarming_thread.Start();
             }
 
-			// Start Google Latitude Thread
-			if (Properties.Settings.Default.GoogleLatitudeEnabled)
-            {
-				GoogleLatitudeThread googleLatitudeThread = new GoogleLatitudeThread(ConsoleOutputLogger,latitude_data_store,Properties.Settings.Default.GoogleLatitudeUpdateTime);
-			    Thread googleLatitude_Thread = new Thread(new ThreadStart(googleLatitudeThread.Run));
-			    googleLatitude_Thread.Start();
-            }
+            //// Start Google Latitude Thread
+            //if (Properties.Settings.Default.GoogleLatitudeEnabled)
+            //{
+            //    GoogleLatitudeThread googleLatitudeThread = new GoogleLatitudeThread(ConsoleOutputLogger,latitude_data_store,Properties.Settings.Default.GoogleLatitudeUpdateTime);
+            //    Thread googleLatitude_Thread = new Thread(new ThreadStart(googleLatitudeThread.Run));
+            //    googleLatitude_Thread.Start();
+            //}
 
 	        while (!Shutdown)
             {
