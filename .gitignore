@@ -35,3 +35,5 @@ old/Code/MAXDebug/MAXDebug/obj
 /old/Code/JavascriptTimestamps/bin
 /old/Code/ICMP/bin
 /old/Code/xs1-data-logging/Newtonsoft.Json/bin
+hacs/Libraries/miataru-client-csharp/obj
+hacs/Libraries/miataru-client-csharp/bin
