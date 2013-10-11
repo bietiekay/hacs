@@ -70,6 +70,10 @@
       <Project>{AB0FA7FA-AAFD-4F02-89C4-0CAEA7777A6A}</Project>
       <Name>JavascriptTimestamps</Name>
     </ProjectReference>
+    <ProjectReference Include="Libraries\TelekomSendSMS\Telekom\Telekom.csproj">
+      <Project>{C3BCD85C-DBAE-4780-910C-14748655FDC9}</Project>
+      <Name>Telekom</Name>
+    </ProjectReference>
     <ProjectReference Include="Libraries\XMPP\agsxmpp\agsXMPP.csproj">
       <Project>{91EA0D0B-D3BA-497F-AFEB-2CAD59DEBA0E}</Project>
       <Name>agsXMPP</Name>
@@ -420,6 +424,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Devices\XMPP\" />
-    <Folder Include="log\" />
   </ItemGroup>
 </Project>

@@ -143,5 +143,14 @@
     <Setting Name="HTTPAuthDisabledAdressStartsWith" Type="System.String" Scope="User">
       <Value Profile="(Default)">192.168.178</Value>
     </Setting>
+    <Setting Name="TelekomSMSClientID" Type="System.String" Scope="User">
+      <Value Profile="(Default)">developergarden-client-id</Value>
+    </Setting>
+    <Setting Name="TelekomSMSClientSecret" Type="System.String" Scope="User">
+      <Value Profile="(Default)">developergarden-client-secret</Value>
+    </Setting>
+    <Setting Name="UseTelekomSMSInsteadofSMS77" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -586,5 +586,41 @@ namespace hacs.Properties {
                 this["HTTPAuthDisabledAdressStartsWith"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("developergarden-client-id")]
+        public string TelekomSMSClientID {
+            get {
+                return ((string)(this["TelekomSMSClientID"]));
+            }
+            set {
+                this["TelekomSMSClientID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("developergarden-client-secret")]
+        public string TelekomSMSClientSecret {
+            get {
+                return ((string)(this["TelekomSMSClientSecret"]));
+            }
+            set {
+                this["TelekomSMSClientSecret"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseTelekomSMSInsteadofSMS77 {
+            get {
+                return ((bool)(this["UseTelekomSMSInsteadofSMS77"]));
+            }
+            set {
+                this["UseTelekomSMSInsteadofSMS77"] = value;
+            }
+        }
     }
 }
