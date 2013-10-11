@@ -14,6 +14,7 @@ namespace hacs
     public class MiataruDataObject : IFastSerialize
     {
 		public String AccountName;
+        public String DeviceID;
 		public String Timestamp;
 		public String Latitude;
 		public String Longitude;
@@ -23,9 +24,10 @@ namespace hacs
         {
         }
 
-		public MiataruDataObject(String _AccountName, String _TimeStamp, String _Latitude, String _Longitude, String _AccuracyInMeters)
+		public MiataruDataObject(String _AccountName, String _DeviceID, String _TimeStamp, String _Latitude, String _Longitude, String _AccuracyInMeters)
         {
 			AccountName = _AccountName;
+            DeviceID = _DeviceID;
 			Timestamp = _TimeStamp;
 			Latitude = _Latitude;
 			Longitude = _Longitude;
@@ -39,6 +41,7 @@ namespace hacs
             SerializationWriter writer = new SerializationWriter();
 
             writer.WriteObject(AccountName);
+            writer.WriteObject(DeviceID);
 			writer.WriteObject(Timestamp);
 			writer.WriteObject(Latitude);
 			writer.WriteObject(Longitude);
@@ -52,6 +55,7 @@ namespace hacs
             SerializationReader reader = new SerializationReader(Data);
             
 			AccountName = (String)reader.ReadObject();
+            DeviceID = (String)reader.ReadObject();
 			Timestamp = (String)reader.ReadObject();
 			Latitude = (String)reader.ReadObject();
 			Longitude = (String)reader.ReadObject();

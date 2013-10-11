@@ -24,6 +24,7 @@ namespace miataruclientcsharp
 			WebClient client = new WebClient ();
 
 			client.Headers["Content-Type"] = "application/json";
+            client.Headers.Add("user-agent", "hacs");
 
 			string ReturnJSONValue = client.UploadString (ServerURL + "/GetLocation", json);
 

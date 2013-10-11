@@ -120,9 +120,9 @@ namespace hacs
             }
 
 			// Start Miataru Thread
-            if (Properties.Settings.Default.GoogleLatitudeEnabled)
+            if (Properties.Settings.Default.MiataruEnabled)
             {
-				MiataruThread miataruThread = new MiataruThread (ConsoleOutputLogger, miataru_data_store, Properties.Settings.Default.GoogleLatitudeUpdateTime);
+				MiataruThread miataruThread = new MiataruThread (ConsoleOutputLogger, miataru_data_store, Properties.Settings.Default.MiataruUpdateTime);
 				Thread miataru_Thread = new Thread(new ThreadStart(miataruThread.Run));
 				miataru_Thread.Start();
             }

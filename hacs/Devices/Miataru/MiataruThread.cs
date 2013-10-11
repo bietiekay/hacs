@@ -46,10 +46,10 @@ namespace hacs
 						if (Locations != null)
 						{
 							// create a MiataruDataObject out of the last known location
-							MiataruDataObject retrievedData = new MiataruDataObject(Locations[0].Device,Locations[0].Timestamp,Locations[0].Latitude,Locations[0].Longitude,Locations[0].HorizontalAccuracy);
+							MiataruDataObject retrievedData = new MiataruDataObject(Account.Name,Locations[0].Device,Locations[0].Timestamp,Locations[0].Latitude,Locations[0].Longitude,Locations[0].HorizontalAccuracy);
 
 
-							if (CurrentLocations.ContainsKey(Account.MiataruDeviceID))
+							if (CurrentLocations.ContainsKey(retrievedData.DeviceID))
 							{
 								// check if the coordinates have been updated...
 								MiataruDataObject alreadyStored = CurrentLocations[Account.MiataruDeviceID];
@@ -59,16 +59,16 @@ namespace hacs
 									CurrentLocations[Account.MiataruDeviceID] = retrievedData;
 									// store to disk
 									miatarustore.Write(retrievedData.Serialize());
-									ConsoleOutputLogger.WriteLine("Miataru: "+retrievedData.AccountName+" - "+retrievedData.Latitude+","+retrievedData.Longitude);
+									ConsoleOutputLogger.WriteLine("Miataru: "+retrievedData.AccountName+" - "+retrievedData.Latitude+","+retrievedData.Longitude+","+retrievedData.AccuracyInMeters);
 								}
 
 							}
 							else
 							{
 								// it's new! add it!
-								CurrentLocations.Add(retrievedData.AccountName, retrievedData);
+								CurrentLocations.Add(retrievedData.DeviceID, retrievedData);
 								miatarustore.Write(retrievedData.Serialize());
-								ConsoleOutputLogger.WriteLine("Miataru: "+retrievedData.AccountName+" - "+retrievedData.Latitude+","+retrievedData.Longitude);
+                                ConsoleOutputLogger.WriteLine("Miataru: " + retrievedData.AccountName + " - " + retrievedData.Latitude + "," + retrievedData.Longitude + "," + retrievedData.AccuracyInMeters);
 							}
 						}
 						else
@@ -79,8 +79,9 @@ namespace hacs
 
 					}
 				}
-				catch (Exception)
-				{                   
+				catch (Exception e)
+				{
+                    ConsoleOutputLogger.WriteLine(e.Message+" - "+e.StackTrace);
 					Thread.Sleep(100);
 				}
 				

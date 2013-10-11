@@ -56,7 +56,7 @@ namespace hacs
 			ConsoleOutputLogger.WriteLine("Initialized unknown-data storage: "+unknown_data_store.InMemoryIndex.Count);
 			TinyOnDiskStorage miataru_data_store = null;
 
-			if (hacs.Properties.Settings.Default.GoogleLatitudeEnabled)
+			if (hacs.Properties.Settings.Default.MiataruEnabled)
 			{
 				miataru_data_store = new TinyOnDiskStorage(Properties.Settings.Default.DataDirectory + Path.DirectorySeparatorChar + "miataru-data", false, hacs.Properties.Settings.Default.DataObjectCacheSize);
 				ConsoleOutputLogger.WriteLine("Initialized Miataru storage: "+miataru_data_store.InMemoryIndex.Count);
@@ -75,8 +75,8 @@ namespace hacs
             if (Properties.Settings.Default.AlarmingEnabled)
                 AlarmingConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.AlarmingConfigurationFilename);
 
-            if (Properties.Settings.Default.GoogleLatitudeEnabled)
-				MiataruConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.GoogleLatitudeConfigurationFilename);
+            if (Properties.Settings.Default.MiataruEnabled)
+				MiataruConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.MiataruConfigurationFilename);
 
 			#region add NetworkMonitor sensors to sensorcheckignore list
 			if (Properties.Settings.Default.NetworkMonitorEnabled)

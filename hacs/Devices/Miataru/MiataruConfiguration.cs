@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace hacs
 {
-	#region google latitude configuration file json classes
+	#region miataru configuration file json classes
 	
 	public class MiataruAccount
 	{

@@ -188,7 +188,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="configuration\app.config" />
-    <None Include="configuration\GoogleLatitudeConfiguration.config">
+    <None Include="configuration\MiataruConfiguration.config">
       <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
