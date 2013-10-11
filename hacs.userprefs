@@ -1,19 +1,39 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="hacs/configuration/AlarmingConfiguration.config">
+  <MonoDevelop.Ide.Workbench ActiveDocument="hacs/Devices/Miataru/MiataruConfiguration.cs">
     <Files>
-      <File FileName="hacs/configuration/AlarmingConfiguration.config" Line="13" Column="22" />
+      <File FileName="hacs/Devices/Miataru/MiataruConfiguration.cs" Line="33" Column="93" />
+      <File FileName="hacs/Devices/Miataru/MiataruDataObject.cs" Line="31" Column="27" />
+      <File FileName="hacs/Devices/Miataru/MiataruThread.cs" Line="54" Column="26" />
+      <File FileName="hacs/HandlingThread.cs" Line="127" Column="19" />
+      <File FileName="hacs/hacs.cs" Line="95" Column="174" />
+      <File FileName="hacs/HTTP/JSONHandlers/GeoJSON/Geolocation.cs" Line="15" Column="4" />
+      <File FileName="hacs/HTTP/HTTPProcessor.cs" Line="727" Column="3" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Libraries" expanded="True" />
           <Node name="hacs" expanded="True">
-            <Node name="Alarming" expanded="True" />
-            <Node name="configuration" expanded="True">
-              <Node name="AlarmingConfiguration.config" selected="True" />
+            <Node name="Devices" expanded="True">
+              <Node name="Miataru" expanded="True">
+                <Node name="MiataruConfiguration.cs" selected="True" />
+              </Node>
+            </Node>
+            <Node name="HTTP" expanded="True">
+              <Node name="JSONHandlers" expanded="True">
+                <Node name="GeoJSON" expanded="True" />
+              </Node>
             </Node>
           </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>Response.MiataruLocation[0]</Value>
         </State>
       </Pad>
     </Pads>

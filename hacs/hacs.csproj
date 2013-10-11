@@ -82,6 +82,10 @@
       <Project>{698A9F23-2BA4-40C5-8818-68BFF15585DE}</Project>
       <Name>TelekomSendSMS</Name>
     </ProjectReference>
+    <ProjectReference Include="Libraries\miataru-client-csharp\miataru-client-csharp.csproj">
+      <Project>{DCE440B0-A277-4049-A67B-EFD1081C81D1}</Project>
+      <Name>miataru-client-csharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alarming\AlarmingConfiguration.cs" />
@@ -165,11 +169,9 @@
     <Compile Include="Devices\XS1\set_state_actuator\set_state_actuator.cs" />
     <Compile Include="Devices\XS1\PowerSensor\PowerSensorConfiguration.cs" />
     <Compile Include="Devices\XS1\PowerSensor\PowerSensorOutputTypes.cs" />
-    <Compile Include="Devices\Miataru\GoogleLatitudeConfiguration.cs" />
-    <Compile Include="Devices\Miataru\GoogleLatitudeDataObject.cs" />
-    <Compile Include="Devices\Miataru\GoogleLatitudeLocationData.cs" />
-    <Compile Include="Devices\Miataru\GoogleLatitudeLocationUpdater.cs" />
-    <Compile Include="Devices\Miataru\GoogleLatitudeThread.cs" />
+    <Compile Include="Devices\Miataru\MiataruThread.cs" />
+    <Compile Include="Devices\Miataru\MiataruDataObject.cs" />
+    <Compile Include="Devices\Miataru\MiataruConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

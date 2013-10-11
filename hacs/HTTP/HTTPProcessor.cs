@@ -44,7 +44,7 @@ namespace HTTP
 		private String HTTPServer_DocumentRoot;
         private XS1Configuration XS1_Configuration;
 		private JSONData JSON_Data;
-		private Geolocation LatitudeGeoLocation;
+		//private Geolocation LatitudeGeoLocation;
         private ConsoleOutputLogger ConsoleOutputLogger;
 		private HTTPProxy internal_proxy;
 		private MAXMonitoringThread ELVMAX;
@@ -82,7 +82,7 @@ namespace HTTP
 			ELVMAX = ELVMAXMonitoring;
 			SensorDataStore = Storage;
 			//LatitudeDataStore = LatitudeStorage;
-			LatitudeGeoLocation = new Geolocation(LatitudeStorage,Logger);
+			//LatitudeGeoLocation = new Geolocation(LatitudeStorage,Logger);
 			AuthorizationEnabled = AuthEnabled;
 			Username = Uname;
 			Password = Pword;
@@ -619,7 +619,7 @@ namespace HTTP
 					}
 					#endregion
 
-					#region Google Latitude
+					/*					#region Google Latitude
 					if (hacs.Properties.Settings.Default.GoogleLatitudeEnabled)
 					{
 						if (url.ToUpper().StartsWith("GEOLOCATION"))
@@ -724,7 +724,7 @@ namespace HTTP
 						}
 					}
 					#endregion
-
+*/
                     #region Power Sensor Data
                     if (url.ToUpper().StartsWith("POWERSENSOR"))
                     {

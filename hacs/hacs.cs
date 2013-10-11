@@ -54,12 +54,12 @@ namespace hacs
 			ConsoleOutputLogger.WriteLine("Initialized sensor-data storage: "+sensor_data_store.InMemoryIndex.Count);
             TinyOnDiskStorage unknown_data_store = new TinyOnDiskStorage(Properties.Settings.Default.DataDirectory + Path.DirectorySeparatorChar + "unknown-data", false, hacs.Properties.Settings.Default.DataObjectCacheSize);
 			ConsoleOutputLogger.WriteLine("Initialized unknown-data storage: "+unknown_data_store.InMemoryIndex.Count);
-			TinyOnDiskStorage latitude_data_store = null;
+			TinyOnDiskStorage miataru_data_store = null;
 
 			if (hacs.Properties.Settings.Default.GoogleLatitudeEnabled)
 			{
-                latitude_data_store = new TinyOnDiskStorage(Properties.Settings.Default.DataDirectory + Path.DirectorySeparatorChar + "googlelatitude-data", false, hacs.Properties.Settings.Default.DataObjectCacheSize);
-				ConsoleOutputLogger.WriteLine("Initialized latitude storage: "+latitude_data_store.InMemoryIndex.Count);
+				miataru_data_store = new TinyOnDiskStorage(Properties.Settings.Default.DataDirectory + Path.DirectorySeparatorChar + "miataru-data", false, hacs.Properties.Settings.Default.DataObjectCacheSize);
+				ConsoleOutputLogger.WriteLine("Initialized Miataru storage: "+miataru_data_store.InMemoryIndex.Count);
 			}
 
 
@@ -92,7 +92,7 @@ namespace hacs
 
             #region Logging and Actor Handling
             ConsoleOutputLogger.WriteLineToScreenOnly("Starting Logging for Server: " + Properties.Settings.Default.XS1);                        
-			LoggingThread _Thread = new LoggingThread(Properties.Settings.Default.XS1, ConsoleOutputLogger, actor_data_store, sensor_data_store, unknown_data_store,latitude_data_store,Properties.Settings.Default.Username,Properties.Settings.Default.Password,Properties.Settings.Default.ConfigurationCacheMinutes);
+			LoggingThread _Thread = new LoggingThread(Properties.Settings.Default.XS1, ConsoleOutputLogger, actor_data_store, sensor_data_store, unknown_data_store,miataru_data_store,Properties.Settings.Default.Username,Properties.Settings.Default.Password,Properties.Settings.Default.ConfigurationCacheMinutes);
             Thread LoggingThread = new Thread(new ThreadStart(_Thread.Run));
             LoggingThread.Start();
             #endregion

@@ -23,7 +23,7 @@ namespace hacs
         TinyOnDiskStorage actor_data_store = null;
         TinyOnDiskStorage sensor_data_store = null;
         TinyOnDiskStorage unknown_data_store = null;
-		TinyOnDiskStorage latitude_data_store = null;
+		TinyOnDiskStorage miataru_data_store = null;
         XS1Configuration XS1_Configuration = null;
         Int32 ConfigurationCacheMinutes;
         public Boolean AcceptingCommands = false;
@@ -38,12 +38,12 @@ namespace hacs
         bool Shutdown = false;
 
 		#region Ctor
-        public LoggingThread(String _ServerName, ConsoleOutputLogger Logger,TinyOnDiskStorage _actor_store, TinyOnDiskStorage _sensor_store, TinyOnDiskStorage _unknown_store, TinyOnDiskStorage _latitude_store, String _Username, String _Password, Int32 _ConfigurationCacheMinutes)
+		public LoggingThread(String _ServerName, ConsoleOutputLogger Logger,TinyOnDiskStorage _actor_store, TinyOnDiskStorage _sensor_store, TinyOnDiskStorage _unknown_store, TinyOnDiskStorage _miataru_store, String _Username, String _Password, Int32 _ConfigurationCacheMinutes)
         {
             actor_data_store = _actor_store;
             sensor_data_store = _sensor_store;
             unknown_data_store = _unknown_store;
-			latitude_data_store = _latitude_store;
+			miataru_data_store = _miataru_store;
             ServerName = _ServerName;
             UserName = _Username;
             Password = _Password;
@@ -99,7 +99,7 @@ namespace hacs
 			XS1Thread.Start();
 
             // Start integrated HTTP Server
-            HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort, Properties.Settings.Default.HTTPIP, Properties.Settings.Default.HTTPDocumentRoot, sensor_data_store, latitude_data_store, XS1_Configuration, ConsoleOutputLogger, ELVMax,Properties.Settings.Default.HTTPAuthEnabled,Properties.Settings.Default.HTTPAuthUsername,Properties.Settings.Default.HTTPAuthPassword,Properties.Settings.Default.HTTPAuthDisabledAdressStartsWith);
+			HttpServer httpServer = new HttpServer(Properties.Settings.Default.HTTPPort, Properties.Settings.Default.HTTPIP, Properties.Settings.Default.HTTPDocumentRoot, sensor_data_store, miataru_data_store, XS1_Configuration, ConsoleOutputLogger, ELVMax,Properties.Settings.Default.HTTPAuthEnabled,Properties.Settings.Default.HTTPAuthUsername,Properties.Settings.Default.HTTPAuthPassword,Properties.Settings.Default.HTTPAuthDisabledAdressStartsWith);
             Thread http_server_thread = new Thread(new ThreadStart(httpServer.listen));
             http_server_thread.Start();
 
@@ -114,18 +114,18 @@ namespace hacs
 			// Start Alarming thread
             if (Properties.Settings.Default.AlarmingEnabled)
             {
-				AlarmingThread alarmThread = new AlarmingThread(ConsoleOutputLogger,Alarming_Queue,sensor_data_store,actor_data_store,latitude_data_store);
+				AlarmingThread alarmThread = new AlarmingThread(ConsoleOutputLogger,Alarming_Queue,sensor_data_store,actor_data_store,miataru_data_store);
 			    Thread alarming_thread = new Thread(new ThreadStart(alarmThread.Run));
 			    alarming_thread.Start();
             }
 
-            //// Start Google Latitude Thread
-            //if (Properties.Settings.Default.GoogleLatitudeEnabled)
-            //{
-            //    GoogleLatitudeThread googleLatitudeThread = new GoogleLatitudeThread(ConsoleOutputLogger,latitude_data_store,Properties.Settings.Default.GoogleLatitudeUpdateTime);
-            //    Thread googleLatitude_Thread = new Thread(new ThreadStart(googleLatitudeThread.Run));
-            //    googleLatitude_Thread.Start();
-            //}
+			// Start Miataru Thread
+            if (Properties.Settings.Default.GoogleLatitudeEnabled)
+            {
+				MiataruThread miataruThread = new MiataruThread (ConsoleOutputLogger, miataru_data_store, Properties.Settings.Default.GoogleLatitudeUpdateTime);
+				Thread miataru_Thread = new Thread(new ThreadStart(miataruThread.Run));
+				miataru_Thread.Start();
+            }
 
 	        while (!Shutdown)
             {

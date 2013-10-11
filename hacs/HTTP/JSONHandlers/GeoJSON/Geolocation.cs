@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace hacs
 {
-	public class Geolocation
+	/*	public class Geolocation
 	{
 		private TinyOnDiskStorage latitude_data;
 		//private ConsoleOutputLogger ConsoleOutputLogger_;
@@ -17,9 +17,9 @@ namespace hacs
 			//ConsoleOutputLogger_ = Logger;
 		}
 
-		private GoogleLatitudeDataObject ReadFromCache(OnDiscAdress adress)
+		private MiataruDataObject ReadFromCache(OnDiscAdress adress)
 		{
-			GoogleLatitudeDataObject dataobject = new GoogleLatitudeDataObject();
+			MiataruDataObject dataobject = new MiataruDataObject();
 			
 			object cacheditem = latitude_data.Cache.ReadFromCache(adress);
 			if (cacheditem == null)
@@ -31,7 +31,7 @@ namespace hacs
 			else
 			{
 				// found in cache, take it...
-				dataobject = (GoogleLatitudeDataObject)cacheditem;
+				dataobject = (MiataruDataObject)cacheditem;
 			}
 			
 			return dataobject;
@@ -42,14 +42,14 @@ namespace hacs
 			if (latitude_data == null)
 				return "";
 
-			GoogleLatitudeDataObject pLatitudeValue = null;
+			MiataruDataObject pLatitudeValue = null;
 
 			// todo: output current location for ObjectName here !!!
 			lock (latitude_data.InMemoryIndex)
 			{
 				foreach (OnDiscAdress ondisc in latitude_data.InMemoryIndex.Reverse<OnDiscAdress>())
 				{
-					GoogleLatitudeDataObject dataobject = ReadFromCache(ondisc);
+					MiataruDataObject dataobject = ReadFromCache(ondisc);
 
 					if (dataobject.AccountName.ToUpper() == ObjectName.ToUpper())
 					{
@@ -71,5 +71,5 @@ namespace hacs
 			else
 				return "not found";
 		}
-	}
+	}*/
 }
