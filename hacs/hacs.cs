@@ -76,7 +76,7 @@ namespace hacs
                 AlarmingConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.AlarmingConfigurationFilename);
 
             if (Properties.Settings.Default.GoogleLatitudeEnabled)
-                GoogleLatitudeConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.GoogleLatitudeConfigurationFilename);
+				MiataruConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.GoogleLatitudeConfigurationFilename);
 
 			#region add NetworkMonitor sensors to sensorcheckignore list
 			if (Properties.Settings.Default.NetworkMonitorEnabled)

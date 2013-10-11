@@ -113,11 +113,6 @@
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Modes\ThermostatModes.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\DeviceTypes.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\MAXMessageTypes.cs" />
-    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeConfiguration.cs" />
-    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeDataObject.cs" />
-    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeLocationData.cs" />
-    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeLocationUpdater.cs" />
-    <Compile Include="Devices\GoogleLatitude\GoogleLatitudeThread.cs" />
     <Compile Include="Devices\NetworkMonitoring\NetworkMonitoring.cs" />
     <Compile Include="Devices\NetworkMonitoring\NetworkMonitoringConfiguration.cs" />
     <Compile Include="Devices\NetworkMonitoring\NetworkMonitoringDataSet.cs" />
@@ -166,6 +161,11 @@
     <Compile Include="Devices\XS1\set_state_actuator\set_state_actuator.cs" />
     <Compile Include="Devices\XS1\PowerSensor\PowerSensorConfiguration.cs" />
     <Compile Include="Devices\XS1\PowerSensor\PowerSensorOutputTypes.cs" />
+    <Compile Include="Devices\Miataru\GoogleLatitudeConfiguration.cs" />
+    <Compile Include="Devices\Miataru\GoogleLatitudeDataObject.cs" />
+    <Compile Include="Devices\Miataru\GoogleLatitudeLocationData.cs" />
+    <Compile Include="Devices\Miataru\GoogleLatitudeLocationUpdater.cs" />
+    <Compile Include="Devices\Miataru\GoogleLatitudeThread.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -7,21 +7,22 @@ namespace hacs
 {
 	#region google latitude configuration file json classes
 	
-	public class GoogleLatitudeAccount
+	public class MiataruAccount
 	{
 		public string Name { get; set; }
-		public string GoogleLatitudeID { get; set; }
+		public string MiataruDeviceID { get; set; }
+		public string MiataruServerURL { get; set; }
 	}
 	
-	public class GoogleLatitudeConfigurationFile
+	public class MiataruAccountConfigurationFile
 	{
-		public List<GoogleLatitudeAccount> GoogleLatitudeIDs { get; set; }
+		public List<MiataruAccount> MiataruAccounts { get; set; }
 	}
 	#endregion
 
-	public class GoogleLatitudeConfiguration
+	public class MiataruConfiguration
 	{
-		public static GoogleLatitudeConfigurationFile GoogleLatitudeAccounts = new GoogleLatitudeConfigurationFile();
+		public static MiataruAccountConfigurationFile MiataruAccountConfigFile = new MiataruAccountConfigurationFile();
 
 		public static void ReadConfiguration(String ConfigurationFilename)
 		{
@@ -29,7 +30,7 @@ namespace hacs
 			{
 				String jsonfile = File.ReadAllText(ConfigurationFilename);
                 //Console.WriteLine(jsonfile);
-				GoogleLatitudeAccounts = JsonConvert.DeserializeObject<GoogleLatitudeConfigurationFile>(jsonfile);
+				MiataruAccountConfigFile = JsonConvert.DeserializeObject<MiataruAccountConfigurationFile>(jsonfile);
                 //Console.WriteLine(GoogleLatitudeAccounts.GoogleLatitudeIDs.Count);
 			}
 		}

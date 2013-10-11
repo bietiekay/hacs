@@ -32,7 +32,7 @@ namespace hacs
 			{
 				try
 				{
-					foreach(GoogleLatitudeAccount Account in GoogleLatitudeConfiguration.GoogleLatitudeAccounts.GoogleLatitudeIDs)
+					foreach(MiataruAccount Account in MiataruConfiguration.MiataruAccountConfigFile.MiataruAccounts)
 					{
 						// retrieve new data for this account...
 						#region Retrieve Data
