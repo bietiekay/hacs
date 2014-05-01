@@ -178,12 +178,22 @@ namespace hacs
 
 												if (Element.ActionToRunName == actor_status.URL)
 												{
+                                                    ConsoleOutputLogger.WriteLine("Scripting Actor URL");
 													// handle URLs -> the ActorToSwitch Name will be the URL to trigger
-													WebRequest wrGETURL;
-													wrGETURL = WebRequest.Create(Element.ActorToSwitchName);
-													ConsoleOutputLogger.WriteLine("Doing HTTP GET on: "+Element.ActorToSwitchName);
-													wrGETURL.GetResponse().GetResponseStream();
 
+
+                                                    try
+                                                    {
+                                                        WebClient client = new WebClient();
+                                                        client.Encoding = System.Text.Encoding.UTF8;
+                                                        String JSONInput = client.DownloadString(Element.ActorToSwitchName);
+
+													    ConsoleOutputLogger.WriteLine("Doing HTTP GET on: "+Element.ActorToSwitchName);
+													}
+                                                    catch(Exception e)
+                                                    {
+                                                        ConsoleOutputLogger.WriteLine("Exception on URL Actor Scripting: " + e.Message);
+                                                    }
 												}
 
 												// check what action is going to happen now...
