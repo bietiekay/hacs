@@ -10,7 +10,8 @@ namespace hacs
         On,
         Off,
         OnOff,
-        OnWaitOff
+		OnWaitOff,
+		URL
     }
 
     public class current_actor_status

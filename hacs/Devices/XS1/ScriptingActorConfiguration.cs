@@ -55,7 +55,11 @@ namespace hacs
                                     else
                                         if (TokenizedLine[3].ToUpper() == "ONWAITOFF")
                                             NewElement.ActionToRunName = actor_status.OnWaitOff;
-                            ScriptingActorActions.Add(NewElement);
+										else
+											if (TokenizedLine[3].ToUpper() == "URL")
+												NewElement.ActionToRunName = actor_status.URL;
+                            
+							ScriptingActorActions.Add(NewElement);
                         }
                         else
                             throw (new Exception("Scripting Actor Configuration File - Error in line "+LineNumber));
