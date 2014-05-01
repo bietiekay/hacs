@@ -296,7 +296,27 @@ namespace hacs
 
                                             set_state_actuator.set_state_actuator ssa = new set_state_actuator.set_state_actuator();
                                             ConsoleOutputLogger.WriteLineToScreenOnly("detected actor scripting action on sensor "+Element.SensorToWatchName+" - "+Element.ActorToSwitchName+" to "+Element.ActionToRunName);
-                                            
+
+                                            if (Element.ActionToRunName == actor_status.URL)
+                                            {
+                                                ConsoleOutputLogger.WriteLine("Scripting Actor URL");
+                                                // handle URLs -> the ActorToSwitch Name will be the URL to trigger
+
+
+                                                try
+                                                {
+                                                    WebClient client = new WebClient();
+                                                    client.Encoding = System.Text.Encoding.UTF8;
+                                                    String JSONInput = client.DownloadString(Element.ActorToSwitchName);
+
+                                                    ConsoleOutputLogger.WriteLine("Doing HTTP GET on: " + Element.ActorToSwitchName);
+                                                }
+                                                catch (Exception e)
+                                                {
+                                                    ConsoleOutputLogger.WriteLine("Exception on URL Actor Scripting: " + e.Message);
+                                                }
+                                            }
+
                                             // check what action is going to happen now...
                                             if (Element.ActionToRunName == actor_status.On)
                                             {
