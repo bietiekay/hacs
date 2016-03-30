@@ -4,184 +4,54 @@
         <name>Telekom</name>
     </assembly>
     <members>
-        <member name="T:Telekom.VoiceCall.Model.CallStatusResponse">
+        <member name="T:Telekom.Common.Auth.OAuth2.AccessTokenResponse">
             <summary>
-            Response of a call to query the call status
+            Service response containing access token and optionally a refresh token
             </summary>
         </member>
-        <member name="T:Telekom.Common.Model.TelekomResponse">
+        <member name="P:Telekom.Common.Auth.OAuth2.AccessTokenResponse.TokenType">
             <summary>
-            Common data in all responses from Telekom service
+            Type of the received token
             </summary>
         </member>
-        <member name="P:Telekom.Common.Model.TelekomResponse.Status">
+        <member name="P:Telekom.Common.Auth.OAuth2.AccessTokenResponse.AccessToken">
             <summary>
-            Returned status of an operation
+            Access token
             </summary>
         </member>
-        <member name="P:Telekom.Common.Model.TelekomResponse.Success">
+        <member name="P:Telekom.Common.Auth.OAuth2.AccessTokenResponse.RefreshToken">
             <summary>
-            Checks if this status represents a successful response
+            Refresh token (not always present)
             </summary>
         </member>
-        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.StateA">
+        <member name="P:Telekom.Common.Auth.OAuth2.AccessTokenResponse.ExpiresIn">
             <summary>
-            State of the first participant
+            The time the access token expires (in seconds from now)
             </summary>
         </member>
-        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.StateB">
+        <member name="T:Telekom.Common.Auth.OAuth2.RefreshAccessTokenRequest">
             <summary>
-            State of the second participant
+            Request parameters to refresh the current access token
             </summary>
         </member>
-        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.ConnectionTimeA">
+        <member name="P:Telekom.Common.Auth.OAuth2.RefreshAccessTokenRequest.RefreshToken">
             <summary>
-            Duration of the call with the first participant in seconds.
-            A value of -1 means that the call has not yet started.
+            Refresh token to use to get new tokens
             </summary>
         </member>
-        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.ConnectionTimeB">
+        <member name="T:Telekom.Common.Auth.OAuth2.OAuth2Request">
             <summary>
-            Duration of the call with the second participant in seconds.
-            A value of -1 means that the call has not yet started.
+            Base class for OAuth requests
             </summary>
         </member>
-        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.ReasonA">
+        <member name="P:Telekom.Common.Auth.OAuth2.RevokeRequest.Token">
             <summary>
-            Reason for ending the connection to the first participant
+            Token to revoke
             </summary>
         </member>
-        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.ReasonB">
+        <member name="P:Telekom.Common.Auth.OAuth2.RevokeRequest.TokenType">
             <summary>
-            Reason for ending the connection to the second participant
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.DescriptionA">
-            <summary>
-            Human-Readable description of ReasonA
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.DescriptionB">
-            <summary>
-            Human-Readable description of ReasonB
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.Be164">
-            <summary>
-            Phone number of the second participant, that was called.
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.Bindex">
-            <summary>
-            Index of the phone number of the second participant (B), that was called.
-            0 means the first B party phone number was called,
-            1 means the second B party phone number was called etc.,
-            -1 if not connected
-            </summary>
-        </member>
-        <member name="T:Telekom.SmsValidation.SmsValidationClient">
-            <summary>
-            Wrapper for Telekom SMS Validation service
-            </summary>
-        </member>
-        <member name="T:Telekom.Common.TelekomClient">
-            <summary>
-            Base class for all Telekom REST SDK clients
-            </summary>
-        </member>
-        <member name="F:Telekom.Common.TelekomClient.TelekomBaseUrl">
-            <summary>
-            Address of Telekom API server.
-            </summary>
-        </member>
-        <member name="F:Telekom.Common.TelekomClient.authentication">
-            <summary>
-            Authentication object that provides us with an access token for the requests
-            </summary>
-        </member>
-        <member name="M:Telekom.Common.TelekomClient.CreateAuthenticatedRequest``1(System.String,Telekom.Common.HttpMethod)">
-            <summary>
-            Create a web request with access token
-            </summary>
-            <typeparam name="ResponseType">Type which the response will be deserialized into</typeparam>
-            <param name="uri">Target URI of the request</param>
-            <param name="method">HTTP method of the request</param>
-            <returns>configured web request with added header fields</returns>
-        </member>
-        <member name="M:Telekom.Common.TelekomClient.CreateAuthenticatedRequest``1(System.String,Telekom.Common.HttpMethod,Telekom.Common.Model.TelekomRequest)">
-            <summary>
-            Create a web request with access token and serialized parameters
-            </summary>
-            <typeparam name="ResponseType">Type which the response will be deserialized into</typeparam>
-            <param name="uri">Target URI of the request</param>
-            <param name="method">HTTP method of the request</param>
-            <param name="requestParams">Object containing request parameters</param>
-            <returns>configured web request with added header fields</returns>
-        </member>
-        <member name="P:Telekom.Common.TelekomClient.ServiceBaseUrl">
-            <summary>
-            Base URL to the concrete service.
-            </summary>
-        </member>
-        <member name="F:Telekom.SmsValidation.SmsValidationClient.ServicePath">
-            <summary>
-            URL Path to SMS Validation services. Can be overridden if neccesary.
-            {0} is replaced by selected environment
-            </summary>
-        </member>
-        <member name="M:Telekom.SmsValidation.SmsValidationClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
-            <summary>
-            Constructs a SMS Validation API client with specified authentication method and environment.
-            </summary>
-            <param name="authentication">Authentication instance</param>
-            <param name="environment">Environment used for this client's service invocations</param>
-        </member>
-        <member name="M:Telekom.SmsValidation.SmsValidationClient.SendValidationKeyword(Telekom.SmsValidation.Model.SendValidationKeywordRequest)">
-            <summary>Request to send a validation keyword to a phone number.</summary>
-            <param name="request">Parameter object</param> 
-            <returns>Result of this operation</returns>
-        </member>
-        <member name="M:Telekom.SmsValidation.SmsValidationClient.SendValidationKeyword(Telekom.SmsValidation.Model.SendValidationKeywordRequest,System.Action{Telekom.Common.Model.TelekomResponse})">
-            <summary>Request to send a validation keyword to a phone number (async).</summary>
-            <param name="request">Parameter object</param> 
-            <param name="callback">Handler to invoke after completion</param>
-        </member>
-        <member name="M:Telekom.SmsValidation.SmsValidationClient.Validate(Telekom.SmsValidation.Model.ValidateRequest)">
-            <summary>Return the received validation code to complete phone number validation.</summary>
-            <param name="request">Parameter object</param> 
-            <returns>Result of this operation</returns>
-        </member>
-        <member name="M:Telekom.SmsValidation.SmsValidationClient.Validate(Telekom.SmsValidation.Model.ValidateRequest,System.Action{Telekom.Common.Model.TelekomResponse})">
-            <summary>Return the received validation code to complete phone number validation (async).</summary>
-            <param name="request">Parameter object</param> 
-            <param name="callback">Handler to invoke after completion</param>
-        </member>
-        <member name="M:Telekom.SmsValidation.SmsValidationClient.Invalidate(System.String)">
-            <summary>Revoke a number's validation state</summary>
-            <param name="number">Number to invalidate</param> 
-            <returns>Result of this operation</returns>
-        </member>
-        <member name="M:Telekom.SmsValidation.SmsValidationClient.Invalidate(System.String,System.Action{Telekom.Common.Model.TelekomResponse})">
-            <summary>Revoke a number's validation state (async)</summary>
-            <param name="number">Number to invalidate</param> 
-            <param name="callback">Handler to invoke after completion</param>
-        </member>
-        <member name="M:Telekom.SmsValidation.SmsValidationClient.GetValidatedNumbers">
-            <summary>Retrieve a list of validated numbers</summary>
-            <returns>Result of this operation</returns>
-        </member>
-        <member name="M:Telekom.SmsValidation.SmsValidationClient.GetValidatedNumbers(System.Action{Telekom.SmsValidation.Model.GetValidatedNumbersResponse})">
-            <summary>Retrieve a list of validated numbers (async)</summary>
-            <param name="callback">Handler to invoke after completion</param>
-        </member>
-        <member name="T:Telekom.SmsValidation.Model.GetValidatedNumbersResponse">
-            <summary>
-            Result of a call to list the validated numbers
-            </summary>
-        </member>
-        <member name="P:Telekom.SmsValidation.Model.GetValidatedNumbersResponse.Numbers">
-            <summary>
-            List of validated numbers
+            Type of token to revoke, e.g. "refresh_token"
             </summary>
         </member>
         <member name="T:Telekom.Common.Auth.TelekomAuth">
@@ -201,6 +71,17 @@
             </summary>
             <param name="accessToken">Stored token</param>
             <param name="accessTokenValidUntil">Stored token expiration date</param>
+        </member>
+        <member name="P:Telekom.Common.Auth.TelekomAuth.AccessToken">
+            <summary>
+            Returns or sets the current authentication token.
+            Null if no token has been fetched or authentication has failed.
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Auth.TelekomAuth.AccessTokenValidUntil">
+            <summary>
+            Expiration date of the current access token.
+            </summary>
         </member>
         <member name="M:Telekom.Common.Auth.TelekomAuth.HasToken">
             <summary>
@@ -222,203 +103,99 @@
             </summary>
             <param name="callback">Method to invoke with the result</param>
         </member>
-        <member name="P:Telekom.Common.Auth.TelekomAuth.AccessToken">
+        <member name="T:Telekom.Common.Auth.TelekomOAuth2Auth">
             <summary>
-            Returns or sets the current authentication token.
-            Null if no token has been fetched or authentication has failed.
+            Authentication to Telekom services with OAuth2 (redirection)
             </summary>
         </member>
-        <member name="P:Telekom.Common.Auth.TelekomAuth.AccessTokenValidUntil">
+        <member name="F:Telekom.Common.Auth.TelekomOAuth2Auth.BaseUrl">
             <summary>
-            Expiration date of the current access token.
+            URL to OAuth server. Can be overwritten.
             </summary>
         </member>
-        <member name="T:Telekom.SmsValidation.Model.ValidatedNumber">
+        <member name="P:Telekom.Common.Auth.TelekomOAuth2Auth.RefreshToken">
             <summary>
-            A single validated number
+            OAuth refresh token
             </summary>
         </member>
-        <member name="P:Telekom.SmsValidation.Model.ValidatedNumber.Number">
+        <member name="P:Telekom.Common.Auth.TelekomOAuth2Auth.ClientId">
             <summary>
-            The phone number
+            Your client ID at telekom services
             </summary>
         </member>
-        <member name="P:Telekom.SmsValidation.Model.ValidatedNumber.ValidUntil">
+        <member name="P:Telekom.Common.Auth.TelekomOAuth2Auth.ClientSecret">
             <summary>
-            Expiration date. Null if the validation does not expire.
+            Your client secret at telekom services
             </summary>
         </member>
-        <member name="T:Telekom.SendSms.OutboundEncoding">
+        <member name="P:Telekom.Common.Auth.TelekomOAuth2Auth.Scope">
             <summary>
-            specifies request sms character encoding
+            Your scope at telekom services
             </summary>
         </member>
-        <member name="F:Telekom.SendSms.OutboundEncoding.GSM">
-            7bitGSM - standard GSM 7 bit alphabet with 160 characters per SMS
-        </member>
-        <member name="F:Telekom.SendSms.OutboundEncoding.UCS">
-            16bitUCS2 - 70 characters per SMS
-        </member>
-        <member name="T:Telekom.SendSms.ReceiveNotificationUnsubscribeClient">
+        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.#ctor(System.String,System.String,System.String)">
             <summary>
-            Wrapper for Telekom Send SMS Query Report service
+            Create a new OAuth2 authentication object without tokens
+            </summary>
+            <param name="clientId">Your application's OAuth client ID</param>
+            <param name="clientSecret">Your application's OAuth secret (null if none)</param>
+            <param name="scope">Your application's OAuth scope</param>
+        </member>
+        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.#ctor(System.String,System.String,System.String,System.DateTime,System.String,System.String)">
+            <summary>
+            Restore an OAuth2 authentication from an already authenticated session
+            </summary>
+            <param name="clientId">Your application's OAuth client ID</param>
+            <param name="clientSecret">Your application's OAuth secret (null if none)</param>///
+            <param name="accessToken">Saved access token for Telekom services</param><param name="accessTokenValidUntil">Saved validity of the access token</param><param name="refreshToken">Refresh token</param><param name="scope">Your application's OAuth scope</param></member>
+        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.RequestAccessToken">
+            <summary>
+            Request the token to access Telekom services
             </summary>
         </member>
-        <member name="F:Telekom.SendSms.ReceiveNotificationUnsubscribeClient.ServicePath">
+        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.RefreshAccessToken">
             <summary>
-            URL Path to Send SMS services. Can be overridden if necessary.
-            {0} is replaced by selected environment
+            Refresh the access token using the OAuth2 refresh token
             </summary>
         </member>
-        <member name="M:Telekom.SendSms.ReceiveNotificationUnsubscribeClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
+        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.RefreshAccessToken(System.Action)">
             <summary>
-            Constructs a Send SMS API Query Report client with specified authentication method and environment.
+            Refresh the access token using the OAuth2 refresh token (async)
             </summary>
-            <param name="authentication">Authentication instance</param>
-            <param name="serviceEnvironment">Environment used for this client's service invocations</param>
+            <param name="callback">Method to invoke when call has finished</param>
         </member>
-        <member name="M:Telekom.SendSms.ReceiveNotificationUnsubscribeClient.unsubscribeReceiveNotifications(Telekom.SendSms.Model.ReceiveNotificationUnsubscribeRequest)">
+        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.RequestRevoke">
             <summary>
-            Queries the given reportId from an SMS
-            </summary>
-            <param name="request">prepared request to use for the query</param>
-        </member>
-        <member name="T:Telekom.Common.Auth.OAuth2.OAuth2Request">
-            <summary>
-            Base class for OAuth requests
+            Revoke a refresh token
             </summary>
         </member>
-        <member name="T:Telekom.Common.Model.TelekomRequest">
+        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.RequestRevoke(System.Action)">
             <summary>
-            Base class for all request objects
+            Revoke a refresh token (async)
             </summary>
+            <param name="callback">
+            </param>
         </member>
-        <member name="M:Telekom.Common.Model.TelekomRequest.BuildRequestParameters(Telekom.Common.WebRequest.TelekomWebRequest)">
+        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.HasValidToken">
             <summary>
-            Uses reflection to infer parameters from the request object and
-            adds them to a web request
+            Returns if there is a valid access token.
+            If not, tries to refresh it.
             </summary>
-            <param name="webRequest">web request to receive parameters</param>
+            <returns>if there is (possibly after refreshing) a valid access token</returns>
         </member>
-        <member name="M:Telekom.Common.Model.TelekomRequest.EnforceRequiredFields">
+        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.HasValidToken(System.Action{System.Boolean})">
             <summary>
-            Checks all validation properties and throws an exception
-            if there is a problem
+            Returns if there is a valid access token (async).
+            If not, tries to refresh it.
             </summary>
+            <param name="callback">Method to call with the result if there is a valid token</param>
         </member>
-        <member name="T:Telekom.VoiceCall.Model.CallStatusRequest">
+        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.HasRefreshToken">
             <summary>
-            Parameters to request a call status
+            Returns if this OAuth instance owns a refresh token
             </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.CallStatusRequest.SessionId">
-            <summary>
-            Session ID of the call to query
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.CallStatusRequest.KeepAlive">
-            <summary>
-            True to extend duration of the call by initial expiration time
-            </summary>
-        </member>
-        <member name="T:Telekom.Common.Model.Validation.RequiredAttribute">
-            <summary>
-            Defines a property as required, i.e. the property must not be NULL.
-            Empty strings ("") are not allowed either.
-            </summary>
-        </member>
-        <member name="T:Telekom.Common.Model.NoHttpParameterAttribute">
-            <summary>
-            Specifies an attribute as not relevant for HTTP parameters
-            </summary>
-        </member>
-        <member name="T:Telekom.Common.Auth.OAuth2.RefreshAccessTokenRequest">
-            <summary>
-            Request parameters to refresh the current access token
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Auth.OAuth2.RefreshAccessTokenRequest.RefreshToken">
-            <summary>
-            Refresh token to use to get new tokens
-            </summary>
-        </member>
-        <member name="T:Telekom.VoiceCall.Model.NewCallResponse">
-            <summary>
-            Result when creating a new call
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.NewCallResponse.SessionId">
-            <summary>
-            ID of the created call session
-            </summary>
-        </member>
-        <member name="T:Telekom.VoiceCall.Model.NewCallRequest">
-            <summary>
-            Parameters for starting a new call
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Anumber">
-            <summary>
-            Phone number of the first participant
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Bnumber">
-            <summary>
-            Comma separated phone numbers of the second participant(s).
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Bnumbers">
-            <summary>
-            Phone number(s) of the second participant(s). Provide multiple numbers to create a sequential call.
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Expiration">
-            <summary>
-            Duration in seconds after which the Voice Call service disconnects a call without receiving a callStatus request.
-            A value of 0 means that there is no callStatus request needed to maintain the connection.
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Maxduration">
-            <summary>
-            Maximum duration of the connection in seconds.
-            Note: The system limit also applies.
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Maxwait">
-            <summary>
-            The time in seconds after which the next phone number in the list of b-numbers is called during a sequential call.
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Aprivacy">
-            <summary>
-            Phone number suppression with the first participant.
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Bprivacy">
-            <summary>
-            Phone number suppression with the second participant.
-            </summary>
-        </member>
-        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Account">
-            <summary>
-            Account ID of the sub-account that should be billed for the service use. If the parameter is not specified, the main account is billed.
-            </summary>
-        </member>
-        <member name="T:Telekom.Common.Model.ResponseStatus">
-            <summary>
-            Common status result of all operations
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.ResponseStatus.StatusCode">
-            <summary>
-            Four digit status code of the operation.
-            0000 = success.
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.ResponseStatus.StatusMessage">
-            <summary>
-            The status message of the operation
-            </summary>
+            <returns>
+            </returns>
         </member>
         <member name="T:Telekom.Common.Auth.TelekomUPAuth">
             <summary>
@@ -456,7 +233,8 @@
             <summary>
             Prepare a web request to STS server
             </summary>
-            <returns></returns>
+            <returns>
+            </returns>
         </member>
         <member name="M:Telekom.Common.Auth.TelekomUPAuth.RequestAccessToken">
             <summary>
@@ -473,469 +251,6 @@
             </summary>
             <param name="callback">method to call if the operation finished</param>
             <see cref="M:Telekom.Common.Auth.TelekomUPAuth.RequestAccessToken">For more detail see synchronous variant</see>
-        </member>
-        <member name="T:Telekom.Speech2Text.Model.Speech2TextRequest">
-            <summary>
-            Request container of a speech2text transcription api call
-            </summary>
-        </member>
-        <member name="T:Telekom.SmsValidation.Model.SendValidationKeywordRequest">
-            <summary>
-            Parameters for a call to send the validation keyword
-            </summary>
-        </member>
-        <member name="P:Telekom.SmsValidation.Model.SendValidationKeywordRequest.Number">
-            <summary>
-            Number to send the keyword to
-            </summary>
-        </member>
-        <member name="P:Telekom.SmsValidation.Model.SendValidationKeywordRequest.Message">
-            <summary>
-            The accompanying message that should be sent with the validation code.
-            This message must contain two placeholders as shown in the following example:
-            "The keyword for validating your phone number with example.com is #key# and is valid until #validUntil#."
-            </summary>
-        </member>
-        <member name="P:Telekom.SmsValidation.Model.SendValidationKeywordRequest.Originator">
-            <summary>
-            Originator of the message as shown on receiver's phone
-            </summary>
-        </member>
-        <member name="P:Telekom.SmsValidation.Model.SendValidationKeywordRequest.Account">
-            <summary>
-            Sub-account to bill. If omitted, the main account is selected.
-            </summary>
-        </member>
-        <member name="M:Telekom.Common.UriHelper.EscapeUriString(System.String)">
-            <summary>
-            Escape an URI string
-            </summary>
-            <param name="uriPart">string to encode</param>
-            <returns>encoded string</returns>
-        </member>
-        <member name="M:Telekom.Common.UriHelper.EscapeDataString(System.String)">
-            <summary>
-            Escape an URI data string
-            .NET Framework's Uri.EscapeDataString cannot be used because of it's length limitation
-            </summary>
-            <param name="uriPart">string to encode</param>
-            <returns>encoded string</returns>
-        </member>
-        <member name="T:Telekom.Common.Model.SmsResponse">
-            <summary>
-            Common data in all responses from Telekom service
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.SmsResponse.requestError">
-            <summary>
-            Returned error status of an operation
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.SmsResponse.deliveryInfoList">
-            <summary>
-            Returned successful status of an query report operation
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.SmsResponse.deliveryReceiptSubscription">
-            <summary>
-            Returned successful status of an notification subscription operation
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.SmsResponse.inboundSMSMessageList">
-            <summary>
-            Returned successful status of an notification subscription operation
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.SmsResponse.subscription">
-            <summary>
-            Returned successful status of an notification subscription for an sms receive operation
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.SmsResponse.Success">
-            <summary>
-            Checks if this status represents a successful response
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Auth.OAuth2.RevokeRequest.Token">
-            <summary>
-            Token to revoke
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Auth.OAuth2.RevokeRequest.TokenType">
-            <summary>
-            Type of token to revoke, e.g. "refresh_token"
-            </summary>
-        </member>
-        <member name="T:Telekom.Common.WebRequest.TelekomJsonWebRequest`1">
-            <summary>
-            Web Request whose response will be deserialized to the specified ResponseType.
-            Response format is JSON, ResponseType class must be decorated as DataContract.
-            </summary>
-            <typeparam name="ResponseType">Type to deserialize into</typeparam>
-        </member>
-        <member name="M:Telekom.Common.WebRequest.TelekomWebRequest.AddParameter(System.String,System.String)">
-            <summary>
-            Adds a parameter to the request
-            </summary>
-            <param name="key">name of the parameter</param>
-            <param name="value">value of the parameter</param>
-        </member>
-        <member name="M:Telekom.Common.WebRequest.TelekomWebRequest.SetRawContent(System.IO.Stream,System.String)">
-            <summary>
-            Set raw content
-            </summary>
-            <param name="rawData"></param>
-            <param name="contentType"></param>
-        </member>
-        <member name="T:Telekom.Common.WebRequest.HttpParamWriter.RequestStringWriter">
-            <summary>
-            Writes parameters to body in request string format
-            </summary>
-        </member>
-        <member name="T:Telekom.SendSms.NotificationUnsubscribeClient">
-            <summary>
-            Wrapper for Telekom Send SMS Query Report service
-            </summary>
-        </member>
-        <member name="F:Telekom.SendSms.NotificationUnsubscribeClient.ServicePath">
-            <summary>
-            URL Path to Send SMS services. Can be overridden if necessary.
-            {0} is replaced by selected environment
-            </summary>
-        </member>
-        <member name="M:Telekom.SendSms.NotificationUnsubscribeClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
-            <summary>
-            Constructs a Send SMS API Query Report client with specified authentication method and environment.
-            </summary>
-            <param name="authentication">Authentication instance</param>
-            <param name="serviceEnvironment">Environment used for this client's service invocations</param>
-        </member>
-        <member name="M:Telekom.SendSms.NotificationUnsubscribeClient.unsubscribeNotifications(Telekom.SendSms.Model.NotificationUnsubscribeRequest)">
-            <summary>
-            Queries the given reportId from an SMS
-            </summary>
-            <param name="request">prepared request to use for the query</param>
-        </member>
-        <member name="T:Telekom.SendMms.Model.SendMmsRequest">
-            <summary>
-            Parameters to send an MMS
-            </summary>
-        </member>
-        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Number">
-            <summary>
-            Comma separated phone numbers as expected by the web service
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Numbers">
-            <summary>
-            Phone Number(s) of SMS receiver(s)
-            </summary>
-        </member>
-        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Subject">
-            <summary>
-            Subject of the MMS
-            </summary>
-        </member>
-        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Message">
-            <summary>
-            Message to send
-            </summary>
-        </member>
-        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Attachment">
-            <summary>
-            Base64 encoded attachment actually sent
-            </summary>
-        </member>
-        <member name="P:Telekom.SendMms.Model.SendMmsRequest.AttachmentAsStream">
-            <summary>
-            Set the attachment data as a stream
-            </summary>
-        </member>
-        <member name="P:Telekom.SendMms.Model.SendMmsRequest.AttachmentAsBytes">
-            <summary>
-            Set the attachment data as an array of bytes
-            </summary>
-        </member>
-        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Filename">
-            <summary>
-            Filename of the attachment
-            </summary>
-        </member>
-        <member name="P:Telekom.SendMms.Model.SendMmsRequest.ContentType">
-            <summary>
-            Content-Type of the attachment
-            </summary>
-        </member>
-        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Originator">
-            <summary>
-            Sender, as shown at the receiver
-            </summary>
-        </member>
-        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Account">
-            <summary>
-            Account-ID of the sub account which should be billed for this service call
-            </summary>
-        </member>
-        <member name="T:Telekom.Common.Model.HttpParameterAttribute">
-            <summary>
-            Properties are serialized by default. Use this attribute to
-            overwrite default (inferred) name
-            </summary>
-        </member>
-        <member name="M:Telekom.Common.Model.HttpParameterAttribute.#ctor(System.String)">
-            <summary>
-            Overwrite name
-            </summary>
-            <param name="name">custom name</param>
-        </member>
-        <member name="T:Telekom.Common.Auth.TelekomOAuth2Auth">
-            <summary>
-            Authentication to Telekom services with OAuth2 (redirection)
-            </summary>
-        </member>
-        <member name="F:Telekom.Common.Auth.TelekomOAuth2Auth.BaseUrl">
-            <summary>
-            URL to OAuth server. Can be overwritten.
-            </summary>
-        </member>
-        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.#ctor(System.String,System.String,System.String)">
-            <summary>
-            Create a new OAuth2 authentication object without tokens
-            </summary>
-            <param name="clientId">Your application's OAuth client ID</param>
-            <param name="clientSecret">Your application's OAuth secret (null if none)</param> 
-            <param name="scope">Your application's OAuth scope</param> 
-        </member>
-        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.#ctor(System.String,System.String,System.String,System.DateTime,System.String,System.String)">
-            <summary>
-            Restore an OAuth2 authentication from an already authenticated session
-            </summary>
-            <param name="clientId">Your application's OAuth client ID</param>
-            <param name="clientSecret">Your application's OAuth secret (null if none)</param>/// 
-            <param name="accessToken">Saved access token for Telekom services</param>
-            <param name="accessTokenValidUntil">Saved validity of the access token</param>
-            <param name="refreshToken">Refresh token</param>
-            <param name="scope">Your application's OAuth scope</param> 
-        </member>
-        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.RequestAccessToken">
-            <summary>
-            Request the token to access Telekom services
-            </summary>
-        </member>
-        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.RefreshAccessToken">
-            <summary>
-            Refresh the access token using the OAuth2 refresh token
-            </summary>
-        </member>
-        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.RefreshAccessToken(System.Action)">
-            <summary>
-            Refresh the access token using the OAuth2 refresh token (async)
-            </summary>
-            <param name="callback">Method to invoke when call has finished</param>
-        </member>
-        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.RequestRevoke">
-            <summary>
-            Revoke a refresh token
-            </summary>
-        </member>
-        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.RequestRevoke(System.Action)">
-            <summary>
-            Revoke a refresh token (async)
-            </summary>
-            <param name="callback"></param>
-        </member>
-        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.HasValidToken">
-            <summary>
-            Returns if there is a valid access token.
-            If not, tries to refresh it.
-            </summary>
-            <returns>if there is (possibly after refreshing) a valid access token</returns>
-        </member>
-        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.HasValidToken(System.Action{System.Boolean})">
-            <summary>
-            Returns if there is a valid access token (async).
-            If not, tries to refresh it.
-            </summary>
-            <param name="callback">Method to call with the result if there is a valid token</param>
-        </member>
-        <member name="M:Telekom.Common.Auth.TelekomOAuth2Auth.HasRefreshToken">
-            <summary>
-            Returns if this OAuth instance owns a refresh token
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Telekom.Common.Auth.TelekomOAuth2Auth.RefreshToken">
-            <summary>
-            OAuth refresh token
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Auth.TelekomOAuth2Auth.ClientId">
-            <summary>
-            Your client ID at telekom services
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Auth.TelekomOAuth2Auth.ClientSecret">
-            <summary>
-            Your client secret at telekom services
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Auth.TelekomOAuth2Auth.Scope">
-            <summary>
-            Your scope at telekom services
-            </summary>
-        </member>
-        <member name="T:Telekom.Speech2Text.Model.Speech2TextDiscoveryRequest">
-            <summary>
-            Request container of a speech2text discovery api call
-            </summary>
-        </member>
-        <member name="T:Telekom.SmsValidation.Model.ValidateRequest">
-            <summary>
-            Parameters to send the received validation keyword back to the service
-            </summary>
-        </member>
-        <member name="P:Telekom.SmsValidation.Model.ValidateRequest.Number">
-            <summary>
-            Number to confirm
-            </summary>
-        </member>
-        <member name="P:Telekom.SmsValidation.Model.ValidateRequest.Key">
-            <summary>
-            Validation key received
-            </summary>
-        </member>
-        <member name="T:Telekom.SendSms.Model.QueryReportRequest">
-            <summary>
-            Parameter object for SendSms query report call
-            </summary>
-        </member>
-        <member name="P:Telekom.SendSms.Model.QueryReportRequest.senderAddress">
-            <summary>
-            Sender, as shown at the receiver
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:Telekom.SendSms.Model.NotificationUnsubscribeRequest">
-            <summary>
-            Parameter object for SendSms unsubscribe notifications call
-            </summary>
-        </member>
-        <member name="P:Telekom.SendSms.Model.NotificationUnsubscribeRequest.subscriptionId">
-            <summary>
-            Sender, as shown at the receiver
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:Telekom.SendSms.Model.ReceiveNotificationUnsubscribeRequest">
-            <summary>
-            Parameter object for SendSms unsubscribe notifications call
-            </summary>
-        </member>
-        <member name="P:Telekom.SendSms.Model.ReceiveNotificationUnsubscribeRequest.subscriptionId">
-            <summary>
-            Sender, as shown at the receiver
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:Telekom.SendSms.ReceiveNotificationSubscribeClient">
-            <summary>
-            Wrapper for Telekom Send SMS Query Report service
-            </summary>
-        </member>
-        <member name="F:Telekom.SendSms.ReceiveNotificationSubscribeClient.ServicePath">
-            <summary>
-            URL Path to Send SMS services. Can be overridden if necessary.
-            {0} is replaced by selected environment
-            </summary>
-        </member>
-        <member name="M:Telekom.SendSms.ReceiveNotificationSubscribeClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
-            <summary>
-            Constructs a Send SMS API Query Report client with specified authentication method and environment.
-            </summary>
-            <param name="authentication">Authentication instance</param>
-            <param name="serviceEnvironment">Environment used for this client's service invocations</param>
-        </member>
-        <member name="M:Telekom.SendSms.ReceiveNotificationSubscribeClient.subscribeReceiveNotifications(Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest)">
-            <summary>
-            Queries the given reportId from an SMS
-            </summary>
-            <param name="request">prepared request to use for the query</param>
-        </member>
-        <member name="T:Telekom.Common.Model.SmsResponseInboundSmsMessageValues">
-            <summary>
-            Common status result of SMS Retrieve operations
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.SmsResponseInboundSmsMessageValues.dateTime">
-            <summary>
-            dateTime
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.SmsResponseInboundSmsMessageValues.destinationAddress">
-            <summary>
-            destinationAddress
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.SmsResponseInboundSmsMessageValues.messageId">
-            <summary>
-            messageId
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.SmsResponseInboundSmsMessageValues.message">
-            <summary>
-            message
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.SmsResponseInboundSmsMessageValues.resourceURL">
-            <summary>
-            resourceURL
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.SmsResponseInboundSmsMessageValues.senderAddress">
-            <summary>
-            senderAddress
-            </summary>
-        </member>
-        <member name="T:Telekom.SendSms.QueryReportClient">
-            <summary>
-            Wrapper for Telekom Send SMS Query Report service
-            </summary>
-        </member>
-        <member name="F:Telekom.SendSms.QueryReportClient.ServicePath">
-            <summary>
-            URL Path to Send SMS services. Can be overridden if necessary.
-            {0} is replaced by selected environment
-            </summary>
-        </member>
-        <member name="M:Telekom.SendSms.QueryReportClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
-            <summary>
-            Constructs a Send SMS API Query Report client with specified authentication method and environment.
-            </summary>
-            <param name="authentication">Authentication instance</param>
-            <param name="serviceEnvironment">Environment used for this client's service invocations</param>
-        </member>
-        <member name="M:Telekom.SendSms.QueryReportClient.queryReport(Telekom.SendSms.Model.QueryReportRequest,System.String)">
-            <summary>
-            Queries the given reportId from an SMS
-            </summary>
-            <param name="request">prepared request to use for the query</param>
-            <param name="reportId">reportId of the message to be queried</param>
-        </member>
-        <member name="T:Telekom.Common.Model.SmsResponseSubscriptionValues">
-            <summary>
-            Common status result of SMS Retrieve operations
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.SmsResponseSubscriptionValues.callbackData">
-            <summary>
-            callbackData
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Model.SmsResponseSubscriptionValues.notifyURL">
-            <summary>
-            notifyURL
-            </summary>
         </member>
         <member name="T:Telekom.Common.ServiceEnvironment">
             <summary>
@@ -972,219 +287,109 @@
             HTTP Method for REST requests
             </summary>
         </member>
-        <member name="T:Telekom.Common.Auth.OAuth2.AccessTokenResponse">
+        <member name="T:Telekom.Common.Model.SmsResponseInboundSmsMessageValues">
             <summary>
-            Service response containing access token and optionally a refresh token
+            Common status result of SMS Retrieve operations
             </summary>
         </member>
-        <member name="P:Telekom.Common.Auth.OAuth2.AccessTokenResponse.TokenType">
+        <member name="P:Telekom.Common.Model.SmsResponseInboundSmsMessageValues.dateTime">
             <summary>
-            Type of the received token
+            dateTime
             </summary>
         </member>
-        <member name="P:Telekom.Common.Auth.OAuth2.AccessTokenResponse.AccessToken">
-            <summary>
-            Access token
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Auth.OAuth2.AccessTokenResponse.RefreshToken">
-            <summary>
-            Refresh token (not always present)
-            </summary>
-        </member>
-        <member name="P:Telekom.Common.Auth.OAuth2.AccessTokenResponse.ExpiresIn">
-            <summary>
-            The time the access token expires (in seconds from now)
-            </summary>
-        </member>
-        <member name="T:Telekom.Speech2Text.Speech2TextClient">
-            <summary>
-            Wrapper for Telekom Voice Call service
-            </summary>
-        </member>
-        <member name="F:Telekom.Speech2Text.Speech2TextClient.ServicePath">
-            <summary>
-            URL Path to Voice call services. Can be overridden if necessary.
-            {0} is replaced by selected environment
-            </summary>
-        </member>
-        <member name="M:Telekom.Speech2Text.Speech2TextClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
-            <summary>
-            Constructs a Voice Call API client with specified authentication method and environment.
-            </summary>
-            <param name="authentication">Authentication instance</param>
-            <param name="environment">Environment used for this client's service invocations</param>
-        </member>
-        <member name="M:Telekom.Speech2Text.Speech2TextClient.createAuthenticatedTranscriptionRequest``1(System.String,Telekom.Speech2Text.Model.Speech2TextRequest)">
-            <summary>
-            Create a web request with access token and serialized parameters
-            </summary>
-            <typeparam name="ResponseType">Type which the response will be deserialized into</typeparam>
-            <param name="uri">Target URI of the request</param>
-            <param name="method">HTTP method of the request</param>
-            <param name="requestParams">Object containing request parameters</param>
-            <returns>configured web request with added header fields</returns>
-        </member>
-        <member name="T:Telekom.SendSms.SendSmsClient">
-            <summary>
-            Wrapper for Telekom Send SMS service
-            </summary>
-        </member>
-        <member name="F:Telekom.SendSms.SendSmsClient.ServicePath">
-            <summary>
-            URL Path to Send SMS services. Can be overridden if necessary.
-            {0} is replaced by selected environment
-            </summary>
-        </member>
-        <member name="M:Telekom.SendSms.SendSmsClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
-            <summary>
-            Constructs a Send SMS API client with specified authentication method and environment.
-            </summary>
-            <param name="authentication">Authentication instance</param>
-            <param name="environment">Environment used for this client's service invocations</param>
-        </member>
-        <member name="M:Telekom.SendSms.SendSmsClient.SendSms(Telekom.SendSms.Model.SendSmsRequest)">
-            <summary>Send an SMS</summary>
-            <param name="request">Parameter object</param> 
-            <returns>Result of this operation</returns>
-        </member>
-        <member name="M:Telekom.SendSms.SendSmsClient.SendSms(Telekom.SendSms.Model.SendSmsRequest,System.Action{Telekom.Common.Model.TelekomResponse})">
-            <summary>Send an SMS (asynchronously)</summary>
-            <param name="request">Parameter object</param> 
-            <param name="callback">Handler to invoke after completion</param>
-        </member>
-        <member name="T:Telekom.SendSms.NotificationSubscribeClient">
-            <summary>
-            Wrapper for Telekom Send SMS Query Report service
-            </summary>
-        </member>
-        <member name="F:Telekom.SendSms.NotificationSubscribeClient.ServicePath">
-            <summary>
-            URL Path to Send SMS services. Can be overridden if necessary.
-            {0} is replaced by selected environment
-            </summary>
-        </member>
-        <member name="M:Telekom.SendSms.NotificationSubscribeClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
-            <summary>
-            Constructs a Send SMS API Query Report client with specified authentication method and environment.
-            </summary>
-            <param name="authentication">Authentication instance</param>
-            <param name="serviceEnvironment">Environment used for this client's service invocations</param>
-        </member>
-        <member name="M:Telekom.SendSms.NotificationSubscribeClient.subscribeNotifications(Telekom.SendSms.Model.NotificationSubscribeRequest)">
-            <summary>
-            Queries the given reportId from an SMS
-            </summary>
-            <param name="request">prepared request to use for the query</param>
-        </member>
-        <member name="T:Telekom.SendSms.Model.NotificationSubscribeRequest">
-            <summary>
-            Parameter object for SendSms subscribe notifications call
-            </summary>
-        </member>
-        <member name="P:Telekom.SendSms.Model.NotificationSubscribeRequest.senderAddress">
-            <summary>
-            Sender, as shown at the receiver
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Telekom.SendSms.Model.NotificationSubscribeRequest.callbackData">
-            <summary>
-            callbackData
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Telekom.SendSms.Model.NotificationSubscribeRequest.clientCorrelator">
-            <summary>
-            clientCorrelator
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Telekom.SendSms.Model.NotificationSubscribeRequest.notifyURL">
-            <summary>
-            notify URL
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:Telekom.SendSms.OutboundSMSType">
-            <summary>
-            specifies request sms type
-            </summary>
-        </member>
-        <member name="F:Telekom.SendSms.OutboundSMSType.TEXT">
-            Text SMS
-        </member>
-        <member name="F:Telekom.SendSms.OutboundSMSType.BINARY">
-            Binary SMS
-        </member>
-        <member name="F:Telekom.SendSms.OutboundSMSType.FLASH">
-            Flash SMS
-        </member>
-        <member name="T:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest">
-            <summary>
-            Parameter object for SendSms subscribe notifications call
-            </summary>
-        </member>
-        <member name="P:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest.destinationAddress">
+        <member name="P:Telekom.Common.Model.SmsResponseInboundSmsMessageValues.destinationAddress">
             <summary>
             destinationAddress
             </summary>
-            <returns></returns>
         </member>
-        <member name="P:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest.callbackData">
+        <member name="P:Telekom.Common.Model.SmsResponseInboundSmsMessageValues.messageId">
+            <summary>
+            messageId
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.SmsResponseInboundSmsMessageValues.message">
+            <summary>
+            message
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.SmsResponseInboundSmsMessageValues.resourceURL">
+            <summary>
+            resourceURL
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.SmsResponseInboundSmsMessageValues.senderAddress">
+            <summary>
+            senderAddress
+            </summary>
+        </member>
+        <member name="T:Telekom.Common.Model.SmsResponseSubscriptionValues">
+            <summary>
+            Common status result of SMS Retrieve operations
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.SmsResponseSubscriptionValues.callbackData">
             <summary>
             callbackData
             </summary>
-            <returns></returns>
         </member>
-        <member name="P:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest.clientCorrelator">
+        <member name="P:Telekom.Common.Model.SmsResponseSubscriptionValues.notifyURL">
             <summary>
-            clientCorrelator
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest.notifyURL">
-            <summary>
-            notify URL
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest.criteria">
-            <summary>
-            criteria
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest.notificationFormat">
-            <summary>
-            notificationFormat
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest.account">
-            <summary>
-            account
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:Telekom.Common.Model.SmsResponseStatusValues">
-            <summary>
-            Common status result of SMS operations
+            notifyURL
             </summary>
         </member>
-        <member name="P:Telekom.Common.Model.SmsResponseStatusValues.messageId">
+        <member name="T:Telekom.Common.Model.SmsResponseDeliveryValues">
             <summary>
-            Message ID of the Exception received
+            Common status result of SMS query delivery report operations
             </summary>
         </member>
-        <member name="P:Telekom.Common.Model.SmsResponseStatusValues.text">
+        <member name="P:Telekom.Common.Model.SmsResponseDeliveryValues.address">
             <summary>
-            Text of the Exception received
+            sms recipient
             </summary>
         </member>
-        <member name="P:Telekom.Common.Model.SmsResponseStatusValues.variables">
+        <member name="P:Telekom.Common.Model.SmsResponseDeliveryValues.deliveryStatus">
             <summary>
-            variables of the Exception received
+            status of the given address
+            </summary>
+        </member>
+        <member name="T:Telekom.Common.Model.NoHttpParameterAttribute">
+            <summary>
+            Specifies an attribute as not relevant for HTTP parameters
+            </summary>
+        </member>
+        <member name="T:Telekom.Common.Model.SmsResponse">
+            <summary>
+            Common data in all responses from Telekom service
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.SmsResponse.requestError">
+            <summary>
+            Returned error status of an operation
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.SmsResponse.deliveryInfoList">
+            <summary>
+            Returned successful status of an query report operation
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.SmsResponse.deliveryReceiptSubscription">
+            <summary>
+            Returned successful status of an notification subscription operation
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.SmsResponse.inboundSMSMessageList">
+            <summary>
+            Returned successful status of an notification subscription operation
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.SmsResponse.subscription">
+            <summary>
+            Returned successful status of an notification subscription for an sms receive operation
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.SmsResponse.Success">
+            <summary>
+            Checks if this status represents a successful response
             </summary>
         </member>
         <member name="T:Telekom.Common.Model.SmsResponseStatus">
@@ -1262,6 +467,558 @@
             callbackReference borrowed from the request
             </summary>
         </member>
+        <member name="T:Telekom.Common.Model.SmsResponseStatusValues">
+            <summary>
+            Common status result of SMS operations
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.SmsResponseStatusValues.messageId">
+            <summary>
+            Message ID of the Exception received
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.SmsResponseStatusValues.text">
+            <summary>
+            Text of the Exception received
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.SmsResponseStatusValues.variables">
+            <summary>
+            variables of the Exception received
+            </summary>
+        </member>
+        <member name="T:Telekom.Common.Model.HttpParameterAttribute">
+            <summary>
+            Properties are serialized by default. Use this attribute to
+            overwrite default (inferred) name
+            </summary>
+        </member>
+        <member name="M:Telekom.Common.Model.HttpParameterAttribute.#ctor(System.String)">
+            <summary>
+            Overwrite name
+            </summary>
+            <param name="name">custom name</param>
+        </member>
+        <member name="T:Telekom.Common.TelekomConfig">
+            <summary>
+            Global configuration for Telekom web requests
+            </summary>
+        </member>
+        <member name="F:Telekom.Common.TelekomConfig.UserAgent">
+            <summary>
+            User Agent to transmit to services
+            </summary>
+        </member>
+        <member name="F:Telekom.Common.TelekomConfig.Proxy">
+            <summary>
+            Proxy configuration for all web requests
+            </summary>
+        </member>
+        <member name="M:Telekom.Common.UriHelper.EscapeUriString(System.String)">
+            <summary>
+            Escape an URI string
+            </summary>
+            <param name="uriPart">string to encode</param>
+            <returns>encoded string</returns>
+        </member>
+        <member name="M:Telekom.Common.UriHelper.EscapeDataString(System.String)">
+            <summary>
+            Escape an URI data string
+            .NET Framework's Uri.EscapeDataString cannot be used because of it's length limitation
+            </summary>
+            <param name="uriPart">string to encode</param>
+            <returns>encoded string</returns>
+        </member>
+        <member name="T:Telekom.Common.WebRequest.HttpParamWriter.RequestStringWriter">
+            <summary>
+            Writes parameters to body in request string format
+            </summary>
+        </member>
+        <member name="T:Telekom.Common.Model.TelekomRequest">
+            <summary>
+            Base class for all request objects
+            </summary>
+        </member>
+        <member name="M:Telekom.Common.Model.TelekomRequest.BuildRequestParameters(Telekom.Common.WebRequest.TelekomWebRequest)">
+            <summary>
+            Uses reflection to infer parameters from the request object and
+            adds them to a web request
+            </summary>
+            <param name="webRequest">web request to receive parameters</param>
+        </member>
+        <member name="M:Telekom.Common.Model.TelekomRequest.EnforceRequiredFields">
+            <summary>
+            Checks all validation properties and throws an exception
+            if there is a problem
+            </summary>
+        </member>
+        <member name="T:Telekom.Common.TelekomClient">
+            <summary>
+            Base class for all Telekom REST SDK clients
+            </summary>
+        </member>
+        <member name="F:Telekom.Common.TelekomClient.TelekomBaseUrl">
+            <summary>
+            Address of Telekom API server.
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.TelekomClient.ServiceBaseUrl">
+            <summary>
+            Base URL to the concrete service.
+            </summary>
+        </member>
+        <member name="F:Telekom.Common.TelekomClient.authentication">
+            <summary>
+            Authentication object that provides us with an access token for the requests
+            </summary>
+        </member>
+        <member name="M:Telekom.Common.TelekomClient.CreateAuthenticatedRequest``1(System.String,Telekom.Common.HttpMethod)">
+            <summary>
+            Create a web request with access token
+            </summary>
+            <typeparam name="ResponseType">Type which the response will be deserialized into</typeparam>
+            <param name="uri">Target URI of the request</param>
+            <param name="method">HTTP method of the request</param>
+            <returns>configured web request with added header fields</returns>
+        </member>
+        <member name="M:Telekom.Common.TelekomClient.CreateAuthenticatedRequest``1(System.String,Telekom.Common.HttpMethod,Telekom.Common.Model.TelekomRequest)">
+            <summary>
+            Create a web request with access token and serialized parameters
+            </summary>
+            <typeparam name="ResponseType">Type which the response will be deserialized into</typeparam>
+            <param name="uri">Target URI of the request</param>
+            <param name="method">HTTP method of the request</param>
+            <param name="requestParams">Object containing request parameters</param>
+            <returns>configured web request with added header fields</returns>
+        </member>
+        <member name="T:Telekom.Common.Model.Validation.RequiredAttribute">
+            <summary>
+            Defines a property as required, i.e. the property must not be NULL.
+            Empty strings ("") are not allowed either.
+            </summary>
+        </member>
+        <member name="T:Telekom.Common.Model.TelekomResponse">
+            <summary>
+            Common data in all responses from Telekom service
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.TelekomResponse.Status">
+            <summary>
+            Returned status of an operation
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.TelekomResponse.Success">
+            <summary>
+            Checks if this status represents a successful response
+            </summary>
+        </member>
+        <member name="T:Telekom.Common.Model.ResponseStatus">
+            <summary>
+            Common status result of all operations
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.ResponseStatus.StatusCode">
+            <summary>
+            Four digit status code of the operation.
+            0000 = success.
+            </summary>
+        </member>
+        <member name="P:Telekom.Common.Model.ResponseStatus.StatusMessage">
+            <summary>
+            The status message of the operation
+            </summary>
+        </member>
+        <member name="T:Telekom.Common.WebRequest.HttpParamWriter.FormMultipartWriter">
+            <summary>
+            This class encodes the request body as a HTTP multi-part attachment
+            </summary>
+        </member>
+        <member name="T:Telekom.Common.WebRequest.TelekomJsonWebRequest`1">
+            <summary>
+            Web Request whose response will be deserialized to the specified ResponseType.
+            Response format is JSON, ResponseType class must be decorated as DataContract.
+            </summary>
+            <typeparam name="ResponseType">Type to deserialize into</typeparam>
+        </member>
+        <member name="M:Telekom.Common.WebRequest.TelekomWebRequest.AddParameter(System.String,System.String)">
+            <summary>
+            Adds a parameter to the request
+            </summary>
+            <param name="key">name of the parameter</param>
+            <param name="value">value of the parameter</param>
+        </member>
+        <member name="M:Telekom.Common.WebRequest.TelekomWebRequest.SetRawContent(System.IO.Stream,System.String)">
+            <summary>
+            Set raw content
+            </summary>
+            <param name="rawData">
+            </param>
+            <param name="contentType">
+            </param>
+        </member>
+        <member name="T:Telekom.SendMms.Model.SendMmsRequest">
+            <summary>
+            Parameters to send an MMS
+            </summary>
+        </member>
+        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Number">
+            <summary>
+            Comma separated phone numbers as expected by the web service
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Numbers">
+            <summary>
+            Phone Number(s) of SMS receiver(s)
+            </summary>
+        </member>
+        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Subject">
+            <summary>
+            Subject of the MMS
+            </summary>
+        </member>
+        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Message">
+            <summary>
+            Message to send
+            </summary>
+        </member>
+        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Attachment">
+            <summary>
+            Base64 encoded attachment actually sent
+            </summary>
+        </member>
+        <member name="P:Telekom.SendMms.Model.SendMmsRequest.AttachmentAsStream">
+            <summary>
+            Set the attachment data as a stream
+            </summary>
+        </member>
+        <member name="P:Telekom.SendMms.Model.SendMmsRequest.AttachmentAsBytes">
+            <summary>
+            Set the attachment data as an array of bytes
+            </summary>
+        </member>
+        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Filename">
+            <summary>
+            Filename of the attachment
+            </summary>
+        </member>
+        <member name="P:Telekom.SendMms.Model.SendMmsRequest.ContentType">
+            <summary>
+            Content-Type of the attachment
+            </summary>
+        </member>
+        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Originator">
+            <summary>
+            Sender, as shown at the receiver
+            </summary>
+        </member>
+        <member name="P:Telekom.SendMms.Model.SendMmsRequest.Account">
+            <summary>
+            Account-ID of the sub account which should be billed for this service call
+            </summary>
+        </member>
+        <member name="T:Telekom.SendMms.SendMmsClient">
+            <summary>
+            Wrapper for Telekom Send MMS service
+            </summary>
+        </member>
+        <member name="F:Telekom.SendMms.SendMmsClient.ServicePath">
+            <summary>
+            URL Path to Send MMS services. Can be overridden if neccesary.
+            {0} is replaced by selected environment
+            </summary>
+        </member>
+        <member name="M:Telekom.SendMms.SendMmsClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
+            <summary>
+            Constructs a Send SMS API client with specified authentication method and environment.
+            </summary>
+            <param name="authentication">Authentication instance</param>
+            <param name="environment">Environment used for this client's service invocations</param>
+        </member>
+        <member name="M:Telekom.SendMms.SendMmsClient.SendMms(Telekom.SendMms.Model.SendMmsRequest)">
+            <summary>Send a MMS</summary>
+            <param name="request">Parameter object</param>
+            <returns>Result of this operation</returns>
+        </member>
+        <member name="M:Telekom.SendMms.SendMmsClient.SendMms(Telekom.SendMms.Model.SendMmsRequest,System.Action{Telekom.Common.Model.TelekomResponse})">
+            <summary>Send a MMS (asynchronously)</summary>
+            <param name="request">Parameter object</param>
+            <param name="callback">Handler to invoke after completion</param>
+        </member>
+        <member name="T:Telekom.SendSms.ReceiveNotificationUnsubscribeClient">
+            <summary>
+            Wrapper for Telekom Send SMS Query Report service
+            </summary>
+        </member>
+        <member name="F:Telekom.SendSms.ReceiveNotificationUnsubscribeClient.ServicePath">
+            <summary>
+            URL Path to Send SMS services. Can be overridden if necessary.
+            {0} is replaced by selected environment
+            </summary>
+        </member>
+        <member name="M:Telekom.SendSms.ReceiveNotificationUnsubscribeClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
+            <summary>
+            Constructs a Send SMS API Query Report client with specified authentication method and environment.
+            </summary>
+            <param name="authentication">Authentication instance</param>
+            <param name="serviceEnvironment">Environment used for this client's service invocations</param>
+        </member>
+        <member name="M:Telekom.SendSms.ReceiveNotificationUnsubscribeClient.unsubscribeReceiveNotifications(Telekom.SendSms.Model.ReceiveNotificationUnsubscribeRequest)">
+            <summary>
+            Queries the given reportId from an SMS
+            </summary>
+            <param name="request">prepared request to use for the query</param>
+        </member>
+        <member name="T:Telekom.SendSms.Model.ReceiveNotificationUnsubscribeRequest">
+            <summary>
+            Parameter object for SendSms unsubscribe notifications call
+            </summary>
+        </member>
+        <member name="P:Telekom.SendSms.Model.ReceiveNotificationUnsubscribeRequest.subscriptionId">
+            <summary>
+            Sender, as shown at the receiver
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="T:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest">
+            <summary>
+            Parameter object for SendSms subscribe notifications call
+            </summary>
+        </member>
+        <member name="P:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest.destinationAddress">
+            <summary>
+            destinationAddress
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="P:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest.callbackData">
+            <summary>
+            callbackData
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="P:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest.clientCorrelator">
+            <summary>
+            clientCorrelator
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="P:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest.notifyURL">
+            <summary>
+            notify URL
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="P:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest.criteria">
+            <summary>
+            criteria
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="P:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest.notificationFormat">
+            <summary>
+            notificationFormat
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="P:Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest.account">
+            <summary>
+            account
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="T:Telekom.SendSms.ReceiveNotificationSubscribeClient">
+            <summary>
+            Wrapper for Telekom Send SMS Query Report service
+            </summary>
+        </member>
+        <member name="F:Telekom.SendSms.ReceiveNotificationSubscribeClient.ServicePath">
+            <summary>
+            URL Path to Send SMS services. Can be overridden if necessary.
+            {0} is replaced by selected environment
+            </summary>
+        </member>
+        <member name="M:Telekom.SendSms.ReceiveNotificationSubscribeClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
+            <summary>
+            Constructs a Send SMS API Query Report client with specified authentication method and environment.
+            </summary>
+            <param name="authentication">Authentication instance</param>
+            <param name="serviceEnvironment">Environment used for this client's service invocations</param>
+        </member>
+        <member name="M:Telekom.SendSms.ReceiveNotificationSubscribeClient.subscribeReceiveNotifications(Telekom.SendSms.Model.ReceiveNotificationSubscribeRequest)">
+            <summary>
+            Queries the given reportId from an SMS
+            </summary>
+            <param name="request">prepared request to use for the query</param>
+        </member>
+        <member name="T:Telekom.SendSms.Model.SendSmsReceiveRequest">
+            <summary>
+            Parameter object for SendSms Retrieve call
+            </summary>
+        </member>
+        <member name="P:Telekom.SendSms.Model.SendSmsReceiveRequest.registrationId">
+            <summary>
+            The registrationId to receive the sms from
+            </summary>
+        </member>
+        <member name="P:Telekom.SendSms.Model.SendSmsReceiveRequest.maxBatchSize">
+            <summary>
+            maxBatchSize, number of messages to retrieve in this request
+            </summary>
+        </member>
+        <member name="P:Telekom.SendSms.Model.SendSmsReceiveRequest.account">
+            <summary>
+            account, to charge for this action
+            </summary>
+        </member>
+        <member name="T:Telekom.SendSms.NotificationUnsubscribeClient">
+            <summary>
+            Wrapper for Telekom Send SMS Query Report service
+            </summary>
+        </member>
+        <member name="F:Telekom.SendSms.NotificationUnsubscribeClient.ServicePath">
+            <summary>
+            URL Path to Send SMS services. Can be overridden if necessary.
+            {0} is replaced by selected environment
+            </summary>
+        </member>
+        <member name="M:Telekom.SendSms.NotificationUnsubscribeClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
+            <summary>
+            Constructs a Send SMS API Query Report client with specified authentication method and environment.
+            </summary>
+            <param name="authentication">Authentication instance</param>
+            <param name="serviceEnvironment">Environment used for this client's service invocations</param>
+        </member>
+        <member name="M:Telekom.SendSms.NotificationUnsubscribeClient.unsubscribeNotifications(Telekom.SendSms.Model.NotificationUnsubscribeRequest)">
+            <summary>
+            Queries the given reportId from an SMS
+            </summary>
+            <param name="request">prepared request to use for the query</param>
+        </member>
+        <member name="T:Telekom.SendSms.Model.NotificationUnsubscribeRequest">
+            <summary>
+            Parameter object for SendSms unsubscribe notifications call
+            </summary>
+        </member>
+        <member name="P:Telekom.SendSms.Model.NotificationUnsubscribeRequest.subscriptionId">
+            <summary>
+            Sender, as shown at the receiver
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="T:Telekom.SendSms.Model.NotificationSubscribeRequest">
+            <summary>
+            Parameter object for SendSms subscribe notifications call
+            </summary>
+        </member>
+        <member name="P:Telekom.SendSms.Model.NotificationSubscribeRequest.senderAddress">
+            <summary>
+            Sender, as shown at the receiver
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="P:Telekom.SendSms.Model.NotificationSubscribeRequest.callbackData">
+            <summary>
+            callbackData
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="P:Telekom.SendSms.Model.NotificationSubscribeRequest.clientCorrelator">
+            <summary>
+            clientCorrelator
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="P:Telekom.SendSms.Model.NotificationSubscribeRequest.notifyURL">
+            <summary>
+            notify URL
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="T:Telekom.SendSms.NotificationSubscribeClient">
+            <summary>
+            Wrapper for Telekom Send SMS Query Report service
+            </summary>
+        </member>
+        <member name="F:Telekom.SendSms.NotificationSubscribeClient.ServicePath">
+            <summary>
+            URL Path to Send SMS services. Can be overridden if necessary.
+            {0} is replaced by selected environment
+            </summary>
+        </member>
+        <member name="M:Telekom.SendSms.NotificationSubscribeClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
+            <summary>
+            Constructs a Send SMS API Query Report client with specified authentication method and environment.
+            </summary>
+            <param name="authentication">Authentication instance</param>
+            <param name="serviceEnvironment">Environment used for this client's service invocations</param>
+        </member>
+        <member name="M:Telekom.SendSms.NotificationSubscribeClient.subscribeNotifications(Telekom.SendSms.Model.NotificationSubscribeRequest)">
+            <summary>
+            Queries the given reportId from an SMS
+            </summary>
+            <param name="request">prepared request to use for the query</param>
+        </member>
+        <member name="T:Telekom.SendSms.Model.QueryReportRequest">
+            <summary>
+            Parameter object for SendSms query report call
+            </summary>
+        </member>
+        <member name="P:Telekom.SendSms.Model.QueryReportRequest.senderAddress">
+            <summary>
+            Sender, as shown at the receiver
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="T:Telekom.SendSms.QueryReportClient">
+            <summary>
+            Wrapper for Telekom Send SMS Query Report service
+            </summary>
+        </member>
+        <member name="F:Telekom.SendSms.QueryReportClient.ServicePath">
+            <summary>
+            URL Path to Send SMS services. Can be overridden if necessary.
+            {0} is replaced by selected environment
+            </summary>
+        </member>
+        <member name="M:Telekom.SendSms.QueryReportClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
+            <summary>
+            Constructs a Send SMS API Query Report client with specified authentication method and environment.
+            </summary>
+            <param name="authentication">Authentication instance</param>
+            <param name="serviceEnvironment">Environment used for this client's service invocations</param>
+        </member>
+        <member name="M:Telekom.SendSms.QueryReportClient.queryReport(Telekom.SendSms.Model.QueryReportRequest,System.String)">
+            <summary>
+            Queries the given reportId from an SMS
+            </summary>
+            <param name="request">prepared request to use for the query</param>
+            <param name="reportId">reportId of the message to be queried</param>
+        </member>
+        <member name="T:Telekom.SendSms.OutboundEncoding">
+            <summary>
+            specifies request sms character encoding
+            </summary>
+        </member>
+        <member name="F:Telekom.SendSms.OutboundEncoding.GSM">
+            	     * 7bitGSM - standard GSM 7 bit alphabet with 160 characters per SMS</member>
+        <member name="F:Telekom.SendSms.OutboundEncoding.UCS">
+                     * 16bitUCS2 - 70 characters per SMS</member>
         <member name="T:Telekom.SendSms.Model.SendSmsRequest">
             <summary>
             Parameter object for SendSms call
@@ -1271,7 +1028,8 @@
             <summary>
             Comma separated phone numbers of the recipient(s) as expected by the web service
             </summary>
-            <returns></returns>
+            <returns>
+            </returns>
         </member>
         <member name="P:Telekom.SendSms.Model.SendSmsRequest.Numbers">
             <summary>
@@ -1323,20 +1081,44 @@
             identifies requests
             </summary>
         </member>
-        <member name="T:Telekom.Common.TelekomConfig">
+        <member name="T:Telekom.SendSms.OutboundSMSType">
             <summary>
-            Global configuration for Telekom web requests
+            specifies request sms type
             </summary>
         </member>
-        <member name="F:Telekom.Common.TelekomConfig.UserAgent">
+        <member name="F:Telekom.SendSms.OutboundSMSType.TEXT">
+            	     * Text SMS</member>
+        <member name="F:Telekom.SendSms.OutboundSMSType.BINARY">
+                     * Binary SMS</member>
+        <member name="F:Telekom.SendSms.OutboundSMSType.FLASH">
+                     * Flash SMS</member>
+        <member name="T:Telekom.SendSms.SendSmsClient">
             <summary>
-            User Agent to transmit to services
+            Wrapper for Telekom Send SMS service
             </summary>
         </member>
-        <member name="F:Telekom.Common.TelekomConfig.Proxy">
+        <member name="F:Telekom.SendSms.SendSmsClient.ServicePath">
             <summary>
-            Proxy configuration for all web requests
+            URL Path to Send SMS services. Can be overridden if necessary.
+            {0} is replaced by selected environment
             </summary>
+        </member>
+        <member name="M:Telekom.SendSms.SendSmsClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
+            <summary>
+            Constructs a Send SMS API client with specified authentication method and environment.
+            </summary>
+            <param name="authentication">Authentication instance</param>
+            <param name="environment">Environment used for this client's service invocations</param>
+        </member>
+        <member name="M:Telekom.SendSms.SendSmsClient.SendSms(Telekom.SendSms.Model.SendSmsRequest)">
+            <summary>Send an SMS</summary>
+            <param name="request">Parameter object</param>
+            <returns>Result of this operation</returns>
+        </member>
+        <member name="M:Telekom.SendSms.SendSmsClient.SendSms(Telekom.SendSms.Model.SendSmsRequest,System.Action{Telekom.Common.Model.TelekomResponse})">
+            <summary>Send an SMS (asynchronously)</summary>
+            <param name="request">Parameter object</param>
+            <param name="callback">Handler to invoke after completion</param>
         </member>
         <member name="T:Telekom.SendSms.SendSmsReceiveClient">
             <summary>
@@ -1358,113 +1140,254 @@
         </member>
         <member name="M:Telekom.SendSms.SendSmsReceiveClient.SendSmsReceive(Telekom.SendSms.Model.SendSmsReceiveRequest)">
             <summary>Send an SMS</summary>
-            <param name="request">Parameter object</param> 
+            <param name="request">Parameter object</param>
             <returns>Result of this operation</returns>
         </member>
         <member name="M:Telekom.SendSms.SendSmsReceiveClient.SendSmsReceive(Telekom.SendSms.Model.SendSmsReceiveRequest,System.Action{Telekom.Common.Model.TelekomResponse})">
             <summary>Send an SMS (asynchronously)</summary>
-            <param name="request">Parameter object</param> 
+            <param name="request">Parameter object</param>
             <param name="callback">Handler to invoke after completion</param>
         </member>
-        <member name="T:Telekom.SendSms.Model.SendSmsReceiveRequest">
+        <member name="T:Telekom.SmsValidation.Model.GetValidatedNumbersResponse">
             <summary>
-            Parameter object for SendSms Retrieve call
+            Result of a call to list the validated numbers
             </summary>
         </member>
-        <member name="P:Telekom.SendSms.Model.SendSmsReceiveRequest.registrationId">
+        <member name="P:Telekom.SmsValidation.Model.GetValidatedNumbersResponse.Numbers">
             <summary>
-            The registrationId to receive the sms from
+            List of validated numbers
             </summary>
         </member>
-        <member name="P:Telekom.SendSms.Model.SendSmsReceiveRequest.maxBatchSize">
+        <member name="T:Telekom.SmsValidation.Model.SendValidationKeywordRequest">
             <summary>
-            maxBatchSize, number of messages to retrieve in this request
+            Parameters for a call to send the validation keyword
             </summary>
         </member>
-        <member name="P:Telekom.SendSms.Model.SendSmsReceiveRequest.account">
+        <member name="P:Telekom.SmsValidation.Model.SendValidationKeywordRequest.Number">
             <summary>
-            account, to charge for this action
+            Number to send the keyword to
             </summary>
         </member>
-        <member name="T:Telekom.Common.WebRequest.HttpParamWriter.FormMultipartWriter">
+        <member name="P:Telekom.SmsValidation.Model.SendValidationKeywordRequest.Message">
             <summary>
-            This class encodes the request body as a HTTP multi-part attachment
+            The accompanying message that should be sent with the validation code.
+            This message must contain two placeholders as shown in the following example:
+            "The keyword for validating your phone number with example.com is #key# and is valid until #validUntil#."
             </summary>
         </member>
-        <member name="T:Telekom.Common.Model.SmsResponseDeliveryValues">
+        <member name="P:Telekom.SmsValidation.Model.SendValidationKeywordRequest.Originator">
             <summary>
-            Common status result of SMS query delivery report operations
+            Originator of the message as shown on receiver's phone
             </summary>
         </member>
-        <member name="P:Telekom.Common.Model.SmsResponseDeliveryValues.address">
+        <member name="P:Telekom.SmsValidation.Model.SendValidationKeywordRequest.Account">
             <summary>
-            sms recipient
+            Sub-account to bill. If omitted, the main account is selected.
             </summary>
         </member>
-        <member name="P:Telekom.Common.Model.SmsResponseDeliveryValues.deliveryStatus">
+        <member name="T:Telekom.SmsValidation.Model.ValidatedNumber">
             <summary>
-            status of the given address
+            A single validated number
             </summary>
         </member>
-        <member name="T:Telekom.VoiceCall.VoiceCallClient">
+        <member name="P:Telekom.SmsValidation.Model.ValidatedNumber.Number">
+            <summary>
+            The phone number
+            </summary>
+        </member>
+        <member name="P:Telekom.SmsValidation.Model.ValidatedNumber.ValidUntil">
+            <summary>
+            Expiration date. Null if the validation does not expire.
+            </summary>
+        </member>
+        <member name="T:Telekom.SmsValidation.Model.ValidateRequest">
+            <summary>
+            Parameters to send the received validation keyword back to the service
+            </summary>
+        </member>
+        <member name="P:Telekom.SmsValidation.Model.ValidateRequest.Number">
+            <summary>
+            Number to confirm
+            </summary>
+        </member>
+        <member name="P:Telekom.SmsValidation.Model.ValidateRequest.Key">
+            <summary>
+            Validation key received
+            </summary>
+        </member>
+        <member name="T:Telekom.SmsValidation.SmsValidationClient">
+            <summary>
+            Wrapper for Telekom SMS Validation service
+            </summary>
+        </member>
+        <member name="F:Telekom.SmsValidation.SmsValidationClient.ServicePath">
+            <summary>
+            URL Path to SMS Validation services. Can be overridden if neccesary.
+            {0} is replaced by selected environment
+            </summary>
+        </member>
+        <member name="M:Telekom.SmsValidation.SmsValidationClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
+            <summary>
+            Constructs a SMS Validation API client with specified authentication method and environment.
+            </summary>
+            <param name="authentication">Authentication instance</param>
+            <param name="environment">Environment used for this client's service invocations</param>
+        </member>
+        <member name="M:Telekom.SmsValidation.SmsValidationClient.SendValidationKeyword(Telekom.SmsValidation.Model.SendValidationKeywordRequest)">
+            <summary>Request to send a validation keyword to a phone number.</summary>
+            <param name="request">Parameter object</param>
+            <returns>Result of this operation</returns>
+        </member>
+        <member name="M:Telekom.SmsValidation.SmsValidationClient.SendValidationKeyword(Telekom.SmsValidation.Model.SendValidationKeywordRequest,System.Action{Telekom.Common.Model.TelekomResponse})">
+            <summary>Request to send a validation keyword to a phone number (async).</summary>
+            <param name="request">Parameter object</param>
+            <param name="callback">Handler to invoke after completion</param>
+        </member>
+        <member name="M:Telekom.SmsValidation.SmsValidationClient.Validate(Telekom.SmsValidation.Model.ValidateRequest)">
+            <summary>Return the received validation code to complete phone number validation.</summary>
+            <param name="request">Parameter object</param>
+            <returns>Result of this operation</returns>
+        </member>
+        <member name="M:Telekom.SmsValidation.SmsValidationClient.Validate(Telekom.SmsValidation.Model.ValidateRequest,System.Action{Telekom.Common.Model.TelekomResponse})">
+            <summary>Return the received validation code to complete phone number validation (async).</summary>
+            <param name="request">Parameter object</param>
+            <param name="callback">Handler to invoke after completion</param>
+        </member>
+        <member name="M:Telekom.SmsValidation.SmsValidationClient.Invalidate(System.String)">
+            <summary>Revoke a number's validation state</summary>
+            <param name="number">Number to invalidate</param>
+            <returns>Result of this operation</returns>
+        </member>
+        <member name="M:Telekom.SmsValidation.SmsValidationClient.Invalidate(System.String,System.Action{Telekom.Common.Model.TelekomResponse})">
+            <summary>Revoke a number's validation state (async)</summary>
+            <param name="number">Number to invalidate</param>
+            <param name="callback">Handler to invoke after completion</param>
+        </member>
+        <member name="M:Telekom.SmsValidation.SmsValidationClient.GetValidatedNumbers">
+            <summary>Retrieve a list of validated numbers</summary>
+            <returns>Result of this operation</returns>
+        </member>
+        <member name="M:Telekom.SmsValidation.SmsValidationClient.GetValidatedNumbers(System.Action{Telekom.SmsValidation.Model.GetValidatedNumbersResponse})">
+            <summary>Retrieve a list of validated numbers (async)</summary>
+            <param name="callback">Handler to invoke after completion</param>
+        </member>
+        <member name="T:Telekom.Speech2Text.Model.Speech2TextDiscoveryRequest">
+            <summary>
+            Request container of a speech2text discovery api call
+            </summary>
+        </member>
+        <member name="T:Telekom.Speech2Text.Model.Speech2TextRequest">
+            <summary>
+            Request container of a speech2text transcription api call
+            </summary>
+        </member>
+        <member name="T:Telekom.Speech2Text.Model.Speech2TextResponse">
+            <summary>
+            Response of a speech2text api call
+            </summary>
+        </member>
+        <member name="T:Telekom.Speech2Text.Speech2TextClient">
             <summary>
             Wrapper for Telekom Voice Call service
             </summary>
         </member>
-        <member name="F:Telekom.VoiceCall.VoiceCallClient.ServicePath">
+        <member name="F:Telekom.Speech2Text.Speech2TextClient.ServicePath">
             <summary>
             URL Path to Voice call services. Can be overridden if necessary.
             {0} is replaced by selected environment
             </summary>
         </member>
-        <member name="M:Telekom.VoiceCall.VoiceCallClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
+        <member name="M:Telekom.Speech2Text.Speech2TextClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
             <summary>
             Constructs a Voice Call API client with specified authentication method and environment.
             </summary>
             <param name="authentication">Authentication instance</param>
             <param name="environment">Environment used for this client's service invocations</param>
         </member>
-        <member name="M:Telekom.VoiceCall.VoiceCallClient.NewCall(Telekom.VoiceCall.Model.NewCallRequest)">
+        <member name="M:Telekom.Speech2Text.Speech2TextClient.createAuthenticatedTranscriptionRequest``1(System.String,Telekom.Speech2Text.Model.Speech2TextRequest)">
             <summary>
-            Start a new call
+            Create a web request with access token and serialized parameters
             </summary>
-            <param name="request">Call parameters</param>
-            <returns>Service call response</returns>
+            <typeparam name="ResponseType">Type which the response will be deserialized into</typeparam>
+            <param name="uri">Target URI of the request</param>
+            <param name="method">HTTP method of the request</param>
+            <param name="requestParams">Object containing request parameters</param>
+            <returns>configured web request with added header fields</returns>
         </member>
-        <member name="M:Telekom.VoiceCall.VoiceCallClient.NewCall(Telekom.VoiceCall.Model.NewCallRequest,System.Action{Telekom.VoiceCall.Model.NewCallResponse})">
+        <member name="T:Telekom.VoiceCall.Model.CallStatusRequest">
             <summary>
-            Start a new call (async)
+            Parameters to request a call status
             </summary>
-            <param name="request">Call parameters</param>
-            <param name="callback">Handler to invoke after completion</param>
         </member>
-        <member name="M:Telekom.VoiceCall.VoiceCallClient.CallStatus(Telekom.VoiceCall.Model.CallStatusRequest)">
+        <member name="P:Telekom.VoiceCall.Model.CallStatusRequest.SessionId">
             <summary>
-            Query the status of a call
+            Session ID of the call to query
             </summary>
-            <param name="request">Call parameters</param>
-            <returns>Service call response</returns>
         </member>
-        <member name="M:Telekom.VoiceCall.VoiceCallClient.CallStatus(Telekom.VoiceCall.Model.CallStatusRequest,System.Action{Telekom.VoiceCall.Model.CallStatusResponse})">
+        <member name="P:Telekom.VoiceCall.Model.CallStatusRequest.KeepAlive">
             <summary>
-            Query the status of a call (async)
+            True to extend duration of the call by initial expiration time
             </summary>
-            <param name="request">Call parameters</param>
-            <param name="callback">Handler to invoke after completion</param>
         </member>
-        <member name="M:Telekom.VoiceCall.VoiceCallClient.TeardownCall(System.String)">
+        <member name="T:Telekom.VoiceCall.Model.CallStatusResponse">
             <summary>
-            End a call
+            Response of a call to query the call status
             </summary>
-            <param name="sessionId">session ID of the call to end</param>
-            <returns>Service call response</returns>
         </member>
-        <member name="M:Telekom.VoiceCall.VoiceCallClient.TeardownCall(System.String,System.Action{Telekom.Common.Model.TelekomResponse})">
+        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.StateA">
             <summary>
-            End a call
+            State of the first participant
             </summary>
-            <param name="sessionId">session ID of the call to end</param>
-            <param name="callback">Handler to invoke after completion</param>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.StateB">
+            <summary>
+            State of the second participant
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.ConnectionTimeA">
+            <summary>
+            Duration of the call with the first participant in seconds.
+            A value of -1 means that the call has not yet started.
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.ConnectionTimeB">
+            <summary>
+            Duration of the call with the second participant in seconds.
+            A value of -1 means that the call has not yet started.
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.ReasonA">
+            <summary>
+            Reason for ending the connection to the first participant
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.ReasonB">
+            <summary>
+            Reason for ending the connection to the second participant
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.DescriptionA">
+            <summary>
+            Human-Readable description of ReasonA
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.DescriptionB">
+            <summary>
+            Human-Readable description of ReasonB
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.Be164">
+            <summary>
+            Phone number of the second participant, that was called.
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.CallStatusResponse.Bindex">
+            <summary>
+            Index of the phone number of the second participant (B), that was called.
+            0 means the first B party phone number was called,
+            1 means the second B party phone number was called etc.,
+            -1 if not connected
+            </summary>
         </member>
         <member name="T:Telekom.VoiceCall.Model.ParticipantStatus">
             <summary>
@@ -1536,37 +1459,126 @@
             An internal error has occurred
             </summary>
         </member>
-        <member name="T:Telekom.Speech2Text.Model.Speech2TextResponse">
+        <member name="T:Telekom.VoiceCall.Model.NewCallRequest">
             <summary>
-            Response of a speech2text api call
+            Parameters for starting a new call
             </summary>
         </member>
-        <member name="T:Telekom.SendMms.SendMmsClient">
+        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Anumber">
             <summary>
-            Wrapper for Telekom Send MMS service
+            Phone number of the first participant
             </summary>
         </member>
-        <member name="F:Telekom.SendMms.SendMmsClient.ServicePath">
+        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Bnumber">
             <summary>
-            URL Path to Send MMS services. Can be overridden if neccesary.
+            Comma separated phone numbers of the second participant(s).
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Bnumbers">
+            <summary>
+            Phone number(s) of the second participant(s). Provide multiple numbers to create a sequential call.
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Expiration">
+            <summary>
+            Duration in seconds after which the Voice Call service disconnects a call without receiving a callStatus request.
+            A value of 0 means that there is no callStatus request needed to maintain the connection.
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Maxduration">
+            <summary>
+            Maximum duration of the connection in seconds.
+            Note: The system limit also applies.
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Maxwait">
+            <summary>
+            The time in seconds after which the next phone number in the list of b-numbers is called during a sequential call.
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Aprivacy">
+            <summary>
+            Phone number suppression with the first participant.
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Bprivacy">
+            <summary>
+            Phone number suppression with the second participant.
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.NewCallRequest.Account">
+            <summary>
+            Account ID of the sub-account that should be billed for the service use. If the parameter is not specified, the main account is billed.
+            </summary>
+        </member>
+        <member name="T:Telekom.VoiceCall.Model.NewCallResponse">
+            <summary>
+            Result when creating a new call
+            </summary>
+        </member>
+        <member name="P:Telekom.VoiceCall.Model.NewCallResponse.SessionId">
+            <summary>
+            ID of the created call session
+            </summary>
+        </member>
+        <member name="T:Telekom.VoiceCall.VoiceCallClient">
+            <summary>
+            Wrapper for Telekom Voice Call service
+            </summary>
+        </member>
+        <member name="F:Telekom.VoiceCall.VoiceCallClient.ServicePath">
+            <summary>
+            URL Path to Voice call services. Can be overridden if necessary.
             {0} is replaced by selected environment
             </summary>
         </member>
-        <member name="M:Telekom.SendMms.SendMmsClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
+        <member name="M:Telekom.VoiceCall.VoiceCallClient.#ctor(Telekom.Common.Auth.TelekomAuth,Telekom.Common.ServiceEnvironment)">
             <summary>
-            Constructs a Send SMS API client with specified authentication method and environment.
+            Constructs a Voice Call API client with specified authentication method and environment.
             </summary>
             <param name="authentication">Authentication instance</param>
             <param name="environment">Environment used for this client's service invocations</param>
         </member>
-        <member name="M:Telekom.SendMms.SendMmsClient.SendMms(Telekom.SendMms.Model.SendMmsRequest)">
-            <summary>Send a MMS</summary>
-            <param name="request">Parameter object</param> 
-            <returns>Result of this operation</returns>
+        <member name="M:Telekom.VoiceCall.VoiceCallClient.NewCall(Telekom.VoiceCall.Model.NewCallRequest)">
+            <summary>
+            Start a new call
+            </summary>
+            <param name="request">Call parameters</param>
+            <returns>Service call response</returns>
         </member>
-        <member name="M:Telekom.SendMms.SendMmsClient.SendMms(Telekom.SendMms.Model.SendMmsRequest,System.Action{Telekom.Common.Model.TelekomResponse})">
-            <summary>Send a MMS (asynchronously)</summary>
-            <param name="request">Parameter object</param> 
+        <member name="M:Telekom.VoiceCall.VoiceCallClient.NewCall(Telekom.VoiceCall.Model.NewCallRequest,System.Action{Telekom.VoiceCall.Model.NewCallResponse})">
+            <summary>
+            Start a new call (async)
+            </summary>
+            <param name="request">Call parameters</param>
+            <param name="callback">Handler to invoke after completion</param>
+        </member>
+        <member name="M:Telekom.VoiceCall.VoiceCallClient.CallStatus(Telekom.VoiceCall.Model.CallStatusRequest)">
+            <summary>
+            Query the status of a call
+            </summary>
+            <param name="request">Call parameters</param>
+            <returns>Service call response</returns>
+        </member>
+        <member name="M:Telekom.VoiceCall.VoiceCallClient.CallStatus(Telekom.VoiceCall.Model.CallStatusRequest,System.Action{Telekom.VoiceCall.Model.CallStatusResponse})">
+            <summary>
+            Query the status of a call (async)
+            </summary>
+            <param name="request">Call parameters</param>
+            <param name="callback">Handler to invoke after completion</param>
+        </member>
+        <member name="M:Telekom.VoiceCall.VoiceCallClient.TeardownCall(System.String)">
+            <summary>
+            End a call
+            </summary>
+            <param name="sessionId">session ID of the call to end</param>
+            <returns>Service call response</returns>
+        </member>
+        <member name="M:Telekom.VoiceCall.VoiceCallClient.TeardownCall(System.String,System.Action{Telekom.Common.Model.TelekomResponse})">
+            <summary>
+            End a call
+            </summary>
+            <param name="sessionId">session ID of the call to end</param>
             <param name="callback">Handler to invoke after completion</param>
         </member>
     </members>

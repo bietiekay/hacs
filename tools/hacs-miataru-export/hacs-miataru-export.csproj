@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DCE440B0-A277-4049-A67B-EFD1081C81D1}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>miataruclientcsharp</RootNamespace>
-    <AssemblyName>miataru-client-csharp</AssemblyName>
+    <ProjectGuid>{73B59E91-AC6A-44B1-85B5-299A68E6F27D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>hacsmiataruexport</RootNamespace>
+    <AssemblyName>hacs-miataru-export</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -18,7 +18,7 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -26,26 +26,29 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MiataruClient.cs" />
-    <Compile Include="Requests\GetLocation\GetLocationRequest.cs" />
-    <Compile Include="Requests\GetLocation\GetLocationResponse.cs" />
+    <Compile Include="MiataruDataObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Requests\" />
-    <Folder Include="Requests\GetLocation\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Newtonsoft.Json\Newtonsoft.Json.csproj">
-      <Project>{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}</Project>
-      <Name>Newtonsoft.Json</Name>
+    <ProjectReference Include="..\..\hacs\Libraries\sonesStorage\DataObjectOnDisk.csproj">
+      <Project>{16D19293-2334-44DC-9BEA-39651DA8F58B}</Project>
+      <Name>DataObjectOnDisk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\hacs\Libraries\sonesFastSerializer\sonesFastSerializer.csproj">
+      <Project>{8A2C05AA-6E56-414B-A43C-7173FC34DB24}</Project>
+      <Name>sonesFastSerializer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\hacs\hacs.csproj">
+      <Project>{E0267EE9-B2A3-4F6C-8F48-E6C26863EE8A}</Project>
+      <Name>hacs</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
