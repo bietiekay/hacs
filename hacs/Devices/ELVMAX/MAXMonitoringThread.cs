@@ -119,8 +119,8 @@ namespace hacs
 					}
 					#endregion
 
-					while(running)
-					{
+					//while(running)
+					//{
 						// when we are here, we got a filled "theHouse" which does contain first hand L message information
 						previousHouse = theHouse.GetAllDevicesInADictionary();
 
@@ -248,8 +248,10 @@ namespace hacs
 								#endregion
 							}
 						}
+                        stream.Close();
+                        ConsoleOutputLogger.WriteLine("ELV MAX Cube disconnect...");
 						Thread.Sleep (MAXUpdateTime);
-					}
+					//}
 				}
 				catch(Exception e)
 				{

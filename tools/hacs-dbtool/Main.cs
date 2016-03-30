@@ -31,7 +31,7 @@ namespace hacsdbtool
 		{
 			// try to open it for reading...
 			Console.Write("Opening "+filename+" data-store for reading...");
-			TinyOnDiskStorage data_store = new TinyOnDiskStorage(filename, false,100000);
+			TinyOnDiskStorage data_store = new TinyOnDiskStorage(filename, false,100);
 			Console.WriteLine("done");
 
 			Dictionary<String,XS1_DataObject> Sensors = new Dictionary<string, XS1_DataObject>();
@@ -39,10 +39,17 @@ namespace hacsdbtool
 			foreach (OnDiscAdress ondisc in data_store.InMemoryIndex)
 			{
 				XS1_DataObject dataobject = new XS1_DataObject();
-				dataobject.Deserialize(data_store.Read(ondisc));
-				if (!Sensors.ContainsKey(dataobject.Name))
-					Sensors.Add(dataobject.Name,dataobject);
-				//Console.WriteLine(dataobject.Timecode.ToLongTimeString()+";"+dataobject.Timecode.ToShortDateString()+";"+dataobject.Name+";"+dataobject.Type+";"+dataobject.TypeName+";"+dataobject.Value+";"+dataobject.OriginalXS1Statement);
+                try
+                {
+                    dataobject.Deserialize(data_store.Read(ondisc));
+                    //Console.WriteLine(dataobject.Timecode.ToLongTimeString() + ";" + dataobject.Timecode.ToShortDateString() + ";" + dataobject.Name + ";" + dataobject.Type + ";" + dataobject.TypeName + ";" + dataobject.Value + ";" + dataobject.OriginalXS1Statement);
+                    if (!Sensors.ContainsKey(dataobject.Name))
+                        Sensors.Add(dataobject.Name, dataobject);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: "+ondisc.CreationTime+" - "+ ondisc.Start +" - " + e.Message);
+                }
 			}
 
 			foreach(XS1_DataObject dataobject in Sensors.Values)

@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAXDebug", "MAXDebug\MAXDebug.csproj", "{4F674716-23B0-44E8-9A0B-CB879732F6C2}"
 EndProject
 Global
@@ -13,6 +13,9 @@ Global
 		{4F674716-23B0-44E8-9A0B-CB879732F6C2}.Debug|x86.Build.0 = Debug|x86
 		{4F674716-23B0-44E8-9A0B-CB879732F6C2}.Release|x86.ActiveCfg = Release|x86
 		{4F674716-23B0-44E8-9A0B-CB879732F6C2}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = MAXDebug\MAXDebug.csproj
