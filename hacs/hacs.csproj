@@ -152,6 +152,7 @@
     <Compile Include="HTTP\JSONHandlers\JSONData.cs" />
     <Compile Include="HTTP\JSONHandlers\GeoJSON\GeoJSON_PointFeature.cs" />
     <Compile Include="HTTP\JSONHandlers\GeoJSON\Geolocation.cs" />
+    <Compile Include="HTTP\JSONHandlers\Numerics\NumericsJSONData.cs" />
     <Compile Include="HTTP\JSONHandlers\SwimlaneJSON\GenerateSwimlane.cs" />
     <Compile Include="HTTP\JSONHandlers\SwimlaneJSON\SwimlaneJSON.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

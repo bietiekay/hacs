@@ -44,6 +44,7 @@ namespace HTTP
 		private String HTTPServer_DocumentRoot;
         private XS1Configuration XS1_Configuration;
 		private JSONData JSON_Data;
+        private NumericsJSONData NumericsJSON_Data;
 		//private Geolocation LatitudeGeoLocation;
         private ConsoleOutputLogger ConsoleOutputLogger;
 		private HTTPProxy internal_proxy;
@@ -74,6 +75,7 @@ namespace HTTP
 			this.s = s;
 			HTTPServer_DocumentRoot = HTTP_DocumentRoot;
 			JSON_Data = new JSONData(Storage,Logger);
+            NumericsJSON_Data = new NumericsJSONData(Storage, Logger);
 			docRootFile = new FileInfo(HTTPServer_DocumentRoot);
 			headers = new Hashtable();
             XS1_Configuration = _XS1_Configuration;
@@ -396,7 +398,323 @@ namespace HTTP
                     return;
 				}
 
-				if (url.ToUpper().StartsWith("/DATA/"))
+                #region NUMERICS JSON data implementation
+                if (url.ToUpper().StartsWith("/NUMERICS/"))
+                {
+                    #region data request
+                    // remove the /data/ stuff
+                    url = url.Remove(0, 10);
+
+                    #region Sensor Data
+                    if (url.ToUpper().StartsWith("SENSOR"))
+                    {
+                        method_found = true;
+                        url = url.Remove(0, 6);
+
+                        NameValueCollection nvcollection = HttpUtility.ParseQueryString(url);
+
+                        String ObjectTypeName = "";
+                        String ObjectName = "";
+                        String StartDate = "";
+                        String EndDate = "";
+                        Boolean JustLastEntry = false;
+                        DateTime start = DateTime.Now;
+                        DateTime end = DateTime.Now;
+                        //ConsoleOutputLogger.WriteLineToScreenOnly("...");
+
+                        foreach (String Key in nvcollection.AllKeys)
+                        {
+                            if (Key.ToUpper() == "NAME")
+                                ObjectName = nvcollection[Key];
+                            if (Key.ToUpper() == "TYPE")
+                                ObjectTypeName = nvcollection[Key];
+                            if (Key.ToUpper() == "START")
+                                StartDate = nvcollection[Key];
+                            if (Key.ToUpper() == "END")
+                                EndDate = nvcollection[Key];
+                            if (Key.ToUpper() == "LASTENTRY")
+                                JustLastEntry = true;
+                        }
+                        //ConsoleOutputLogger.WriteLineToScreenOnly("...");
+
+                        if (ObjectTypeName == "")
+                        {
+                            writeError(404, "No Method found");
+                            return;
+                        }
+                        if (ObjectName == "")
+                        {
+                            writeError(404, "No Method found");
+                            return;
+                        }
+                        if (StartDate == "") // defaults
+                        {
+                            start = DateTime.Now - (new TimeSpan(hacs.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+                        }
+                        else
+                        {
+                            // parse the date and set it...
+                            // since we are only interested in the day, month and year it's necessary to only parse that
+                            // we expect the following format: day-month-year
+                            // for example: 12-01-2012 will be 12th of January 2012
+                            String[] Splitted = StartDate.Split(new char[1] { '-' });
+
+                            if (Splitted.Length == 3)
+                            {
+                                Int32 year = Convert.ToInt32(Splitted[2]);
+                                Int32 month = Convert.ToInt32(Splitted[1]);
+                                Int32 day = Convert.ToInt32(Splitted[0]);
+
+                                start = new DateTime(year, month, day);
+                            }
+                            else
+                            {
+                                start = DateTime.Now - (new TimeSpan(hacs.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+                            }
+                        }
+
+                        if (EndDate == "")
+                        {
+                            end = DateTime.Now;
+                        }
+                        else
+                        {
+                            // parse the date and set it...
+                            // since we are only interested in the day, month and year it's necessary to only parse that
+                            // we expect the following format: day-month-year
+                            // for example: 12-01-2012 will be 12th of January 2012
+                            String[] Splitted = EndDate.Split(new char[1] { '-' });
+
+                            if (Splitted.Length == 3)
+                            {
+                                Int32 year = Convert.ToInt32(Splitted[2]);
+                                Int32 month = Convert.ToInt32(Splitted[1]);
+                                Int32 day = Convert.ToInt32(Splitted[0]);
+
+                                end = new DateTime(year, month, day);
+                            }
+                            else
+                            {
+                                end = DateTime.Now - (new TimeSpan(hacs.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+                            }
+                        }
+
+                        //ConsoleOutputLogger.WriteLineToScreenOnly("...");
+                        String Output;
+                        if (!JustLastEntry)
+                            Output = NumericsJSON_Data.GenerateDataNumericsJSONOutput(ObjectTypes.Sensor, ObjectTypeName, ObjectName, start, end);
+                        else
+                            Output = NumericsJSON_Data.GenerateDataNumericsJSONOutput_LastEntryOnly(ObjectTypes.Sensor, ObjectTypeName, ObjectName);
+
+                        int left = new UTF8Encoding().GetByteCount(Output);
+                        //writeSuccess(left, "application/json");
+                        writeSuccess(left, "text/html");
+                        byte[] buffer = new UTF8Encoding().GetBytes(Output);
+                        ns.Write(buffer, 0, left);
+                        ns.Flush();
+                        return;
+                    }
+                    #endregion
+
+                    #region Power Sensor Data
+                    if (url.ToUpper().StartsWith("POWERSENSOR"))
+                    {
+                        method_found = true;
+                        url = url.Remove(0, 11);
+
+                        NameValueCollection nvcollection = HttpUtility.ParseQueryString(url);
+
+                        // TODO: ADD handling and calculation here
+                        String ObjectName = "";
+                        String StartDate = "";
+                        String EndDate = "";
+                        String OutputType = "";
+                        DateTime start = DateTime.Now;
+                        DateTime end = DateTime.Now;
+                        PowerSensorOutputs Outputs = PowerSensorOutputs.HourkWh;
+
+                        foreach (String Key in nvcollection.AllKeys)
+                        {
+                            if (Key.ToUpper() == "NAME")
+                                ObjectName = nvcollection[Key];
+                            if (Key.ToUpper() == "TYPE")
+                                OutputType = nvcollection[Key];
+                            if (Key.ToUpper() == "START")
+                                StartDate = nvcollection[Key];
+                            if (Key.ToUpper() == "END")
+                                EndDate = nvcollection[Key];
+                        }
+
+                        if (ObjectName == "")
+                        {
+                            writeError(404, "No Method found");
+                            return;
+                        }
+                        if (StartDate == "") // defaults
+                        {
+                            start = DateTime.Now - (new TimeSpan(hacs.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+                        }
+                        else
+                        {
+                            // parse the date and set it...
+                            // since we are only interested in the day, month and year it's necessary to only parse that
+                            // we expect the following format: day-month-year
+                            // for example: 12-01-2012 will be 12th of January 2012
+                            String[] Splitted = StartDate.Split(new char[1] { '-' });
+
+                            if (Splitted.Length == 3)
+                            {
+                                Int32 year = Convert.ToInt32(Splitted[2]);
+                                Int32 month = Convert.ToInt32(Splitted[1]);
+                                Int32 day = Convert.ToInt32(Splitted[0]);
+
+                                start = new DateTime(year, month, day);
+                            }
+                            else
+                            {
+                                start = DateTime.Now - (new TimeSpan(hacs.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+                            }
+                        }
+
+                        if (EndDate == "")
+                        {
+                            end = DateTime.Now;
+                        }
+                        else
+                        {
+                            // parse the date and set it...
+                            // since we are only interested in the day, month and year it's necessary to only parse that
+                            // we expect the following format: day-month-year
+                            // for example: 12-01-2012 will be 12th of January 2012
+                            String[] Splitted = EndDate.Split(new char[1] { '-' });
+
+                            if (Splitted.Length == 3)
+                            {
+                                Int32 year = Convert.ToInt32(Splitted[2]);
+                                Int32 month = Convert.ToInt32(Splitted[1]);
+                                Int32 day = Convert.ToInt32(Splitted[0]);
+
+                                end = new DateTime(year, month, day);
+                            }
+                            else
+                            {
+                                end = DateTime.Now - (new TimeSpan(hacs.Properties.Settings.Default.DefaultSensorOutputPeriod, 0, 0, 0));
+                            }
+                        }
+
+
+                        if (OutputType.ToUpper() == "HOUR")
+                            Outputs = PowerSensorOutputs.HourkWh;
+
+                        if (OutputType.ToUpper() == "HOURPEAK")
+                            Outputs = PowerSensorOutputs.HourPeakkWh;
+
+                        if (OutputType.ToUpper() == "CALCKWH")
+                            Outputs = PowerSensorOutputs.CalculatedkWhCounterTotal;
+
+                        if (OutputType.ToUpper() == "CALCWEEKLYKWH")
+                            Outputs = PowerSensorOutputs.CalculateWeeklykWh;
+
+                        if (OutputType.ToUpper() == "CALCDAILYKWH")
+                            Outputs = PowerSensorOutputs.CalculatedDailykWh;
+
+                        if (OutputType.ToUpper() == "CALCHOURLYKWH")
+                            Outputs = PowerSensorOutputs.CalculatedHourlykWh;
+
+                        String Output = NumericsJSON_Data.GeneratePowerSensorNumericsJSONOutput(Outputs, ObjectName, start, end);
+
+                        int left = new UTF8Encoding().GetByteCount(Output);
+                        writeSuccess(left, "text/html");
+                        byte[] buffer = new UTF8Encoding().GetBytes(Output);
+                        ns.Write(buffer, 0, left);
+                        ns.Flush();
+                        return;
+                    }
+                    #endregion
+
+                    #region Actor Data
+                    if (url.ToUpper().StartsWith("ACTOR"))
+                    {
+                        method_found = true;
+                        url = url.Remove(0, 5);
+
+                        NameValueCollection nvcollection = HttpUtility.ParseQueryString(url);
+                        String ObjectName = "";
+                        String OutputType = "";
+                        ActorsStatusOutputTypes ActorOutputType = ActorsStatusOutputTypes.Binary;
+
+                        foreach (String Key in nvcollection.AllKeys)
+                        {
+                            if (Key.ToUpper() == "NAME")
+                                ObjectName = nvcollection[Key];
+                            if (Key.ToUpper() == "OUTPUTTYPE")
+                                OutputType = nvcollection[Key];
+                        }
+
+                        if (ObjectName == "")
+                        {
+                            writeError(404, "No Method found");
+                            return;
+                        }
+
+                        if (OutputType != "")
+                        {
+                            if (OutputType.ToUpper() == "BINARY")
+                                ActorOutputType = ActorsStatusOutputTypes.Binary;
+
+                            if (OutputType.ToUpper() == "TRUEFALSE")
+                                ActorOutputType = ActorsStatusOutputTypes.TrueFalse;
+
+                            if (OutputType.ToUpper() == "ONOFF")
+                                ActorOutputType = ActorsStatusOutputTypes.OnOff;
+                        }
+
+                        // now we should have a name we need to look up
+                        //bool foundactor = false;
+
+                        // get the XS1 Actuator List to find the ID and the Preset ID
+                        XS1ActuatorList actuatorlist = XS1_Configuration.getXS1ActuatorList(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password);
+
+                        foreach (XS1Actuator _actuator in actuatorlist.actuator)
+                        {
+                            if (_actuator.name.ToUpper() == ObjectName.ToUpper())
+                            {
+                                // we found one!
+                                //foundactor = true;
+
+                                // TODO: we need to output a JSON dataset here
+                                //                                bool Status = false;
+                                //
+                                //                                if (_actuator.value == 0.0)
+                                //                                    Status = false;
+                                //                                else
+                                //                                    Status = true;
+
+                                String Output = NumericsJSON_Data.GenerateNumericsJSONDataActorStatus(ActorOutputType, _actuator.name);
+
+                                int left = new UTF8Encoding().GetByteCount(Output);
+                                writeSuccess(left, "text/html");
+                                byte[] buffer = new UTF8Encoding().GetBytes(Output);
+                                ns.Write(buffer, 0, left);
+                                ns.Flush();
+                                return;
+                            }
+                        }
+
+                    }
+                    #endregion
+
+                    if (!method_found)
+                    {
+                        // nothing to do...
+                        writeError(404, "No Method found");
+                    }
+                    #endregion
+                }
+                #endregion
+
+                #region JSON data implementation
+                if (url.ToUpper().StartsWith("/DATA/"))
 				{
 					#region data request
 					// remove the /data/ stuff
@@ -919,8 +1237,11 @@ namespace HTTP
 						writeError(404, "No Method found");
 					}
 					#endregion
-				}
-				if (url.ToUpper().StartsWith("/ACTOR/"))
+                }
+                #endregion
+
+                #region ACTOR switching requests
+                if (url.ToUpper().StartsWith("/ACTOR/"))
 				{
 					#region actor switching request
                     // /actor/preset?name=[actor_name]&preset=[preset_function_name]
@@ -1023,8 +1344,9 @@ namespace HTTP
                         return;
                     }
 					#endregion
-				}
-				else
+                }
+                #endregion
+                else
 				{
 					#region File request (everything else...)
 

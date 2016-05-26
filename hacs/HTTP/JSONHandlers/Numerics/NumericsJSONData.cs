@@ -12,12 +12,12 @@ namespace hacs.JSONHandlers
     /// <summary>
     /// this simple class creates JSON Output according to previously stored sensor logs
     /// </summary>
-    public class JSONData
+    public class NumericsJSONData
     {
         private TinyOnDiskStorage sensor_data;
         private ConsoleOutputLogger ConsoleOutputLogger_;
 
-        public JSONData(TinyOnDiskStorage sensor_data_storage, ConsoleOutputLogger Logger)
+        public NumericsJSONData(TinyOnDiskStorage sensor_data_storage, ConsoleOutputLogger Logger)
         {
             sensor_data = sensor_data_storage;
             ConsoleOutputLogger_ = Logger;
@@ -43,12 +43,13 @@ namespace hacs.JSONHandlers
 			return dataobject;
 		}
 
-        #region GenerateDataJSONOutputWithoutInterpolation
+        // duplicated from JSONData - needs work
+        #region GenerateDataNumericsJSONOutputWithoutInterpolation
         /// <summary>
         /// generates JSON dataset from sensor data
         /// </summary>
         /// <returns></returns>
-        public String GenerateDataJSONOutputWithoutInterpolation(ObjectTypes DataType, String ObjectTypeName, String ObjectName, DateTime StartDateTime, DateTime EndDateTime)
+        public String GenerateDataNumericsJSONOutputWithoutInterpolation(ObjectTypes DataType, String ObjectTypeName, String ObjectName, DateTime StartDateTime, DateTime EndDateTime)
         {
             /* Example:
              * 
@@ -129,12 +130,13 @@ namespace hacs.JSONHandlers
         }
         #endregion
 
-        #region GenerateDataJSONOutput
+        // implemented 
+        #region GenerateDataNumericsJSONOutput
         /// <summary>
         /// generates JSON dataset from sensor data
         /// </summary>
         /// <returns></returns>
-        public String GenerateDataJSONOutput(ObjectTypes DataType, String ObjectTypeName, String ObjectName, DateTime StartDateTime, DateTime EndDateTime)
+        public String GenerateDataNumericsJSONOutput(ObjectTypes DataType, String ObjectTypeName, String ObjectName, DateTime StartDateTime, DateTime EndDateTime)
         {
             /* Example:
              * 
@@ -146,7 +148,10 @@ namespace hacs.JSONHandlers
 
             StringBuilder Output = new StringBuilder();
 
-            Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
+            Output.Append(" {\n");
+            Output.Append("  \"postfix\": \"" + ObjectName + "\",\n");
+            Output.Append("\"data\": [\n");
+
             bool firstdataset = true;
 			UInt64 SerializerCounter = 0;
 			
@@ -169,15 +174,14 @@ namespace hacs.JSONHandlers
                                     if (dataobject.Name == ObjectName)
                                     {
                                         if (!firstdataset)
-                                            Output.Append(",");
+                                            Output.Append(",\n");
                                         else
                                             firstdataset = false;
 
-                                        Output.Append("[");
-                                        Output.Append(dataobject.Timecode.JavaScriptTimestamp());
-                                        Output.Append(",");
-                                        Output.Append(dataobject.Value.ToString().Replace(',', '.'));
-                                        Output.Append("]");
+                                        Output.Append("{");
+                                        //"value": 1450
+                                        Output.Append("\"value\": " + dataobject.Value.ToString().Replace(',', '.')+"\n");
+                                        Output.Append("}\n");
                                     }
                                 }
                             }
@@ -185,25 +189,27 @@ namespace hacs.JSONHandlers
                     }
                 }
             }
-            Output.Append("]}");
+            Output.Append("\n]\n}");
 			
-			ConsoleOutputLogger_.WriteLineToScreenOnly("Generated JSON Dataset with "+SerializerCounter+" Elements");
+			ConsoleOutputLogger_.WriteLineToScreenOnly("Generated Numerics JSON Dataset with "+SerializerCounter+" Elements");
 
             return Output.ToString();
         }
         #endregion
 
-        #region GenerateJSONData-LastEntryOnly
+        // implemented
+        #region GenerateNumericsJSONData-LastEntryOnly
         /// <summary>
         /// generates JSON dataset from sensor data
         /// </summary>
         /// <returns></returns>
-        public String GenerateDataJSONOutput_LastEntryOnly(ObjectTypes DataType, String ObjectTypeName, String ObjectName)
+        public String GenerateDataNumericsJSONOutput_LastEntryOnly(ObjectTypes DataType, String ObjectTypeName, String ObjectName)
         {
             StringBuilder Output = new StringBuilder();
-            //ConsoleOutputLogger.WriteLineToScreenOnly("...");
-
-            Output.Append("{ \"label\": \"" + ObjectName + "\", \"data\": [");
+            //Console.WriteLine("...ddddddd");
+            Output.Append(" {\n");
+            Output.Append("  \"postfix\": \"" + ObjectName + "\",\n");
+            Output.Append("\"data\": {\n");
             UInt64 SerializerCounter = 0;
             long TimeCode = DateTime.Now.JavaScriptTimestamp();
             String Value = "0.0";
@@ -220,10 +226,11 @@ namespace hacs.JSONHandlers
                     {
                         if (dataobject.TypeName == ObjectTypeName)
                         {
+                            //Console.WriteLine(dataobject.TypeName);
+
                             if (dataobject.Name == ObjectName)
                             {
-                                //ConsoleOutputLogger.WriteLineToScreenOnly(dataobject.Name);
-                                TimeCode = dataobject.Timecode.JavaScriptTimestamp();
+                                //Console.WriteLine(dataobject.Name);
                                 Value = dataobject.Value.ToString().Replace(',', '.');
                                 break;
                             }
@@ -232,23 +239,19 @@ namespace hacs.JSONHandlers
                 }
             }
 
-            Output.Append("[");
-            Output.Append(TimeCode);
-            Output.Append(",");
-            Output.Append(Value);
-            Output.Append("]");
-            Output.Append("]}");
-
-            //ConsoleOutputLogger_.WriteLine("lastentry");
-            ConsoleOutputLogger_.WriteLineToScreenOnly("Generated JSON Dataset with " + SerializerCounter + " Elements");
+            Output.Append("   \"value\":\n "+Value+"\n");
+            Output.Append("  }\n");
+            Output.Append("}");
+            ConsoleOutputLogger_.WriteLineToScreenOnly("Generated Numerics JSON Dataset with " + SerializerCounter + " Elements");
 
             return Output.ToString();
         }
 
         #endregion
 
-        #region GeneratePowerSensorJSONOutput
-        public String GeneratePowerSensorJSONOutput(PowerSensorOutputs OutputType, String ObjectName, DateTime StartDateTime, DateTime EndDateTime)
+        // duplicated from JSONData - needs work
+        #region GeneratePowerSensorNumericsJSONOutput
+        public String GeneratePowerSensorNumericsJSONOutput(PowerSensorOutputs OutputType, String ObjectName, DateTime StartDateTime, DateTime EndDateTime)
         {
             StringBuilder Output = new StringBuilder();
             StringBuilder Output2 = new StringBuilder();
@@ -708,8 +711,9 @@ namespace hacs.JSONHandlers
         }
         #endregion
 
-        #region GenerateJSONData-ActorStatus
-        public String GenerateJSONDataActorStatus(ActorsStatusOutputTypes OutputType, String ObjectName)
+        // duplicated from JSONData - needs work
+        #region GenerateNumericsJSONData-ActorStatus
+        public String GenerateNumericsJSONDataActorStatus(ActorsStatusOutputTypes OutputType, String ObjectName)
 		{
 			StringBuilder Output = new StringBuilder();
 
@@ -767,12 +771,13 @@ namespace hacs.JSONHandlers
 		}
 		#endregion
 
-		#region GenerateJSONData-ActorStatistics
-		        /// <summary>
+        // duplicated from JSONData - needs work
+        #region GenerateNumericsJSONData-ActorStatistics
+        /// <summary>
         /// generates JSON dataset from sensor data
         /// </summary>
         /// <returns></returns>
-        public String GenerateJSONDataActorStatistics(ObjectTypes DataType, String ObjectTypeName, String ObjectName, DateTime StartDateTime, DateTime EndDateTime)
+        public String GenerateNumericsJSONDataActorStatistics(ObjectTypes DataType, String ObjectTypeName, String ObjectName, DateTime StartDateTime, DateTime EndDateTime)
         {
             /* Example:
              * 
