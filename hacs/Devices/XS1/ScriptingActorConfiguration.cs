@@ -14,6 +14,28 @@ namespace hacs
         public Double SensorValue;
         public String ActorToSwitchName;
         public actor_status ActionToRunName;
+        public Int32 StartHour;
+        public Int32 EndHour;
+
+        public Boolean isCurrentlyWithinStartEndHours()
+        {
+            if (StartHour > EndHour)
+            {
+                if ((StartHour >= DateTime.Now.Hour) && (EndHour <= DateTime.Now.Hour))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if ((StartHour <= DateTime.Now.Hour) && (EndHour >= DateTime.Now.Hour))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 
     public static class ScriptingActorConfiguration
@@ -39,7 +61,7 @@ namespace hacs
 
                         ScriptingActorElement NewElement = new ScriptingActorElement();
 
-                        if (TokenizedLine.Length == 4)
+                        if (TokenizedLine.Length == 5)
                         { 
                             NewElement.SensorToWatchName = TokenizedLine[0];
                             NewElement.SensorValue = Convert.ToDouble(TokenizedLine[1]);
@@ -58,7 +80,11 @@ namespace hacs
 										else
 											if (TokenizedLine[3].ToUpper() == "URL")
 												NewElement.ActionToRunName = actor_status.URL;
-                            
+
+                            String[] FromToTime = TokenizedLine[4].Split(new char[1] { '-' });
+                            NewElement.StartHour = Convert.ToInt32(FromToTime[0]);
+                            NewElement.EndHour = Convert.ToInt32(FromToTime[1]);
+
 							ScriptingActorActions.Add(NewElement);
                         }
                         else

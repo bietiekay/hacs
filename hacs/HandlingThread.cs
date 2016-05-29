@@ -166,83 +166,86 @@ namespace hacs
 									// check if this sensor is something we should act uppon
 									foreach (ScriptingActorElement Element in ScriptingActorConfiguration.ScriptingActorActions)
 									{
-										if (dataobject.Name == Element.SensorToWatchName)
-										{
-											if (dataobject.Value == Element.SensorValue)
-											{ 
-												// obviously there is a ScriptingActorConfiguration entry
-												// so we execute the actor preset
-												
-												set_state_actuator.set_state_actuator ssa = new set_state_actuator.set_state_actuator();
-												ConsoleOutputLogger.WriteLineToScreenOnly("detected actor scripting action on actor "+Element.SensorToWatchName+" - "+Element.ActorToSwitchName+" to "+Element.ActionToRunName);
+                                        if (Element.isCurrentlyWithinStartEndHours())
+                                        {
+                                            if (dataobject.Name == Element.SensorToWatchName)
+                                            {
+                                                if (dataobject.Value == Element.SensorValue)
+                                                {
+                                                    // obviously there is a ScriptingActorConfiguration entry
+                                                    // so we execute the actor preset
 
-												if (Element.ActionToRunName == actor_status.URL)
-												{
-                                                    ConsoleOutputLogger.WriteLine("Scripting Actor URL");
-													// handle URLs -> the ActorToSwitch Name will be the URL to trigger
+                                                    set_state_actuator.set_state_actuator ssa = new set_state_actuator.set_state_actuator();
+                                                    ConsoleOutputLogger.WriteLineToScreenOnly("detected actor scripting action on actor " + Element.SensorToWatchName + " - " + Element.ActorToSwitchName + " to " + Element.ActionToRunName);
 
-
-                                                    try
+                                                    if (Element.ActionToRunName == actor_status.URL)
                                                     {
-                                                        WebClient client = new WebClient();
-                                                        client.Encoding = System.Text.Encoding.UTF8;
-                                                        String JSONInput = client.DownloadString(Element.ActorToSwitchName);
+                                                        ConsoleOutputLogger.WriteLine("Scripting Actor URL");
+                                                        // handle URLs -> the ActorToSwitch Name will be the URL to trigger
 
-													    ConsoleOutputLogger.WriteLine("Doing HTTP GET on: "+Element.ActorToSwitchName);
-													}
-                                                    catch(Exception e)
-                                                    {
-                                                        ConsoleOutputLogger.WriteLine("Exception on URL Actor Scripting: " + e.Message);
+
+                                                        try
+                                                        {
+                                                            WebClient client = new WebClient();
+                                                            client.Encoding = System.Text.Encoding.UTF8;
+                                                            String JSONInput = client.DownloadString(Element.ActorToSwitchName);
+
+                                                            ConsoleOutputLogger.WriteLine("Doing HTTP GET on: " + Element.ActorToSwitchName);
+                                                        }
+                                                        catch (Exception e)
+                                                        {
+                                                            ConsoleOutputLogger.WriteLine("Exception on URL Actor Scripting: " + e.Message);
+                                                        }
                                                     }
-												}
 
-												// check what action is going to happen now...
-												if (Element.ActionToRunName == actor_status.On)
-												{
-													ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
-												}
-												
-												if (Element.ActionToRunName == actor_status.Off)
-												{
-													ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
-													
-													// remove from OnWaitOffList
-													lock (OnWaitOffLIst)
-													{
-														if (OnWaitOffLIst.Contains(Element.ActorToSwitchName))
-															OnWaitOffLIst.Remove(Element.ActorToSwitchName);
-													}
-												}
-												
-												if (Element.ActionToRunName == actor_status.OnOff)
-												{
-													// look for the current status in the known actors table
-													lock(KnownActorStates.KnownActorStatuses)
-													{
-														if (KnownActorStates.KnownActorStatuses.ContainsKey(Element.ActorToSwitchName))
-														{
-															current_actor_status Status = KnownActorStates.KnownActorStatuses[Element.ActorToSwitchName];
-															if (Status.Status == actor_status.On)
-																ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
-															else
-																if (Status.Status == actor_status.Off)
-																	ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
-														}
-														else
-															ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
-													}
-												}
-												if (Element.ActionToRunName == actor_status.OnWaitOff)
-												{
-													lock (OnWaitOffLIst)
-													{
-														ConsoleOutputLogger.WriteLine("Adding " + Element.ActorToSwitchName + " to ActorReSwitching OnWaitOff List");
-														OnWaitOffLIst.Add(Element.ActorToSwitchName);
-													}
-													ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON_WAIT_OFF", XS1_Configuration);
-												}
-											}
-										}
+                                                    // check what action is going to happen now...
+                                                    if (Element.ActionToRunName == actor_status.On)
+                                                    {
+                                                        ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
+                                                    }
+
+                                                    if (Element.ActionToRunName == actor_status.Off)
+                                                    {
+                                                        ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
+
+                                                        // remove from OnWaitOffList
+                                                        lock (OnWaitOffLIst)
+                                                        {
+                                                            if (OnWaitOffLIst.Contains(Element.ActorToSwitchName))
+                                                                OnWaitOffLIst.Remove(Element.ActorToSwitchName);
+                                                        }
+                                                    }
+
+                                                    if (Element.ActionToRunName == actor_status.OnOff)
+                                                    {
+                                                        // look for the current status in the known actors table
+                                                        lock (KnownActorStates.KnownActorStatuses)
+                                                        {
+                                                            if (KnownActorStates.KnownActorStatuses.ContainsKey(Element.ActorToSwitchName))
+                                                            {
+                                                                current_actor_status Status = KnownActorStates.KnownActorStatuses[Element.ActorToSwitchName];
+                                                                if (Status.Status == actor_status.On)
+                                                                    ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, Element.ActorToSwitchName, "OFF", XS1_Configuration);
+                                                                else
+                                                                    if (Status.Status == actor_status.Off)
+                                                                        ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
+                                                            }
+                                                            else
+                                                                ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON", XS1_Configuration);
+                                                        }
+                                                    }
+                                                    if (Element.ActionToRunName == actor_status.OnWaitOff)
+                                                    {
+                                                        lock (OnWaitOffLIst)
+                                                        {
+                                                            ConsoleOutputLogger.WriteLine("Adding " + Element.ActorToSwitchName + " to ActorReSwitching OnWaitOff List");
+                                                            OnWaitOffLIst.Add(Element.ActorToSwitchName);
+                                                        }
+                                                        ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON_WAIT_OFF", XS1_Configuration);
+                                                    }
+                                                }
+                                            }
+                                        }
 									}
 									#endregion
 
