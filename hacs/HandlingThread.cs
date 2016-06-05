@@ -10,6 +10,7 @@ using System.Threading;
 using HTTP;
 using hacs.xs1.configuration;
 using System.Collections.Concurrent;
+using hacs.Devices.MQTTBinding;
 //using xs1_data_logging.set_state_actuator;
 
 
@@ -30,6 +31,7 @@ namespace hacs
         public List<String> TemporaryBlacklist = new List<string>();
         public List<String> OnWaitOffLIst = new List<string>();
         public ConsoleOutputLogger ConsoleOutputLogger;
+        private MQTT_Handling MQTT_Binding;
 		private ConcurrentQueue<XS1_DataObject> XS1_DataQueue;	// use a thread safe list like structure to hold the messages coming in from the XS1
 		private ConcurrentQueue<IDeviceDiffSet> MAX_DataQueue;  // use a thread safe list like structure to hold the messages coming in from the ELV MAX
 		private ConcurrentQueue<SolarLogDataSet> SolarLog_DataQueue; // use a thread safe list like structure to hold the messages coming in from the SolarLog
@@ -66,7 +68,6 @@ namespace hacs
             XS1_Configuration = new XS1Configuration(ConfigurationCacheMinutes);
 			MAXMonitoringThread ELVMax = null;
 			SolarLogMonitoringThread SolarLog = null;
-
 			// Start Sensor-Check Thread
             SensorCheck Sensorcheck = new SensorCheck(ConsoleOutputLogger);
             Thread SensorCheckThread = new Thread(new ThreadStart(Sensorcheck.Run));
@@ -127,6 +128,14 @@ namespace hacs
 				miataru_Thread.Start();
             }
 
+            // Start MQTT Thread
+            if (Properties.Settings.Default.MQTTBindingEnabled)
+            {
+                MQTT_Binding = new MQTT_Handling(ConsoleOutputLogger);
+                Thread mqtt_Thread = new Thread(new ThreadStart(MQTT_Binding.Run));
+                mqtt_Thread.Start();
+            }
+
 	        while (!Shutdown)
             {
                 try
@@ -137,6 +146,7 @@ namespace hacs
 					{
 						if (dataobject.Type == ObjectTypes.Actor)
                         {
+                            // Write to Disk
                             lock(actor_data_store)
                             {
                                 actor_data_store.Write(dataobject.Serialize());
@@ -166,8 +176,6 @@ namespace hacs
 									// check if this sensor is something we should act uppon
 									foreach (ScriptingActorElement Element in ScriptingActorConfiguration.ScriptingActorActions)
 									{
-                                        if (Element.isCurrentlyWithinStartEndHours())
-                                        {
                                             if (dataobject.Name == Element.SensorToWatchName)
                                             {
                                                 if (dataobject.Value == Element.SensorValue)
@@ -177,7 +185,10 @@ namespace hacs
 
                                                     set_state_actuator.set_state_actuator ssa = new set_state_actuator.set_state_actuator();
                                                     ConsoleOutputLogger.WriteLineToScreenOnly("detected actor scripting action on actor " + Element.SensorToWatchName + " - " + Element.ActorToSwitchName + " to " + Element.ActionToRunName);
-
+                                                    
+                                                    if (Element.isCurrentlyWithinStartEndHours())
+                                                    {
+                                                        #region Scripting Actor Actions
                                                     if (Element.ActionToRunName == actor_status.URL)
                                                     {
                                                         ConsoleOutputLogger.WriteLine("Scripting Actor URL");
@@ -243,12 +254,19 @@ namespace hacs
                                                         }
                                                         ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON_WAIT_OFF", XS1_Configuration);
                                                     }
+                                                    #endregion
+                                                    }  
                                                 }
                                             }
-                                        }
 									}
 									#endregion
 
+                                    #region MQTT Handling Actor
+                                    if (Properties.Settings.Default.MQTTBindingEnabled)
+                                    {
+                                        MQTT_Binding.MQTT_Handle_Actor(dataobject);
+                                    }
+                                    #endregion
 
                                     if (KnownActorStates.KnownActorStatuses.ContainsKey(dataobject.Name))
                                     {
@@ -285,8 +303,9 @@ namespace hacs
 								{
 									if (!dataobject.IgnoreForAlarming)	// this if for those events which get re-queued as xs1 events despite being for example elvmax events
 										Alarming_Queue.Enqueue(dataobject);
-								}
+                                }
 
+                                #region Scripting
                                 // check if this sensor is something we should act uppon
                                 foreach (ScriptingActorElement Element in ScriptingActorConfiguration.ScriptingActorActions)
                                 {
@@ -299,12 +318,13 @@ namespace hacs
 
                                             set_state_actuator.set_state_actuator ssa = new set_state_actuator.set_state_actuator();
                                             ConsoleOutputLogger.WriteLineToScreenOnly("detected actor scripting action on sensor "+Element.SensorToWatchName+" - "+Element.ActorToSwitchName+" to "+Element.ActionToRunName);
-
+                                            if (Element.isCurrentlyWithinStartEndHours())
+                                            {
+                                            #region Scripting Actor actions
                                             if (Element.ActionToRunName == actor_status.URL)
                                             {
                                                 ConsoleOutputLogger.WriteLine("Scripting Actor URL");
                                                 // handle URLs -> the ActorToSwitch Name will be the URL to trigger
-
 
                                                 try
                                                 {
@@ -365,9 +385,24 @@ namespace hacs
                                                 }
                                                 ssa.SetStateActuatorPreset(hacs.Properties.Settings.Default.XS1, hacs.Properties.Settings.Default.Username, hacs.Properties.Settings.Default.Password, Element.ActorToSwitchName, "ON_WAIT_OFF", XS1_Configuration);
                                             }
+                                            #endregion
+                                            }
+                                            else
+                                            {
+                                                ConsoleOutputLogger.WriteLine("Actorswitching Action not triggered since it's out of timespan. ("+Element.StartHour+"-"+Element.EndHour+")");
+                                            }
                                         }
                                     }
                                 }
+                                #endregion
+
+                                #region MQTT Handling Sensor
+                                if (Properties.Settings.Default.MQTTBindingEnabled)
+                                {
+                                    MQTT_Binding.MQTT_Handle_Sensor(dataobject);
+                                }
+                                #endregion
+
                             }
                             else
                                 if (dataobject.Type == ObjectTypes.Unknown)

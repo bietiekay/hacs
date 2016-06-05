@@ -78,6 +78,9 @@ namespace hacs
             if (Properties.Settings.Default.MiataruEnabled)
 				MiataruConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.MiataruConfigurationFilename);
 
+            if (Properties.Settings.Default.MQTTBindingEnabled)
+                MQTTBindingConfiguration.ReadConfiguration(Properties.Settings.Default.ConfigurationDirectory + Path.DirectorySeparatorChar + Properties.Settings.Default.MQTTBindingConfigurationFile);
+
 			#region add NetworkMonitor sensors to sensorcheckignore list
 			if (Properties.Settings.Default.NetworkMonitorEnabled)
 			{

@@ -14,7 +14,7 @@ namespace MQTT_Test
         static void Main(string[] args)
         {
             // create client instance 
-            MqttClient client = new MqttClient(IPAddress.Parse("192.168.178.30"));
+            MqttClient client = new MqttClient(IPAddress.Parse("192.168.178.30"), 1883,false, MqttSslProtocols.None,null,null);
 
             string clientId = Guid.NewGuid().ToString();
             client.Connect(clientId);
@@ -26,7 +26,7 @@ namespace MQTT_Test
             {
                 // publish a message on "/home/temperature" topic with QoS 2
                 stuff = r.NextDouble() * 100;
-                client.Publish("sensors/temperature/dht22", Encoding.UTF8.GetBytes(Convert.ToString(stuff)), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+                client.Publish("sensors/temperature/dht22", Encoding.UTF8.GetBytes(Convert.ToString(stuff)), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, true);
                 Console.WriteLine(stuff);
                 Thread.Sleep(1000);
             }

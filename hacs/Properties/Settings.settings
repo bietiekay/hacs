@@ -152,5 +152,11 @@
     <Setting Name="UseTelekomSMSInsteadofSMS77" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="MQTTBindingEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="MQTTBindingConfigurationFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MQTT-Binding.config</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

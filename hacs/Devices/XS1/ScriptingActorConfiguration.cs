@@ -21,14 +21,14 @@ namespace hacs
         {
             if (StartHour > EndHour)
             {
-                if ((StartHour >= DateTime.Now.Hour) && (EndHour <= DateTime.Now.Hour))
+                if ((StartHour <= DateTime.Now.Hour) || (EndHour >= DateTime.Now.Hour))
                 {
                     return true;
                 }
             }
             else
             {
-                if ((StartHour <= DateTime.Now.Hour) && (EndHour >= DateTime.Now.Hour))
+                if ((StartHour <= DateTime.Now.Hour) || (EndHour <= DateTime.Now.Hour))
                 {
                     return true;
                 }

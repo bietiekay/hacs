@@ -46,6 +46,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\tools\MQTT-Test\m2mqtt-master\M2Mqtt\M2Mqtt.Net.csproj">
+      <Project>{A11AEF5A-B246-4FE8-8330-06DB73CC8074}</Project>
+      <Name>M2Mqtt.Net</Name>
+    </ProjectReference>
     <ProjectReference Include="Libraries\Newtonsoft.Json\Newtonsoft.Json.csproj">
       <Project>{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}</Project>
       <Name>Newtonsoft.Json</Name>
@@ -121,6 +125,9 @@
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Modes\ThermostatModes.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\DeviceTypes.cs" />
     <Compile Include="Devices\ELVMAX\ELVMAX_Data\Messages\Types\MAXMessageTypes.cs" />
+    <Compile Include="Devices\MQTTBinding\MQTTBindingConfiguration.cs" />
+    <Compile Include="Devices\MQTTBinding\MQTTBinding.cs" />
+    <Compile Include="Devices\MQTTBinding\MQTT_HandlingThread.cs" />
     <Compile Include="Devices\NetworkMonitoring\NetworkMonitoring.cs" />
     <Compile Include="Devices\NetworkMonitoring\NetworkMonitoringConfiguration.cs" />
     <Compile Include="Devices\NetworkMonitoring\NetworkMonitoringDataSet.cs" />
@@ -176,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="configuration\MQTT-Binding.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
